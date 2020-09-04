@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+
+    <item
+        android:id="@+id/default_item"
+        android:title="Default" />
+    <item
+        android:id="@+id/extented_item"
+        android:title="Extented" />
+    <item
+        android:id="@+id/vibro_on_item"
+        android:title="Vibrator on" />
+    <item
+        android:id="@+id/vibro_off_item"
+        android:title="Vibrator off" />
+</menu>

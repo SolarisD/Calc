@@ -1,0 +1,7 @@
+package com.solarisd.calc.core.enums
+
+enum class Buttons {
+    ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, DOT, NEGATIVE,
+    CLEAR, RESULT, BACKSPACE, M_CLEAR, M_PLUS, M_MINUS, M_RESTORE,
+    PLUS, MINUS, MULTIPLY, DIVIDE, PERCENT, SQR, SQRT, SIN, COS, TAN
+}
