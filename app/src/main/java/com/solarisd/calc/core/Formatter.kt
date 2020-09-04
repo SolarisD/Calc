@@ -1,4 +1,4 @@
-package com.solarisd.calc.unit
+package com.solarisd.calc.core
 
 import java.math.BigDecimal
 import java.text.DecimalFormat

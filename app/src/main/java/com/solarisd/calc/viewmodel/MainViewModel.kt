@@ -7,18 +7,24 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
-import com.solarisd.calc.model.CalcPrefs
+import com.solarisd.calc.model.Prefs
 import com.solarisd.calc.core.Calculator
 import com.solarisd.calc.core.enums.Buttons
 import com.solarisd.calc.core.enums.Operators
 import com.solarisd.calc.core.enums.Symbols
+import com.solarisd.calc.model.DB
+import com.solarisd.calc.model.Dao
+import com.solarisd.calc.model.History
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application): AndroidViewModel(application){
     private val c = Calculator()
     private val v = application.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    private val prefs: CalcPrefs by lazy {
-        CalcPrefs(PreferenceManager.getDefaultSharedPreferences(application))
+    private val prefs: Prefs by lazy {
+        Prefs(PreferenceManager.getDefaultSharedPreferences(application))
     }
+    private val dao: Dao = DB.getInstance(application).dao()
     var vMode: Boolean = prefs.getVibroMode()
         set(value) {
             prefs.setVibroMode(value)
@@ -37,8 +43,16 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         else "M: $it"
     }
     val historyDisplay:  LiveData<String> = Transformations.map(c.history){
+        it?.let {
+            if (it.result!=null){
+                viewModelScope.launch(Dispatchers.IO) {
+                    dao.insert(History(op = it.op.print, a = it.a, b = it.b, result = it.result))
+                }
+            }
+        }
         it?.toString() ?: ""
     }
+
     fun buttonPressed(button: Buttons){
         vibrate()
         when(button) {

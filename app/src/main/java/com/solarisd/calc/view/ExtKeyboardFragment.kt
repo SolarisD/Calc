@@ -15,7 +15,7 @@ import com.solarisd.calc.viewmodel.MainViewModel
 class ExtKeyboardFragment : Fragment() {
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) = ExtKeyboardFragment()
+        fun newInstance() = ExtKeyboardFragment()
     }
     private val vm: MainViewModel by activityViewModels()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -1,7 +1,6 @@
-package com.solarisd.calc.model
+package com.solarisd.calc.core
 
 import com.solarisd.calc.core.enums.Operators
-import com.solarisd.calc.unit.toDisplayString
 import java.math.BigDecimal
 
 

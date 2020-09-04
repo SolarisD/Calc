@@ -2,7 +2,6 @@ package com.solarisd.calc.core
 
 import com.solarisd.calc.core.enums.Operators
 import com.solarisd.calc.core.enums.States
-import com.solarisd.calc.model.Operation
 import java.math.BigDecimal
 import java.math.MathContext
 import kotlin.math.cos
