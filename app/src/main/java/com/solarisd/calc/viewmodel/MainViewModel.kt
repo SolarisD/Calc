@@ -43,13 +43,15 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         else "M: $it"
     }
     val historyDisplay:  LiveData<String> = Transformations.map(c.history){
+        //SAVE DATA TO DB
         it?.let {
             if (it.result!=null){
                 viewModelScope.launch(Dispatchers.IO) {
-                    dao.insert(History(op = it.op.print, a = it.a, b = it.b, result = it.result))
+                    dao.insert(History(op = it.op.symbol, a = it.a, b = it.b, result = it.result))
                 }
             }
         }
+        //POST TO DISPLAY
         it?.toString() ?: ""
     }
 

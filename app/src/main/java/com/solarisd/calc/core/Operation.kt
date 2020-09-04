@@ -16,9 +16,9 @@ data class Operation(
         } else ""
 
         return if (op.unary) {
-            "${op.print}(${a.toDisplayString()})$res"
+            "${op.symbol}(${a.toDisplayString()})$res"
         } else {
-            "${a.toDisplayString()} ${op.print}$res"
+            "${a.toDisplayString()} ${op.symbol}$res"
         }
     }
 }
