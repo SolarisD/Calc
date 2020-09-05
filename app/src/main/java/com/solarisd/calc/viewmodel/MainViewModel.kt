@@ -89,6 +89,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
             Buttons.M_RESTORE-> c.mRestore()
         }
     }
+    fun getHistoryRecords(): List<History> = dao.getAll()
     private fun vibrate(){
         if (vMode){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

@@ -9,7 +9,7 @@ import androidx.room.Query
 @Dao
 interface Dao {
     @Query("SELECT * FROM operation_history")
-    fun getAll(): LiveData<List<History>>
+    fun getAll(): List<History>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(history: History)
