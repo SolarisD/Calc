@@ -8,7 +8,7 @@ import androidx.room.Query
 
 @Dao
 interface Dao {
-    @Query("SELECT * FROM operation_history")
+    @Query("SELECT * FROM operation_history ORDER BY ID DESC")
     fun getAll(): List<History>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

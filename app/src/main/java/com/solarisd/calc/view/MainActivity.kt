@@ -29,8 +29,8 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.default_item-> setDefKeyboard()
-            R.id.extented_item-> setExtKeyboard()
+            R.id.default_item-> loadDefKeyboard()
+            R.id.extented_item-> loadExtKeyboard()
             R.id.vibro_on_item->{vm.vMode = true}
             R.id.vibro_off_item->{vm.vMode = false}
         }
@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         vm.mainDisplay.observe(this, { tv_main.text = it})
         vm.memoryDisplay.observe(this, { tv_memory.text = it})
         vm.historyDisplay.observe(this, { tv_history.text = it})
+        tv_history.setOnClickListener { loadHistory() }
     }
     private fun loadKeyboard(){
         when(vm.kMode){
@@ -51,17 +52,22 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun setDefKeyboard() {
+    private fun loadDefKeyboard() {
         vm.kMode = "DEF"
         supportFragmentManager.commit {
             replace<DefKeyboardFragment>(R.id.keyboard_layout, null, intent.extras)
         }
     }
-    private fun setExtKeyboard() {
+    private fun loadExtKeyboard() {
         vm.kMode = "EXT"
         supportFragmentManager.commit {
             replace<ExtKeyboardFragment>(R.id.keyboard_layout, null, intent.extras)
+        }
+    }
+    private fun loadHistory() {
+        supportFragmentManager.commit {
+            replace<HistoryFragment>(R.id.keyboard_layout, null, intent.extras)
+            addToBackStack(null)
         }
     }
 }

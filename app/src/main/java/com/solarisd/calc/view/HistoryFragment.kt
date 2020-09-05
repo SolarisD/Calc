@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.solarisd.calc.R
 import com.solarisd.calc.adapter.HistoryViewAdapter
 import com.solarisd.calc.viewmodel.MainViewModel
+import kotlinx.coroutines.*
 
 class HistoryFragment : Fragment() {
     companion object {
@@ -20,14 +21,16 @@ class HistoryFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private val vm: MainViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_history, container, false)
         recyclerView = root.findViewById(R.id.rcv_history)
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
-        recyclerView.adapter = HistoryViewAdapter(vm.getHistoryRecords())
+        GlobalScope.launch(Dispatchers.IO){
+            val list = vm.getHistoryRecords()
+            withContext(Dispatchers.Main){
+                recyclerView.adapter = HistoryViewAdapter(list)
+            }
+        }
         return root
     }
 }
