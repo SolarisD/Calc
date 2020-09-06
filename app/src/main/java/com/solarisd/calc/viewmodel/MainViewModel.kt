@@ -7,14 +7,11 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
-import com.solarisd.calc.model.Prefs
 import com.solarisd.calc.core.Calculator
 import com.solarisd.calc.core.enums.Buttons
 import com.solarisd.calc.core.enums.Operators
 import com.solarisd.calc.core.enums.Symbols
-import com.solarisd.calc.model.DB
-import com.solarisd.calc.model.Dao
-import com.solarisd.calc.model.History
+import com.solarisd.calc.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -47,7 +44,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         it?.let {
             if (it.result!=null){
                 viewModelScope.launch(Dispatchers.IO) {
-                    dao.insert(History(op = it.op.symbol, a = it.a, b = it.b, result = it.result))
+                    dao.insert(Record(op = it.op.symbol, a = it.a, b = it.b, result = it.result))
                 }
             }
         }
@@ -89,7 +86,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
             Buttons.M_RESTORE-> c.mRestore()
         }
     }
-    fun getHistoryRecords(): List<History> = dao.getAll()
+    fun getHistoryRecords(): LiveData<List<Record>> = dao.getLiveRecords()
     fun clearHistory() = dao.deleteAll()
     private fun vibrate(){
         if (vMode){

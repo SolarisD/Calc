@@ -8,12 +8,12 @@ import androidx.room.Query
 
 @Dao
 interface Dao {
-    @Query("SELECT * FROM operation_history ORDER BY ID DESC")
-    fun getAll(): List<History>
+    @Query("SELECT * FROM history_records ORDER BY ID DESC")
+    fun getLiveRecords(): LiveData<List<Record>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(history: History)
+    fun insert(history: Record)
 
-    @Query("DELETE FROM operation_history")
+    @Query("DELETE FROM history_records")
     fun deleteAll()
 }

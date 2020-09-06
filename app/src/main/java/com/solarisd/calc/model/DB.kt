@@ -6,7 +6,7 @@ import com.solarisd.calc.core.fromDisplayString
 import com.solarisd.calc.core.toDisplayString
 import java.math.BigDecimal
 
-@Database(entities = [History::class], version = 1)
+@Database(entities = [Record::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class DB: RoomDatabase(){
     abstract fun dao(): Dao

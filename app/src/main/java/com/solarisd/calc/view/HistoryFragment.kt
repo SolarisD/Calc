@@ -18,16 +18,12 @@ class HistoryFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private val vm: MainViewModel by activityViewModels()
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_history, container, false)
         root.findViewById<Button>(R.id.btn_history_clear).setOnClickListener {
             GlobalScope.launch(Dispatchers.IO){
                 vm.clearHistory()
-                val list = vm.getHistoryRecords()
-                withContext(Dispatchers.Main){
-                    recyclerView.adapter = HistoryViewAdapter(list)
-                    //recyclerView.notifyDataSetChanged()
-                }
             }
         }
         root.findViewById<Button>(R.id.btn_history_close).setOnClickListener{
@@ -35,10 +31,9 @@ class HistoryFragment : Fragment() {
         }
         recyclerView = root.findViewById(R.id.rcv_history)
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
-        GlobalScope.launch(Dispatchers.IO){
-            val list = vm.getHistoryRecords()
-            withContext(Dispatchers.Main){
-                recyclerView.adapter = HistoryViewAdapter(list)
+        vm.getHistoryRecords().observe(this.viewLifecycleOwner){
+            it?.let {
+                recyclerView.adapter = HistoryViewAdapter(it)
             }
         }
         return root

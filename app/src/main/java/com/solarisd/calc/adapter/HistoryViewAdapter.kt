@@ -4,12 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.solarisd.calc.R
-import com.solarisd.calc.model.History
+import com.solarisd.calc.model.Record
 
-class HistoryViewAdapter(private val data: List<History>): RecyclerView.Adapter<HistoryViewAdapter.HistoryViewHolder>()  {
+class HistoryViewAdapter(private val records: List<Record>): RecyclerView.Adapter<HistoryViewAdapter.HistoryViewHolder>()  {
     class HistoryViewHolder(view: View): RecyclerView.ViewHolder(view){
         val historyRecord: TextView = view.findViewById(R.id.tv_history_record)
     }
@@ -20,10 +19,10 @@ class HistoryViewAdapter(private val data: List<History>): RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        holder.historyRecord.text = data[position].toString()
+        holder.historyRecord.text = records[position].toString()
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        return records.size
     }
 }
