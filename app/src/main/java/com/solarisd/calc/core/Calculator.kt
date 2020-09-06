@@ -70,28 +70,32 @@ class Calculator {
         value.postValue(fs.value.toPlainString())
     }
 
-    fun mClear(){
+    fun memoryClear(){
         m = null
         memory.postValue(null)
     }
-    fun mPlus(){
+    fun memoryPlus(){
         value.value?.let {
             if (m != null) m = m!!.add(it.fromDisplayString())
             else m = it.fromDisplayString()
             memory.postValue(m?.toDisplayString())
         }
     }
-    fun mMinus(){
+    fun memoryMinus(){
         value.value?.let {
             if (m != null) m = m!!.subtract(it.fromDisplayString())
             else m = -it.fromDisplayString()
             memory.postValue(m?.toDisplayString())
         }
     }
-    fun mRestore(){
+    fun memoryRestore(){
         m?.let{
             buffer.setDecimal(it)
         }
         value.postValue(buffer.value?.fromDisplayString()?.toDisplayString())
+    }
+
+    fun historyClear(){
+        history.postValue(null)
     }
 }

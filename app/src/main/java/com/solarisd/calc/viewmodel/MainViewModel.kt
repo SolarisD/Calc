@@ -51,7 +51,6 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         //POST TO DISPLAY
         it?.toString() ?: ""
     }
-
     fun buttonPressed(button: Buttons){
         vibrate()
         when(button) {
@@ -80,14 +79,17 @@ class MainViewModel(application: Application): AndroidViewModel(application){
             Buttons.SIN-> c.operator(Operators.SIN)
             Buttons.COS-> c.operator(Operators.COS)
             Buttons.TAN-> c.operator(Operators.TAN)
-            Buttons.M_CLEAR-> c.mClear()
-            Buttons.M_PLUS-> c.mPlus()
-            Buttons.M_MINUS-> c.mMinus()
-            Buttons.M_RESTORE-> c.mRestore()
+            Buttons.M_CLEAR-> c.memoryClear()
+            Buttons.M_PLUS-> c.memoryPlus()
+            Buttons.M_MINUS-> c.memoryMinus()
+            Buttons.M_RESTORE-> c.memoryRestore()
         }
     }
     fun getHistoryRecords(): LiveData<List<Record>> = dao.getLiveRecords()
-    fun clearHistory() = dao.deleteAll()
+    fun clearHistory() {
+        dao.deleteAll()
+        c.historyClear()
+    }
     private fun vibrate(){
         if (vMode){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
