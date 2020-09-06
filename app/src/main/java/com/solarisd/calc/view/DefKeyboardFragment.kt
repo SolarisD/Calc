@@ -13,10 +13,6 @@ import com.solarisd.calc.databinding.FragmentDefKeyboardBinding
 import com.solarisd.calc.viewmodel.MainViewModel
 
 class DefKeyboardFragment : Fragment() {
-    companion object {
-        @JvmStatic
-        fun newInstance() = DefKeyboardFragment()
-    }
     private val vm: MainViewModel by activityViewModels()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = DataBindingUtil.inflate<FragmentDefKeyboardBinding>(inflater, R.layout.fragment_def_keyboard, container, false)

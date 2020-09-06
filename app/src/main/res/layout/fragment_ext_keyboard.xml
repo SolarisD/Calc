@@ -65,7 +65,7 @@
                     android:onClick="@{() -> vm.buttonPressed(Buttons.SQR)}"/>
 
                 <Button
-                    android:id="@+id/btn_clear"
+                    android:id="@+id/btn_history_clear"
                     style="@style/Button"
                     android:text="C"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.CLEAR)}"/>

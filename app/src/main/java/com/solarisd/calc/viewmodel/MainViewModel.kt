@@ -90,6 +90,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         }
     }
     fun getHistoryRecords(): List<History> = dao.getAll()
+    fun clearHistory() = dao.deleteAll()
     private fun vibrate(){
         if (vMode){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
