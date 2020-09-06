@@ -17,8 +17,6 @@ import kotlinx.coroutines.*
 class HistoryFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private val vm: MainViewModel by activityViewModels()
-
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_history, container, false)
         root.findViewById<Button>(R.id.btn_history_clear).setOnClickListener {
@@ -31,7 +29,7 @@ class HistoryFragment : Fragment() {
         }
         recyclerView = root.findViewById(R.id.rcv_history)
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
-        vm.getHistoryRecords().observe(this.viewLifecycleOwner){
+        vm.historyRecords.observe(this.viewLifecycleOwner){
             it?.let {
                 recyclerView.adapter = HistoryViewAdapter(it)
             }

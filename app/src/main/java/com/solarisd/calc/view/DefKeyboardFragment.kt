@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +18,7 @@ class DefKeyboardFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = DataBindingUtil.inflate<FragmentDefKeyboardBinding>(inflater, R.layout.fragment_def_keyboard, container, false)
         binding.vm = vm
+        val viewId = binding.root.findViewById<Button>(R.id.btn_0)?.id
         return binding.root
     }
 }

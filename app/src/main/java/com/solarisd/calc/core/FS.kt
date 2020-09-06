@@ -75,6 +75,7 @@ class FS {
                     acc = equal(op, acc, null)
                     States.RESULT
                 } else {
+                    lastOperation = Operation(op, acc)
                     States.OPERATOR_SAVED
                 }
             }

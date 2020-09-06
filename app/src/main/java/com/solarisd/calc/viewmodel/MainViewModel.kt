@@ -7,6 +7,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
+import com.solarisd.calc.R
 import com.solarisd.calc.core.Calculator
 import com.solarisd.calc.core.enums.Buttons
 import com.solarisd.calc.core.enums.Operators
@@ -16,12 +17,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application): AndroidViewModel(application){
+    //PRIVATE
     private val c = Calculator()
     private val v = application.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     private val prefs: Prefs by lazy {
         Prefs(PreferenceManager.getDefaultSharedPreferences(application))
     }
     private val dao: Dao = DB.getInstance(application).dao()
+    private fun vibrate(){
+        if (vMode){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                v.vibrate(50);
+            }
+        }
+    }
+    //PUBLIC
     var vMode: Boolean = prefs.getVibroMode()
         set(value) {
             prefs.setVibroMode(value)
@@ -51,6 +63,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         //POST TO DISPLAY
         it?.toString() ?: ""
     }
+    val historyRecords: LiveData<List<Record>> = dao.getLiveRecords()
     fun buttonPressed(button: Buttons){
         vibrate()
         when(button) {
@@ -85,18 +98,9 @@ class MainViewModel(application: Application): AndroidViewModel(application){
             Buttons.M_RESTORE-> c.memoryRestore()
         }
     }
-    fun getHistoryRecords(): LiveData<List<Record>> = dao.getLiveRecords()
     fun clearHistory() {
         dao.deleteAll()
         c.historyClear()
     }
-    private fun vibrate(){
-        if (vMode){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                v.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
-            } else {
-                v.vibrate(50);
-            }
-        }
-    }
+
 }

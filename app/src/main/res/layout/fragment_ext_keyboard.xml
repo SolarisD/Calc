@@ -65,7 +65,7 @@
                     android:onClick="@{() -> vm.buttonPressed(Buttons.SQR)}"/>
 
                 <Button
-                    android:id="@+id/btn_history_clear"
+                    android:id="@+id/btn_clear"
                     style="@style/Button"
                     android:text="C"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.CLEAR)}"/>
@@ -239,7 +239,7 @@
                     android:id="@+id/btn_result"
                     style="@style/Button"
                     android:text="="
-                    android:onClick="@{() -> vm.buttonPressed(Buttons.BACKSPACE)}"/>
+                    android:onClick="@{() -> vm.buttonPressed(Buttons.RESULT)}"/>
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
