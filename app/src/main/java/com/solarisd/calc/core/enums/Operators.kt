@@ -1,8 +1,11 @@
 package com.solarisd.calc.core.enums
 
+val sqr = 178.toChar()
+
 enum class Operators(val unary: Boolean, val symbol: String) {
     PLUS(false, "+"), MINUS(false, "-"), MULTIPLY(false, "×"), DIVIDE(false, "÷"),
-    SQR(true, "sqr"), SQRT(true, "√"), SIN(true, "sin"), COS(true, "cos"), TAN(true, "tan")
+    SQR(true, "X${sqr}"), SQRT(true, "√"), SIN(true, "sin"), COS(true, "cos"), TAN(true, "tan"),
+    POW_MINUS_ONE(true, "1/X"), POW(false, "X^Y"), LN(true, "ln"), E(true, "e^X")
 }
 
 fun String.toOperatos(): Operators? = when(this) {

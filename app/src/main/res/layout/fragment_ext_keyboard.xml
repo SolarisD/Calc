@@ -80,7 +80,7 @@
                 <Button
                     android:id="@+id/btn_negative"
                     style="@style/Button"
-                    android:text="+/-"
+                    android:text="±"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.NEGATIVE)}"/>
 
                 <Button

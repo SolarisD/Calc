@@ -30,6 +30,7 @@ class FS {
             Operators.SIN -> sin(a.toDouble() * Math.PI/180).toBigDecimal()
             Operators.COS -> cos(a.toDouble() * Math.PI/180).toBigDecimal()
             Operators.TAN -> tan(a.toDouble() * Math.PI/180).toBigDecimal()
+            else->a
         }
         lastOperation = Operation(op, a, b, res)
         return res
