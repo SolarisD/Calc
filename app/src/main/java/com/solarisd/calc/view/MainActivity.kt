@@ -43,12 +43,14 @@ class MainActivity : AppCompatActivity() {
     }
     private fun loadKeyboard() {
         when(vm.kMode){
-            "DEF"-> supportFragmentManager.commit {
-                add<DefKeyboardFragment>(R.id.keyboard_layout, null, intent.extras)
-            }
-            "EXT"-> supportFragmentManager.commit {
-                add<ExtKeyboardFragment>(R.id.keyboard_layout, null, intent.extras)
-            }
+            "DEF"-> supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.keyboard_layout, DefKeyboardFragment())
+                .commit()
+            "EXT"-> supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.keyboard_layout, ExtKeyboardFragment())
+                .commit()
         }
     }
     private fun loadHistory() {
