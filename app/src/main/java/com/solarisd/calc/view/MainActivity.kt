@@ -1,6 +1,7 @@
 package com.solarisd.calc.view
 
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -29,10 +30,8 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.default_item-> loadDefKeyboard()
-            R.id.extented_item-> loadExtKeyboard()
-            R.id.vibro_on_item->{vm.vMode = true}
-            R.id.vibro_off_item->{vm.vMode = false}
+            R.id.settings_menu_item-> showSettingsActivity()
+            R.id.about_menu_item-> showAboutActivity()
         }
         return true
     }
@@ -42,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         vm.historyDisplay.observe(this, { tv_history.text = it})
         tv_history.setOnClickListener { loadHistory() }
     }
-    private fun loadKeyboard(){
+    private fun loadKeyboard() {
         when(vm.kMode){
             "DEF"-> supportFragmentManager.commit {
                 add<DefKeyboardFragment>(R.id.keyboard_layout, null, intent.extras)
@@ -52,22 +51,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private fun loadDefKeyboard() {
-        vm.kMode = "DEF"
-        supportFragmentManager.commit {
-            replace<DefKeyboardFragment>(R.id.keyboard_layout, null, intent.extras)
-        }
-    }
-    private fun loadExtKeyboard() {
-        vm.kMode = "EXT"
-        supportFragmentManager.commit {
-            replace<ExtKeyboardFragment>(R.id.keyboard_layout, null, intent.extras)
-        }
-    }
     private fun loadHistory() {
         supportFragmentManager.commit {
             replace<HistoryFragment>(R.id.keyboard_layout, null, intent.extras)
             addToBackStack(null)
         }
+    }
+    private fun showSettingsActivity() {
+        startActivity(Intent(this, SettingsActivity::class.java))
+    }
+    private fun showAboutActivity() {
+        startActivity(Intent(this, AboutActivity::class.java))
     }
 }
