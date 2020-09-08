@@ -18,14 +18,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private val vm: MainViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         registerDisplays()
         loadKeyboard()
     }
-
     override fun onResume() {
         super.onResume()
         Log.d("TEST", "ON_RESUME")
@@ -47,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         vm.mainDisplay.observe(this, { tv_main.text = it})
         vm.memoryDisplay.observe(this, { tv_memory.text = it})
         vm.historyDisplay.observe(this, { tv_history.text = it})
-        tv_history.setOnClickListener { loadHistory() }
+        tv_history.setOnClickListener { showHistoryActivity() }
     }
     private fun loadKeyboard() {
         if(vm.keyboard){
@@ -62,16 +60,13 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
     }
-    private fun loadHistory() {
-        supportFragmentManager.commit {
-            replace<HistoryFragment>(R.id.keyboard_layout, null, intent.extras)
-            addToBackStack(null)
-        }
-    }
     private fun showSettingsActivity() {
         startActivity(Intent(this, SettingsActivity::class.java))
     }
     private fun showAboutActivity() {
         startActivity(Intent(this, AboutActivity::class.java))
+    }
+    private fun showHistoryActivity() {
+        startActivity(Intent(this, HistoryActivity::class.java))
     }
 }

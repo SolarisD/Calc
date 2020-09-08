@@ -9,7 +9,7 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.math.tan
 
-class FS {
+class FSM {
     private var acc: BigDecimal = BigDecimal.ZERO
     private var op: Operators? = null
     var lastOperation: Operation? = null
