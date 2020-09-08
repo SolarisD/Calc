@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onResume() {
         super.onResume()
-        Log.d("TEST", "ON_RESUME")
         loadKeyboard()
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

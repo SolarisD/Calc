@@ -1,4 +1,3 @@
-/*
 package com.solarisd.calc.core
 
 import androidx.lifecycle.MutableLiveData
@@ -24,7 +23,6 @@ class Calculator2 {
         history.postValue(null)
     }
     fun symbol(symbol: Symbols){
-        //if (fsm.a != States.VALUE_SAVED || fsm.state == States.RESULT) clear()
         buffer.symbol(symbol)
         if (buffer.value!!.length > 2){
             value.postValue(buffer.value?.fromDisplayString()?.toDisplayString())
@@ -33,73 +31,35 @@ class Calculator2 {
         }
     }
     fun operator(op: Operators){
-        val value = buffer.value?.fromDisplayString() ?: BigDecimal.ZERO
-        if (fsm.a == null) {
-            fsm.a = value
-            fsm.op = op
-            if (op.unary) fsm.equal()
-        }else{
-
+        buffer.value?.let {
+            fsm.setValue(it.fromDisplayString())
+            buffer.clear()
+            if (fsm.state == FSM2.States.RESULT) value.postValue(fsm.result?.toDisplayString())
         }
-        op.unary
-
-
-
-        fsm.operator(operator, buffer.value?.toBigDecimal())
-        buffer.clear()
-        val result = fsm.value
-        value.postValue(result.toDisplayString())
-        history.postValue(fsm.lastOperation)
-        */
-/*try {
-
-        }catch (e: Exception){
-            value.postValue("Error")
-            history.postValue(fsm.lastOperation)
-        }*//*
-
+        fsm.setOp(op)
+        if (fsm.state == FSM2.States.RESULT) value.postValue(fsm.result?.toDisplayString())
     }
     fun result(){
-        val value = buffer.value?.fromDisplayString() ?: BigDecimal.ZERO
-
-        try {
-            fsm.result(buffer.value?.toBigDecimal())
-            value.postValue(fsm.value.toDisplayString())
-            history.postValue(fsm.lastOperation)
-        }catch (e: Exception){
-            value.postValue("Error")
-            history.postValue(fsm.lastOperation)
+        buffer.value?.let{
+            fsm.setValue(it.fromDisplayString())
         }
-
+        if (fsm.state == FSM2.States.RESULT) value.postValue(fsm.result?.toDisplayString())
     }
     fun negative(){
-        when(fsm.state){
-            States.CLEARED, States.OPERATOR_SAVED -> {
-                buffer.negative()
-                value.postValue(buffer.value)
-            }
-            else -> {
-                fsm.negative()
-                value.postValue(fsm.value.toDisplayString())
-            }
-        }
+        buffer.negative()
+        value.postValue(buffer.value)
     }
     fun backspace(){
-        when(fsm.state){
-            States.CLEARED, States.OPERATOR_SAVED -> {
-                buffer.backspace()
-                value.postValue(buffer.value)
-            }
-            else -> {}
-        }
+        buffer.backspace()
+        value.postValue(buffer.value)
     }
     fun percent(){
-        val src = fsm.value
+        /*val src = fsm.value
         val input = buffer.value?.toBigDecimal() ?: BigDecimal.ZERO
         buffer.clear()
         val prc = src.multiply(BigDecimal(0.01)).multiply(input).setScale(10, RoundingMode.HALF_UP).stripTrailingZeros()
         fsm.result(prc)
-        value.postValue(fsm.value.toDisplayString())
+        value.postValue(fsm.value.toDisplayString())*/
     }
 
     fun memoryClear(){
@@ -130,34 +90,4 @@ class Calculator2 {
     fun historyClear(){
         history.postValue(null)
     }
-
-    class FSM2 {
-        var a: BigDecimal? = null
-        var op: Operators? = null
-        var b: BigDecimal? = null
-        var result: BigDecimal? = null
-            private set
-        fun equal(){
-            result = when (op) {
-                Operators.PLUS -> a?.add(b)
-                Operators.MINUS -> a?.subtract(b)
-                Operators.MULTIPLY -> a?.multiply(b)
-                Operators.DIVIDE -> a?.divide(b, MathContext.DECIMAL64)
-                Operators.SQR -> a?.pow(2)
-                */
-/*Operators.SQRT -> sqrt(a?.toDouble()).toBigDecimal()
-                Operators.SIN -> sin(a.toDouble() * Math.PI / 180).toBigDecimal()
-                Operators.COS -> cos(a.toDouble() * Math.PI / 180).toBigDecimal()
-                Operators.TAN -> tan(a.toDouble() * Math.PI / 180).toBigDecimal()*//*
-
-                else -> null
-            }
-        }
-        fun clear(){
-            a = null
-            op = null
-            b = null
-        }
-
-    }
-}*/
+}
