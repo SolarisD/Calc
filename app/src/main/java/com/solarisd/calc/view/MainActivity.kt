@@ -4,12 +4,14 @@ package com.solarisd.calc.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.preference.PreferenceManager
 import com.solarisd.calc.R
 import com.solarisd.calc.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -21,6 +23,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         registerDisplays()
+        loadKeyboard()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("TEST", "ON_RESUME")
         loadKeyboard()
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -42,14 +50,15 @@ class MainActivity : AppCompatActivity() {
         tv_history.setOnClickListener { loadHistory() }
     }
     private fun loadKeyboard() {
-        when(vm.kMode){
-            "DEF"-> supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.keyboard_layout, DefKeyboardFragment())
-                .commit()
-            "EXT"-> supportFragmentManager
+        if(vm.keyboard){
+            supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.keyboard_layout, ExtKeyboardFragment())
+                .commit()
+        }else{
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.keyboard_layout, DefKeyboardFragment())
                 .commit()
         }
     }

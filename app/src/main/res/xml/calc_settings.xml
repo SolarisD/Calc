@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <PreferenceCategory android:title="Test group">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="Common settings">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="extended_keyboard"
+            android:title="Extended keyboard" />
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="check_box_test"
-            android:title="Test check box" />
-        <EditTextPreference
-            android:key="edit_text_test"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:title="Test edit text" />
-        <ListPreference
-            android:entries="@array/test_entries"
-            android:entryValues="@array/test_values"
-            android:defaultValue="enterie_1"
-            android:key="list_test"
-            android:title="Test list" />
-        <SwitchPreference
+            android:title="Vibration buttons"
+            android:key="vibration_buttons"/>
+        <CheckBoxPreference
             android:defaultValue="false"
-            android:key="switch_test"
-            android:title="Switch test" />
+            android:title="Sound buttons"
+            android:key="sound_buttons"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:title="Dark theme"
+            android:key="dark_theme"/>
     </PreferenceCategory>
+
 </PreferenceScreen>

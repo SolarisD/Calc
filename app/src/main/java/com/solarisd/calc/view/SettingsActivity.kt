@@ -25,13 +25,3 @@ class SettingsActivity : AppCompatActivity() {
 
     }
 }
-
-
-
-
-/*private fun loadDefKeyboard() {
-    vm.kMode = "DEF"
-}
-private fun loadExtKeyboard() {
-    vm.kMode = "EXT"
-}*/

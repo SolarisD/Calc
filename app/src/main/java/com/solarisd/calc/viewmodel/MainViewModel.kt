@@ -7,7 +7,6 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
-import com.solarisd.calc.R
 import com.solarisd.calc.core.Calculator
 import com.solarisd.calc.core.enums.Buttons
 import com.solarisd.calc.core.enums.Operators
@@ -20,12 +19,12 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     //PRIVATE
     private val c = Calculator()
     private val v = application.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    private val prefs: Prefs by lazy {
-        Prefs(PreferenceManager.getDefaultSharedPreferences(application))
-    }
     private val dao: Dao = DB.getInstance(application).dao()
+    private val pref by lazy { PreferenceManager.getDefaultSharedPreferences(application) }
+    private val vibro: Boolean
+    get() = pref.getBoolean("vibration_buttons", false)
     private fun vibrate(){
-        if (vMode){
+        if (vibro){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 v.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
             } else {
@@ -34,16 +33,8 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         }
     }
     //PUBLIC
-    var vMode: Boolean = prefs.getVibroMode()
-        set(value) {
-            prefs.setVibroMode(value)
-            field = value
-        }
-    var kMode: String = prefs.getKeyboardMode()
-        set(value) {
-            prefs.setKeyboardMode(value)
-            field = value
-        }
+    val keyboard: Boolean
+    get()  = pref.getBoolean("extended_keyboard", false)
     val mainDisplay:  LiveData<String> = Transformations.map(c.value){
         it?.toString() ?: "0"
     }
