@@ -45,7 +45,7 @@ class InputBuffer() {
         }
     }
     private fun addNumber(number: Char){
-        if (value == null) value = number.toString()
+        if (value == null || value == "0") value = number.toString()
         else value += number.toString()
     }
     private fun addZero() {

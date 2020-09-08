@@ -20,6 +20,7 @@ class FS {
         get() = acc
 
     private fun equal(op: Operators, a: BigDecimal, b: BigDecimal?): BigDecimal {
+        lastOperation = Operation(op, a, b, null)
         val res = when (op) {
             Operators.PLUS -> a.add(b)
             Operators.MINUS -> a.subtract(b)

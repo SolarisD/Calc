@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.solarisd.calc.core.enums.Operators
 import com.solarisd.calc.core.enums.States
 import com.solarisd.calc.core.enums.Symbols
+import java.lang.Exception
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -30,15 +31,27 @@ class Calculator {
         }
     }
     fun operator(operator: Operators){
-        fs.operator(operator, buffer.value?.toBigDecimal())
-        buffer.clear()
-        value.postValue(fs.value.toDisplayString())
-        history.postValue(fs.lastOperation)
+        try {
+            fs.operator(operator, buffer.value?.toBigDecimal())
+            buffer.clear()
+            val result = fs.value
+            value.postValue(result.toDisplayString())
+            history.postValue(fs.lastOperation)
+        }catch (e: Exception){
+            value.postValue("Error")
+            history.postValue(fs.lastOperation)
+        }
     }
     fun result(){
-        fs.result(buffer.value?.toBigDecimal())
-        value.postValue(fs.value.toDisplayString())
-        history.postValue(fs.lastOperation)
+        try {
+            fs.result(buffer.value?.toBigDecimal())
+            value.postValue(fs.value.toDisplayString())
+            history.postValue(fs.lastOperation)
+        }catch (e: Exception){
+            value.postValue("Error")
+            history.postValue(fs.lastOperation)
+        }
+
     }
     fun negative(){
         when(fs.state){
@@ -48,7 +61,7 @@ class Calculator {
             }
             else -> {
                 fs.negative()
-                value.postValue(fs.value.toPlainString())
+                value.postValue(fs.value.toDisplayString())
             }
         }
     }
@@ -67,7 +80,7 @@ class Calculator {
         buffer.clear()
         val prc = src.multiply(BigDecimal(0.01)).multiply(input).setScale(10, RoundingMode.HALF_UP).stripTrailingZeros()
         fs.result(prc)
-        value.postValue(fs.value.toPlainString())
+        value.postValue(fs.value.toDisplayString())
     }
 
     fun memoryClear(){
