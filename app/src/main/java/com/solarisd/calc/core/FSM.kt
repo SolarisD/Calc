@@ -1,120 +1,212 @@
 package com.solarisd.calc.core
 
+import androidx.lifecycle.MutableLiveData
+import com.solarisd.calc.core.FSM.States.*
 import com.solarisd.calc.core.enums.Operators
-import com.solarisd.calc.core.enums.States
+import com.solarisd.calc.core.enums.Symbols
 import java.math.BigDecimal
 import java.math.MathContext
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
-import kotlin.math.tan
+import java.math.RoundingMode
 
 class FSM {
-    private var acc: BigDecimal = BigDecimal.ZERO
-    private var op: Operators? = null
-    var lastOperation: Operation? = null
-        private set
-    var state: States = States.CLEARED
-        private set
-    val value: BigDecimal
-        get() = acc
+    //region OPEN MEMBERS
+    val out: MutableLiveData<String> = MutableLiveData()
+    val memory: MutableLiveData<String> = MutableLiveData()
+    val history: MutableLiveData<Operation> = MutableLiveData()
 
-    private fun equal(op: Operators, a: BigDecimal, b: BigDecimal?): BigDecimal {
-        lastOperation = Operation(op, a, b, null)
-        val res = when (op) {
+    fun clear(){
+        inputBuffer.clear()
+        out.postValue(inputBuffer.value)
+        history.postValue(null)
+        a = BigDecimal.ZERO
+        op = null
+        b = null
+        result = null
+        state = CLEARED
+    }
+    fun historyClear(){
+        history.postValue(null)
+    }
+    fun setSymbol(symbol: Symbols){
+        if (state == RESULT) clear()
+        inputBuffer.symbol(symbol)
+        if (inputBuffer.value!!.length > 2){
+            out.postValue(inputBuffer.value?.fromDisplayString()?.toDisplayString())
+        } else {
+            out.postValue(inputBuffer.value)
+        }
+    }
+    fun negative(){
+        inputBuffer.negative()
+        out.postValue(inputBuffer.value)
+    }
+    fun backspace(){
+        inputBuffer.backspace()
+        out.postValue(inputBuffer.value)
+    }
+
+    fun setOperator(operator: Operators){
+        inputBuffer.value?.let {
+            val value = it.fromDisplayString()
+            inputBuffer.clear()
+            when(state){
+                CLEARED->{
+                    a = value
+                    state = VALUE_A
+                }
+                VALUE_A->{
+                    clear()
+                    a = value
+                    state = VALUE_A
+                }
+                OPERATOR->{
+                    b = value
+                    equal()
+                    state = RESULT
+                }
+                RESULT->{
+                    clear()
+                    a = value
+                    state = VALUE_A
+                }
+            }
+            if (state == RESULT) out.postValue(result?.toDisplayString())
+        }
+        when(state){
+            CLEARED->{
+                op = operator
+                if (operator.unary) equal()
+            }
+            VALUE_A->{
+                op = operator
+                if (operator.unary) {equal(); state = RESULT}
+                else {state = OPERATOR}
+            }
+            OPERATOR->{
+                op = operator
+                if (operator.unary) {equal(); state = RESULT}
+                else {state = OPERATOR}
+            }
+            RESULT->{
+                a = result ?: BigDecimal.ZERO
+                op = operator
+                if (operator.unary) {equal(); state = RESULT}
+                else {state = OPERATOR}
+            }
+        }
+        if (state == RESULT) out.postValue(result?.toDisplayString())
+    }
+    fun result(){
+        if (state == RESULT){
+            a = result ?: BigDecimal.ZERO
+            equal()
+        } else {
+            val input = inputBuffer.value ?: out.value
+            input?.let{
+                val value = it.fromDisplayString()
+                when(state){
+                    CLEARED->{
+                        a = value
+                        state = VALUE_A
+                    }
+                    VALUE_A->{
+                        clear()
+                        a = value
+                        state = VALUE_A
+                    }
+                    OPERATOR->{
+                        b = value
+                        equal()
+                        state = RESULT
+                    }
+                    RESULT->{
+                        clear()
+                        a = value
+                        state = VALUE_A
+                    }
+                }
+                this.inputBuffer.clear()
+            }
+        }
+        if (state == RESULT) out.postValue(result?.toDisplayString())
+    }
+    fun percent(){
+        inputBuffer.value?.let{
+            val value = it.fromDisplayString()
+            inputBuffer.clear()
+            when(state){
+                CLEARED->{
+                    result = BigDecimal(0.01).multiply(value).setScale(10, RoundingMode.HALF_UP).stripTrailingZeros()
+                    state = RESULT
+                }
+                VALUE_A->{
+                    result = a.multiply(BigDecimal(0.01)).multiply(value).setScale(10, RoundingMode.HALF_UP).stripTrailingZeros()
+                    state = RESULT
+                }
+                OPERATOR->{
+                    b = a.multiply(BigDecimal(0.01)).multiply(value).setScale(10, RoundingMode.HALF_UP).stripTrailingZeros()
+                    equal()
+                    state = RESULT
+                }
+                RESULT->{
+                    result = result!!.multiply(BigDecimal(0.01)).multiply(value).setScale(10, RoundingMode.HALF_UP).stripTrailingZeros()
+                    state = RESULT
+                }
+            }
+        }
+        if (state == RESULT) out.postValue(result?.toDisplayString())
+    }
+    fun memoryClear(){
+        m = null
+        memory.postValue(null)
+    }
+    fun memoryPlus(){
+        out.value?.let {
+            if (m != null) m = m!!.add(it.fromDisplayString())
+            else m = it.fromDisplayString()
+            memory.postValue(m?.toDisplayString())
+        }
+    }
+    fun memoryMinus(){
+        out.value?.let {
+            if (m != null) m = m!!.subtract(it.fromDisplayString())
+            else m = -it.fromDisplayString()
+            memory.postValue(m?.toDisplayString())
+        }
+    }
+    fun memoryRestore(){
+        m?.let{
+            inputBuffer.setDecimal(it)
+        }
+        out.postValue(inputBuffer.value?.fromDisplayString()?.toDisplayString())
+    }
+    //endregion
+
+    //region PRIVATE MEMBERS
+    private val inputBuffer = InputBuffer()
+    private var a: BigDecimal = BigDecimal.ZERO
+    private var op: Operators? = null
+    private var b: BigDecimal? = null
+    private var result: BigDecimal? = null
+    private var state: States = CLEARED
+    private var m: BigDecimal? = null
+    private fun equal(){
+        result = when (op) {
             Operators.PLUS -> a.add(b)
             Operators.MINUS -> a.subtract(b)
             Operators.MULTIPLY -> a.multiply(b)
             Operators.DIVIDE -> a.divide(b, MathContext.DECIMAL64)
             Operators.SQR -> a.pow(2)
-            Operators.SQRT -> sqrt(a.toDouble()).toBigDecimal()
-            Operators.SIN -> sin(a.toDouble() * Math.PI/180).toBigDecimal()
-            Operators.COS -> cos(a.toDouble() * Math.PI/180).toBigDecimal()
-            Operators.TAN -> tan(a.toDouble() * Math.PI/180).toBigDecimal()
-            else->a
-        }
-        lastOperation = Operation(op, a, b, res)
-        return res
-    }
-    fun operator(op: Operators, input: BigDecimal?){
-        when(state){
-            States.CLEARED ->{
-                acc = input ?: BigDecimal.ZERO
-                this.op = op
-                state = if (op.unary){
-                    acc = equal(op, acc, null)
-                    States.RESULT
-                } else {
-                    lastOperation = Operation(op, acc)
-                    States.OPERATOR_SAVED
-                }
-            }
-            States.VALUE_SAVED -> {
-                this.op = op
-                state = if (op.unary){
-                    acc = equal(op, acc, null)
-                    States.RESULT
-                } else {
-                    lastOperation = Operation(op, acc)
-                    States.OPERATOR_SAVED
-                }
-            }
-            States.OPERATOR_SAVED ->{
-                input?.let {
-                    acc = equal(this.op!!, acc, it)
-                }
-                this.op = op
-                state = if (op.unary){
-                    acc = equal(op, acc, null)
-                    States.RESULT
-                } else {
-                    States.OPERATOR_SAVED
-                }
-            }
-            States.RESULT ->{
-                this.op = op
-                state = if (op.unary){
-                    acc = equal(op, acc, null)
-                    States.RESULT
-                } else {
-                    lastOperation = Operation(op, acc)
-                    States.OPERATOR_SAVED
-                }
-            }
+            Operators.SQRT -> Math.sqrt(a.toDouble()).toBigDecimal()
+            Operators.SIN -> Math.sin(a.toDouble() * Math.PI / 180).toBigDecimal()
+            Operators.COS -> Math.cos(a.toDouble() * Math.PI / 180).toBigDecimal()
+            Operators.TAN -> Math.tan(a.toDouble() * Math.PI / 180).toBigDecimal()
+            else -> null
         }
     }
-    fun clear(){
-        acc = BigDecimal.ZERO
-        op = null
-        lastOperation = null
-        state = States.CLEARED
+
+    private enum class States {
+        CLEARED, VALUE_A, OPERATOR, RESULT
     }
-    fun result(input: BigDecimal?){
-        when (state){
-            States.CLEARED -> {
-                acc = input ?: BigDecimal.ZERO
-                state = States.VALUE_SAVED
-            }
-            States.VALUE_SAVED -> {
-                state = States.VALUE_SAVED
-            }
-            States.OPERATOR_SAVED -> {
-                if (input == null){
-                    acc = equal(this.op!!, acc, acc)
-                } else{
-                    acc = equal(this.op!!, acc, input)
-                }
-                state = States.RESULT
-            }
-            States.RESULT -> {
-                acc = equal(lastOperation!!.op, acc, lastOperation!!.b)
-            }
-        }
-    }
-    fun negative(){
-        when(state){
-            States.CLEARED, States.OPERATOR_SAVED ->{ }
-            else->{ acc = -acc }
-        }
-    }
+    //endregion
 }
