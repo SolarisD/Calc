@@ -4,6 +4,7 @@ import com.solarisd.calc.core.enums.Operators
 import java.lang.Math.*
 import java.math.BigDecimal
 import java.math.MathContext
+import java.math.RoundingMode
 
 class FSM2 {
     var a: BigDecimal = BigDecimal.ZERO
@@ -50,6 +51,27 @@ class FSM2 {
                 clear()
                 a = value
                 state = States.VALUE_A
+            }
+        }
+    }
+    fun setPercent(value: BigDecimal){
+        when(state){
+            States.CLEARED->{
+                result = BigDecimal(0.01).multiply(value).setScale(10, RoundingMode.HALF_UP).stripTrailingZeros()
+                state = States.RESULT
+            }
+            States.VALUE_A->{
+                result = a.multiply(BigDecimal(0.01)).multiply(value).setScale(10, RoundingMode.HALF_UP).stripTrailingZeros()
+                state = States.RESULT
+            }
+            States.OPERATOR->{
+                b = a.multiply(BigDecimal(0.01)).multiply(value).setScale(10, RoundingMode.HALF_UP).stripTrailingZeros()
+                equal()
+                state = States.RESULT
+            }
+            States.RESULT->{
+                result = result!!.multiply(BigDecimal(0.01)).multiply(value).setScale(10, RoundingMode.HALF_UP).stripTrailingZeros()
+                state = States.RESULT
             }
         }
     }

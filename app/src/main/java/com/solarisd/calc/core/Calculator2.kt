@@ -40,8 +40,10 @@ class Calculator2 {
         if (fsm.state == FSM2.States.RESULT) value.postValue(fsm.result?.toDisplayString())
     }
     fun result(){
-        buffer.value?.let{
+        val input = buffer.value ?: value.value
+        input?.let{
             fsm.setValue(it.fromDisplayString())
+            buffer.clear()
         }
         if (fsm.state == FSM2.States.RESULT) value.postValue(fsm.result?.toDisplayString())
     }
@@ -54,12 +56,11 @@ class Calculator2 {
         value.postValue(buffer.value)
     }
     fun percent(){
-        /*val src = fsm.value
-        val input = buffer.value?.toBigDecimal() ?: BigDecimal.ZERO
-        buffer.clear()
-        val prc = src.multiply(BigDecimal(0.01)).multiply(input).setScale(10, RoundingMode.HALF_UP).stripTrailingZeros()
-        fsm.result(prc)
-        value.postValue(fsm.value.toDisplayString())*/
+        buffer.value?.let{
+            fsm.setPercent(it.fromDisplayString())
+            buffer.clear()
+        }
+        if (fsm.state == FSM2.States.RESULT) value.postValue(fsm.result?.toDisplayString())
     }
 
     fun memoryClear(){
