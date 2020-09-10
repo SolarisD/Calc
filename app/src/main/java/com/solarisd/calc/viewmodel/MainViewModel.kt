@@ -35,7 +35,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     //PUBLIC
     val keyboard: Boolean
     get()  = pref.getBoolean("extended_keyboard", false)
-    val mainDisplay:  LiveData<String> = Transformations.map(fsm.out){
+    val mainDisplay:  LiveData<String> = Transformations.map(fsm.buffer){
         it?.toString() ?: "0"
     }
     val memoryDisplay:  LiveData<String> = Transformations.map(fsm.memory){

@@ -10,64 +10,69 @@ import java.math.MathContext
 import java.math.RoundingMode
 
 class Calculator {
-    private val buffer = Buffer()
-    private var m: BigDecimal? = null
-    val out: LiveData<String> = buffer.out
-    val memory: MutableLiveData<String> = MutableLiveData()
-    val history: MutableLiveData<Operation> = MutableLiveData()
-
-    fun clear(){
-        buffer.clear()
-        history.postValue(null)
-        a = BigDecimal.ZERO
-        op = null
-        b = null
-        result = null
-        state = CLEARED
-    }
-    fun historyClear(){
-        history.postValue(null)
-    }
-    //WORK WITH BUFFER
+    //region WORK WITH BUFFER
+    private val bfr = Buffer()
+    val buffer: LiveData<String> = bfr.out
     fun setSymbol(symbol: Symbols){
         if (state == RESULT) clear()
-        buffer.symbol(symbol)
+        bfr.symbol(symbol)
     }
     fun negative(){
-        buffer.negative()
+        bfr.negative()
     }
     fun backspace(){
-        buffer.backspace()
+        bfr.backspace()
     }
-    //WORK WITH MEMORY<--->BUFFER
-    fun memoryClear(){
-        m = null
-        memory.postValue(null)
+    //endregion
+    //region WORK WITH MEMORY<--->BUFFER
+    private var m = Memory()
+    val memory: MutableLiveData<String> = m.out
+    fun memoryClear() {
+        m.clear()
     }
     fun memoryPlus(){
-        buffer.value?.let {
-            if (m != null) m = m!!.add(it.fromDisplayString())
-            else m = it.fromDisplayString()
-            memory.postValue(m?.toDisplayString())
+        bfr.value?.let {
+            m.pls(it.fromDisplayString())
         }
     }
     fun memoryMinus(){
-        buffer.value?.let {
-            m = if (m != null) m!!.subtract(it.fromDisplayString())
-            else -it.fromDisplayString()
-            memory.postValue(m?.toDisplayString())
+        bfr.value?.let {
+            m.mns(it.fromDisplayString())
         }
     }
     fun memoryRestore(){
-        m?.let{
-            buffer.setDecimal(it)
+        m.data?.let{
+            bfr.setDecimal(it)
         }
     }
-    //WORK WITH ALU<--->BUFFER
+    //endregion
+    //region WORK WITH ALU<--->BUFFER
+    private enum class States {
+        CLEARED, VALUE_A, OPERATOR, RESULT
+    }
+    private var a: BigDecimal = BigDecimal.ZERO
+    private var op: Operators? = null
+    private var b: BigDecimal? = null
+    private var result: BigDecimal? = null
+    private var state: States = CLEARED
+    private fun equal(){
+        result = when (op) {
+            Operators.PLUS -> a.add(b)
+            Operators.MINUS -> a.subtract(b)
+            Operators.MULTIPLY -> a.multiply(b)
+            Operators.DIVIDE -> a.divide(b, MathContext.DECIMAL64)
+            Operators.SQR -> a.pow(2)
+            Operators.SQRT -> Math.sqrt(a.toDouble()).toBigDecimal()
+            Operators.SIN -> Math.sin(a.toDouble() * Math.PI / 180).toBigDecimal()
+            Operators.COS -> Math.cos(a.toDouble() * Math.PI / 180).toBigDecimal()
+            Operators.TAN -> Math.tan(a.toDouble() * Math.PI / 180).toBigDecimal()
+            else -> null
+        }
+    }
     fun setOperator(operator: Operators){
-        buffer.value?.let {
+        bfr.value?.let {
             val value = it.fromDisplayString()
-            buffer.clear()
+            bfr.clear()
             when(state){
                 CLEARED->{
                     a = value
@@ -120,7 +125,7 @@ class Calculator {
             a = result ?: BigDecimal.ZERO
             equal()
         } else {
-            val input = buffer.value ?: out.value
+            val input = bfr.value ?: buffer.value
             input?.let{
                 val value = it.fromDisplayString()
                 when(state){
@@ -144,15 +149,15 @@ class Calculator {
                         state = VALUE_A
                     }
                 }
-                this.buffer.clear()
+                this.bfr.clear()
             }
         }
         //if (state == RESULT) out.postValue(result?.toDisplayString())
     }
     fun percent(){
-        buffer.value?.let{
+        bfr.value?.let{
             val value = it.fromDisplayString()
-            buffer.clear()
+            bfr.clear()
             when(state){
                 CLEARED->{
                     result = BigDecimal(0.01).multiply(value).setScale(10, RoundingMode.HALF_UP).stripTrailingZeros()
@@ -175,29 +180,21 @@ class Calculator {
         }
         //if (state == RESULT) out.postValue(result?.toDisplayString())
     }
-
-    private var a: BigDecimal = BigDecimal.ZERO
-    private var op: Operators? = null
-    private var b: BigDecimal? = null
-    private var result: BigDecimal? = null
-    private var state: States = CLEARED
-
-    private fun equal(){
-        result = when (op) {
-            Operators.PLUS -> a.add(b)
-            Operators.MINUS -> a.subtract(b)
-            Operators.MULTIPLY -> a.multiply(b)
-            Operators.DIVIDE -> a.divide(b, MathContext.DECIMAL64)
-            Operators.SQR -> a.pow(2)
-            Operators.SQRT -> Math.sqrt(a.toDouble()).toBigDecimal()
-            Operators.SIN -> Math.sin(a.toDouble() * Math.PI / 180).toBigDecimal()
-            Operators.COS -> Math.cos(a.toDouble() * Math.PI / 180).toBigDecimal()
-            Operators.TAN -> Math.tan(a.toDouble() * Math.PI / 180).toBigDecimal()
-            else -> null
-        }
+    //endregion
+    //region  WORK WITH HISTORY ALU<--->HISTORY
+    val history: MutableLiveData<Operation> = MutableLiveData()
+    fun historyClear(){
+        history.postValue(null)
     }
-
-    private enum class States {
-        CLEARED, VALUE_A, OPERATOR, RESULT
+    //endregion
+    //ALL
+    fun clear(){
+        bfr.clear()
+        history.postValue(null)
+        a = BigDecimal.ZERO
+        op = null
+        b = null
+        result = null
+        state = CLEARED
     }
 }
