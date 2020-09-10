@@ -8,6 +8,10 @@ import com.solarisd.calc.core.enums.Symbols
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
+import kotlin.math.tan
 
 class Calculator {
     //region WORK WITH BUFFER
@@ -62,12 +66,46 @@ class Calculator {
             Operators.MULTIPLY -> a.multiply(b)
             Operators.DIVIDE -> a.divide(b, MathContext.DECIMAL64)
             Operators.SQR -> a.pow(2)
-            Operators.SQRT -> Math.sqrt(a.toDouble()).toBigDecimal()
-            Operators.SIN -> Math.sin(a.toDouble() * Math.PI / 180).toBigDecimal()
-            Operators.COS -> Math.cos(a.toDouble() * Math.PI / 180).toBigDecimal()
-            Operators.TAN -> Math.tan(a.toDouble() * Math.PI / 180).toBigDecimal()
+            Operators.SQRT -> sqrt(a.toDouble()).toBigDecimal()
+            Operators.SIN -> sin(a.toDouble() * Math.PI / 180).toBigDecimal()
+            Operators.COS -> cos(a.toDouble() * Math.PI / 180).toBigDecimal()
+            Operators.TAN -> tan(a.toDouble() * Math.PI / 180).toBigDecimal()
             else -> null
         }
+    }
+    fun result(){
+        if (state == RESULT){
+            a = result ?: BigDecimal.ZERO
+            equal()
+        } else {
+            val input = bfr.value ?: buffer.value
+            input?.let{
+                val value = it.fromDisplayString()
+                when(state){
+                    CLEARED->{
+                        a = value
+                        state = VALUE_A
+                    }
+                    VALUE_A->{
+                        clear()
+                        a = value
+                        state = VALUE_A
+                    }
+                    OPERATOR->{
+                        b = value
+                        equal()
+                        state = RESULT
+                    }
+                    RESULT->{
+                        clear()
+                        a = value
+                        state = VALUE_A
+                    }
+                }
+                this.bfr.clear()
+            }
+        }
+        //if (state == RESULT) out.postValue(result?.toDisplayString())
     }
     fun setOperator(operator: Operators){
         bfr.value?.let {
@@ -120,40 +158,6 @@ class Calculator {
         }
         //if (state == RESULT) out.postValue(result?.toDisplayString())
     }
-    fun result(){
-        if (state == RESULT){
-            a = result ?: BigDecimal.ZERO
-            equal()
-        } else {
-            val input = bfr.value ?: buffer.value
-            input?.let{
-                val value = it.fromDisplayString()
-                when(state){
-                    CLEARED->{
-                        a = value
-                        state = VALUE_A
-                    }
-                    VALUE_A->{
-                        clear()
-                        a = value
-                        state = VALUE_A
-                    }
-                    OPERATOR->{
-                        b = value
-                        equal()
-                        state = RESULT
-                    }
-                    RESULT->{
-                        clear()
-                        a = value
-                        state = VALUE_A
-                    }
-                }
-                this.bfr.clear()
-            }
-        }
-        //if (state == RESULT) out.postValue(result?.toDisplayString())
-    }
     fun percent(){
         bfr.value?.let{
             val value = it.fromDisplayString()
@@ -182,7 +186,7 @@ class Calculator {
     }
     //endregion
     //region  WORK WITH HISTORY ALU<--->HISTORY
-    val history: MutableLiveData<Operation> = MutableLiveData()
+    val history: MutableLiveData<OperationHistory> = MutableLiveData()
     fun historyClear(){
         history.postValue(null)
     }

@@ -2,23 +2,51 @@ package com.solarisd.calc.core
 
 import com.solarisd.calc.core.enums.Operators
 import java.math.BigDecimal
+import java.math.MathContext
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
+import kotlin.math.tan
 
+class Operation(val a: BigDecimal, val op: Operators) {
+    var b: BigDecimal? = null
+    fun result(b: BigDecimal? = null): BigDecimal? {
+        if (this.b == null && b != null) this.b = b
 
-data class Operation(
-    val op: Operators,
-    val a: BigDecimal,
-    val b: BigDecimal? = null,
-    val result: BigDecimal? = null)
-{
+        return if (op.unary){
+            when (op) {
+                Operators.SQR -> a.pow(2)
+                Operators.SQRT -> sqrt(a.toDouble()).toBigDecimal()
+                Operators.SIN -> sin(a.toDouble() * Math.PI / 180).toBigDecimal()
+                Operators.COS -> cos(a.toDouble() * Math.PI / 180).toBigDecimal()
+                Operators.TAN -> tan(a.toDouble() * Math.PI / 180).toBigDecimal()
+                else-> null
+            }
+        } else {
+            if (b != null) {
+                when (op) {
+                    Operators.PLUS -> a.add(b)
+                    Operators.MINUS -> a.subtract(b)
+                    Operators.MULTIPLY -> a.multiply(b)
+                    Operators.DIVIDE -> a.divide(b, MathContext.DECIMAL64)
+                    else -> null
+                }
+            } else {
+                null
+            }
+        }
+    }
+
     override fun toString(): String {
-        val res = if (result != null){
-            if (op.unary) " = ${result.toDisplayString()}" else " ${b?.toDisplayString()} = ${result.toDisplayString()}"
+        val res = result()
+        val postfix = if (res != null){
+            if (op.unary) " = ${res.toDisplayString()}" else " ${b?.toDisplayString()} = ${res.toDisplayString()}"
         } else ""
 
         return if (op.unary) {
-            "${op.symbol}(${a.toDisplayString()})$res"
+            "${op.symbol}(${a.toDisplayString()})$postfix"
         } else {
-            "${a.toDisplayString()} ${op.symbol}$res"
+            "${a.toDisplayString()} ${op.symbol}$postfix"
         }
     }
 }
