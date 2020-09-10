@@ -13,7 +13,7 @@ class Calculator {
     val value: MutableLiveData<String> = MutableLiveData()
     val memory: MutableLiveData<String> = MutableLiveData()
     val history: MutableLiveData<Operation> = MutableLiveData()
-    private val buffer = InputBuffer()
+    private val buffer = Buffer()
     private val fsm = FSM()
     private var m: BigDecimal? = null
     fun clear(){
