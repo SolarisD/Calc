@@ -2,7 +2,7 @@ package com.solarisd.calc.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.solarisd.calc.core.enums.toOperatos
+import com.solarisd.calc.core.enums.toOperators
 import com.solarisd.calc.core.toDisplayString
 import java.math.BigDecimal
 
@@ -15,7 +15,7 @@ data class Record(
     var result: BigDecimal){
 
     override fun toString(): String{
-        op.toOperatos()?.let {
+        op.toOperators()?.let {
             val res = if (it.unary) " = ${result.toDisplayString()}" else " ${b?.toDisplayString()} = ${result.toDisplayString()}"
             return if (it.unary) {
                 "${it.symbol}(${a.toDisplayString()})$res"

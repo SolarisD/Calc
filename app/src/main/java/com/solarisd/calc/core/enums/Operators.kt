@@ -8,7 +8,7 @@ enum class Operators(val unary: Boolean, val symbol: String) {
     POW_MINUS_ONE(true, "1/X"), POW(false, "X^Y"), LN(true, "ln"), E(true, "e^X")
 }
 
-fun String.toOperatos(): Operators? = when(this) {
+fun String.toOperators(): Operators? = when(this) {
     Operators.PLUS.symbol -> Operators.PLUS
     Operators.MINUS.symbol -> Operators.MINUS
     Operators.MULTIPLY.symbol -> Operators.MULTIPLY
