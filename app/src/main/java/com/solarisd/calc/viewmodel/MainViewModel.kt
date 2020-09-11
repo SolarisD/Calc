@@ -78,7 +78,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
             Buttons.MINUS-> c.operator(Operators.MINUS)
             Buttons.MULTIPLY-> c.operator(Operators.MULTIPLY)
             Buttons.DIVIDE-> c.operator(Operators.DIVIDE)
-            Buttons.PERCENT-> {/*c.percent()*/}
+            Buttons.PERCENT-> c.percent()
             Buttons.SQR-> c.operator(Operators.SQR)
             Buttons.SQRT-> c.operator(Operators.SQRT)
             Buttons.SIN-> c.operator(Operators.SIN)

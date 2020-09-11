@@ -10,6 +10,8 @@ import kotlin.math.tan
 
 class Operation(val a: BigDecimal, val op: Operators) {
     var b: BigDecimal? = null
+        private set
+
     fun result(b: BigDecimal? = null): BigDecimal? {
         if (this.b == null && b != null) this.b = b
 
@@ -23,12 +25,12 @@ class Operation(val a: BigDecimal, val op: Operators) {
                 else-> null
             }
         } else {
-            if (b != null) {
+            if (this.b != null) {
                 when (op) {
-                    Operators.PLUS -> a.add(b)
-                    Operators.MINUS -> a.subtract(b)
-                    Operators.MULTIPLY -> a.multiply(b)
-                    Operators.DIVIDE -> a.divide(b, MathContext.DECIMAL64)
+                    Operators.PLUS -> a.add(this.b)
+                    Operators.MINUS -> a.subtract(this.b)
+                    Operators.MULTIPLY -> a.multiply(this.b)
+                    Operators.DIVIDE -> a.divide(this.b, MathContext.DECIMAL64)
                     else -> null
                 }
             } else {

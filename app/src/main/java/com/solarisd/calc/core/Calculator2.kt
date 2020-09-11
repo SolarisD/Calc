@@ -10,11 +10,6 @@ class Calculator2 {
     //region WORK WITH BUFFER
     private val bfr = Buffer()
     val buffer: LiveData<String> = bfr.out
-    fun clear(){
-        bfr.clear()
-        currentOp = null
-        prevOp = null
-    }
     fun symbol(sym: Symbols){
         if (bufferClearRequest) bfr.clear(); bufferClearRequest = false
         bfr.symbol(sym)
@@ -48,12 +43,17 @@ class Calculator2 {
         }
     }
     //endregion
-
-    var currentOp: Operation? = null
-    var prevOp: Operation? = null
-    var bufferClearRequest = false
+    //region WORK WITH OPERATIONS<--->BUFFER
+    private var currentOp: Operation? = null
+    private var prevOp: Operation? = null
+    private var bufferClearRequest = false
+    fun clear(){
+        bfr.clear()
+        currentOp = null
+        prevOp = null
+    }
     fun result(){
-        currentOp?.let {
+        if (currentOp != null){
             val b = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
             val result = currentOp?.result(b)
             if(result != null) {
@@ -62,6 +62,19 @@ class Calculator2 {
                 currentOp = null
             } else {
                 clear()
+            }
+        } else {
+            prevOp?.let{
+                val a = it.result()
+                val op = it.op
+                val b = it.b
+                currentOp = Operation(a!!, op)
+                val result = currentOp!!.result(b)
+                if(result != null) {
+                    bfr.setDecimal(result)
+                    prevOp = currentOp
+                    currentOp = null
+                }
             }
         }
     }
@@ -89,9 +102,27 @@ class Calculator2 {
             }
         }
     }
-
-
-    //region  WORK WITH HISTORY ALU<--->HISTORY
+    fun percent(){
+        if (currentOp == null){
+            val prc = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
+            val result = prc.multiply(BigDecimal("0.01"))
+            bfr.setDecimal(result)
+            prevOp = currentOp
+            currentOp = null
+        } else {
+            val prc = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
+            val b = currentOp!!.a.multiply(prc.multiply(BigDecimal("0.01")))
+            val result = currentOp?.result(b)
+            if(result != null) {
+                bfr.setDecimal(result)
+                prevOp = currentOp
+                currentOp = null
+            } else {
+                clear()
+            }
+        }
+    }
+    //region  WORK WITH HISTORY HISTORY<---->OPERATIONS
     val history: MutableLiveData<OperationHistory> = MutableLiveData()
     fun historyClear(){
         history.postValue(null)
