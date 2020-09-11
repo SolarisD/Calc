@@ -7,7 +7,8 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
-import com.solarisd.calc.core.FSM
+import com.solarisd.calc.core.Calculator
+import com.solarisd.calc.core.Calculator2
 import com.solarisd.calc.core.enums.Buttons
 import com.solarisd.calc.core.enums.Operators
 import com.solarisd.calc.core.enums.Symbols
@@ -17,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application): AndroidViewModel(application){
     //PRIVATE
-    private val fsm = FSM()
+    private val c = Calculator2()
     private val v = application.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     private val dao: Dao = DB.getInstance(application).dao()
     private val pref by lazy { PreferenceManager.getDefaultSharedPreferences(application) }
@@ -35,14 +36,14 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     //PUBLIC
     val keyboard: Boolean
     get()  = pref.getBoolean("extended_keyboard", false)
-    val mainDisplay:  LiveData<String> = Transformations.map(fsm.out){
+    val mainDisplay:  LiveData<String> = Transformations.map(c.buffer){
         it?.toString() ?: "0"
     }
-    val memoryDisplay:  LiveData<String> = Transformations.map(fsm.memory){
+    val memoryDisplay:  LiveData<String> = Transformations.map(c.memory){
         if (it.isNullOrEmpty()) ""
         else "M: $it"
     }
-    val historyDisplay:  LiveData<String> = Transformations.map(fsm.history){
+    val historyDisplay:  LiveData<String> = Transformations.map(c.history){
         //SAVE DATA TO DB
         it?.let {
             if (it.result!=null){
@@ -58,40 +59,40 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     fun buttonPressed(button: Buttons){
         vibrate()
         when(button) {
-            Buttons.ZERO-> fsm.setSymbol(Symbols.ZERO)
-            Buttons.ONE-> fsm.setSymbol(Symbols.ONE)
-            Buttons.TWO-> fsm.setSymbol(Symbols.TWO)
-            Buttons.THREE-> fsm.setSymbol(Symbols.THREE)
-            Buttons.FOUR-> fsm.setSymbol(Symbols.FOUR)
-            Buttons.FIVE-> fsm.setSymbol(Symbols.FIVE)
-            Buttons.SIX-> fsm.setSymbol(Symbols.SIX)
-            Buttons.SEVEN-> fsm.setSymbol(Symbols.SEVEN)
-            Buttons.EIGHT->  fsm.setSymbol(Symbols.EIGHT)
-            Buttons.NINE-> fsm.setSymbol(Symbols.NINE)
-            Buttons.DOT-> fsm.setSymbol(Symbols.DOT)
-            Buttons.NEGATIVE -> fsm.negative()
-            Buttons.CLEAR-> fsm.clear()
-            Buttons.BACKSPACE-> fsm.backspace()
-            Buttons.RESULT-> fsm.result()
-            Buttons.PLUS-> fsm.setOperator(Operators.PLUS)
-            Buttons.MINUS-> fsm.setOperator(Operators.MINUS)
-            Buttons.MULTIPLY-> fsm.setOperator(Operators.MULTIPLY)
-            Buttons.DIVIDE-> fsm.setOperator(Operators.DIVIDE)
-            Buttons.PERCENT-> fsm.percent()
-            Buttons.SQR-> fsm.setOperator(Operators.SQR)
-            Buttons.SQRT-> fsm.setOperator(Operators.SQRT)
-            Buttons.SIN-> fsm.setOperator(Operators.SIN)
-            Buttons.COS-> fsm.setOperator(Operators.COS)
-            Buttons.TAN-> fsm.setOperator(Operators.TAN)
-            Buttons.M_CLEAR-> fsm.memoryClear()
-            Buttons.M_PLUS-> fsm.memoryPlus()
-            Buttons.M_MINUS-> fsm.memoryMinus()
-            Buttons.M_RESTORE-> fsm.memoryRestore()
+            Buttons.ZERO-> c.symbol(Symbols.ZERO)
+            Buttons.ONE-> c.symbol(Symbols.ONE)
+            Buttons.TWO-> c.symbol(Symbols.TWO)
+            Buttons.THREE-> c.symbol(Symbols.THREE)
+            Buttons.FOUR-> c.symbol(Symbols.FOUR)
+            Buttons.FIVE-> c.symbol(Symbols.FIVE)
+            Buttons.SIX-> c.symbol(Symbols.SIX)
+            Buttons.SEVEN-> c.symbol(Symbols.SEVEN)
+            Buttons.EIGHT->  c.symbol(Symbols.EIGHT)
+            Buttons.NINE-> c.symbol(Symbols.NINE)
+            Buttons.DOT-> c.symbol(Symbols.DOT)
+            Buttons.NEGATIVE -> c.negative()
+            Buttons.CLEAR-> c.clear()
+            Buttons.BACKSPACE-> c.backspace()
+            Buttons.RESULT-> c.result()
+            Buttons.PLUS-> c.operator(Operators.PLUS)
+            Buttons.MINUS-> c.operator(Operators.MINUS)
+            Buttons.MULTIPLY-> c.operator(Operators.MULTIPLY)
+            Buttons.DIVIDE-> c.operator(Operators.DIVIDE)
+            Buttons.PERCENT-> c.percent()
+            Buttons.SQR-> c.operator(Operators.SQR)
+            Buttons.SQRT-> c.operator(Operators.SQRT)
+            Buttons.SIN-> c.operator(Operators.SIN)
+            Buttons.COS-> c.operator(Operators.COS)
+            Buttons.TAN-> c.operator(Operators.TAN)
+            Buttons.M_CLEAR-> c.memoryClear()
+            Buttons.M_PLUS-> c.memoryPlus()
+            Buttons.M_MINUS-> c.memoryMinus()
+            Buttons.M_RESTORE-> c.memoryRestore()
         }
     }
     fun clearHistory() {
         dao.deleteAll()
-        fsm.historyClear()
+        c.historyClear()
     }
 
 }

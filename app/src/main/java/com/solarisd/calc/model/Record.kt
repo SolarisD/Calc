@@ -2,8 +2,6 @@ package com.solarisd.calc.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.solarisd.calc.core.Operation
-import com.solarisd.calc.core.enums.Operators
 import com.solarisd.calc.core.enums.toOperatos
 import com.solarisd.calc.core.toDisplayString
 import java.math.BigDecimal
