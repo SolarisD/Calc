@@ -55,7 +55,8 @@ class Calculator2 {
     fun result(){
         if (currentOp != null){
             val b = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
-            val result = currentOp?.result(b)
+            val result = currentOp!!.result(b)
+            postToHistory(currentOp!!)
             if(result != null) {
                 bfr.setDecimal(result)
                 prevOp = currentOp
@@ -70,10 +71,13 @@ class Calculator2 {
                 val b = it.b
                 currentOp = Operation(a!!, op)
                 val result = currentOp!!.result(b)
+                postToHistory(currentOp!!)
                 if(result != null) {
                     bfr.setDecimal(result)
                     prevOp = currentOp
                     currentOp = null
+                } else {
+                    clear()
                 }
             }
         }
@@ -83,6 +87,7 @@ class Calculator2 {
             val a = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
             currentOp = Operation(a, op)
             val result = currentOp?.result()
+            postToHistory(currentOp!!)
             if(result != null) {
                 bfr.setDecimal(result)
                 prevOp = currentOp
@@ -93,6 +98,7 @@ class Calculator2 {
         } else {
             val b = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
             val result = currentOp?.result(b)
+            postToHistory(currentOp!!)
             if(result != null) {
                 bfr.setDecimal(result)
                 prevOp = currentOp
@@ -122,8 +128,12 @@ class Calculator2 {
             }
         }
     }
+    //endregion
     //region  WORK WITH HISTORY HISTORY<---->OPERATIONS
     val history: MutableLiveData<OperationHistory> = MutableLiveData()
+    private fun postToHistory(op: Operation){
+        history.postValue(OperationHistory(op.op, op.a, op.b, op.result()))
+    }
     fun historyClear(){
         history.postValue(null)
     }
