@@ -45,9 +45,10 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     val historyDisplay:  LiveData<String> = Transformations.map(c.history){
         //SAVE DATA TO DB
         it?.let {
-            if (it.result!=null){
+            if (it.isComplete){
+                //val rec = Record(op = it.op.symbol, a = it.a, b = it.b, result = it.result)
                 viewModelScope.launch(Dispatchers.IO) {
-                    dao.insert(Record(op = it.op.symbol, a = it.a, b = it.b, result = it.result))
+                    //dao.insert(rec)
                 }
             }
         }
@@ -91,7 +92,5 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     }
     fun clearHistory() {
         dao.deleteAll()
-        c.historyClear()
     }
-
 }

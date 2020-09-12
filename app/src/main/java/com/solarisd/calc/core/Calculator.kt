@@ -47,6 +47,7 @@ class Calculator {
     }
     //endregion
     //region WORK WITH OPERATIONS<--->BUFFER
+    val history: MutableLiveData<Operation> = MutableLiveData()
     private var binary: BinaryOperation? = null
     private var last: Operation? = null
     private var bufferClearRequest = false
@@ -54,6 +55,7 @@ class Calculator {
         bfr.clear()
         binary = null
         last = null
+        history.postValue(null)
     }
     fun result(){
         if (binary != null){
@@ -61,10 +63,12 @@ class Calculator {
             bfr.value = binary!!.result
             last = binary
             binary = null
+            history.postValue(last)
         } else {
             if (last != null){
                 last!!.a = last!!.result.fromDisplayString()
                 bfr.value = last!!.result
+                history.postValue(last)
             }
         }
         bufferClearRequest = true
@@ -78,6 +82,7 @@ class Calculator {
             bfr.value = binary!!.result
             last = binary
             binary = null
+            history.postValue(last)
             newOperation(op)
         }
         bufferClearRequest = true
@@ -88,11 +93,14 @@ class Calculator {
             is UnaryOperation->{
                 bfr.value = op.result
                 last = op
+                history.postValue(last)
             }
             is BinaryOperation->{
                 binary = op
+                history.postValue(binary)
             }
         }
+
     }
     fun percent(){
         if (binary != null){
@@ -101,16 +109,8 @@ class Calculator {
             bfr.value = binary!!.result
             last = binary
             binary = null
+            history.postValue(last)
         }
-    }
-    //endregion
-    //region  WORK WITH HISTORY HISTORY<---->OPERATIONS
-    val history: MutableLiveData<History> = MutableLiveData()
-    private fun postToHistory(){
-        //history.postValue(History(op.op, op.a, op.b, op.result()))
-    }
-    fun historyClear(){
-        history.postValue(null)
     }
     //endregion
 }

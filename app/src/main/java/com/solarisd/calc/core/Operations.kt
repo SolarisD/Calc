@@ -9,18 +9,17 @@ import kotlin.math.tan
 
 interface Operation {
     var a: BigDecimal?
-    val isInit: Boolean
+    val isComplete: Boolean
     val result: String
 }
-
 abstract class UnaryOperation(): Operation{
     override var a: BigDecimal? = null
-    override val isInit: Boolean
+    override val isComplete: Boolean
         get() = a != null
     protected abstract fun equal(a: BigDecimal): BigDecimal
     override val result: String
         get() = try {
-            if (isInit){
+            if (isComplete){
                 equal(a!!).toString()
             } else {
                 "Operation isn't initialized"
@@ -32,12 +31,12 @@ abstract class UnaryOperation(): Operation{
 abstract class BinaryOperation(): Operation{
     override var a: BigDecimal? = null
     var b: BigDecimal? = null
-    override val isInit: Boolean
+    override val isComplete: Boolean
         get() = a != null && b != null
     protected abstract fun equal(a: BigDecimal, b: BigDecimal): BigDecimal
     override val result: String
         get() = try {
-            if (isInit){
+            if (isComplete){
                 equal(a!!, b!!).toString()
             } else {
                 "Operation isn't initialized"
@@ -50,6 +49,14 @@ abstract class BinaryOperation(): Operation{
 class Operations{
     class Add() : BinaryOperation(){
         override fun equal(a: BigDecimal, b: BigDecimal): BigDecimal = a.add(b)
+        override fun toString(): String {
+            val post = if (isComplete){
+                "${b!!.toDisplayString()} = $result"
+            } else {
+                ""
+            }
+            return "${a!!.toDisplayString()} + $post"
+        }
     }
 
     class Subtract() : BinaryOperation(){
