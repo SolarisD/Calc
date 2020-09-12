@@ -7,13 +7,13 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.math.tan
 
-interface RootOperation {
+interface Operation {
     var a: BigDecimal?
     val isInit: Boolean
     val result: String
 }
 
-abstract class UnaryOperation(): RootOperation{
+abstract class UnaryOperation(): Operation{
     override var a: BigDecimal? = null
     override val isInit: Boolean
         get() = a != null
@@ -29,7 +29,7 @@ abstract class UnaryOperation(): RootOperation{
             "Error"
         }
 }
-abstract class BinaryOperation(): RootOperation{
+abstract class BinaryOperation(): Operation{
     override var a: BigDecimal? = null
     var b: BigDecimal? = null
     override val isInit: Boolean

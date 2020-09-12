@@ -11,7 +11,10 @@ class Calculator {
     private val bfr = Buffer()
     val buffer: LiveData<String> = bfr.out
     fun symbol(sym: Symbols){
-        if (bufferClearRequest) bfr.clear(); bufferClearRequest = false
+        if (bufferClearRequest) {
+            bfr.clear()
+            bufferClearRequest = false
+        }
         bfr.symbol(sym)
     }
     fun negative(){
@@ -45,12 +48,12 @@ class Calculator {
     //endregion
     //region WORK WITH OPERATIONS<--->BUFFER
     private var binary: BinaryOperation? = null
-    private var last: RootOperation? = null
+    private var last: Operation? = null
     private var bufferClearRequest = false
     fun clear(){
         bfr.clear()
-       /* binary = null
-        prev = null*/
+        binary = null
+        last = null
     }
     fun result(){
         if (binary != null){
@@ -64,55 +67,41 @@ class Calculator {
                 bfr.value = last!!.result
             }
         }
+        bufferClearRequest = true
     }
-    fun operation(op: RootOperation){
+    fun operation(op: Operation){
         if (binary == null){
-            op.a = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
-            when(op){
-                is UnaryOperation->{
-                    bfr.value = op.result
-                    last = op
-                }
-                is BinaryOperation->{
-                    binary = op
-                }
-            }
-            bufferClearRequest = true
+            newOperation(op)
         }
         else {
-            /*val b = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
-            val result = binary?.result(b)
-            postToHistory(binary!!)
-            if(result != null) {
-                bfr.setDecimal(result)
-                last = binary
-                binary = null
-            } else {
-                clear()
-            }*/
+            binary!!.b = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
+            bfr.value = binary!!.result
+            last = binary
+            binary = null
+            newOperation(op)
+        }
+        bufferClearRequest = true
+    }
+    private fun newOperation(op: Operation){
+        op.a = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
+        when(op){
+            is UnaryOperation->{
+                bfr.value = op.result
+                last = op
+            }
+            is BinaryOperation->{
+                binary = op
+            }
         }
     }
     fun percent(){
-        /*if (binary != null){
+        if (binary != null){
             val prc = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
-            val b = binary!!.a.multiply(prc.multiply(BigDecimal("0.01")))
-            val result = binary?.result(b)
-            postToHistory(binary!!)
-            if(result != null) {
-                bfr.setDecimal(result)
-                last = binary
-                binary = null
-            } else {
-                clear()
-            }
-
-        } else {
-            val prc = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
-            val result = prc.multiply(BigDecimal("0.01"))
-            bfr.setDecimal(result)
-            prevOp = currentOp
-            currentOp = null
-        }*/
+            binary!!.b = binary!!.a!!.multiply(prc.multiply(BigDecimal("0.01")))
+            bfr.value = binary!!.result
+            last = binary
+            binary = null
+        }
     }
     //endregion
     //region  WORK WITH HISTORY HISTORY<---->OPERATIONS
