@@ -29,7 +29,7 @@ class HistoryActivity : AppCompatActivity() {
         }
         rcv_history.layoutManager = LinearLayoutManager(this)
         vm.historyRecords.observe(this){
-            it?.let {
+                it?.let {
                 rcv_history.adapter = HistoryViewAdapter(it)
             }
         }

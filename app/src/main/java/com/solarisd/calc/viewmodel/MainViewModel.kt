@@ -8,6 +8,7 @@ import android.os.Vibrator
 import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
 import com.solarisd.calc.core.Calculator
+import com.solarisd.calc.core.Operations
 import com.solarisd.calc.core.enums.Buttons
 import com.solarisd.calc.core.enums.Symbols
 import com.solarisd.calc.model.*
@@ -33,7 +34,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     }
     //PUBLIC
     val keyboard: Boolean
-    get()  = pref.getBoolean("extended_keyboard", false)
+    get() = pref.getBoolean("extended_keyboard", false)
     val mainDisplay:  LiveData<String> = Transformations.map(c.buffer){
         it?.toString() ?: "0"
     }

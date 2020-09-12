@@ -1,12 +1,10 @@
 package com.solarisd.calc.core
 
-import BinaryOperation
-import Operation
-import UnaryOperation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.solarisd.calc.core.enums.Symbols
 import java.math.BigDecimal
+
 
 class Calculator {
     //region WORK WITH BUFFER
@@ -46,8 +44,8 @@ class Calculator {
     }
     //endregion
     //region WORK WITH OPERATIONS<--->BUFFER
-    /*private var binary: BinaryOperation? = null
-    private var prev: Operation? = null*/
+    private var binary: BinaryOperation? = null
+    private var last: RootOperation? = null
     private var bufferClearRequest = false
     fun clear(){
         bfr.clear()
@@ -55,44 +53,44 @@ class Calculator {
         prev = null*/
     }
     fun result(){
-        /*if (binary != null){
+        if (binary != null){
             binary!!.b = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
             bfr.value = binary!!.result
-            prev = binary
+            last = binary
             binary = null
         } else {
-            if (prev != null){
-                prev!!.a = prev!!.result.fromDisplayString()
-                bfr.value = prev!!.result
+            if (last != null){
+                last!!.a = last!!.result.fromDisplayString()
+                bfr.value = last!!.result
             }
-        }*/
+        }
     }
-    fun operation(op: Operation){
-        /*if (binary == null){
+    fun operation(op: RootOperation){
+        if (binary == null){
             op.a = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
             when(op){
                 is UnaryOperation->{
                     bfr.value = op.result
-                    prev = op
+                    last = op
                 }
                 is BinaryOperation->{
                     binary = op
                 }
             }
             bufferClearRequest = true
-        }*/
-        /*else {
-            val b = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
+        }
+        else {
+            /*val b = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
             val result = binary?.result(b)
             postToHistory(binary!!)
             if(result != null) {
                 bfr.setDecimal(result)
-                prev = binary
+                last = binary
                 binary = null
             } else {
                 clear()
-            }
-        }*/
+            }*/
+        }
     }
     fun percent(){
         /*if (binary != null){
@@ -110,10 +108,10 @@ class Calculator {
 
         } else {
             val prc = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
-            *//*val result = prc.multiply(BigDecimal("0.01"))
+            val result = prc.multiply(BigDecimal("0.01"))
             bfr.setDecimal(result)
             prevOp = currentOp
-            currentOp = null*//*
+            currentOp = null
         }*/
     }
     //endregion
