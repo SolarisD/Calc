@@ -7,7 +7,7 @@ import java.math.BigDecimal
 class Buffer() {
     val out: MutableLiveData<String> = MutableLiveData()
     var value: String? = null
-        private set(value){
+        set(value){
             field = if (value != null){
                 if (value.length > 3){
                     value.fromDisplayString().toDisplayString()

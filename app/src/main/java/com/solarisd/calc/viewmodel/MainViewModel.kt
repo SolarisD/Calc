@@ -9,7 +9,6 @@ import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
 import com.solarisd.calc.core.Calculator
 import com.solarisd.calc.core.enums.Buttons
-import com.solarisd.calc.core.enums.Operators
 import com.solarisd.calc.core.enums.Symbols
 import com.solarisd.calc.model.*
 import kotlinx.coroutines.Dispatchers
@@ -73,16 +72,16 @@ class MainViewModel(application: Application): AndroidViewModel(application){
             Buttons.CLEAR-> c.clear()
             Buttons.BACKSPACE-> c.backspace()
             Buttons.RESULT-> c.result()
-            Buttons.PLUS-> c.operator(Operators.PLUS)
-            Buttons.MINUS-> c.operator(Operators.MINUS)
-            Buttons.MULTIPLY-> c.operator(Operators.MULTIPLY)
-            Buttons.DIVIDE-> c.operator(Operators.DIVIDE)
+            Buttons.PLUS-> c.operation(Operations.Add())
+            Buttons.MINUS-> c.operation(Operations.Subtract())
+            Buttons.MULTIPLY-> c.operation(Operations.Multiply())
+            Buttons.DIVIDE-> c.operation(Operations.Divide())
             Buttons.PERCENT-> c.percent()
-            Buttons.SQR-> c.operator(Operators.SQR)
-            Buttons.SQRT-> c.operator(Operators.SQRT)
-            Buttons.SIN-> c.operator(Operators.SIN)
-            Buttons.COS-> c.operator(Operators.COS)
-            Buttons.TAN-> c.operator(Operators.TAN)
+            Buttons.SQR-> c.operation(Operations.Sqr())
+            Buttons.SQRT-> c.operation(Operations.Sqrt())
+            Buttons.SIN-> c.operation(Operations.Sin())
+            Buttons.COS-> c.operation(Operations.Cos())
+            Buttons.TAN-> c.operation(Operations.Tan())
             Buttons.M_CLEAR-> c.memoryClear()
             Buttons.M_PLUS-> c.memoryPlus()
             Buttons.M_MINUS-> c.memoryMinus()

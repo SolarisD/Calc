@@ -4,7 +4,7 @@ import com.solarisd.calc.core.enums.Operators
 import java.math.BigDecimal
 
 
-data class OperationHistory(
+data class History(
     val op: Operators,
     val a: BigDecimal,
     val b: BigDecimal? = null,
