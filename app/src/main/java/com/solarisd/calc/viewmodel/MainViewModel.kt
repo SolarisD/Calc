@@ -46,9 +46,8 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         //SAVE DATA TO DB
         it?.let {
             if (it.isComplete){
-                //val rec = Record(op = it.op.symbol, a = it.a, b = it.b, result = it.result)
                 viewModelScope.launch(Dispatchers.IO) {
-                    //dao.insert(rec)
+                    dao.insert(Record(expression = it.toString()))
                 }
             }
         }

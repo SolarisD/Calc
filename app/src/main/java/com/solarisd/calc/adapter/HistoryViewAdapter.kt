@@ -19,7 +19,7 @@ class HistoryViewAdapter(private val records: List<Record>): RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        holder.historyRecord.text = records[position].toString()
+        holder.historyRecord.text = records[position].expression
     }
 
     override fun getItemCount(): Int {

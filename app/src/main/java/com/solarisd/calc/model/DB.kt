@@ -7,7 +7,7 @@ import com.solarisd.calc.core.toDisplayString
 import java.math.BigDecimal
 
 @Database(entities = [Record::class], version = 1, exportSchema = false)
-@TypeConverters(Converters::class)
+//@TypeConverters(Converters::class)
 abstract class DB: RoomDatabase(){
     abstract fun dao(): Dao
     companion object {
@@ -20,9 +20,9 @@ abstract class DB: RoomDatabase(){
     }
 }
 
-class Converters {
+/*class Converters {
     @TypeConverter
     fun bigDecimalToString(value: BigDecimal?): String? = value?.toDisplayString()
     @TypeConverter
     fun stringToBigDecimal(value: String?): BigDecimal? = value?.fromDisplayString()
-}
+}*/
