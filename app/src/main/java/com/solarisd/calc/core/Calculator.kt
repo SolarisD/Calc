@@ -6,7 +6,7 @@ import java.math.BigDecimal
 
 class Calculator {
     //region WORK WITH BUFFER
-    private val bfr = Buffer()
+    private val bfr = Buffer2()
     val buffer: LiveData<String> = bfr.out
     fun symbol(sym: Char){
         if (bufferClearRequest) {
@@ -25,7 +25,7 @@ class Calculator {
     //region WORK WITH MEMORY<--->BUFFER
     private var m = Memory()
     val memory: MutableLiveData<String> = m.out
-    fun memoryClear() {
+    /*fun memoryClear() {
         m.clear()
     }
     fun memoryPlus(){
@@ -42,7 +42,7 @@ class Calculator {
         m.data?.let{
             bfr.setDecimal(it)
         }
-    }
+    }*/
     //endregion
     //region WORK WITH OPERATIONS<--->BUFFER
     val history: MutableLiveData<Operation> = MutableLiveData()
@@ -55,7 +55,7 @@ class Calculator {
         last = null
         history.postValue(null)
     }
-    fun result(){
+    /*fun result(){
         if (binary != null){
             binary!!.b = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
             bfr.setString(binary!!.result)
@@ -109,6 +109,6 @@ class Calculator {
             binary = null
             history.postValue(last)
         }
-    }
+    }*/
     //endregion
 }

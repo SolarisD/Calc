@@ -3,11 +3,13 @@ package com.solarisd.calc.core
 import androidx.lifecycle.MutableLiveData
 import java.lang.Exception
 import java.math.BigDecimal
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.*
 import kotlin.math.PI
 
 class Buffer2() {
     val out: MutableLiveData<String> = MutableLiveData()
-
     private var integerPart: String? = null
         set(value) {
             field = value
@@ -23,7 +25,15 @@ class Buffer2() {
             field = value
             out.postValue(getString())
         }
-
+    val isEmpty: Boolean
+        get() = integerPart == null
+    private val s = DecimalFormatSymbols(Locale.US)
+    private val f = DecimalFormat()
+    init {
+        s.groupingSeparator = ' '
+        f.decimalFormatSymbols = s
+        f.isGroupingUsed = true
+    }
     fun clear() {
         integerPart = null
         delimiter = null
@@ -31,12 +41,14 @@ class Buffer2() {
     }
     private fun getString(): String{
         var ret = "0"
-        integerPart?.let { ret = it }
+        integerPart?.let { ret = f.format(it.toInt()) }
         delimiter?.let { ret += it }
         fractionalPart?.let { ret += it }
         return ret
     }
-
+    fun getDouble(): Double{
+        return getString().toDouble()
+    }
     fun symbol(symbol: Char){
         if (getString().length >= 10) return
         when(symbol){
@@ -89,11 +101,11 @@ class Buffer2() {
             if(fractionalPart != null){
                 if (fractionalPart!!.length == 1) {fractionalPart = null; delimiter = null}
                 else fractionalPart = fractionalPart!!.dropLast(1)
-            } else {
-                if (integerPart != null){
-                    if (integerPart!!.length == 1) {integerPart = null}
-                    else integerPart = integerPart!!.dropLast(1)
-                }
+            }
+        }else {
+            if (integerPart != null){
+                if (integerPart!!.length == 1) {integerPart = null}
+                else integerPart = integerPart!!.dropLast(1)
             }
         }
     }

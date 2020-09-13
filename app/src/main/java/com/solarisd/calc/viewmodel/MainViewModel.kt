@@ -71,7 +71,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
             Buttons.NEGATIVE -> c.negative()
             Buttons.CLEAR-> c.clear()
             Buttons.BACKSPACE-> c.backspace()
-            Buttons.RESULT-> c.result()
+           /* Buttons.RESULT-> c.result()
             Buttons.PLUS-> c.operation(Operations.Add())
             Buttons.MINUS-> c.operation(Operations.Subtract())
             Buttons.MULTIPLY-> c.operation(Operations.Multiply())
@@ -85,7 +85,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
             Buttons.M_CLEAR-> c.memoryClear()
             Buttons.M_PLUS-> c.memoryPlus()
             Buttons.M_MINUS-> c.memoryMinus()
-            Buttons.M_RESTORE-> c.memoryRestore()
+            Buttons.M_RESTORE-> c.memoryRestore()*/
         }
     }
     fun clearHistory() {
