@@ -1,49 +1,46 @@
 package com.solarisd.calc.core
 
 import androidx.lifecycle.MutableLiveData
-import com.solarisd.calc.core.enums.Symbols
 import java.lang.Exception
 import java.math.BigDecimal
+import kotlin.math.PI
 
-class Buffer() {
+private const val ERROR_MSG = "Error"
+
+class Buffer2() {
     val out: MutableLiveData<String> = MutableLiveData()
     var value: String? = null
-        set(value){
-            try {
-                field = if (value != null){
-                    if (value.length > 3){
-                        value.fromDisplayString().toDisplayString()
-                    } else {
-                        value
-                    }
-                } else {
-                    value
-                }
-                out.postValue(field)
-            }catch (e: Exception){
-                field = null
-                out.postValue("Error")
-            }
+        private set(value){
+            field = value
+            out.postValue(field)
         }
 
     fun setDecimal(value: BigDecimal){
         this.value = value.toDisplayString()
     }
-    fun symbol(symbol: Symbols){
+
+    fun setString(value: String){
+        try {
+            this.value = value.fromDisplayString().toDisplayString()
+        }catch (e: Exception){
+            this.value = ERROR_MSG
+        }
+    }
+    fun symbol(symbol: Char){
         value?.let { if (it.length >= 10) return }
         when(symbol){
-            Symbols.ZERO -> addZero()
-            Symbols.ONE -> addNumber('1')
-            Symbols.TWO -> addNumber('2')
-            Symbols.THREE -> addNumber('3')
-            Symbols.FOUR -> addNumber('4')
-            Symbols.FIVE -> addNumber('5')
-            Symbols.SIX -> addNumber('6')
-            Symbols.SEVEN -> addNumber('7')
-            Symbols.EIGHT -> addNumber('8')
-            Symbols.NINE -> addNumber('9')
-            Symbols.DOT -> addDot()
-            Symbols.PI -> {}
+            '0' -> addZero()
+            '1' -> addNumber('1')
+            '2' -> addNumber('2')
+            '3' -> addNumber('3')
+            '4' -> addNumber('4')
+            '5' -> addNumber('5')
+            '6' -> addNumber('6')
+            '7' -> addNumber('7')
+            '8' -> addNumber('8')
+            '9' -> addNumber('9')
+            '.' -> addDot()
+            'π' -> setPi()
         }
     }
     fun clear() {
@@ -75,5 +72,8 @@ class Buffer() {
     private fun addDot(){
         if (value == null) value = "0."
         else if (!value!!.contains('.')) value += '.'
+    }
+    private fun setPi(){
+        value = PI.toString()
     }
 }

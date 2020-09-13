@@ -9,8 +9,7 @@ import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
 import com.solarisd.calc.core.Calculator
 import com.solarisd.calc.core.Operations
-import com.solarisd.calc.core.enums.Buttons
-import com.solarisd.calc.core.enums.Symbols
+import com.solarisd.calc.core.Buttons
 import com.solarisd.calc.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -58,17 +57,17 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     fun buttonPressed(button: Buttons){
         vibrate()
         when(button) {
-            Buttons.ZERO-> c.symbol(Symbols.ZERO)
-            Buttons.ONE-> c.symbol(Symbols.ONE)
-            Buttons.TWO-> c.symbol(Symbols.TWO)
-            Buttons.THREE-> c.symbol(Symbols.THREE)
-            Buttons.FOUR-> c.symbol(Symbols.FOUR)
-            Buttons.FIVE-> c.symbol(Symbols.FIVE)
-            Buttons.SIX-> c.symbol(Symbols.SIX)
-            Buttons.SEVEN-> c.symbol(Symbols.SEVEN)
-            Buttons.EIGHT->  c.symbol(Symbols.EIGHT)
-            Buttons.NINE-> c.symbol(Symbols.NINE)
-            Buttons.DOT-> c.symbol(Symbols.DOT)
+            Buttons.ZERO-> c.symbol('0')
+            Buttons.ONE-> c.symbol('1')
+            Buttons.TWO-> c.symbol('2')
+            Buttons.THREE-> c.symbol('3')
+            Buttons.FOUR-> c.symbol('4')
+            Buttons.FIVE-> c.symbol('5')
+            Buttons.SIX-> c.symbol('6')
+            Buttons.SEVEN-> c.symbol('7')
+            Buttons.EIGHT->  c.symbol('8')
+            Buttons.NINE-> c.symbol('9')
+            Buttons.DOT-> c.symbol('.')
             Buttons.NEGATIVE -> c.negative()
             Buttons.CLEAR-> c.clear()
             Buttons.BACKSPACE-> c.backspace()

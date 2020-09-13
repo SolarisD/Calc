@@ -2,15 +2,13 @@ package com.solarisd.calc.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.solarisd.calc.core.enums.Symbols
 import java.math.BigDecimal
-
 
 class Calculator {
     //region WORK WITH BUFFER
-    private val bfr = Buffer()
+    private val bfr = Buffer2()
     val buffer: LiveData<String> = bfr.out
-    fun symbol(sym: Symbols){
+    fun symbol(sym: Char){
         if (bufferClearRequest) {
             bfr.clear()
             bufferClearRequest = false
@@ -60,14 +58,14 @@ class Calculator {
     fun result(){
         if (binary != null){
             binary!!.b = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
-            bfr.value = binary!!.result
+            bfr.setString(binary!!.result)
             last = binary
             binary = null
             history.postValue(last)
         } else {
             if (last != null){
                 last!!.a = last!!.result.fromDisplayString()
-                bfr.value = last!!.result
+                bfr.setString(last!!.result)
                 history.postValue(last)
             }
         }
@@ -79,7 +77,7 @@ class Calculator {
         }
         else {
             binary!!.b = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
-            bfr.value = binary!!.result
+            bfr.setString(binary!!.result)
             last = binary
             binary = null
             history.postValue(last)
@@ -91,7 +89,7 @@ class Calculator {
         op.a = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
         when(op){
             is UnaryOperation->{
-                bfr.value = op.result
+                bfr.setString(op.result)
                 last = op
                 history.postValue(last)
             }
@@ -106,7 +104,7 @@ class Calculator {
         if (binary != null){
             val prc = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
             binary!!.b = binary!!.a!!.multiply(prc.multiply(BigDecimal("0.01")))
-            bfr.value = binary!!.result
+            bfr.setString(binary!!.result)
             last = binary
             binary = null
             history.postValue(last)

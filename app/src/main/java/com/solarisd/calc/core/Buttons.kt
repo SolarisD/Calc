@@ -1,4 +1,4 @@
-package com.solarisd.calc.core.enums
+package com.solarisd.calc.core
 
 enum class Buttons {
     ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, DOT, NEGATIVE,
