@@ -6,7 +6,7 @@ import java.math.BigDecimal
 
 class Calculator {
     //region WORK WITH BUFFER
-    private val bfr = Buffer2()
+    private val bfr = Buffer()
     val buffer: LiveData<String> = bfr.out
     fun symbol(sym: Char){
         if (bufferClearRequest) {

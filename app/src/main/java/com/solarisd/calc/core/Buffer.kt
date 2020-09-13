@@ -7,7 +7,7 @@ import kotlin.math.PI
 
 private const val ERROR_MSG = "Error"
 
-class Buffer2() {
+class Buffer() {
     val out: MutableLiveData<String> = MutableLiveData()
     var value: String? = null
         private set(value){
