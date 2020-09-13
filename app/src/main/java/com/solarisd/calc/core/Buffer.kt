@@ -2,26 +2,32 @@ package com.solarisd.calc.core
 
 import androidx.lifecycle.MutableLiveData
 import com.solarisd.calc.core.enums.Symbols
+import java.lang.Exception
 import java.math.BigDecimal
 
 class Buffer() {
     val out: MutableLiveData<String> = MutableLiveData()
     var value: String? = null
         set(value){
-            field = if (value != null){
-                if (value.length > 3){
-                    value.fromDisplayString().toDisplayString()
+            try {
+                field = if (value != null){
+                    if (value.length > 3){
+                        value.fromDisplayString().toDisplayString()
+                    } else {
+                        value
+                    }
                 } else {
                     value
                 }
-            } else {
-                value
+                out.postValue(field)
+            }catch (e: Exception){
+                field = null
+                out.postValue("Error")
             }
-            out.postValue(field)
         }
 
     fun setDecimal(value: BigDecimal){
-        this.value = value.toString()
+        this.value = value.toDisplayString()
     }
     fun symbol(symbol: Symbols){
         value?.let { if (it.length >= 10) return }

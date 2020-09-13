@@ -18,15 +18,17 @@ abstract class UnaryOperation(): Operation{
         get() = a != null
     protected abstract fun equal(a: BigDecimal): BigDecimal
     override val result: String
-        get() = try {
+        get() =
             if (isComplete){
-                equal(a!!).toString()
+                try {
+                    equal(a!!).toString()
+                }catch (e: Exception){
+                    "Error"
+                }
+
             } else {
                 "Operation isn't initialized"
             }
-        } catch (e: Exception){
-            "Error"
-        }
 }
 abstract class BinaryOperation(): Operation{
     override var a: BigDecimal? = null
@@ -35,15 +37,17 @@ abstract class BinaryOperation(): Operation{
         get() = a != null && b != null
     protected abstract fun equal(a: BigDecimal, b: BigDecimal): BigDecimal
     override val result: String
-        get() = try {
+        get() =
             if (isComplete){
-                equal(a!!, b!!).toString()
+                try {
+                    equal(a!!, b!!).toString()
+                }catch (e: Exception){
+                    "Error"
+                }
+
             } else {
                 "Operation isn't initialized"
             }
-        } catch (e: Exception){
-            "Error"
-        }
 }
 
 class Operations{
