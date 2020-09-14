@@ -2,9 +2,6 @@ package com.solarisd.calc.model
 
 import android.content.Context
 import androidx.room.*
-import com.solarisd.calc.core.fromDisplayString
-import com.solarisd.calc.core.toDisplayString
-import java.math.BigDecimal
 
 @Database(entities = [Record::class], version = 1, exportSchema = false)
 //@TypeConverters(Converters::class)

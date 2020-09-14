@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.solarisd.calc.core.enums.Buttons"/>
+        <import type="com.solarisd.calc.core.Buttons"/>
         <variable
             name="vm"
             type="com.solarisd.calc.viewmodel.MainViewModel" />

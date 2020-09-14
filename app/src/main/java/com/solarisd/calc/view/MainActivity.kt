@@ -4,14 +4,9 @@ package com.solarisd.calc.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.fragment.app.add
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import androidx.preference.PreferenceManager
 import com.solarisd.calc.R
 import com.solarisd.calc.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -41,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
     private fun registerDisplays(){
-        vm.mainDisplay.observe(this, { tv_main.text = it})
+        vm.bufferDisplay.observe(this, { tv_main.text = it})
         vm.memoryDisplay.observe(this, { tv_memory.text = it})
         vm.historyDisplay.observe(this, { tv_history.text = it})
         tv_history.setOnClickListener { showHistoryActivity() }

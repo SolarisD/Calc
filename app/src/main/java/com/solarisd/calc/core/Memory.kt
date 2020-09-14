@@ -5,26 +5,26 @@ import java.math.BigDecimal
 
 class Memory {
     val out: MutableLiveData<String> = MutableLiveData()
-    var data: BigDecimal? = null
+    var data: Double? = null
         private set(value) {
             field = value
-            out.postValue(value?.toDisplayString())
+            out.postValue(value?.toString())
         }
     fun clear(){
         data = null
     }
-    fun pls(value: BigDecimal){
+    fun pls(value: Double){
         data = if(data == null){
             value
         } else{
-            data!!.add(value)
+            data!! + value
         }
     }
-    fun mns(value: BigDecimal){
+    fun mns(value: Double){
         data = if(data == null){
             -value
         } else{
-            data!!.subtract(value)
+            data!! - value
         }
     }
 }
