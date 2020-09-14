@@ -49,6 +49,19 @@ class Buffer2() {
     fun getDouble(): Double{
         return getString().toDouble()
     }
+    fun setDouble(value: Double){
+        val str = value.toString()
+        if (str.indexOf('.') == -1){
+            integerPart = str
+            delimiter = null
+            fractionalPart = null
+        }else{
+            integerPart = str.substringBefore('.')
+            delimiter = '.'
+            fractionalPart = str.substringAfter('.')
+        }
+
+    }
     fun symbol(symbol: Char){
         if (getString().length >= 10) return
         when(symbol){

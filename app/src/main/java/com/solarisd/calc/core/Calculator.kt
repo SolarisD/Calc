@@ -25,24 +25,20 @@ class Calculator {
     //region WORK WITH MEMORY<--->BUFFER
     private var m = Memory()
     val memory: MutableLiveData<String> = m.out
-    /*fun memoryClear() {
+    fun memoryClear() {
         m.clear()
     }
     fun memoryPlus(){
-        bfr.value?.let {
-            m.pls(it.fromDisplayString())
-        }
+        m.pls(bfr.getDouble())
     }
     fun memoryMinus(){
-        bfr.value?.let {
-            m.mns(it.fromDisplayString())
-        }
+        m.mns(bfr.getDouble())
     }
     fun memoryRestore(){
         m.data?.let{
-            bfr.setDecimal(it)
+            bfr.setDouble(it)
         }
-    }*/
+    }
     //endregion
     //region WORK WITH OPERATIONS<--->BUFFER
     val history: MutableLiveData<Operation> = MutableLiveData()
@@ -55,17 +51,17 @@ class Calculator {
         last = null
         history.postValue(null)
     }
-    /*fun result(){
+    fun result(){
         if (binary != null){
-            binary!!.b = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
-            bfr.setString(binary!!.result)
+            binary!!.b = bfr.getDouble()
+            bfr.setDouble(binary!!.result!!)
             last = binary
             binary = null
             history.postValue(last)
         } else {
             if (last != null){
-                last!!.a = last!!.result.fromDisplayString()
-                bfr.setString(last!!.result)
+                last!!.a = last!!.result!!.toDouble()
+                bfr.setDouble(last!!.result!!)
                 history.postValue(last)
             }
         }
@@ -76,8 +72,8 @@ class Calculator {
             newOperation(op)
         }
         else {
-            binary!!.b = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
-            bfr.setString(binary!!.result)
+            binary!!.b = bfr.getDouble()
+            bfr.setDouble(binary!!.result!!)
             last = binary
             binary = null
             history.postValue(last)
@@ -86,10 +82,10 @@ class Calculator {
         bufferClearRequest = true
     }
     private fun newOperation(op: Operation){
-        op.a = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
+        op.a = bfr.getDouble()
         when(op){
             is UnaryOperation->{
-                bfr.setString(op.result)
+                bfr.setDouble(op.result!!)
                 last = op
                 history.postValue(last)
             }
@@ -98,17 +94,16 @@ class Calculator {
                 history.postValue(binary)
             }
         }
-
     }
     fun percent(){
         if (binary != null){
-            val prc = bfr.value?.fromDisplayString() ?: BigDecimal.ZERO
-            binary!!.b = binary!!.a!!.multiply(prc.multiply(BigDecimal("0.01")))
-            bfr.setString(binary!!.result)
+            val prc = bfr.getDouble()
+            binary!!.b = binary!!.a!! * prc * 0.01
+            bfr.setDouble(binary!!.result!!)
             last = binary
             binary = null
             history.postValue(last)
         }
-    }*/
+    }
     //endregion
 }

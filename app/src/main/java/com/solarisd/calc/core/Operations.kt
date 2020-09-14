@@ -8,130 +8,130 @@ import kotlin.math.sqrt
 import kotlin.math.tan
 
 interface Operation {
-    var a: BigDecimal?
+    var a: Double?
     val isComplete: Boolean
-    val result: String
+    val result: Double?
 }
 abstract class UnaryOperation(): Operation{
-    override var a: BigDecimal? = null
+    override var a: Double? = null
     override val isComplete: Boolean
         get() = a != null
-    protected abstract fun equal(a: BigDecimal): BigDecimal
-    override val result: String
+    protected abstract fun equal(a: Double): Double
+    override val result: Double?
         get() =
             if (isComplete){
                 try {
-                    equal(a!!).toString()
+                    equal(a!!)
                 }catch (e: Exception){
-                    "Error"
+                    Double.NaN
                 }
 
             } else {
-                "Operation isn't initialized"
+                null
             }
 }
 abstract class BinaryOperation(): Operation{
-    override var a: BigDecimal? = null
-    var b: BigDecimal? = null
+    override var a: Double? = null
+    var b: Double? = null
     override val isComplete: Boolean
         get() = a != null && b != null
-    protected abstract fun equal(a: BigDecimal, b: BigDecimal): BigDecimal
-    override val result: String
+    protected abstract fun equal(a: Double, b: Double): Double
+    override val result: Double?
         get() =
             if (isComplete){
                 try {
-                    equal(a!!, b!!).toString()
+                    equal(a!!, b!!)
                 }catch (e: Exception){
-                    "Error"
+                    Double.NaN
                 }
 
             } else {
-                "Operation isn't initialized"
+                null
             }
 }
 
 class Operations{
     class Add() : BinaryOperation(){
-        override fun equal(a: BigDecimal, b: BigDecimal): BigDecimal = a.add(b)
+        override fun equal(a: Double, b: Double): Double = a+b
         override fun toString(): String {
             val post = if (isComplete){
-                "${b!!.toDisplayString()} = $result"
+                "$b = $result"
             } else {
                 ""
             }
-            return "${a!!.toDisplayString()} + $post"
+            return "$a + $post"
         }
     }
 
     class Subtract() : BinaryOperation(){
-        override fun equal(a: BigDecimal, b: BigDecimal): BigDecimal = a.subtract(b)
+        override fun equal(a: Double, b: Double): Double = a-b
         override fun toString(): String {
             val post = if (isComplete){
-                "${b!!.toDisplayString()} = $result"
+                "$b = $result"
             } else {
                 ""
             }
-            return "${a!!.toDisplayString()} - $post"
+            return "$a - $post"
         }
     }
 
     class Multiply() : BinaryOperation(){
-        override fun equal(a: BigDecimal, b: BigDecimal): BigDecimal = a.multiply(b)
+        override fun equal(a: Double, b: Double): Double = a*b
         override fun toString(): String {
             val post = if (isComplete){
-                "${b!!.toDisplayString()} = $result"
+                "$b = $result"
             } else {
                 ""
             }
-            return "${a!!.toDisplayString()} × $post"
+            return "$a × $post"
         }
     }
 
     class Divide() : BinaryOperation(){
-        override fun equal(a: BigDecimal, b: BigDecimal): BigDecimal = a.divide(b)
+        override fun equal(a: Double, b: Double): Double = a/b
         override fun toString(): String {
             val post = if (isComplete){
-                "${b!!.toDisplayString()} = $result"
+                "$b = $result"
             } else {
                 ""
             }
-            return "${a!!.toDisplayString()} ÷ $post"
+            return "$a ÷ $post"
         }
     }
 
     class Sqr() : UnaryOperation(){
-        override fun equal(a: BigDecimal): BigDecimal = a.pow(2)
+        override fun equal(a: Double): Double = a*a
         override fun toString(): String {
             val sqr = 178.toChar()
-            return "${a!!.toDisplayString()}$sqr = $result"
+            return "$a$sqr = $result"
         }
     }
 
     class Sqrt() : UnaryOperation(){
-        override fun equal(a: BigDecimal): BigDecimal = sqrt(a.toDouble()).toBigDecimal()
+        override fun equal(a: Double): Double = sqrt(a)
         override fun toString(): String {
-            return "√${a!!.toDisplayString()} = $result"
+            return "√$a = $result"
         }
     }
 
     class Sin() : UnaryOperation(){
-        override fun equal(a: BigDecimal): BigDecimal = sin(a.toDouble() * Math.PI / 180).toBigDecimal()
+        override fun equal(a: Double): Double = sin(a * Math.PI / 180)
         override fun toString(): String {
-            return "sin(${a!!.toDisplayString()}) = $result"
+            return "sin($a) = $result"
         }
     }
 
     class Cos() : UnaryOperation(){
-        override fun equal(a: BigDecimal): BigDecimal = cos(a.toDouble() * Math.PI / 180).toBigDecimal()
+        override fun equal(a: Double): Double = cos(a * Math.PI / 180)
         override fun toString(): String {
-            return "cos(${a!!.toDisplayString()}) = $result"
+            return "cos($a) = $result"
         }
     }
 
     class Tan() : UnaryOperation(){
-        override fun equal(a: BigDecimal): BigDecimal = tan(a.toDouble() * Math.PI / 180).toBigDecimal()
+        override fun equal(a: Double): Double = tan(a * Math.PI / 180)
         override fun toString(): String {
-            return "tan(${a!!.toDisplayString()}) = $result"
+            return "tan($a) = $result"
         }
     }
 }
