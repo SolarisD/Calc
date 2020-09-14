@@ -1,12 +1,9 @@
 package com.solarisd.calc.core
 
 import androidx.lifecycle.MutableLiveData
-import java.lang.Exception
-import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
-import kotlin.math.PI
 
 class Buffer() {
     val out: MutableLiveData<String> = MutableLiveData()
@@ -25,8 +22,6 @@ class Buffer() {
             field = value
             out.postValue(getString())
         }
-    val isEmpty: Boolean
-        get() = integerPart == null
     private val s = DecimalFormatSymbols(Locale.US)
     private val f = DecimalFormat()
     init {
@@ -50,17 +45,21 @@ class Buffer() {
         return getString().toDouble()
     }
     fun setDouble(value: Double){
-        val str = value.toString()
-        if (str.indexOf('.') == -1){
-            integerPart = str
-            delimiter = null
-            fractionalPart = null
-        }else{
-            integerPart = str.substringBefore('.')
-            delimiter = '.'
-            fractionalPart = str.substringAfter('.')
+        if (value.isFinite()){
+            val str = value.toDisplayString()
+            if (str.indexOf('.') == -1){
+                integerPart = str
+                delimiter = null
+                fractionalPart = null
+            }else{
+                integerPart = str.substringBefore('.')
+                delimiter = '.'
+                fractionalPart = str.substringAfter('.')
+            }
+        } else {
+            clear()
+            out.postValue(value.toString())
         }
-
     }
     fun symbol(symbol: Char){
         if (getString().length >= 10) return
@@ -123,8 +122,6 @@ class Buffer() {
         }
     }
     private fun setPi(){
-        integerPart = "3"
-        delimiter = '.'
-        fractionalPart = "14159265359"
+        setDouble(Math.PI)
     }
 }

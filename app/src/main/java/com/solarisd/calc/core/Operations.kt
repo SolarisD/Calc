@@ -2,10 +2,7 @@ package com.solarisd.calc.core
 
 import java.lang.Exception
 import java.math.BigDecimal
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
-import kotlin.math.tan
+import kotlin.math.*
 
 interface Operation {
     var a: Double?
@@ -55,11 +52,11 @@ class Operations{
         override fun equal(a: Double, b: Double): Double = a+b
         override fun toString(): String {
             val post = if (isComplete){
-                "$b = $result"
+                "${b.toDisplayString()} = ${result.toDisplayString()}"
             } else {
                 ""
             }
-            return "$a + $post"
+            return "${a.toDisplayString()} + $post"
         }
     }
 
@@ -67,11 +64,11 @@ class Operations{
         override fun equal(a: Double, b: Double): Double = a-b
         override fun toString(): String {
             val post = if (isComplete){
-                "$b = $result"
+                "${b.toDisplayString()} = ${result.toDisplayString()}"
             } else {
                 ""
             }
-            return "$a - $post"
+            return "${a.toDisplayString()} - $post"
         }
     }
 
@@ -79,11 +76,11 @@ class Operations{
         override fun equal(a: Double, b: Double): Double = a*b
         override fun toString(): String {
             val post = if (isComplete){
-                "$b = $result"
+                "${b.toDisplayString()} = ${result.toDisplayString()}"
             } else {
                 ""
             }
-            return "$a × $post"
+            return "${a.toDisplayString()} × $post"
         }
     }
 
@@ -91,11 +88,12 @@ class Operations{
         override fun equal(a: Double, b: Double): Double = a/b
         override fun toString(): String {
             val post = if (isComplete){
-                "$b = $result"
+                "${b.toDisplayString()} = ${result.toDisplayString()}"
             } else {
                 ""
             }
-            return "$a ÷ $post"
+            return "${a.toDisplayString()} ÷ $post"
+
         }
     }
 
@@ -103,35 +101,35 @@ class Operations{
         override fun equal(a: Double): Double = a*a
         override fun toString(): String {
             val sqr = 178.toChar()
-            return "$a$sqr = $result"
+            return "${a.toDisplayString()}$sqr = ${result.toDisplayString()}"
         }
     }
 
     class Sqrt() : UnaryOperation(){
         override fun equal(a: Double): Double = sqrt(a)
         override fun toString(): String {
-            return "√$a = $result"
+            return "√${a.toDisplayString()} = ${result.toDisplayString()}"
         }
     }
 
     class Sin() : UnaryOperation(){
         override fun equal(a: Double): Double = sin(a * Math.PI / 180)
         override fun toString(): String {
-            return "sin($a) = $result"
+            return "sin(${a.toDisplayString()}) = ${result.toDisplayString()}"
         }
     }
 
     class Cos() : UnaryOperation(){
         override fun equal(a: Double): Double = cos(a * Math.PI / 180)
         override fun toString(): String {
-            return "cos($a) = $result"
+            return "cos(${a.toDisplayString()}) = ${result.toDisplayString()}"
         }
     }
 
     class Tan() : UnaryOperation(){
         override fun equal(a: Double): Double = tan(a * Math.PI / 180)
         override fun toString(): String {
-            return "tan($a) = $result"
+            return "tan($${a.toDisplayString()}) = ${result.toDisplayString()}"
         }
     }
 }

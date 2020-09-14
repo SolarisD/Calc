@@ -5,38 +5,26 @@ import androidx.lifecycle.MutableLiveData
 
 class Core {
     //region WORK WITH BUFFER
-    private val bfr = Buffer()
-    val buffer: LiveData<String> = bfr.out
+    private val b = Buffer()
+    val buffer: LiveData<String> = b.out
     fun symbol(sym: Char){
         if (bufferClearRequest) {
-            bfr.clear()
+            b.clear()
             bufferClearRequest = false
         }
-        bfr.symbol(sym)
+        b.symbol(sym)
     }
-    fun negative(){
-        bfr.negative()
-    }
-    fun backspace(){
-        bfr.backspace()
-    }
+    fun negative() = b.negative()
+    fun backspace() = b.backspace()
     //endregion
     //region WORK WITH MEMORY<--->BUFFER
     private var m = Memory()
     val memory: MutableLiveData<String> = m.out
-    fun memoryClear() {
-        m.clear()
-    }
-    fun memoryPlus(){
-        m.pls(bfr.getDouble())
-    }
-    fun memoryMinus(){
-        m.mns(bfr.getDouble())
-    }
-    fun memoryRestore(){
-        m.data?.let{
-            bfr.setDouble(it)
-        }
+    fun memoryClear() = m.clear()
+    fun memoryPlus() = m.pls(b.getDouble())
+    fun memoryMinus() = m.mns(b.getDouble())
+    fun memoryRestore() = m.data?.let{
+        b.setDouble(it)
     }
     //endregion
     //region WORK WITH OPERATIONS<--->BUFFER
@@ -45,22 +33,22 @@ class Core {
     private var last: Operation? = null
     private var bufferClearRequest = false
     fun clear(){
-        bfr.clear()
         binary = null
         last = null
         history.postValue(null)
+        b.clear()
     }
     fun result(){
         if (binary != null){
-            binary!!.b = bfr.getDouble()
-            bfr.setDouble(binary!!.result!!)
+            binary!!.b = b.getDouble()
+            b.setDouble(binary!!.result!!)
             last = binary
             binary = null
             history.postValue(last)
         } else {
             if (last != null){
                 last!!.a = last!!.result!!.toDouble()
-                bfr.setDouble(last!!.result!!)
+                b.setDouble(last!!.result!!)
                 history.postValue(last)
             }
         }
@@ -71,8 +59,8 @@ class Core {
             newOperation(op)
         }
         else {
-            binary!!.b = bfr.getDouble()
-            bfr.setDouble(binary!!.result!!)
+            binary!!.b = b.getDouble()
+            b.setDouble(binary!!.result!!)
             last = binary
             binary = null
             history.postValue(last)
@@ -81,10 +69,10 @@ class Core {
         bufferClearRequest = true
     }
     private fun newOperation(op: Operation){
-        op.a = bfr.getDouble()
+        op.a = b.getDouble()
         when(op){
             is UnaryOperation->{
-                bfr.setDouble(op.result!!)
+                b.setDouble(op.result!!)
                 last = op
                 history.postValue(last)
             }
@@ -96,9 +84,9 @@ class Core {
     }
     fun percent(){
         if (binary != null){
-            val prc = bfr.getDouble()
+            val prc = b.getDouble()
             binary!!.b = binary!!.a!! * prc * 0.01
-            bfr.setDouble(binary!!.result!!)
+            b.setDouble(binary!!.result!!)
             last = binary
             binary = null
             history.postValue(last)

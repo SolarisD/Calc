@@ -7,9 +7,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
-import com.solarisd.calc.core.Core
-import com.solarisd.calc.core.Operations
-import com.solarisd.calc.core.Buttons
+import com.solarisd.calc.core.*
 import com.solarisd.calc.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,7 +32,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     //PUBLIC
     val keyboard: Boolean
     get() = pref.getBoolean("extended_keyboard", false)
-    val mainDisplay:  LiveData<String> = Transformations.map(c.buffer){
+    val bufferDisplay:  LiveData<String> = Transformations.map(c.buffer){
         it?.toString() ?: "0"
     }
     val memoryDisplay:  LiveData<String> = Transformations.map(c.memory){
