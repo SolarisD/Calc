@@ -7,7 +7,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
-import com.solarisd.calc.core.Calculator
+import com.solarisd.calc.core.Core
 import com.solarisd.calc.core.Operations
 import com.solarisd.calc.core.Buttons
 import com.solarisd.calc.model.*
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application): AndroidViewModel(application){
     //PRIVATE
-    private val c = Calculator()
+    private val c = Core()
     private val v = application.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     private val dao: Dao = DB.getInstance(application).dao()
     private val pref by lazy { PreferenceManager.getDefaultSharedPreferences(application) }

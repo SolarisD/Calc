@@ -3,31 +3,67 @@ package com.solarisd.calc.core
 import androidx.lifecycle.MutableLiveData
 import java.lang.Exception
 import java.math.BigDecimal
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.*
 import kotlin.math.PI
-
-private const val ERROR_MSG = "Error"
 
 class Buffer() {
     val out: MutableLiveData<String> = MutableLiveData()
-    var value: String? = null
-        private set(value){
+    private var integerPart: String? = null
+        set(value) {
             field = value
-            out.postValue(field)
+            out.postValue(getString())
         }
-
-    fun setDecimal(value: BigDecimal){
-        this.value = value.toDisplayString()
+    private var delimiter: Char? = null
+        set(value) {
+            field = value
+            out.postValue(getString())
+        }
+    private var fractionalPart: String? = null
+        set(value) {
+            field = value
+            out.postValue(getString())
+        }
+    val isEmpty: Boolean
+        get() = integerPart == null
+    private val s = DecimalFormatSymbols(Locale.US)
+    private val f = DecimalFormat()
+    init {
+        s.groupingSeparator = ' '
+        f.decimalFormatSymbols = s
+        f.isGroupingUsed = true
     }
-
-    fun setString(value: String){
-        try {
-            this.value = value.fromDisplayString().toDisplayString()
-        }catch (e: Exception){
-            this.value = ERROR_MSG
+    fun clear() {
+        integerPart = null
+        delimiter = null
+        fractionalPart = null
+    }
+    private fun getString(): String{
+        var ret = "0"
+        integerPart?.let { ret = f.format(it.toInt()) }
+        delimiter?.let { ret += it }
+        fractionalPart?.let { ret += it }
+        return ret
+    }
+    fun getDouble(): Double{
+        return getString().toDouble()
+    }
+    fun setDouble(value: Double){
+        val str = value.toString()
+        if (str.indexOf('.') == -1){
+            integerPart = str
+            delimiter = null
+            fractionalPart = null
+        }else{
+            integerPart = str.substringBefore('.')
+            delimiter = '.'
+            fractionalPart = str.substringAfter('.')
         }
+
     }
     fun symbol(symbol: Char){
-        value?.let { if (it.length >= 10) return }
+        if (getString().length >= 10) return
         when(symbol){
             '0' -> addZero()
             '1' -> addNumber('1')
@@ -43,37 +79,52 @@ class Buffer() {
             'π' -> setPi()
         }
     }
-    fun clear() {
-        value = null
+    private fun addDot(){
+        if (integerPart == null) integerPart = "0"
+        delimiter = '.'
+    }
+    private fun addZero() {
+        if(delimiter == null){//work with integer part
+            if (integerPart != null) integerPart += "0"
+        } else { //work with fractional part
+            if (fractionalPart == null) fractionalPart = "0"
+            else fractionalPart += "0"
+        }
+    }
+    private fun addNumber(number: Char){
+        if(delimiter == null){//work with integer part
+            if (integerPart == null) integerPart = number.toString()
+            else integerPart += number
+        } else { //work with fractional part
+            if (fractionalPart == null) fractionalPart = number.toString()
+            else fractionalPart += number
+        }
     }
     fun negative(){
-        if(value != null && value != "0"){
-            if (value!![0] != '-'){
-                value = "-${value}"
+        if(integerPart != null){
+            if (integerPart!![0] != '-'){
+                integerPart = "-${integerPart}"
             } else {
-                value = value!!.drop(1)
+                integerPart = integerPart!!.drop(1)
             }
         }
     }
     fun backspace(){
-        if(value != null){
-            if (value!!.length == 1) value = null
-            else value = value!!.dropLast(1)
+        if (delimiter != null){//work with fractional part
+            if(fractionalPart != null){
+                if (fractionalPart!!.length == 1) {fractionalPart = null; delimiter = null}
+                else fractionalPart = fractionalPart!!.dropLast(1)
+            }
+        }else {
+            if (integerPart != null){
+                if (integerPart!!.length == 1) {integerPart = null}
+                else integerPart = integerPart!!.dropLast(1)
+            }
         }
     }
-    private fun addNumber(number: Char){
-        if (value == null || value == "0") value = number.toString()
-        else value += number.toString()
-    }
-    private fun addZero() {
-        if (value == null) value = "0"
-        else if (value != "0") value += "0"
-    }
-    private fun addDot(){
-        if (value == null) value = "0."
-        else if (!value!!.contains('.')) value += '.'
-    }
     private fun setPi(){
-        value = PI.toString()
+        integerPart = "3"
+        delimiter = '.'
+        fractionalPart = "14159265359"
     }
 }

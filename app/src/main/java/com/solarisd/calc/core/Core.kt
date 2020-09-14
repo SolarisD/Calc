@@ -2,11 +2,10 @@ package com.solarisd.calc.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import java.math.BigDecimal
 
-class Calculator {
+class Core {
     //region WORK WITH BUFFER
-    private val bfr = Buffer2()
+    private val bfr = Buffer()
     val buffer: LiveData<String> = bfr.out
     fun symbol(sym: Char){
         if (bufferClearRequest) {
