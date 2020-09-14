@@ -42,11 +42,11 @@ class Buffer() {
         return ret
     }
     fun getDouble(): Double{
-        return getString().toDouble()
+        return getString().toDoubleFromDisplay()
     }
     fun setDouble(value: Double){
         if (value.isFinite()){
-            val str = value.toDisplayString()
+            val str = value.toDisplayString().replace(" ", "")
             if (str.indexOf('.') == -1){
                 integerPart = str
                 delimiter = null

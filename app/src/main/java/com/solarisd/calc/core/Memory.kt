@@ -1,14 +1,13 @@
 package com.solarisd.calc.core
 
 import androidx.lifecycle.MutableLiveData
-import java.math.BigDecimal
 
 class Memory {
     val out: MutableLiveData<String> = MutableLiveData()
     var data: Double? = null
         private set(value) {
             field = value
-            out.postValue(value?.toString())
+            out.postValue(value?.toDisplayString())
         }
     fun clear(){
         data = null

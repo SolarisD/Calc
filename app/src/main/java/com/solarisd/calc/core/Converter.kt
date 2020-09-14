@@ -13,7 +13,7 @@ object Converter {
         f.decimalFormatSymbols = s
         f.isGroupingUsed = true
     }
-    fun doubleToString(value: Double?): String =
+    fun doubleToDisplayedString(value: Double?): String =
         if (value == null) "null"
         else {
             if (value.isFinite()) {
@@ -21,19 +21,18 @@ object Converter {
                 if (strValue.indexOf('.') == -1) {
                     f.format(value.toInt())
                 } else {
-                    val builder = StringBuilder(strValue.substringAfter('.'))
-                    val count = builder.length - 1
+                    val fractionalBuilder = StringBuilder(strValue.substringAfter('.'))
+                    val count = fractionalBuilder.length - 1
                     //cleanup zeroes
                     for (i in count downTo 0) {
-                        if (builder[i] == '0') {
-                            builder.deleteAt(i)
+                        if (fractionalBuilder[i] == '0') {
+                            fractionalBuilder.deleteAt(i)
                         } else break
                     }
-                    val fractional = builder.toString()
-                    if (fractional.isEmpty()) {
+                    if (fractionalBuilder.isEmpty()) {
                         f.format(strValue.substringBefore('.').toInt())
                     } else {
-                        "${f.format(strValue.substringBefore('.').toInt())}.${fractional}"
+                        "${f.format(strValue.substringBefore('.').toInt())}.${fractionalBuilder}"
                     }
                 }
             } else {
@@ -42,4 +41,5 @@ object Converter {
         }
 }
 
-fun Double?.toDisplayString(): String = Converter.doubleToString(this)
+fun Double?.toDisplayString(): String = Converter.doubleToDisplayedString(this)
+fun String.toDoubleFromDisplay(): Double = this.replace(" ", "").toDouble()

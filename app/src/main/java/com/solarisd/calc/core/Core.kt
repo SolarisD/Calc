@@ -47,7 +47,7 @@ class Core {
             history.postValue(last)
         } else {
             if (last != null){
-                last!!.a = last!!.result!!.toDouble()
+                last!!.a = last!!.result!!
                 b.setDouble(last!!.result!!)
                 history.postValue(last)
             }
