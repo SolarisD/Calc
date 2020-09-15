@@ -22,13 +22,6 @@ class Buffer() {
             field = value
             out.postValue(getString())
         }
-    private val s = DecimalFormatSymbols(Locale.US)
-    private val f = DecimalFormat()
-    init {
-        s.groupingSeparator = ' '
-        f.decimalFormatSymbols = s
-        f.isGroupingUsed = true
-    }
     fun clear() {
         integerPart = null
         delimiter = null
@@ -36,7 +29,7 @@ class Buffer() {
     }
     private fun getString(): String{
         var ret = "0"
-        integerPart?.let { ret = f.format(it.toInt()) }
+        integerPart?.let { ret = Converter.f.format(it.toInt()) }
         delimiter?.let { ret += it }
         fractionalPart?.let { ret += it }
         return ret
@@ -58,7 +51,7 @@ class Buffer() {
             }
         } else {
             clear()
-            out.postValue(value.toString())
+            out.postValue(value.toDisplayString())
         }
     }
     fun symbol(symbol: Char){
