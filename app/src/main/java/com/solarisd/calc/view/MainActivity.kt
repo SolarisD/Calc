@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     private val vm: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if(vm.darkTheme) setTheme(R.style.AppThemeDark)
         setContentView(R.layout.activity_main)
         registerDisplays()
         loadKeyboard()

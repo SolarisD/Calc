@@ -32,6 +32,8 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     //PUBLIC
     val keyboard: Boolean
     get() = pref.getBoolean("extended_keyboard", false)
+    val darkTheme: Boolean
+    get() = pref.getBoolean("dark_theme", false)
     val bufferDisplay:  LiveData<String> = Transformations.map(c.buffer){
         it?.toString() ?: "0"
     }
