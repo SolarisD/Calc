@@ -17,23 +17,13 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     private val c = Core()
     private val v = application.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     private val dao: Dao = DB.getInstance(application).dao()
-    private val pref by lazy { PreferenceManager.getDefaultSharedPreferences(application) }
+    val pref = PreferenceManager.getDefaultSharedPreferences(application)
     private val vibro: Boolean
-    get() = pref.getBoolean("vibration_buttons", false)
-    private fun vibrate(){
-        if (vibro){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                v.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
-            } else {
-                v.vibrate(50);
-            }
-        }
-    }
-    //PUBLIC
+        get() = pref.getBoolean("vibration_buttons", false)
     val keyboard: Boolean
-    get() = pref.getBoolean("extended_keyboard", false)
+        get() = pref.getBoolean("extended_keyboard", false)
     val darkTheme: Boolean
-    get() = pref.getBoolean("dark_theme", false)
+        get() = pref.getBoolean("dark_theme", false)
     val bufferDisplay:  LiveData<String> = Transformations.map(c.buffer){
         it?.toString() ?: "0"
     }
@@ -90,5 +80,14 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     }
     fun clearHistory() {
         dao.deleteAll()
+    }
+    private fun vibrate(){
+        if (vibro){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                v.vibrate(50);
+            }
+        }
     }
 }
