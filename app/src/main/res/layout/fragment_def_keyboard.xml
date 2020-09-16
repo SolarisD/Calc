@@ -28,26 +28,28 @@
                 <Button
                     android:id="@+id/btn_m_clear"
                     style="@style/MemoryButton"
-                    android:text="MC"
-                    android:onClick="@{() -> vm.buttonPressed(Buttons.M_CLEAR)}"/>
+                    android:onClick="@{() -> vm.buttonPressed(Buttons.M_CLEAR)}"
+                    android:text="MC" />
 
                 <Button
                     android:id="@+id/btn_m_plus"
                     style="@style/MemoryButton"
-                    android:text="M+"
-                    android:onClick="@{() -> vm.buttonPressed(Buttons.M_PLUS)}"/>
+                    android:onClick="@{() -> vm.buttonPressed(Buttons.M_PLUS)}"
+                    android:text="M+" />
 
                 <Button
                     android:id="@+id/btn_m_minus"
                     style="@style/MemoryButton"
-                    android:text="M-"
-                    android:onClick="@{() -> vm.buttonPressed(Buttons.M_MINUS)}"/>
+                    android:onClick="@{() -> vm.buttonPressed(Buttons.M_MINUS)}"
+                    android:text="M-" />
 
                 <Button
                     android:id="@+id/btn_m_restore"
                     style="@style/MemoryButton"
-                    android:text="MR"
-                    android:onClick="@{() -> vm.buttonPressed(Buttons.M_RESTORE)}"/>
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:onClick="@{() -> vm.buttonPressed(Buttons.M_RESTORE)}"
+                    android:text="MR" />
 
             </LinearLayout>
 
@@ -59,26 +61,26 @@
 
                 <Button
                     android:id="@+id/btn_history_clear"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="C"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.CLEAR)}"/>
 
                 <Button
                     android:id="@+id/btn_percent"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="%"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.PERCENT)}"/>
 
 
                 <Button
                     android:id="@+id/btn_negative"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="±"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.NEGATIVE)}"/>
 
                 <Button
                     android:id="@+id/btn_divide"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="÷"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.DIVIDE)}"/>
 
@@ -92,25 +94,25 @@
 
                 <Button
                     android:id="@+id/btn_7"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="7"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.SEVEN)}"/>
 
                 <Button
                     android:id="@+id/btn_8"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="8"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.EIGHT)}"/>
 
                 <Button
                     android:id="@+id/btn_9"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="9"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.NINE)}"/>
 
                 <Button
                     android:id="@+id/btn_multiply"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="×"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.MULTIPLY)}"/>
             </LinearLayout>
@@ -123,25 +125,25 @@
 
                 <Button
                     android:id="@+id/btn_4"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="4"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.FOUR)}"/>
 
                 <Button
                     android:id="@+id/btn_5"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="5"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.FIVE)}"/>
 
                 <Button
                     android:id="@+id/btn_6"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="6"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.SIX)}"/>
 
                 <Button
                     android:id="@+id/btn_minus"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="-"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.MINUS)}"/>
 
@@ -155,25 +157,25 @@
 
                 <Button
                     android:id="@+id/btn_1"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="1"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.ONE)}"/>
 
                 <Button
                     android:id="@+id/btn_2"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="2"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.TWO)}"/>
 
                 <Button
                     android:id="@+id/btn_3"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="3"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.THREE)}"/>
 
                 <Button
                     android:id="@+id/btn_plus"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="+"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.PLUS)}"/>
 
@@ -187,26 +189,26 @@
 
                 <Button
                     android:id="@+id/btn_0"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="0"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.ZERO)}"/>
 
                 <Button
                     android:id="@+id/btn_dot"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="."
                     android:onClick="@{() -> vm.buttonPressed(Buttons.DOT)}"/>
 
 
                 <Button
                     android:id="@+id/btn_backspace"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="⇐"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.BACKSPACE)}"/>
 
                 <Button
                     android:id="@+id/btn_result"
-                    style="@style/Button"
+                    style="@style/ButtonText"
                     android:text="="
                     android:onClick="@{() -> vm.buttonPressed(Buttons.RESULT)}"/>
             </LinearLayout>

@@ -1,33 +1,45 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppThemeLight" parent="Theme.Design.Light">
+    <style name="AppThemeLight" parent="Theme.MaterialComponents.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppThemeDark" parent="Theme.Design">
+    <style name="AppThemeDark" parent="Theme.MaterialComponents">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Button" parent="Widget.AppCompat.Button">
-        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    <style name="ButtonText" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginEnd">4dp</item>
         <item name="fontFamily">sans-serif-light</item>
         <item name="android:textSize">@dimen/button_text_size</item>
     </style>
 
-    <style name="MemoryButton" parent="Widget.AppCompat.Button">
-        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+   <!-- <style name="ButtonIcon" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginEnd">4dp</item>
+        <item name="fontFamily">sans-serif-light</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+    </style>-->
+
+    <style name="MemoryButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginEnd">4dp</item>
         <item name="fontFamily">sans-serif-light</item>
         <item name="android:textSize">@dimen/memory_button_text_size</item>
     </style>
@@ -35,3 +47,4 @@
 </resources>
 <!--
 <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>-->
+    <!--<item name="android:background">?attr/selectableItemBackgroundBorderless</item>-->
