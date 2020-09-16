@@ -3,29 +3,29 @@ package com.solarisd.calc.viewmodel
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
+import com.solarisd.calc.R
 import com.solarisd.calc.core.*
 import com.solarisd.calc.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application): AndroidViewModel(application){
-    //PRIVATE
-    private val c = Core()
-    private val v = application.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    private val dao: Dao = DB.getInstance(application).dao()
-    val pref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
-    private val vibro: Boolean
-        get() = pref.getBoolean("vibration_buttons", false)
+    val app = application
+    private val v = app.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    private var mp: MediaPlayer? = null
+    private val dao: Dao = DB.getInstance(app).dao()
+    val pref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(app)
     val keyboard: Boolean
         get() = pref.getBoolean("extended_keyboard", false)
     val darkTheme: Boolean
         get() = pref.getBoolean("dark_theme", false)
+    private val c = Core()
     val bufferDisplay:  LiveData<String> = Transformations.map(c.buffer){
         it?.toString() ?: "0"
     }
@@ -48,6 +48,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     val historyRecords: LiveData<List<Record>> = dao.getLiveRecords()
     fun buttonPressed(button: Buttons){
         vibrate()
+        sound()
         when(button) {
             Buttons.ZERO-> c.symbol('0')
             Buttons.ONE-> c.symbol('1')
@@ -83,8 +84,22 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     fun clearHistory() {
         dao.deleteAll()
     }
+    private fun sound(){
+        if (pref.getBoolean("sound_buttons", false)){
+            if (mp != null){
+                if(mp!!.isPlaying) {
+                    mp!!.stop()
+                    mp!!.reset()
+                    mp!!.release()
+                    mp = null
+                }
+            }
+            mp = MediaPlayer.create(app, R.raw.button_click_sfx)
+            mp?.start()
+        }
+    }
     private fun vibrate(){
-        if (vibro){
+        if (pref.getBoolean("vibration_buttons", false)){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 v.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
             } else {
@@ -92,5 +107,4 @@ class MainViewModel(application: Application): AndroidViewModel(application){
             }
         }
     }
-
 }
