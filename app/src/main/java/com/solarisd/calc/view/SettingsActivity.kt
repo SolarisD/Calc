@@ -3,12 +3,7 @@ package com.solarisd.calc.view
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import androidx.preference.CheckBoxPreference
-import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.solarisd.calc.R
 import com.solarisd.calc.viewmodel.MainViewModel
@@ -24,8 +19,7 @@ class SettingsActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.settings_layout, SettingsFragment())
             .commit()
-        vm.pref.registerOnSharedPreferenceChangeListener(::listener)
-
+        vm.pref.registerOnSharedPreferenceChangeListener(::prefChangeListener)
     }
 
     class SettingsFragment: PreferenceFragmentCompat(){
@@ -35,12 +29,11 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        vm.pref.unregisterOnSharedPreferenceChangeListener(::listener)
+        vm.pref.unregisterOnSharedPreferenceChangeListener(::prefChangeListener)
         super.onDestroy()
     }
 
-    fun listener(sharedPreferences: SharedPreferences, s: String){
-        Log.d("PREF CHANGE", s)
+    private fun prefChangeListener(sharedPreferences: SharedPreferences, s: String){
         if (s == "dark_theme") recreate()
     }
 }

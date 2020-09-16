@@ -19,16 +19,20 @@
         <activity
             android:name=".view.AboutActivity"
             android:label="About"
-            android:parentActivityName=".view.MainActivity">
+            android:parentActivityName=".view.MainActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".view.SettingsActivity"
             android:label="Settings"
-            android:parentActivityName=".view.MainActivity">
+            android:parentActivityName=".view.MainActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".view.MainActivity"
-            android:label="Calculator">
+            android:label="Calculator"
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

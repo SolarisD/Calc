@@ -2,8 +2,10 @@ package com.solarisd.calc.view
 
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -13,16 +15,20 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private val vm: MainViewModel by viewModels()
+    private var recreateCall = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if(vm.darkTheme) setTheme(R.style.AppThemeDark)
         setContentView(R.layout.activity_main)
-        registerDisplays()
+        registerListeners()
         loadKeyboard()
     }
     override fun onResume() {
         super.onResume()
-        loadKeyboard()
+        if(recreateCall){
+            recreateCall = false
+            recreate()
+        }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
@@ -31,12 +37,13 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.settings_menu_item-> showSettingsActivity()
+            R.id.settings_menu_item-> {showSettingsActivity(); recreateCall = true}
             R.id.about_menu_item-> showAboutActivity()
         }
         return true
     }
-    private fun registerDisplays(){
+
+    private fun registerListeners(){
         vm.bufferDisplay.observe(this, { tv_main.text = it})
         vm.memoryDisplay.observe(this, { tv_memory.text = it})
         vm.historyDisplay.observe(this, { tv_history.text = it})

@@ -2,9 +2,11 @@ package com.solarisd.calc.viewmodel
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
 import com.solarisd.calc.core.*
@@ -17,7 +19,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     private val c = Core()
     private val v = application.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     private val dao: Dao = DB.getInstance(application).dao()
-    val pref = PreferenceManager.getDefaultSharedPreferences(application)
+    val pref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
     private val vibro: Boolean
         get() = pref.getBoolean("vibration_buttons", false)
     val keyboard: Boolean
@@ -90,4 +92,5 @@ class MainViewModel(application: Application): AndroidViewModel(application){
             }
         }
     }
+
 }
