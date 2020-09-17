@@ -7,7 +7,7 @@
     tools:context=".view.MainActivity"
     tools:ignore="HardcodedText">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_memory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,7 +17,7 @@
         android:paddingRight="@dimen/activity_margin"
         android:textSize="@dimen/expression_text_size" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,7 +30,7 @@
         android:text="0"
         android:textSize="@dimen/result_text_size" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

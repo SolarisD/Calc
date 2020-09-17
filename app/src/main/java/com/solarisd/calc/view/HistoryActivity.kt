@@ -17,7 +17,6 @@ class HistoryActivity : AppCompatActivity() {
     private val vm: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(vm.darkTheme) setTheme(R.style.AppThemeDark)
         setContentView(R.layout.activity_history)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         btn_history_close.setOnClickListener {

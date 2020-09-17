@@ -15,20 +15,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private val vm: MainViewModel by viewModels()
-    private var recreateCall = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(vm.darkTheme) setTheme(R.style.AppThemeDark)
         setContentView(R.layout.activity_main)
         registerListeners()
         loadKeyboard()
-    }
-    override fun onResume() {
-        super.onResume()
-        if(recreateCall){
-            recreateCall = false
-            recreate()
-        }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
@@ -37,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.settings_menu_item-> {showSettingsActivity(); recreateCall = true}
+            R.id.settings_menu_item-> showSettingsActivity()
             R.id.about_menu_item-> showAboutActivity()
         }
         return true

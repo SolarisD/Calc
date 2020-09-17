@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceFragmentCompat
 import com.solarisd.calc.R
 import com.solarisd.calc.viewmodel.MainViewModel
@@ -12,7 +13,6 @@ class SettingsActivity : AppCompatActivity() {
     private val vm: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(vm.darkTheme) setTheme(R.style.AppThemeDark)
         setContentView(R.layout.activity_settings)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportFragmentManager
@@ -32,8 +32,10 @@ class SettingsActivity : AppCompatActivity() {
         vm.pref.unregisterOnSharedPreferenceChangeListener(::prefChangeListener)
         super.onDestroy()
     }
-
     private fun prefChangeListener(sharedPreferences: SharedPreferences, s: String){
-        if (s == "dark_theme") recreate()
+        if (s == "dark_theme"){
+            if (vm.darkTheme) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
     }
 }

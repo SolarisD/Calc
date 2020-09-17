@@ -9,6 +9,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
+import com.solarisd.calc.App
 import com.solarisd.calc.R
 import com.solarisd.calc.core.*
 import com.solarisd.calc.model.*
@@ -17,10 +18,10 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application): AndroidViewModel(application){
     val app = application
+    val pref = PreferenceManager.getDefaultSharedPreferences(app)
     private val v = app.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     private var mp: MediaPlayer? = null
     private val dao: Dao = DB.getInstance(app).dao()
-    val pref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(app)
     val keyboard: Boolean
         get() = pref.getBoolean("extended_keyboard", false)
     val darkTheme: Boolean
