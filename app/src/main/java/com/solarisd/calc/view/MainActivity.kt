@@ -2,14 +2,13 @@ package com.solarisd.calc.view
 
 
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import com.solarisd.calc.R
+import com.solarisd.calc.core.PrefManager
 import com.solarisd.calc.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -20,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         registerListeners()
         loadKeyboard()
+        getString(R.string.night_theme_key)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
@@ -34,6 +34,10 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadKeyboard()
+    }
     private fun registerListeners(){
         vm.bufferDisplay.observe(this, { tv_main.text = it})
         vm.memoryDisplay.observe(this, { tv_memory.text = it})
@@ -41,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         tv_history.setOnClickListener { showHistoryActivity() }
     }
     private fun loadKeyboard() {
-        if(vm.keyboard){
+        if(PrefManager.keyboard){
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.keyboard_layout, ExtKeyboardFragment())

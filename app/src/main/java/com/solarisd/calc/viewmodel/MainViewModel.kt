@@ -2,14 +2,11 @@ package com.solarisd.calc.viewmodel
 
 import android.app.Application
 import android.content.Context
-import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.lifecycle.*
-import androidx.preference.PreferenceManager
-import com.solarisd.calc.App
 import com.solarisd.calc.R
 import com.solarisd.calc.core.*
 import com.solarisd.calc.model.*
@@ -18,14 +15,9 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application): AndroidViewModel(application){
     val app = application
-    val pref = PreferenceManager.getDefaultSharedPreferences(app)
     private val v = app.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     private var mp: MediaPlayer? = null
     private val dao: Dao = DB.getInstance(app).dao()
-    val keyboard: Boolean
-        get() = pref.getBoolean("extended_keyboard", false)
-    val darkTheme: Boolean
-        get() = pref.getBoolean("dark_theme", false)
     private val c = Core()
     val bufferDisplay:  LiveData<String> = Transformations.map(c.buffer){
         it?.toString() ?: "0"
@@ -86,7 +78,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         dao.deleteAll()
     }
     private fun sound(){
-        if (pref.getBoolean("sound_buttons", false)){
+        if (PrefManager.sound){
             if (mp != null){
                 if(mp!!.isPlaying) {
                     mp!!.stop()
@@ -100,7 +92,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         }
     }
     private fun vibrate(){
-        if (pref.getBoolean("vibration_buttons", false)){
+        if (PrefManager.vibro){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 v.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
             } else {

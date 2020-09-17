@@ -19,23 +19,11 @@ class SettingsActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.settings_layout, SettingsFragment())
             .commit()
-        vm.pref.registerOnSharedPreferenceChangeListener(::prefChangeListener)
     }
 
     class SettingsFragment: PreferenceFragmentCompat(){
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.calc_settings, rootKey)
-        }
-    }
-
-    override fun onDestroy() {
-        vm.pref.unregisterOnSharedPreferenceChangeListener(::prefChangeListener)
-        super.onDestroy()
-    }
-    private fun prefChangeListener(sharedPreferences: SharedPreferences, s: String){
-        if (s == "dark_theme"){
-            if (vm.darkTheme) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
 }
