@@ -11,13 +11,6 @@
         <item name="colorOnSecondary">#000000</item>
     </style>
 
-
-    <style name="AppThemeLight" parent="Theme.MaterialComponents.Light">
-
-    </style>
-
-
-
     <style name="ButtonText" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>

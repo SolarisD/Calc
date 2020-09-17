@@ -14,10 +14,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application): AndroidViewModel(application){
-    val app = application
-    private val v = app.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    private val app = application
+    private val v = application.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     private var mp: MediaPlayer? = null
-    private val dao: Dao = DB.getInstance(app).dao()
+    private val dao: Dao = DB.getInstance(application).dao()
     private val c = Core()
     val bufferDisplay:  LiveData<String> = Transformations.map(c.buffer){
         it?.toString() ?: "0"
