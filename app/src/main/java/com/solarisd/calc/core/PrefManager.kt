@@ -9,8 +9,8 @@ import com.solarisd.calc.R
 object PrefManager: SharedPreferences.OnSharedPreferenceChangeListener {
     private lateinit var app: Application
     private lateinit var pref: SharedPreferences
-    var nightTheme: Boolean = false
-        private set
+
+    private var nightTheme: Boolean = false
     var vibro: Boolean = false
         private set
     var sound: Boolean = false
@@ -49,5 +49,13 @@ object PrefManager: SharedPreferences.OnSharedPreferenceChangeListener {
                 else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
+    }
+    fun setString(key: String, value: String?){
+        pref.edit()
+            .putString(key, value)
+            .apply()
+    }
+    fun getString(key: String): String?{
+        return  pref.getString(key, null)
     }
 }

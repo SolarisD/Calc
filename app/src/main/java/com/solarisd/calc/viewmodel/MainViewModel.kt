@@ -13,20 +13,27 @@ import com.solarisd.calc.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel(application: Application): AndroidViewModel(application){
-    private val app = application
-    private val v = application.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+class MainViewModel(private val app: Application): AndroidViewModel(app){
+    companion object{
+        private const val BUFFER_STATE_KEY = "buffer_state"
+        private const val MEMORY_STATE_KEY = "memory_state"
+    }
+    private val v = app.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     private var mp: MediaPlayer? = null
-    private val dao: Dao = DB.getInstance(application).dao()
-    private val c = Core()
+    private val dao: Dao = DB.getInstance(app).dao()
+    val bfr = PrefManager.getString(BUFFER_STATE_KEY)
+    val mem = PrefManager.getString(MEMORY_STATE_KEY)
+    private val c = Core(State(bfr, mem))
     val bufferDisplay:  LiveData<String> = Transformations.map(c.buffer){
+        PrefManager.setString(BUFFER_STATE_KEY, it)
         it?.toString() ?: "0"
     }
     val memoryDisplay:  LiveData<String> = Transformations.map(c.memory){
+        PrefManager.setString(MEMORY_STATE_KEY, it)
         if (it.isNullOrEmpty()) ""
         else "M: $it"
     }
-    val historyDisplay:  LiveData<String> = Transformations.map(c.history){
+    val operationDisplay:  LiveData<String> = Transformations.map(c.operation){
         //SAVE DATA TO DB
         it?.let {
             if (it.isComplete){
@@ -99,5 +106,14 @@ class MainViewModel(application: Application): AndroidViewModel(application){
                 v.vibrate(50);
             }
         }
+    }
+    fun saveState(state: State){
+        /*PrefManager.pref.edit()
+            .putString(BUFFER_STATE_KEY, state.buffer)
+            .putString(MEMORY_STATE_KEY, state.memory)
+            .commit()*/
+    }
+    fun restoreState(): State{
+        return State(/*PrefManager.pref.getString(BUFFER_STATE_KEY, null), PrefManager.pref.getString(MEMORY_STATE_KEY, null)*/)
     }
 }

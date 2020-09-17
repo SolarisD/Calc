@@ -10,7 +10,6 @@ import com.solarisd.calc.R
 import com.solarisd.calc.viewmodel.MainViewModel
 
 class SettingsActivity : AppCompatActivity() {
-    private val vm: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)

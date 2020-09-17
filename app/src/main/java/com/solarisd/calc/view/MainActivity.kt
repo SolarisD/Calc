@@ -7,19 +7,19 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.lifecycle.SavedStateViewModelFactory
 import com.solarisd.calc.R
 import com.solarisd.calc.core.PrefManager
 import com.solarisd.calc.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private val vm: MainViewModel by viewModels()
+    private val vm: MainViewModel by viewModels{SavedStateViewModelFactory(application, this)}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         registerListeners()
         loadKeyboard()
-        getString(R.string.night_theme_key)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
@@ -41,8 +41,8 @@ class MainActivity : AppCompatActivity() {
     private fun registerListeners(){
         vm.bufferDisplay.observe(this, { tv_main.text = it})
         vm.memoryDisplay.observe(this, { tv_memory.text = it})
-        vm.historyDisplay.observe(this, { tv_history.text = it})
-        tv_history.setOnClickListener { showHistoryActivity() }
+        vm.operationDisplay.observe(this, { tv_operation.text = it})
+        tv_operation.setOnClickListener { showHistoryActivity() }
     }
     private fun loadKeyboard() {
         if(PrefManager.keyboard){
