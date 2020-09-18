@@ -9,7 +9,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
 import com.solarisd.calc.R
-import com.solarisd.calc.core.PrefManager
+import com.solarisd.calc.core.AppManager
 import com.solarisd.calc.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         tv_operation.setOnClickListener { showHistoryActivity() }
     }
     private fun loadKeyboard() {
-        if(PrefManager.keyboard){
+        if(AppManager.keyboard){
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.keyboard_layout, ExtKeyboardFragment())

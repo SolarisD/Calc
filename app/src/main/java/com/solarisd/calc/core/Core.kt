@@ -2,148 +2,127 @@ package com.solarisd.calc.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.solarisd.calc.model.Dao
 import com.solarisd.calc.model.Record
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class Core(private val dao: Dao) {
-    private val state: State = State()
-    private val b = Buffer()
-    val buffer: LiveData<String> = b.out
-    private var m = Memory()
-    val memory: MutableLiveData<String> = m.out
-    val operation: MutableLiveData<Operation> = MutableLiveData()
+    private val buffer = Buffer()
+    val bufferOut: LiveData<String> = buffer.out
+    private var memory = Memory()
+    val memoryOut: MutableLiveData<String> = memory.out
     private var binary: BinaryOperation? = null
     private var last: Operation? = null
+    val operationOut: MutableLiveData<Operation> = MutableLiveData()
     private var bufferClearRequest = false
     init {
-        state.buffer?.let {
-            b.setDouble(it.toDoubleFromDisplay())
+        val storedBinry = AppManager.restoreBinary()
+        val storedLast = AppManager.restoreLast()
+        if (storedBinry is BinaryOperation){
+            binary = storedBinry
         }
-        state.memory?.let {
-            m.clear()
-            m.pls(it.toDoubleFromDisplay())
+        storedLast?.let {
+            last = it
         }
-        state.binaryOperation?.let {
-            binary = state.binaryOperation
-        }
-        state.lastOperation?.let {
-            last = state.lastOperation
-        }
-        if (binary != null) operation.postValue(binary)
-        else operation.postValue(last)
+        if (binary != null) operationOut.postValue(binary)
+        else operationOut.postValue(last)
     }
     //region WORK WITH BUFFER
     fun symbol(sym: Char) {
         if (bufferClearRequest) {
-            b.clear()
+            buffer.clear()
             bufferClearRequest = false
         }
-        b.symbol(sym)
+        buffer.symbol(sym)
     }
-    fun negative() = b.negative()
-    fun backspace() = b.backspace()
+    fun negative() {buffer.negative()}
+    fun backspace() {buffer.backspace()}
     //endregion
     //region WORK WITH MEMORY<--->BUFFER
-    fun memoryClear() = m.clear()
-    fun memoryPlus() = m.pls(b.getDouble())
-    fun memoryMinus() = m.mns(b.getDouble())
-    fun memoryRestore() = m.data?.let {
-        b.setDouble(it)
+    fun memoryClear() = memory.clear()
+    fun memoryPlus() = memory.pls(buffer.getDouble())
+    fun memoryMinus() = memory.mns(buffer.getDouble())
+    fun memoryRestore() = memory.data?.let {
+        buffer.setDouble(it)
     }
     //endregion
     //region WORK WITH OPERATIONS<--->BUFFER
     fun clear() {
+        buffer.clear()
         binary = null
         last = null
-        operation.postValue(null)
-        b.clear()
+        operationOut.postValue(null)
+        AppManager.saveBinary(null)
+        AppManager.saveLast(null)
     }
     fun result() {
         if (binary != null) {
-            binary!!.b = b.getDouble()
-            b.setDouble(binary!!.result!!)
+            binary!!.b = buffer.getDouble()
+            buffer.setDouble(binary!!.result!!)
             last = binary
             binary = null
-            operation.postValue(last)
+            operationOut.postValue(last)
+            saveToHistory(last)
         } else {
             if (last != null) {
                 last!!.a = last!!.result!!
-                b.setDouble(last!!.result!!)
-                operation.postValue(last)
+                buffer.setDouble(last!!.result!!)
+                operationOut.postValue(last)
+                saveToHistory(last)
             }
         }
         bufferClearRequest = true
+        AppManager.saveBinary(binary)
+        AppManager.saveLast(last)
     }
     fun operation(op: Operation) {
         if (binary == null) {
             newOperation(op)
         } else {
-            binary!!.b = b.getDouble()
-            b.setDouble(binary!!.result!!)
+            binary!!.b = buffer.getDouble()
+            buffer.setDouble(binary!!.result!!)
             last = binary
             binary = null
-            operation.postValue(last)
+            operationOut.postValue(last)
+            saveToHistory(last)
             newOperation(op)
         }
         bufferClearRequest = true
+        AppManager.saveBinary(binary)
+        AppManager.saveLast(last)
     }
     private fun newOperation(op: Operation) {
-        op.a = b.getDouble()
+        op.a = buffer.getDouble()
         when (op) {
             is UnaryOperation -> {
-                b.setDouble(op.result!!)
+                buffer.setDouble(op.result!!)
                 last = op
-                operation.postValue(last)
+                operationOut.postValue(last)
             }
             is BinaryOperation -> {
                 binary = op
-                operation.postValue(binary)
+                operationOut.postValue(binary)
             }
         }
     }
     fun percent() {
         if (binary != null) {
-            val prc = b.getDouble()
+            val prc = buffer.getDouble()
             binary!!.b = binary!!.a!! * prc * 0.01
-            b.setDouble(binary!!.result!!)
+            buffer.setDouble(binary!!.result!!)
             last = binary
             binary = null
-            operation.postValue(last)
+            operationOut.postValue(last)
+            saveToHistory(last)
+            AppManager.saveBinary(binary)
+            AppManager.saveLast(last)
+        }
+    }
+    private fun saveToHistory(op: Operation?){
+        op?.let {
+            GlobalScope.launch { dao.insertHistoryRecord(Record(expression = it.toString())) }
         }
     }
     //endregion
 }
-
-
-/*//SAVE DATA TO DB
-it?.let {
-    if (it.isComplete){
-        viewModelScope.launch(Dispatchers.IO) {
-            dao.insert(Record(expression = it.toString()))
-        }
-    }
-}*/
-
-//get() = State(b.getDouble().toDisplayString(), m.data.toDisplayString(), binary, last)
-
-/*companion object{
-    private const val BUFFER_STATE_KEY = "buffer_state"
-    private const val MEMORY_STATE_KEY = "memory_state"
-}*/
-
-/*val bfr = PrefManager.getString(BUFFER_STATE_KEY)
-val mem = PrefManager.getString(MEMORY_STATE_KEY)
-PrefManager.setString(BUFFER_STATE_KEY, it)
-PrefManager.setString(MEMORY_STATE_KEY, it)
-    fun saveState(state: State){
-    /*PrefManager.pref.edit()
-        .putString(BUFFER_STATE_KEY, state.buffer)
-        .putString(MEMORY_STATE_KEY, state.memory)
-        .commit()*/
-}
-fun restoreState(): State{
-    return State(/*PrefManager.pref.getString(BUFFER_STATE_KEY, null), PrefManager.pref.getString(MEMORY_STATE_KEY, null)*/)
-}*/

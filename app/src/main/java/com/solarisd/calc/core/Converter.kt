@@ -14,5 +14,7 @@ object Converter {
         f.isGroupingUsed = true
     }
 }
-fun Double?.toDisplayString(): String = Converter.f.format(this)
+fun Double?.toDisplayString(): String?  = Converter.f.format(this)
+fun Double.toDisplayString(): String = Converter.f.format(this)
+fun String?.toDoubleFromDisplay(): Double? = this?.replace(" ", "")?.toDouble()
 fun String.toDoubleFromDisplay(): Double = this.replace(" ", "").toDouble()

@@ -9,8 +9,12 @@ class Memory {
             field = value
             out.postValue(value?.toDisplayString())
         }
+    init {
+        data = AppManager.restoreMemory()
+    }
     fun clear(){
         data = null
+        AppManager.saveMemory(null)
     }
     fun pls(value: Double){
         data = if(data == null){
@@ -18,6 +22,7 @@ class Memory {
         } else{
             data!! + value
         }
+        AppManager.saveMemory(data)
     }
     fun mns(value: Double){
         data = if(data == null){
@@ -25,5 +30,6 @@ class Memory {
         } else{
             data!! - value
         }
+        AppManager.saveMemory(data)
     }
 }

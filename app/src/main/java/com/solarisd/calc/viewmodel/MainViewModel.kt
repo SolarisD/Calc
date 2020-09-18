@@ -10,21 +10,19 @@ import androidx.lifecycle.*
 import com.solarisd.calc.R
 import com.solarisd.calc.core.*
 import com.solarisd.calc.model.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainViewModel(private val app: Application): AndroidViewModel(app){
     private val v = app.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     private var mp: MediaPlayer? = null
     private val c = Core(DB.getInstance(app).dao())
-    val bufferDisplay:  LiveData<String> = Transformations.map(c.buffer){
+    val bufferDisplay:  LiveData<String> = Transformations.map(c.bufferOut){
         it?.toString() ?: "0"
     }
-    val memoryDisplay:  LiveData<String> = Transformations.map(c.memory){
+    val memoryDisplay:  LiveData<String> = Transformations.map(c.memoryOut){
         if (it.isNullOrEmpty()) ""
         else "M: $it"
     }
-    val operationDisplay:  LiveData<String> = Transformations.map(c.operation){
+    val operationDisplay:  LiveData<String> = Transformations.map(c.operationOut){
         it?.toString() ?: ""
     }
     fun buttonPressed(button: Buttons){
@@ -63,7 +61,7 @@ class MainViewModel(private val app: Application): AndroidViewModel(app){
         }
     }
     private fun sound(){
-        if (PrefManager.sound){
+        if (AppManager.sound){
             if (mp != null){
                 if(mp!!.isPlaying) {
                     mp!!.stop()
@@ -77,7 +75,7 @@ class MainViewModel(private val app: Application): AndroidViewModel(app){
         }
     }
     private fun vibrate(){
-        if (PrefManager.vibro){
+        if (AppManager.vibro){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 v.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
             } else {

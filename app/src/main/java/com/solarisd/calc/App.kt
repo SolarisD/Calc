@@ -1,16 +1,16 @@
 package com.solarisd.calc
 
 import android.app.Application
-import com.solarisd.calc.core.PrefManager
+import com.solarisd.calc.core.AppManager
 
 class App: Application() {
     override fun onCreate() {
         super.onCreate()
-        PrefManager.register(this)
+        AppManager.register(this)
     }
 
     override fun onTerminate() {
-        PrefManager.unregister()
+        AppManager.unregister()
         super.onTerminate()
     }
 }

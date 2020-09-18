@@ -1,9 +1,6 @@
 package com.solarisd.calc.core
 
 import androidx.lifecycle.MutableLiveData
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import java.util.*
 
 class Buffer() {
     val out: MutableLiveData<String> = MutableLiveData()
@@ -22,10 +19,16 @@ class Buffer() {
             field = value
             out.postValue(getString())
         }
+    init {
+        AppManager.restoreBuffer()?.let {
+            setDouble(it)
+        }
+    }
     fun clear() {
         integerPart = null
         delimiter = null
         fractionalPart = null
+        AppManager.saveBuffer(null)
     }
     private fun getString(): String{
         var ret = "0"
@@ -53,6 +56,7 @@ class Buffer() {
             clear()
             out.postValue(value.toDisplayString())
         }
+        AppManager.saveBuffer(getDouble())
     }
     fun symbol(symbol: Char){
         if (getString().length >= 10) return
@@ -70,6 +74,7 @@ class Buffer() {
             '.' -> addDot()
             'π' -> setPi()
         }
+        AppManager.saveBuffer(getDouble())
     }
     private fun addDot(){
         if (integerPart == null) integerPart = "0"
@@ -99,6 +104,7 @@ class Buffer() {
             } else {
                 integerPart = integerPart!!.drop(1)
             }
+            AppManager.saveBuffer(getDouble())
         }
     }
     fun backspace(){
@@ -106,11 +112,13 @@ class Buffer() {
             if(fractionalPart != null){
                 if (fractionalPart!!.length == 1) {fractionalPart = null; delimiter = null}
                 else fractionalPart = fractionalPart!!.dropLast(1)
+                AppManager.saveBuffer(getDouble())
             }
         }else {
             if (integerPart != null){
                 if (integerPart!!.length == 1) {integerPart = null}
                 else integerPart = integerPart!!.dropLast(1)
+                AppManager.saveBuffer(getDouble())
             }
         }
     }

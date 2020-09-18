@@ -9,11 +9,21 @@ import androidx.room.Query
 @Dao
 interface Dao {
     @Query("SELECT * FROM history_records ORDER BY ID DESC")
-    fun getLiveRecords(): LiveData<List<Record>>
+    fun getHistoryRecords(): LiveData<List<Record>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(history: Record)
+    fun insertHistoryRecord(history: Record)
 
     @Query("DELETE FROM history_records")
-    fun deleteAll()
+    fun clearHistoryRecords()
+
+    @Query("SELECT * FROM states")
+    fun getStates(): List<State>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertState(state: State)
+
+    @Query("DELETE FROM states")
+    fun clearStates()
+
 }
