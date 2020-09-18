@@ -14,38 +14,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val app: Application): AndroidViewModel(app){
-    companion object{
-        private const val BUFFER_STATE_KEY = "buffer_state"
-        private const val MEMORY_STATE_KEY = "memory_state"
-    }
     private val v = app.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     private var mp: MediaPlayer? = null
-    private val dao: Dao = DB.getInstance(app).dao()
-    val bfr = PrefManager.getString(BUFFER_STATE_KEY)
-    val mem = PrefManager.getString(MEMORY_STATE_KEY)
-    private val c = Core(State(bfr, mem))
+    private val c = Core(DB.getInstance(app).dao())
     val bufferDisplay:  LiveData<String> = Transformations.map(c.buffer){
-        PrefManager.setString(BUFFER_STATE_KEY, it)
         it?.toString() ?: "0"
     }
     val memoryDisplay:  LiveData<String> = Transformations.map(c.memory){
-        PrefManager.setString(MEMORY_STATE_KEY, it)
         if (it.isNullOrEmpty()) ""
         else "M: $it"
     }
     val operationDisplay:  LiveData<String> = Transformations.map(c.operation){
-        //SAVE DATA TO DB
-        it?.let {
-            if (it.isComplete){
-                viewModelScope.launch(Dispatchers.IO) {
-                    dao.insert(Record(expression = it.toString()))
-                }
-            }
-        }
-        //POST TO DISPLAY
         it?.toString() ?: ""
     }
-    val historyRecords: LiveData<List<Record>> = dao.getLiveRecords()
     fun buttonPressed(button: Buttons){
         vibrate()
         sound()
@@ -81,9 +62,6 @@ class MainViewModel(private val app: Application): AndroidViewModel(app){
             Buttons.M_RESTORE-> c.memoryRestore()
         }
     }
-    fun clearHistory() {
-        dao.deleteAll()
-    }
     private fun sound(){
         if (PrefManager.sound){
             if (mp != null){
@@ -106,14 +84,5 @@ class MainViewModel(private val app: Application): AndroidViewModel(app){
                 v.vibrate(50);
             }
         }
-    }
-    fun saveState(state: State){
-        /*PrefManager.pref.edit()
-            .putString(BUFFER_STATE_KEY, state.buffer)
-            .putString(MEMORY_STATE_KEY, state.memory)
-            .commit()*/
-    }
-    fun restoreState(): State{
-        return State(/*PrefManager.pref.getString(BUFFER_STATE_KEY, null), PrefManager.pref.getString(MEMORY_STATE_KEY, null)*/)
     }
 }

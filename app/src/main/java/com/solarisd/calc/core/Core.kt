@@ -2,8 +2,14 @@ package com.solarisd.calc.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.solarisd.calc.model.Dao
+import com.solarisd.calc.model.Record
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class Core(state: State = State()) {
+class Core(private val dao: Dao) {
+    private val state: State = State()
     private val b = Buffer()
     val buffer: LiveData<String> = b.out
     private var m = Memory()
@@ -12,9 +18,6 @@ class Core(state: State = State()) {
     private var binary: BinaryOperation? = null
     private var last: Operation? = null
     private var bufferClearRequest = false
-    val state: State
-        get() = State(b.getDouble().toDisplayString(), m.data.toDisplayString(), binary, last)
-
     init {
         state.buffer?.let {
             b.setDouble(it.toDoubleFromDisplay())
@@ -40,10 +43,8 @@ class Core(state: State = State()) {
         }
         b.symbol(sym)
     }
-
     fun negative() = b.negative()
     fun backspace() = b.backspace()
-
     //endregion
     //region WORK WITH MEMORY<--->BUFFER
     fun memoryClear() = m.clear()
@@ -52,7 +53,6 @@ class Core(state: State = State()) {
     fun memoryRestore() = m.data?.let {
         b.setDouble(it)
     }
-
     //endregion
     //region WORK WITH OPERATIONS<--->BUFFER
     fun clear() {
@@ -61,7 +61,6 @@ class Core(state: State = State()) {
         operation.postValue(null)
         b.clear()
     }
-
     fun result() {
         if (binary != null) {
             binary!!.b = b.getDouble()
@@ -78,7 +77,6 @@ class Core(state: State = State()) {
         }
         bufferClearRequest = true
     }
-
     fun operation(op: Operation) {
         if (binary == null) {
             newOperation(op)
@@ -92,7 +90,6 @@ class Core(state: State = State()) {
         }
         bufferClearRequest = true
     }
-
     private fun newOperation(op: Operation) {
         op.a = b.getDouble()
         when (op) {
@@ -107,7 +104,6 @@ class Core(state: State = State()) {
             }
         }
     }
-
     fun percent() {
         if (binary != null) {
             val prc = b.getDouble()
@@ -120,3 +116,34 @@ class Core(state: State = State()) {
     }
     //endregion
 }
+
+
+/*//SAVE DATA TO DB
+it?.let {
+    if (it.isComplete){
+        viewModelScope.launch(Dispatchers.IO) {
+            dao.insert(Record(expression = it.toString()))
+        }
+    }
+}*/
+
+//get() = State(b.getDouble().toDisplayString(), m.data.toDisplayString(), binary, last)
+
+/*companion object{
+    private const val BUFFER_STATE_KEY = "buffer_state"
+    private const val MEMORY_STATE_KEY = "memory_state"
+}*/
+
+/*val bfr = PrefManager.getString(BUFFER_STATE_KEY)
+val mem = PrefManager.getString(MEMORY_STATE_KEY)
+PrefManager.setString(BUFFER_STATE_KEY, it)
+PrefManager.setString(MEMORY_STATE_KEY, it)
+    fun saveState(state: State){
+    /*PrefManager.pref.edit()
+        .putString(BUFFER_STATE_KEY, state.buffer)
+        .putString(MEMORY_STATE_KEY, state.memory)
+        .commit()*/
+}
+fun restoreState(): State{
+    return State(/*PrefManager.pref.getString(BUFFER_STATE_KEY, null), PrefManager.pref.getString(MEMORY_STATE_KEY, null)*/)
+}*/
