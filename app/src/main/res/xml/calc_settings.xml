@@ -4,8 +4,8 @@
     <PreferenceCategory android:title="Common settings">
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="extended_keyboard"
-            android:title="@string/extended_keyboard_key" />
+            android:title="Extended keyboard"
+            android:key="@string/extended_keyboard_key"/>
         <CheckBoxPreference
             android:defaultValue="false"
             android:title="Vibration buttons"
@@ -19,5 +19,4 @@
             android:title="Night theme"
             android:key="@string/night_theme_key" />
     </PreferenceCategory>
-
 </PreferenceScreen>

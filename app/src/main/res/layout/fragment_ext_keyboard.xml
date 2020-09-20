@@ -7,6 +7,9 @@
         <variable
             name="vm"
             type="com.solarisd.calc.viewmodel.MainViewModel" />
+        <variable
+            name="appManager"
+            type="com.solarisd.calc.core.AppManager" />
     </data>
 
     <FrameLayout
@@ -30,24 +33,28 @@
                     android:id="@+id/btn_m_clear"
                     style="@style/MemoryButton"
                     android:text="MC"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.M_CLEAR)}"/>
 
                 <Button
                     android:id="@+id/btn_m_plus"
                     style="@style/MemoryButton"
                     android:text="M+"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.M_PLUS)}"/>
 
                 <Button
                     android:id="@+id/btn_m_minus"
                     style="@style/MemoryButton"
                     android:text="M-"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.M_MINUS)}"/>
 
                 <Button
                     android:id="@+id/btn_m_restore"
                     style="@style/MemoryButton"
                     android:text="MR"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.M_RESTORE)}"/>
 
             </LinearLayout>
@@ -60,20 +67,23 @@
 
                 <Button
                     android:id="@+id/btn_sqr"
-                    style="@style/MemoryButton"
+                    style="@style/ButtonText"
                     android:text="X^2"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.SQR)}"/>
 
                 <Button
                     android:id="@+id/btn_clear"
                     style="@style/ButtonText"
                     android:text="C"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.CLEAR)}"/>
 
                 <Button
                     android:id="@+id/btn_percent"
                     style="@style/ButtonText"
                     android:text="%"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.PERCENT)}"/>
 
 
@@ -81,12 +91,14 @@
                     android:id="@+id/btn_negative"
                     style="@style/ButtonText"
                     android:text="±"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.NEGATIVE)}"/>
 
                 <Button
                     android:id="@+id/btn_divide"
                     style="@style/ButtonText"
                     android:text="÷"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.DIVIDE)}"/>
 
             </LinearLayout>
@@ -99,32 +111,37 @@
 
                 <Button
                     android:id="@+id/btn_sqrt"
-                    style="@style/MemoryButton"
+                    style="@style/ButtonText"
                     android:text="√"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.SQRT)}"/>
 
                 <Button
                     android:id="@+id/btn_7"
                     style="@style/ButtonText"
                     android:text="7"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.SEVEN)}"/>
 
                 <Button
                     android:id="@+id/btn_8"
                     style="@style/ButtonText"
                     android:text="8"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.EIGHT)}"/>
 
                 <Button
                     android:id="@+id/btn_9"
                     style="@style/ButtonText"
                     android:text="9"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.NINE)}"/>
 
                 <Button
                     android:id="@+id/btn_multiply"
                     style="@style/ButtonText"
                     android:text="×"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.MULTIPLY)}"/>
             </LinearLayout>
 
@@ -136,32 +153,37 @@
 
                 <Button
                     android:id="@+id/btn_sin"
-                    style="@style/MemoryButton"
+                    style="@style/ButtonText"
                     android:text="sin"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.SIN)}"/>
 
                 <Button
                     android:id="@+id/btn_4"
                     style="@style/ButtonText"
                     android:text="4"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.FOUR)}"/>
 
                 <Button
                     android:id="@+id/btn_5"
                     style="@style/ButtonText"
                     android:text="5"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.FIVE)}"/>
 
                 <Button
                     android:id="@+id/btn_6"
                     style="@style/ButtonText"
                     android:text="6"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.SIX)}"/>
 
                 <Button
                     android:id="@+id/btn_minus"
                     style="@style/ButtonText"
                     android:text="-"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.MINUS)}"/>
 
             </LinearLayout>
@@ -174,32 +196,37 @@
 
                 <Button
                     android:id="@+id/btn_cos"
-                    style="@style/MemoryButton"
+                    style="@style/ButtonText"
                     android:text="cos"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.COS)}"/>
 
                 <Button
                     android:id="@+id/btn_1"
                     style="@style/ButtonText"
                     android:text="1"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.ONE)}"/>
 
                 <Button
                     android:id="@+id/btn_2"
                     style="@style/ButtonText"
                     android:text="2"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.TWO)}"/>
 
                 <Button
                     android:id="@+id/btn_3"
                     style="@style/ButtonText"
                     android:text="3"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.THREE)}"/>
 
                 <Button
                     android:id="@+id/btn_plus"
                     style="@style/ButtonText"
                     android:text="+"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.PLUS)}"/>
 
             </LinearLayout>
@@ -212,33 +239,37 @@
 
                 <Button
                     android:id="@+id/btn_tan"
-                    style="@style/MemoryButton"
+                    style="@style/ButtonText"
                     android:text="tan"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.TAN)}"/>
 
                 <Button
                     android:id="@+id/btn_0"
                     style="@style/ButtonText"
                     android:text="0"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.ZERO)}"/>
 
                 <Button
                     android:id="@+id/btn_dot"
                     style="@style/ButtonText"
                     android:text="."
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.DOT)}"/>
-
 
                 <Button
                     android:id="@+id/btn_backspace"
                     style="@style/ButtonText"
                     android:text="⇐"
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.BACKSPACE)}"/>
 
                 <Button
                     android:id="@+id/btn_result"
                     style="@style/ButtonText"
                     android:text="="
+                    android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.RESULT)}"/>
             </LinearLayout>
         </LinearLayout>

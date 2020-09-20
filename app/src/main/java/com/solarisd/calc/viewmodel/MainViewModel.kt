@@ -26,7 +26,7 @@ class MainViewModel(private val app: Application): AndroidViewModel(app){
         it?.toString() ?: ""
     }
     fun buttonPressed(button: Buttons){
-        vibrate()
+        //vibrate()
         sound()
         when(button) {
             Buttons.ZERO-> c.symbol('0')
