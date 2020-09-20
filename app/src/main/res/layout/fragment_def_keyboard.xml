@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -28,28 +29,28 @@
                 android:layout_weight="1.05"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_m_clear"
                     style="@style/MemoryButton"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.M_CLEAR)}"
                     android:text="MC" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_m_plus"
                     style="@style/MemoryButton"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.M_PLUS)}"
                     android:text="M+" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_m_minus"
                     style="@style/MemoryButton"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.M_MINUS)}"
                     android:text="M-" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_m_restore"
                     style="@style/MemoryButton"
                     android:layout_marginStart="4dp"
@@ -66,31 +67,31 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_history_clear"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.CLEAR)}"
                     android:text="C"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_percent"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.PERCENT)}"
                     android:text="%"/>
 
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_negative"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="±"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.NEGATIVE)}"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_divide"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="÷"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.DIVIDE)}"/>
@@ -103,30 +104,30 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_7"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="7"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.SEVEN)}"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_8"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="8"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.EIGHT)}"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_9"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="9"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.NINE)}"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_multiply"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="×"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.MULTIPLY)}"/>
@@ -138,30 +139,30 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_4"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="4"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.FOUR)}"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_5"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="5"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.FIVE)}"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_6"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="6"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.SIX)}"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_minus"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="-"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.MINUS)}"/>
@@ -174,30 +175,30 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_1"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="1"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.ONE)}"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_2"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="2"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.TWO)}"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_3"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="3"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.THREE)}"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_plus"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="+"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.PLUS)}"/>
@@ -210,31 +211,35 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_0"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="0"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.ZERO)}"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_dot"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="."
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.DOT)}"/>
 
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_backspace"
-                    style="@style/ButtonText"
-                    android:text="⇐"
+                    style="@style/SymbolButton"
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
-                    android:onClick="@{() -> vm.buttonPressed(Buttons.BACKSPACE)}"/>
+                    android:onClick="@{() -> vm.buttonPressed(Buttons.BACKSPACE)}"
+                    android:padding="0dp"
+                    app:icon="@android:drawable/ic_input_delete"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="32dp" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_result"
-                    style="@style/ButtonText"
+                    style="@style/SymbolButton"
                     android:text="="
                     android:hapticFeedbackEnabled="@{appManager.vibro}"
                     android:onClick="@{() -> vm.buttonPressed(Buttons.RESULT)}"/>
