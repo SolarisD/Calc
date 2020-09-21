@@ -3,6 +3,7 @@
     <style name="AppThemeMain" parent="Theme.MaterialComponents.DayNight">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryVariant">@color/color_primary_variant</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorOnPrimary">@color/color_on_primary</item>
         <item name="colorSecondary">@color/color_secondary</item>
         <item name="colorSecondaryVariant">@color/color_secondary_variant</item>
@@ -15,34 +16,49 @@
         <item name="colorOnBackground">@color/color_on_background</item>
     </style>
 
-    <style name="SymbolButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="BaseButton" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_marginStart">4dp</item>
         <item name="android:layout_marginEnd">4dp</item>
         <item name="fontFamily">sans-serif-light</item>
-        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:textSize">@dimen/operation_button_text_size</item>
     </style>
 
-    <style name="OperationButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="BaseToSymbolButton" parent="">
+        <item name="colorPrimary">@color/symbol_button_color_primary</item>
+        <item name="colorOnPrimary">@color/symbol_button_color_on_primary</item>
+    </style>
+
+    <style name="BaseToOperationButton" parent="">
+        <item name="colorPrimary">@color/operation_button_color_primary</item>
+        <item name="colorOnPrimary">@color/operation_button_color_on_primary</item>
+    </style>
+
+    <style name="BaseToClearButton" parent="">
+        <item name="colorPrimary">@color/operation_clear_color_primary</item>
+        <item name="colorOnPrimary">@color/operation_clear_color_on_primary</item>
+    </style>
+
+    <style name="SymbolButton" parent="BaseButton">
+        <!--<item name="android:theme">@style/BaseToSymbolButton</item>-->
+    </style>
+
+    <style name="OperationButton" parent="BaseButton">
+        <!--<item name="android:theme">@style/BaseToOperationButton</item>-->
+    </style>
+
+    <style name="ClearButton" parent="BaseButton">
+        <!--<item name="android:theme">@style/BaseToClearButton</item>-->
+    </style>
+
+
+    <style name="BaseTextView" parent="Widget.MaterialComponents.TextView">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_marginStart">4dp</item>
-        <item name="android:layout_marginEnd">4dp</item>
-        <item name="fontFamily">sans-serif-light</item>
-        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/activity_margin</item>
+        <item name="android:paddingRight">@dimen/activity_margin</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
-
-    <style name="MemoryButton" parent="Widget.MaterialComponents.Button">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_marginStart">4dp</item>
-        <item name="android:layout_marginEnd">4dp</item>
-        <item name="fontFamily">sans-serif-light</item>
-        <item name="android:textSize">@dimen/memory_button_text_size</item>
-    </style>
-
 </resources>

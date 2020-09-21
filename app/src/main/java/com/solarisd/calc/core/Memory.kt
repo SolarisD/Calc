@@ -1,6 +1,7 @@
 package com.solarisd.calc.core
 
 import androidx.lifecycle.MutableLiveData
+import com.solarisd.calc.app.AppManager
 
 class Memory {
     val out: MutableLiveData<String> = MutableLiveData()

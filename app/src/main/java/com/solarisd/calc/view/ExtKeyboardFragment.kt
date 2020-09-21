@@ -7,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import com.solarisd.calc.R
-import com.solarisd.calc.core.AppManager
+import com.solarisd.calc.app.AppManager
 import com.solarisd.calc.databinding.FragmentExtKeyboardBinding
 import com.solarisd.calc.viewmodel.MainViewModel
 

@@ -8,6 +8,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.lifecycle.*
 import com.solarisd.calc.R
+import com.solarisd.calc.app.AppManager
 import com.solarisd.calc.core.*
 import com.solarisd.calc.model.*
 

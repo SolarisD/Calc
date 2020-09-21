@@ -9,7 +9,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
 import com.solarisd.calc.R
-import com.solarisd.calc.core.AppManager
+import com.solarisd.calc.app.AppManager
 import com.solarisd.calc.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         loadKeyboard()
     }
     private fun registerListeners(){
-        vm.bufferDisplay.observe(this, { tv_main.text = it})
+        vm.bufferDisplay.observe(this, { tv_buffer.text = it})
         vm.memoryDisplay.observe(this, { tv_memory.text = it})
         vm.operationDisplay.observe(this, { tv_operation.text = it})
         tv_operation.setOnClickListener { showHistoryActivity() }

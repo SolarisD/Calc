@@ -9,35 +9,22 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_memory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/editbox_background"
-        android:textSize="@dimen/expression_text_size"
-        android:paddingLeft="@dimen/activity_margin"
-        android:paddingRight="@dimen/activity_margin"
-        android:gravity="center|start"/>
+        style="@style/BaseTextView"
+        android:gravity="start|center_vertical"
+        android:textSize="20sp" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/editbox_background"
+        android:id="@+id/tv_buffer"
+        style="@style/BaseTextView"
         android:text="0"
-        android:textSize="@dimen/result_text_size"
-        android:paddingLeft="@dimen/activity_margin"
-        android:paddingRight="@dimen/activity_margin"
-        android:fontFamily="sans-serif"
+        android:textSize="60sp"
         android:gravity="center_vertical|end"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_operation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/editbox_background"
-        android:textSize="@dimen/expression_text_size"
-        android:paddingLeft="@dimen/activity_margin"
-        android:paddingRight="@dimen/activity_margin"
-        android:gravity="end|bottom"/>
+        style="@style/BaseTextView"
+        android:gravity="center_vertical|end"
+        android:textSize="16sp" />
 
     <FrameLayout
         android:id="@+id/keyboard_layout"

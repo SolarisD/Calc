@@ -2,6 +2,7 @@ package com.solarisd.calc.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.solarisd.calc.app.AppManager
 import com.solarisd.calc.model.Dao
 import com.solarisd.calc.model.Record
 import kotlinx.coroutines.GlobalScope
