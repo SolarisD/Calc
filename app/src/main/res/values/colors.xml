@@ -2,10 +2,15 @@
 <resources>
     <color name="ic_launcher_background">#E1E1E4</color>
 
+    <!--BACK COLORS-->
     <color name="color_a">#FFFFFF</color>
-    <color name="color_a_dark">#E4E6E9</color>
-    <color name="color_on_a">#6C788A</color>
-    <color name="color_b">#EE2829</color>
-    <color name="color_on_b">#36393C</color>
+    <color name="color_b">#F0F2F4</color>
+    <color name="color_c">#ACADAF</color>
+
+    <!--FORE COLORS-->
+    <color name="color_fore_a">#6C788A</color>
+    <color name="color_fore_b">#36393C</color>
+    <color name="color_fore_c">#EE2829</color>
+    <color name="color_fore_d">#4A6997</color>
 
 </resources>

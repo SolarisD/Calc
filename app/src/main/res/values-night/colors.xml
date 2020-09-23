@@ -2,9 +2,9 @@
 <resources>
 
     <color name="color_a">@color/design_dark_default_color_primary</color>
-    <color name="color_a_dark">@color/design_dark_default_color_primary_variant</color>
-    <color name="color_on_a">@color/design_dark_default_color_on_primary</color>
-    <color name="color_b">@color/design_dark_default_color_secondary</color>
-    <color name="color_on_b">@color/design_dark_default_color_on_secondary</color>
+    <color name="color_c">@color/design_dark_default_color_primary_variant</color>
+    <color name="color_fore_a">@color/design_dark_default_color_on_primary</color>
+    <color name="color_fore_c">@color/design_dark_default_color_secondary</color>
+    <color name="color_fore_b">@color/design_dark_default_color_on_secondary</color>
 
 </resources>

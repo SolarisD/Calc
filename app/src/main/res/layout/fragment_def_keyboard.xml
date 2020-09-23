@@ -21,33 +21,33 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.05"
+            android:layout_weight="1.07"
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_m_clear"
-                style="@style/BaseButton"
+                style="@style/MemoryButton"
                 android:hapticFeedbackEnabled="@{appManager.vibro}"
                 android:onClick="@{() -> vm.buttonPressed(Buttons.M_CLEAR)}"
                 android:text="MC" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_m_plus"
-                style="@style/BaseButton"
+                style="@style/MemoryButton"
                 android:hapticFeedbackEnabled="@{appManager.vibro}"
                 android:onClick="@{() -> vm.buttonPressed(Buttons.M_PLUS)}"
                 android:text="M+" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_m_minus"
-                style="@style/BaseButton"
+                style="@style/MemoryButton"
                 android:hapticFeedbackEnabled="@{appManager.vibro}"
                 android:onClick="@{() -> vm.buttonPressed(Buttons.M_MINUS)}"
                 android:text="M-" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_m_restore"
-                style="@style/BaseButton"
+                style="@style/MemoryButton"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 android:hapticFeedbackEnabled="@{appManager.vibro}"
@@ -75,7 +75,7 @@
                 android:hapticFeedbackEnabled="@{appManager.vibro}"
                 android:onClick="@{() -> vm.buttonPressed(Buttons.BACKSPACE)}"
                 app:icon="@drawable/ic_baseline_backspace_24"
-                app:iconTint="@color/color_on_b"
+                app:iconTint="@color/color_fore_b"
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"
                 app:iconSize="24dp" />
