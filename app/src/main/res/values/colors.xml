@@ -2,27 +2,10 @@
 <resources>
     <color name="ic_launcher_background">#E1E1E4</color>
 
-    <color name="color_primary">#555555</color>
-    <color name="color_primary_variant">@color/design_default_color_primary_variant</color>
-    <color name="color_primary_dark">#444444</color>
-    <color name="color_on_primary">@color/design_default_color_on_primary</color>
-    <color name="color_secondary">@color/design_default_color_secondary</color>
-    <color name="color_secondary_variant">@color/design_default_color_secondary_variant</color>
-    <color name="color_on_secondary">@color/design_default_color_on_secondary</color>
-    <color name="color_error">@color/design_default_color_error</color>
-    <color name="color_on_error">@color/design_default_color_on_error</color>
-    <color name="color_surface">@color/design_default_color_surface</color>
-    <color name="color_on_surface">@color/design_default_color_on_surface</color>
-    <color name="color_background">#f7f7f7</color>
-    <color name="color_on_background">@color/design_default_color_on_background</color>
-
-    <color name="symbol_button_color_primary">#cccccc</color>
-    <color name="symbol_button_color_on_primary">#000000</color>
-
-    <color name="operation_button_color_primary">#666666</color>
-    <color name="operation_button_color_on_primary">#FFFFFF</color>
-
-    <color name="operation_clear_color_primary">#ff8000</color>
-    <color name="operation_clear_color_on_primary">#000000</color>
+    <color name="color_a">#FFFFFF</color>
+    <color name="color_a_dark">#E4E6E9</color>
+    <color name="color_on_a">#6C788A</color>
+    <color name="color_b">#EE2829</color>
+    <color name="color_on_b">#36393C</color>
 
 </resources>

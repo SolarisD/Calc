@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.settings_menu_item-> showSettingsActivity()
-            R.id.about_menu_item-> showAboutActivity()
+            /*R.id.about_menu_item-> showAboutActivity()*/
         }
         return true
     }
