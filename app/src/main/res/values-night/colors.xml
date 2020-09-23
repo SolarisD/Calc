@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--BACK COLORS-->
+    <color name="color_a">#000000</color>
+    <color name="color_b">#2d2a2a</color>
+    <color name="color_c">#2d2a2a</color>
+<!--0f0d0b-->
+    <!--FORE COLORS-->
+    <color name="color_fore_a">#c9c6c3</color>
+    <color name="color_fore_b">#535250</color>
+    <color name="color_fore_c">#EE2829</color>
+    <color name="color_fore_d">#4A6997</color>
 
-    <color name="color_a">@color/design_dark_default_color_primary</color>
-    <color name="color_c">@color/design_dark_default_color_primary_variant</color>
-    <color name="color_fore_a">@color/design_dark_default_color_on_primary</color>
-    <color name="color_fore_c">@color/design_dark_default_color_secondary</color>
-    <color name="color_fore_b">@color/design_dark_default_color_on_secondary</color>
-
+    <bool name="window_light_status_bar">false</bool>
 </resources>

@@ -9,20 +9,20 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_memory"
-        style="@style/BaseTextView"
+        style="@style/MemoryTextView"
         android:gravity="start|center_vertical"
         android:textSize="20sp" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_buffer"
         style="@style/BaseTextView"
+        android:gravity="center_vertical|end"
         android:text="0"
-        android:textSize="60sp"
-        android:gravity="center_vertical|end"/>
+        android:textSize="60sp" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_operation"
-        style="@style/BaseTextView"
+        style="@style/OperationTextView"
         android:gravity="center_vertical|end"
         android:textSize="16sp" />
 

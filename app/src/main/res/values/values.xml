@@ -3,4 +3,5 @@
     <dimen name="activity_margin">16dp</dimen>
     <dimen name="operation_button_text_size">30sp</dimen>
     <dimen name="symbol_button_text_size">30sp</dimen>
+    <!--<bool name="window_light_status_bar">true</bool>-->
 </resources>

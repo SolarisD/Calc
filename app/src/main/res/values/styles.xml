@@ -8,15 +8,15 @@
         <item name="colorOnSecondary">@color/color_fore_b</item>
         <item name="toolbarStyle">@style/MyToolbarStyle</item>
         <item name="android:colorBackground">@color/color_b</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">@bool/window_light_status_bar</item>
     </style>
 
     <!--Toolbar customization-->
     <style name="MyToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
-        <item name="titleTextColor">?attr/colorOnPrimary</item>
+        <item name="titleTextColor">@color/color_fore_a</item>
+        <item name="android:background">@color/color_b</item>
         <item name="elevation">0dp</item>
     </style>
-
 
     <!--Buttons customization-->
     <style name="BaseButton" parent="Widget.MaterialComponents.Button">
@@ -53,5 +53,16 @@
         <item name="android:paddingRight">@dimen/activity_margin</item>
         <item name="elevation">0dp</item>
         <item name="background">@color/color_b</item>
+        <item name="android:textColor">@color/color_fore_a</item>
+        <item name="font"></item>
+    </style>
+
+
+    <style name="MemoryTextView" parent="BaseTextView">
+        <item name="android:textColor">@color/color_fore_d</item>
+    </style>
+
+    <style name="OperationTextView" parent="BaseTextView">
+        <item name="android:textColor">@color/color_fore_b</item>
     </style>
 </resources>

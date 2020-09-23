@@ -9,7 +9,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_memory"
-        style="@style/BaseTextView"
+        style="@style/MemoryTextView"
         android:gravity="start|center_vertical"
         android:textSize="20sp" />
 
@@ -22,9 +22,10 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_operation"
-        style="@style/BaseTextView"
+        style="@style/OperationTextView"
         android:gravity="center_vertical|end"
         android:textSize="16sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
