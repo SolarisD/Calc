@@ -44,25 +44,4 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-
-    <!--Display customization-->
-    <style name="BaseTextView" parent="Widget.MaterialComponents.TextView">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingLeft">@dimen/activity_margin</item>
-        <item name="android:paddingRight">@dimen/activity_margin</item>
-        <item name="elevation">0dp</item>
-        <item name="background">@color/color_b</item>
-        <item name="android:textColor">@color/color_fore_a</item>
-        <item name="android:fontFamily">@font/lcd_font_family</item>
-    </style>
-
-
-    <style name="MemoryTextView" parent="BaseTextView">
-        <item name="android:textColor">@color/color_fore_d</item>
-    </style>
-
-    <style name="OperationTextView" parent="BaseTextView">
-        <item name="android:textColor">@color/color_fore_b</item>
-    </style>
 </resources>

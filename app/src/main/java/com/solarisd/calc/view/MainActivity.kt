@@ -12,6 +12,7 @@ import com.solarisd.calc.R
 import com.solarisd.calc.app.AppManager
 import com.solarisd.calc.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.display.view.*
 
 class MainActivity : AppCompatActivity() {
     private val vm: MainViewModel by viewModels{SavedStateViewModelFactory(application, this)}
@@ -39,10 +40,10 @@ class MainActivity : AppCompatActivity() {
         loadKeyboard()
     }
     private fun registerListeners(){
-        vm.bufferDisplay.observe(this, { tv_buffer.text = it})
-        vm.memoryDisplay.observe(this, { tv_memory.text = it})
-        vm.operationDisplay.observe(this, { tv_operation.text = it})
-        tv_operation.setOnClickListener { showHistoryActivity() }
+        vm.bufferDisplay.observe(this, { display_include.tv_buffer.text = it})
+        vm.memoryDisplay.observe(this, { display_include.tv_memory.text = it})
+        vm.operationDisplay.observe(this, { display_include.tv_operation.text = it})
+        display_include.setOnClickListener { showHistoryActivity() }
     }
     private fun loadKeyboard() {
         if(AppManager.keyboard){

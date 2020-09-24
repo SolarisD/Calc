@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/display_border"
+    android:elevation="4dp"
+    android:padding="4dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_memory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lcd_font_family"
+        android:textColor="@color/color_fore_d"
+        android:gravity="start|center_vertical"
+        android:textSize="20sp" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_buffer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lcd_font_family"
+        android:textColor="@color/color_fore_a"
+        android:gravity="center_vertical|end"
+        android:text="0"
+        android:textSize="60sp"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_operation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lcd_font_family"
+        android:textColor="@color/color_fore_b"
+        android:gravity="center_vertical|end"
+        android:textSize="16sp" />
+</LinearLayout>
