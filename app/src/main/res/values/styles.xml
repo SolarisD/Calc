@@ -54,7 +54,7 @@
         <item name="elevation">0dp</item>
         <item name="background">@color/color_b</item>
         <item name="android:textColor">@color/color_fore_a</item>
-        <item name="font"></item>
+        <item name="android:fontFamily">@font/lcd_font_family</item>
     </style>
 
 
