@@ -14,7 +14,8 @@
         android:theme="@style/AppThemeMain">
         <activity android:name=".view.HistoryActivity"
             android:label="History"
-            android:parentActivityName=".view.MainActivity">
+            android:parentActivityName=".view.MainActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".view.AboutActivity"

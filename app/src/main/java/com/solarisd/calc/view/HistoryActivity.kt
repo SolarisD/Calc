@@ -2,6 +2,8 @@ package com.solarisd.calc.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,23 +19,33 @@ import kotlinx.coroutines.launch
 
 class HistoryActivity : AppCompatActivity() {
     private val vm: HistoryViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        btn_history_close.setOnClickListener {
-            finish()
-        }
-        btn_history_clear.setOnClickListener {
-            GlobalScope.launch(Dispatchers.IO){
-                vm.clearHistory()
-            }
-        }
+
         rcv_history.layoutManager = LinearLayoutManager(this)
         vm.historyRecords.observe(this){
-                it?.let {
+            it?.let {
                 rcv_history.adapter = HistoryViewAdapter(it)
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.history_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.history_delete_item-> {
+                GlobalScope.launch(Dispatchers.IO){
+                    vm.clearHistory()
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
