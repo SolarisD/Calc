@@ -1,37 +1,47 @@
-<resources>
-
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="AppThemeMain" parent="Theme.MaterialComponents.DayNight">
-        <!--Base colors-->
-        <item name="colorPrimary">#6200EE</item>
-        <item name="colorPrimaryVariant">#3700B3</item>
-        <item name="colorOnPrimary">#FFFFFF</item>
-
-        <item name="colorSecondary">#03DAC6</item>
-        <item name="colorSecondaryVariant">#018786</item>
-        <item name="colorOnSecondary">#000000</item>
+        <item name="colorPrimary">@color/color_b</item>
+        <item name="colorPrimaryDark">@color/color_c</item>
+        <item name="colorPrimaryVariant">@color/color_c</item>
+        <item name="colorOnPrimary">@color/color_fore_a</item>
+        <item name="colorSecondary">@color/color_fore_c</item>
+        <item name="colorOnSecondary">@color/color_fore_b</item>
+        <item name="toolbarStyle">@style/MyToolbarStyle</item>
+        <item name="android:colorBackground">@color/color_b</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">@bool/window_light_status_bar</item>
     </style>
 
-    <style name="ButtonText" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <!--Toolbar customization-->
+    <style name="MyToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
+        <item name="titleTextColor">@color/color_fore_a</item>
+        <item name="android:background">@color/color_b</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <!--Buttons customization-->
+    <style name="BaseButton" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_marginStart">4dp</item>
         <item name="android:layout_marginEnd">4dp</item>
-        <item name="fontFamily">sans-serif-light</item>
-        <item name="android:textSize">@dimen/button_text_size</item>
     </style>
 
-    <style name="MemoryButton" parent="Widget.MaterialComponents.Button">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_marginStart">4dp</item>
-        <item name="android:layout_marginEnd">4dp</item>
-        <item name="fontFamily">sans-serif-light</item>
-        <item name="android:textSize">@dimen/memory_button_text_size</item>
+    <style name="SymbolButton" parent="BaseButton">
+        <item name="android:textColor">@color/color_fore_a</item>
+        <item name="android:textSize">30sp</item>
     </style>
-
+    <style name="ClearButton" parent="BaseButton">
+        <item name="android:textColor">@color/color_fore_c</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+    <style name="OperationButton" parent="BaseButton">
+        <item name="android:textColor">@color/color_fore_b</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+    <style name="MemoryButton" parent="BaseButton">
+        <item name="android:textColor">@color/color_fore_d</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>
-<!--
-<item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>-->
-    <!--<item name="android:background">?attr/selectableItemBackgroundBorderless</item>-->

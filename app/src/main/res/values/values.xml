@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="activity_margin">16dp</dimen>
-    <dimen name="expression_text_size">20sp</dimen>
-    <dimen name="result_text_size">60sp</dimen>
-    <dimen name="button_text_size">30sp</dimen>
-    <dimen name="memory_button_text_size">22sp</dimen>
+    <dimen name="operation_button_text_size">30sp</dimen>
+    <dimen name="symbol_button_text_size">30sp</dimen>
+    <!--<bool name="window_light_status_bar">true</bool>-->
 </resources>

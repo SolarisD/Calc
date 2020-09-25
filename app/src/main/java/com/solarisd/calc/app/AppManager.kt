@@ -1,13 +1,15 @@
-package com.solarisd.calc.core
+package com.solarisd.calc.app
 
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.solarisd.calc.R
+import com.solarisd.calc.core.*
 
 object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
     private const val BUFFER_STATE_KEY = "buffer_state"
+    private const val BUFFER_CLEAR_REQUEST_KEY = "buffer_clear_request"
     private const val MEMORY_STATE_KEY = "memory_state"
     private const val BINARY_STATE_KEY = "binary_state"
     private const val LAST_STATE_KEY = "last_state"
@@ -23,7 +25,7 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
         private set
 
     fun register(app: Application){
-        this.app = app
+        AppManager.app = app
         pref = PreferenceManager.getDefaultSharedPreferences(app)
         keyboard = pref.getBoolean(AppManager.app.getString(R.string.extended_keyboard_key), false)
         vibro = pref.getBoolean(AppManager.app.getString(R.string.vibration_buttons_key), false)
@@ -39,7 +41,7 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
         when(p1){
             app.getString(R.string.extended_keyboard_key)->{
-                keyboard = pref.getBoolean(app.getString(R.string.extended_keyboard_key), false)
+                keyboard = false //pref.getBoolean(app.getString(R.string.extended_keyboard_key), false)
             }
             app.getString(R.string.vibration_buttons_key)->{
                 vibro = pref.getBoolean(app.getString(R.string.vibration_buttons_key), false)
@@ -69,6 +71,14 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
     }
     fun restoreBuffer(): Double?{
         return pref.getString(BUFFER_STATE_KEY, null)?.toDoubleFromDisplay()
+    }
+    fun saveBufferClearRequest(value: Boolean){
+        pref.edit()
+            .putBoolean(BUFFER_CLEAR_REQUEST_KEY, value)
+            .apply()
+    }
+    fun restoreBufferClearRequest(): Boolean{
+        return pref.getBoolean(BUFFER_CLEAR_REQUEST_KEY, false)
     }
     fun saveMemory(value: Double?){
         if (value != null){
@@ -114,10 +124,10 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
     //CONVERTERS
     private fun operationToStoreString(value: Operation?): String? =
         when(value){
-            is UnaryOperation-> {
+            is UnaryOperation -> {
                 "${value.id};${value.a}"
             }
-            is BinaryOperation-> {
+            is BinaryOperation -> {
                 "${value.id};${value.a};${value.b}"
             }
             else-> null
@@ -131,51 +141,51 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
             var b: Double? = null
             if (list.size > 2 && list[2] != "null") b = list[2].toDouble()
             return when(list[0]){
-                Operations.ADD_ID-> {
+                Operations.ADD_ID -> {
                     Operations.Add().apply {
                         this.a = a
                         this.b = b
                     }
                 }
-                Operations.SUBTRACT_ID-> {
+                Operations.SUBTRACT_ID -> {
                     Operations.Subtract().apply {
                         this.a = a
                         this.b = b
                     }
                 }
-                Operations.MULTIPLY_ID-> {
+                Operations.MULTIPLY_ID -> {
                     Operations.Multiply().apply {
                         this.a = a
                         this.b = b
                     }
                 }
-                Operations.DIVIDE_ID->{
+                Operations.DIVIDE_ID ->{
                     Operations.Divide().apply {
                         this.a = a
                         this.b = b
                     }
                 }
-                Operations.SQR_ID->{
+                Operations.SQR_ID ->{
                     Operations.Sqr().apply {
                         this.a = a
                     }
                 }
-                Operations.SQRT_ID->{
+                Operations.SQRT_ID ->{
                     Operations.Sqrt().apply {
                         this.a = a
                     }
                 }
-                Operations.SIN_ID->{
+                Operations.SIN_ID ->{
                     Operations.Sin().apply {
                         this.a = a
                     }
                 }
-                Operations.COS_ID->{
+                Operations.COS_ID ->{
                     Operations.Cos().apply {
                         this.a = a
                     }
                 }
-                Operations.TAN_ID->{
+                Operations.TAN_ID ->{
                     Operations.Tan().apply {
                         this.a = a
                     }

@@ -6,8 +6,11 @@
 
     <item
         android:id="@+id/settings_menu_item"
-        android:title="Settings" />
-    <item
+        android:title="Settings"
+        android:icon="@drawable/menu_icon"
+        app:showAsAction="always"/>
+    <!--<item
         android:id="@+id/about_menu_item"
-        android:title="About" />
+        android:title="About"
+        app:showAsAction="always"/>-->
 </menu>

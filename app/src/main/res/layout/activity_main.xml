@@ -4,48 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.MainActivity"
-    tools:ignore="HardcodedText">
+    tools:context=".view.MainActivity">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_memory"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1.05"
-        android:gravity="center|start"
-        android:paddingLeft="@dimen/activity_margin"
-        android:paddingRight="@dimen/activity_margin"
-        android:textSize="@dimen/expression_text_size" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_main"
+    <include
+        android:id="@+id/display_include"
+        layout="@layout/display"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.92"
-        android:fontFamily="sans-serif"
-        android:gravity="center_vertical|end"
-        android:maxLines="1"
-        android:paddingLeft="@dimen/activity_margin"
-        android:paddingRight="@dimen/activity_margin"
-        android:text="0"
-        android:textSize="@dimen/result_text_size" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_operation"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1.05"
-        android:gravity="end|bottom"
-        android:paddingLeft="@dimen/activity_margin"
-        android:paddingRight="@dimen/activity_margin"
-        android:textSize="@dimen/expression_text_size" />
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"/>
 
     <FrameLayout
         android:id="@+id/keyboard_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.3">
+        android:layout_height="match_parent">
     </FrameLayout>
-
-
 </LinearLayout>

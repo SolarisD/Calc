@@ -1,7 +1,6 @@
-package com.solarisd.calc
+package com.solarisd.calc.app
 
 import android.app.Application
-import com.solarisd.calc.core.AppManager
 
 class App: Application() {
     override fun onCreate() {
