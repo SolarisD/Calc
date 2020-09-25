@@ -19,7 +19,10 @@ class DefKeyboardFragment : Fragment() {
         val binding = DataBindingUtil.inflate<FragmentDefKeyboardBinding>(inflater, R.layout.fragment_def_keyboard, container, false)
         binding.vm = vm
         binding.appManager = AppManager
-        val viewId = binding.root.findViewById<Button>(R.id.btn_0)?.id
+        binding.root.findViewById<Button>(R.id.btn_backspace)?.setOnLongClickListener {
+            vm.clearInput()
+            return@setOnLongClickListener true
+        }
         return binding.root
     }
 }

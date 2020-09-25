@@ -9,6 +9,7 @@ import com.solarisd.calc.core.*
 
 object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
     private const val BUFFER_STATE_KEY = "buffer_state"
+    private const val BUFFER_CLEAR_REQUEST_KEY = "buffer_clear_request"
     private const val MEMORY_STATE_KEY = "memory_state"
     private const val BINARY_STATE_KEY = "binary_state"
     private const val LAST_STATE_KEY = "last_state"
@@ -70,6 +71,14 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
     }
     fun restoreBuffer(): Double?{
         return pref.getString(BUFFER_STATE_KEY, null)?.toDoubleFromDisplay()
+    }
+    fun saveBufferClearRequest(value: Boolean){
+        pref.edit()
+            .putBoolean(BUFFER_CLEAR_REQUEST_KEY, value)
+            .apply()
+    }
+    fun restoreBufferClearRequest(): Boolean{
+        return pref.getBoolean(BUFFER_CLEAR_REQUEST_KEY, false)
     }
     fun saveMemory(value: Double?){
         if (value != null){

@@ -16,7 +16,7 @@ class Core(private val dao: Dao) {
     private var binary: BinaryOperation? = null
     private var last: Operation? = null
     val operationOut: MutableLiveData<Operation> = MutableLiveData()
-    private var bufferClearRequest = false
+    private var bufferClearRequest = AppManager.restoreBufferClearRequest()
     init {
         val storedBinry = AppManager.restoreBinary()
         val storedLast = AppManager.restoreLast()
@@ -32,13 +32,22 @@ class Core(private val dao: Dao) {
     //region WORK WITH BUFFER
     fun symbol(sym: Char) {
         if (bufferClearRequest) {
-            buffer.clear()
-            bufferClearRequest = false
+            clearBuffer()
         }
         buffer.symbol(sym)
     }
     fun negative() {buffer.negative()}
     fun backspace() {buffer.backspace()}
+    fun clearBuffer(){
+        buffer.clear()
+        bufferClearRequest = false
+        AppManager.saveBufferClearRequest(bufferClearRequest)
+    }
+    fun setBufferValue(value: Double){
+        buffer.setDouble(value)
+        bufferClearRequest = false
+        AppManager.saveBufferClearRequest(bufferClearRequest)
+    }
     //endregion
     //region WORK WITH MEMORY<--->BUFFER
     fun memoryClear() = memory.clear()
@@ -76,6 +85,7 @@ class Core(private val dao: Dao) {
         bufferClearRequest = true
         AppManager.saveBinary(binary)
         AppManager.saveLast(last)
+        AppManager.saveBufferClearRequest(bufferClearRequest)
     }
     fun operation(op: Operation) {
         if (binary == null) {
@@ -92,6 +102,7 @@ class Core(private val dao: Dao) {
         bufferClearRequest = true
         AppManager.saveBinary(binary)
         AppManager.saveLast(last)
+        AppManager.saveBufferClearRequest(bufferClearRequest)
     }
     private fun newOperation(op: Operation) {
         op.a = buffer.getDouble()

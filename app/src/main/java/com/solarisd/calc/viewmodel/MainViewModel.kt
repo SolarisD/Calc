@@ -11,9 +11,9 @@ import com.solarisd.calc.R
 import com.solarisd.calc.app.AppManager
 import com.solarisd.calc.core.*
 import com.solarisd.calc.model.*
+import java.lang.Exception
 
 class MainViewModel(private val app: Application): AndroidViewModel(app){
-    private val v = app.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     private var mp: MediaPlayer? = null
     private val c = Core(DB.getInstance(app).dao())
     val bufferDisplay:  LiveData<String> = Transformations.map(c.bufferOut){
@@ -61,6 +61,18 @@ class MainViewModel(private val app: Application): AndroidViewModel(app){
             Buttons.M_RESTORE-> c.memoryRestore()
         }
     }
+    fun pasteFromClipboard(value: String): String?{
+        return try {
+            val double = value.toDoubleFromDisplay()
+            c.setBufferValue(double)
+            double.toDisplayString()
+        } catch (e: Exception){
+            null
+        }
+    }
+    fun clearInput(){
+        c.clearBuffer()
+    }
     private fun sound(){
         if (AppManager.sound){
             if (mp != null){
@@ -73,15 +85,6 @@ class MainViewModel(private val app: Application): AndroidViewModel(app){
             }
             mp = MediaPlayer.create(app, R.raw.button_click_sfx)
             mp?.start()
-        }
-    }
-    private fun vibrate(){
-        if (AppManager.vibro){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                v.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
-            } else {
-                v.vibrate(50);
-            }
         }
     }
 }
