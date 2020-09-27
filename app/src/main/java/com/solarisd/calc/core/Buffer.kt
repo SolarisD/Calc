@@ -118,6 +118,7 @@ class Buffer() {
         }else {
             if (integerPart != null){
                 if (integerPart!!.length == 1) {integerPart = null}
+                else if (integerPart!!.length == 2 && integerPart!![0] == '-') integerPart = null
                 else integerPart = integerPart!!.dropLast(1)
                 AppManager.saveBuffer(getDouble())
             }
