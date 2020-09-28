@@ -75,7 +75,7 @@
                 android:hapticFeedbackEnabled="@{appManager.vibro}"
                 android:onClick="@{() -> vm.buttonPressed(Buttons.BACKSPACE)}"
                 app:icon="@drawable/ic_baseline_backspace_24"
-                app:iconTint="@color/color_fore_b"
+                app:iconTint="@color/color_fore_c"
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"
                 app:iconSize="24dp" />

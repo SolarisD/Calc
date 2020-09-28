@@ -5,6 +5,11 @@ import com.solarisd.calc.app.AppManager
 
 class Buffer() {
     val out: MutableLiveData<String> = MutableLiveData()
+    private var sign: Char? = null
+        set(value){
+            field = value
+            out.postValue(getString())
+        }
     private var integerPart: String? = null
         set(value) {
             field = value
@@ -26,6 +31,7 @@ class Buffer() {
         }
     }
     fun clear() {
+        sign = null
         integerPart = null
         delimiter = null
         fractionalPart = null
@@ -33,7 +39,11 @@ class Buffer() {
     }
     private fun getString(): String{
         var ret = "0"
-        integerPart?.let { ret = Converter.f.format(it.toInt()) }
+        sign?.let {ret = "-"}
+        integerPart?.let {
+            if (ret == "-") ret += Converter.f.format(it.toInt())
+            else ret = Converter.f.format(it.toInt())
+        }
         delimiter?.let { ret += it }
         fractionalPart?.let { ret += it }
         return ret
@@ -44,6 +54,8 @@ class Buffer() {
     fun setDouble(value: Double){
         if (value.isFinite()){
             val str = value.toDisplayString().replace(" ", "")
+            if (str.indexOf('-') == 0) sign = '-'
+            else sign = null
             if (str.indexOf('.') == -1){
                 integerPart = str
                 delimiter = null
@@ -59,8 +71,15 @@ class Buffer() {
         }
         AppManager.saveBuffer(getDouble())
     }
+    private fun getLength(): Int{
+        var ret = 0
+        integerPart?.let {ret += it.length}
+        /*delimiter?.let { ret += 1 }*/
+        fractionalPart?.let {ret += it.length}
+        return ret
+    }
     fun symbol(symbol: Char){
-        if (getString().length >= 10) return
+        if (getLength() >= 10) return
         when(symbol){
             '0' -> addZero()
             '1' -> addNumber('1')
@@ -100,10 +119,10 @@ class Buffer() {
     }
     fun negative(){
         if(integerPart != null){
-            if (integerPart!![0] != '-'){
-                integerPart = "-${integerPart}"
+            if (sign == null){
+                sign = '-'
             } else {
-                integerPart = integerPart!!.drop(1)
+                sign = null
             }
             AppManager.saveBuffer(getDouble())
         }
@@ -117,8 +136,7 @@ class Buffer() {
             }
         }else {
             if (integerPart != null){
-                if (integerPart!!.length == 1) {integerPart = null}
-                else if (integerPart!!.length == 2 && integerPart!![0] == '-') integerPart = null
+                if (integerPart!!.length == 1) {integerPart = null; sign = null}
                 else integerPart = integerPart!!.dropLast(1)
                 AppManager.saveBuffer(getDouble())
             }
