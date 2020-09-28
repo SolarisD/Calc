@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.solarisd.calc.R
 import com.solarisd.calc.core.*
+import com.solarisd.calc.model.State
 
 object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
     private const val BUFFER_STATE_KEY = "buffer_state"
@@ -69,16 +70,10 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
                 .apply()
         }
     }
-    fun restoreBuffer(): Double?{
-        return pref.getString(BUFFER_STATE_KEY, null)?.toDoubleFromDisplay()
-    }
     fun saveBufferClearRequest(value: Boolean){
         pref.edit()
             .putBoolean(BUFFER_CLEAR_REQUEST_KEY, value)
             .apply()
-    }
-    fun restoreBufferClearRequest(): Boolean{
-        return pref.getBoolean(BUFFER_CLEAR_REQUEST_KEY, false)
     }
     fun saveMemory(value: Double?){
         if (value != null){
@@ -90,9 +85,6 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
                 .remove(MEMORY_STATE_KEY)
                 .apply()
         }
-    }
-    fun restoreMemory(): Double?{
-        return pref.getString(MEMORY_STATE_KEY, null)?.toDouble()
     }
     fun saveBinary(value: Operation?){
         val storeString = operationToStoreString(value)
@@ -106,7 +98,6 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
                 .apply()
         }
     }
-    fun restoreBinary(): Operation? = storeStringToOperation(pref.getString(BINARY_STATE_KEY, null))
     fun saveLast(value: Operation?){
         val storeString = operationToStoreString(value)
         if (storeString != null){
@@ -119,7 +110,14 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
                 .apply()
         }
     }
-    fun restoreLast(): Operation? = storeStringToOperation(pref.getString(LAST_STATE_KEY, null))
+    fun restoreState(): State{
+        val buffer = pref.getString(BUFFER_STATE_KEY, null)
+        val bufferClearRequest = pref.getBoolean(BUFFER_CLEAR_REQUEST_KEY, false)
+        val memory = pref.getString(MEMORY_STATE_KEY, null)
+        val binary = storeStringToOperation(pref.getString(BINARY_STATE_KEY, null))
+        val last = storeStringToOperation(pref.getString(LAST_STATE_KEY, null))
+        return State(0, buffer, bufferClearRequest, memory, binary, last)
+    }
 
     //CONVERTERS
     private fun operationToStoreString(value: Operation?): String? =

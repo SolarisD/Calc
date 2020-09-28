@@ -3,7 +3,7 @@ package com.solarisd.calc.core
 import androidx.lifecycle.MutableLiveData
 import com.solarisd.calc.app.AppManager
 
-class Memory {
+class Memory(value: String? = null) {
     val out: MutableLiveData<String> = MutableLiveData()
     var data: Double? = null
         private set(value) {
@@ -11,7 +11,9 @@ class Memory {
             out.postValue(value?.toDisplayString())
         }
     init {
-        data = AppManager.restoreMemory()
+        value?.let {
+            data = it.toDoubleFromDisplay()
+        }
     }
     fun clear(){
         data = null

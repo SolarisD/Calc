@@ -5,9 +5,9 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/electronica"/>
+        android:font="@font/seven_segment"/>
     <font
         android:fontStyle="italic"
         android:fontWeight="400"
-        android:font="@font/electronica" />
+        android:font="@font/seven_segment" />
 </font-family>

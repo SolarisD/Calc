@@ -7,7 +7,7 @@ import com.solarisd.calc.core.BinaryOperation
 import com.solarisd.calc.core.Operation
 import com.solarisd.calc.core.Operations
 
-@Database(entities = [Record::class, State::class], version = 2, exportSchema = false)
+@Database(entities = [Record::class, State::class], version = 3, exportSchema = false)
 @TypeConverters(DB.Converters::class)
 abstract class DB: RoomDatabase(){
     abstract fun dao(): Dao

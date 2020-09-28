@@ -3,7 +3,7 @@ package com.solarisd.calc.core
 import androidx.lifecycle.MutableLiveData
 import com.solarisd.calc.app.AppManager
 
-class Buffer() {
+class Buffer(value: String? = null) {
     val out: MutableLiveData<String> = MutableLiveData()
     private var sign: Char? = null
         set(value){
@@ -26,8 +26,8 @@ class Buffer() {
             out.postValue(getString())
         }
     init {
-        AppManager.restoreBuffer()?.let {
-            setDouble(it)
+        value?.let {
+            setDouble(it.toDoubleFromDisplay())
         }
     }
     fun clear() {
@@ -41,8 +41,8 @@ class Buffer() {
         var ret = "0"
         sign?.let {ret = "-"}
         integerPart?.let {
-            if (ret == "-") ret += Converter.f.format(it.toInt())
-            else ret = Converter.f.format(it.toInt())
+            if (ret == "-") ret += Converter.f.format(it.toLong())
+            else ret = Converter.f.format(it.toLong())
         }
         delimiter?.let { ret += it }
         fractionalPart?.let { ret += it }

@@ -9,21 +9,25 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class Core(private val dao: Dao) {
-    private val buffer = Buffer()
-    val bufferOut: LiveData<String> = buffer.out
-    private var memory = Memory()
-    val memoryOut: MutableLiveData<String> = memory.out
+    private val buffer: Buffer
+    val bufferOut: LiveData<String>
+    private val memory: Memory
+    val memoryOut: MutableLiveData<String>
     private var binary: BinaryOperation? = null
     private var last: Operation? = null
     val operationOut: MutableLiveData<Operation> = MutableLiveData()
-    private var bufferClearRequest = AppManager.restoreBufferClearRequest()
+    private var bufferClearRequest: Boolean
     init {
-        val storedBinry = AppManager.restoreBinary()
-        val storedLast = AppManager.restoreLast()
-        if (storedBinry is BinaryOperation){
-            binary = storedBinry
+        val state = AppManager.restoreState()
+        buffer = Buffer(state.buffer)
+        bufferOut = buffer.out
+        bufferClearRequest = state.bufferClearRequest
+        memory = Memory(state.memory)
+        memoryOut = memory.out
+        if (state.binary is BinaryOperation){
+            binary = state.binary
         }
-        storedLast?.let {
+        state.last?.let {
             last = it
         }
         if (binary != null) operationOut.postValue(binary)
