@@ -12,8 +12,8 @@ object Converter {
         s.groupingSeparator = ' '
         f.decimalFormatSymbols = s
         f.isGroupingUsed = true
-        f.maximumFractionDigits = 12
-        f.maximumIntegerDigits = 12
+        f.maximumFractionDigits = 50
+        f.maximumIntegerDigits = 50
     }
 }
 fun Double?.toDisplayString(): String?  = Converter.f.format(this)

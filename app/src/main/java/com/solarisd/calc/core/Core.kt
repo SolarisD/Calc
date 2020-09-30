@@ -9,7 +9,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class Core(private val dao: Dao) {
-    private val buffer: Buffer
+    private val buffer: Buffer2
     val bufferOut: LiveData<String>
     private val memory: Memory
     val memoryOut: MutableLiveData<String>
@@ -19,7 +19,7 @@ class Core(private val dao: Dao) {
     private var bufferClearRequest: Boolean
     init {
         val state = AppManager.restoreState()
-        buffer = Buffer(state.buffer)
+        buffer = Buffer2(state.buffer)
         bufferOut = buffer.out
         bufferClearRequest = state.bufferClearRequest
         memory = Memory(state.memory)
