@@ -86,7 +86,6 @@ class Buffer() {
         out.postValue(toString())
     }
 
-
     override fun toString(): String {
         exponent?.let {
             if (it == 0){
@@ -108,7 +107,14 @@ class Buffer() {
                         stb.append('0')
                     }
                 } else {
-                    if (stb.length > -it) stb.insert(stb.length + it, '.')
+                    if (stb.length > -it) {
+                        val integer = stb.substring(0, stb.length + it)
+                        val fract = stb.substring(stb.length + it, stb.length)
+                        stb.clear()
+                        stb.append(integer.toLong().toDisplayString())
+                        stb.append('.')
+                        stb.append(fract)
+                    }
                     else if (stb.length == -it) stb.insert(0, "0.")
                     else {
                         val end = -it - stb.length
@@ -169,7 +175,8 @@ class Buffer() {
             }
         }
     }
-    private fun sign(): String =
-        if(minus) "-"
+    private fun sign(): String {
+        return if (minus) "-"
         else ""
+    }
 }
