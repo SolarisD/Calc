@@ -23,5 +23,4 @@ fun StringBuilder.toDisplayString(): String {
 fun Long.toDisplayString(): String = Converter.f.format(this)
 fun Double?.toDisplayString(): String? = Converter.f.format(this)
 fun Double.toDisplayString(): String = Converter.f.format(this)
-fun String?.toDoubleFromDisplay(): Double? = this?.replace(" ", "")?.toDouble()
 fun String.toDoubleFromDisplay(): Double = this.replace(" ", "").toDouble()
