@@ -1,8 +1,6 @@
 package com.solarisd.calc.core
 
-import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.util.*
 import kotlin.math.pow
 
 data class Value(private var s: Boolean = false, private var m: String = "", private var e: Int? = null) {
@@ -27,6 +25,7 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
                     else break
                 }
                 if (tmp < m.length) m = m.substring(0 until tmp)
+                if(m.isEmpty()) return Value()
                 //exponent
                 val strExponent = scf.substringAfter('E')
                 val expSign = strExponent[0] == '-'
@@ -56,11 +55,11 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
     override fun toString(): String {
         e?.let {
             if (it == 0){
-                return sign() + addDelimiters(m, ' ') + "."
+                return sign() + addDelimiters(m, ' ') + ds
             } else if (it + m.length > maxLength || it < -maxLength){
                 return sign() + scfString()
             } else if (m.isEmpty() && it < 0){
-                val stb = StringBuilder("0.")
+                val stb = StringBuilder("0$ds")
                 val end = -it
                 for (i in 1..end){
                     stb.append('0')
@@ -79,16 +78,16 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
                         val fract = stb.substring(stb.length + it, stb.length)
                         stb.clear()
                         stb.append(addDelimiters(integer, ' '))
-                        stb.append('.')
+                        stb.append(ds)
                         stb.append(fract)
                     }
-                    else if (stb.length == -it) stb.insert(0, "0.")
+                    else if (stb.length == -it) stb.insert(0, "0$ds")
                     else {
                         val end = -it - stb.length
                         for (i in 1..end){
                             stb.insert(0,'0')
                         }
-                        stb.insert(0, "0.")
+                        stb.insert(0, "0$ds")
                     }
 
                 }
@@ -151,11 +150,11 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
             if (e != null) e = e!! - 1
         }
     }
-    private fun addDelimiters(value: String, delimiter: Char): String{
+    private fun addDelimiters(value: String, gs: Char): String{
         val stb = StringBuilder()
         for (i in value.indices){
             stb.append(value[value.length-1-i])
-            if (i != value.length-1 && (i+1) % 3 == 0) stb.append(delimiter)
+            if (i != value.length-1 && (i+1) % 3 == 0) stb.append(gs)
 
         }
         stb.reverse()
@@ -163,9 +162,9 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
     }
     private fun scfString(): String{
         val s = when(m.length){
-            0->{"0.0"}
-            1->{"$m.0"}
-            else->{StringBuilder(m).insert(1, '.').toString()}
+            0->{"0{$ds}0"}
+            1->{"$m{$ds}0"}
+            else->{StringBuilder(m).insert(1, ds).toString()}
         }
         val eAdd = m.length - 1
         val e = if (e != null) e!! + eAdd
