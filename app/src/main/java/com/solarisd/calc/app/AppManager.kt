@@ -62,7 +62,7 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
     fun saveBuffer(value: Double?){
         if (value != null){
             pref.edit()
-                .putString(BUFFER_STATE_KEY, value.toDisplayString())
+                .putString(BUFFER_STATE_KEY, value.toString())
                 .apply()
         } else {
             pref.edit()

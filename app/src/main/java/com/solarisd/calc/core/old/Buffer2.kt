@@ -1,3 +1,4 @@
+/*
 package com.solarisd.calc.core.old
 
 import androidx.lifecycle.MutableLiveData
@@ -155,4 +156,4 @@ class Buffer2(value: String? = null) {
     private fun setPi(){
         setDouble(Math.PI)
     }
-}
+}*/

@@ -8,11 +8,11 @@ class Memory(value: String? = null) {
     var data: Double? = null
         private set(value) {
             field = value
-            out.postValue(value?.toDisplayString())
+            out.postValue(value?.toString())
         }
     init {
         value?.let {
-            data = it.toDoubleFromDisplay()
+            data = it.toDouble()
         }
     }
     fun clear(){

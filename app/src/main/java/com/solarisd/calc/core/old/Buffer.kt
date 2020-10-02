@@ -1,3 +1,4 @@
+/*
 package com.solarisd.calc.core.old
 
 import androidx.lifecycle.MutableLiveData
@@ -77,7 +78,9 @@ class Buffer(value: String? = null) {
     private fun getLength(): Int{
         var ret = 0
         integerPart?.let {ret += it.length}
-        /*delimiter?.let { ret += 1 }*/
+        */
+/*delimiter?.let { ret += 1 }*//*
+
         fractionalPart?.let {ret += it.length}
         return ret
     }
@@ -149,3 +152,4 @@ class Buffer(value: String? = null) {
         setDouble(Math.PI)
     }
 }
+*/

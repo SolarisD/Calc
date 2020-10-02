@@ -1,6 +1,9 @@
 package com.solarisd.calc.core
 
 import androidx.lifecycle.MutableLiveData
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.*
 import kotlin.math.pow
 import kotlin.text.StringBuilder
 
@@ -8,6 +11,16 @@ class Buffer() {
     companion object{
         const val maxLength = 10
         const val base = 10.0
+
+        private val s = DecimalFormatSymbols(Locale.US)
+        val f = DecimalFormat()
+        init {
+            s.groupingSeparator = ' '
+            f.decimalFormatSymbols = s
+            f.isGroupingUsed = true
+            f.maximumFractionDigits = 12
+            f.maximumIntegerDigits = 12
+        }
     }
     val out: MutableLiveData<String> = MutableLiveData()
 
@@ -89,7 +102,7 @@ class Buffer() {
     override fun toString(): String {
         exponent?.let {
             if (it == 0){
-                return sign() + significant.toDisplayString() + "."
+                return sign() + addDelimiters(significant.toString()) + "."
             } else if (it + significant.length > maxLength || it < -maxLength){
                 return sign() + scfString()
             } else if (significant.isEmpty() && it < 0){
@@ -111,7 +124,7 @@ class Buffer() {
                         val integer = stb.substring(0, stb.length + it)
                         val fract = stb.substring(stb.length + it, stb.length)
                         stb.clear()
-                        stb.append(integer.toLong().toDisplayString())
+                        stb.append(addDelimiters(integer))
                         stb.append('.')
                         stb.append(fract)
                     }
@@ -128,7 +141,7 @@ class Buffer() {
                 return sign() + stb.toString()
             }
         }
-        return sign() + significant.toDisplayString()
+        return sign() + addDelimiters(significant.toString())
     }
     private fun scfString(): String{
         val s = when(significant.length){
@@ -178,5 +191,12 @@ class Buffer() {
     private fun sign(): String {
         return if (minus) "-"
         else ""
+    }
+    private fun addDelimiters(value: String): String{
+        try {
+            return f.format(value.toLong())
+        } catch (e: Exception){
+            return "0"
+        }
     }
 }

@@ -5,6 +5,7 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
 
+/*
 object Converter {
     private val s = DecimalFormatSymbols(Locale.US)
     val f = DecimalFormat()
@@ -23,4 +24,4 @@ fun StringBuilder.toDisplayString(): String {
 fun Long.toDisplayString(): String = Converter.f.format(this)
 fun Double?.toDisplayString(): String? = Converter.f.format(this)
 fun Double.toDisplayString(): String = Converter.f.format(this)
-fun String.toDoubleFromDisplay(): Double = this.replace(" ", "").toDouble()
+fun String.toDoubleFromDisplay(): Double = this.replace(" ", "").toDouble()*/
