@@ -59,7 +59,7 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
     }
 
     //region Save/Restore core state TODO: rewrite to ROOM or something else
-    fun saveBuffer(value: Double?){
+    fun saveBuffer(value: String?){
         if (value != null){
             pref.edit()
                 .putString(BUFFER_STATE_KEY, value.toString())

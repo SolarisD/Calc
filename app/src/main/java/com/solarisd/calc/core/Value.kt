@@ -7,17 +7,9 @@ import kotlin.math.pow
 
 data class Value(private var s: Boolean = false, private var m: String = "", private var e: Int? = null) {
     companion object{
-        const val maxLength = 10
-        const val base = 10.0
-        private val dsf = DecimalFormatSymbols(Locale.US)
-        val f = DecimalFormat()
-        init {
-            dsf.groupingSeparator = ' '
-            f.decimalFormatSymbols = dsf
-            f.isGroupingUsed = true
-            f.maximumFractionDigits = maxLength
-            f.maximumIntegerDigits = maxLength
-        }
+        private const val maxLength = 10
+        private const val base = 10.0
+        private val ds = DecimalFormatSymbols.getInstance().decimalSeparator
 
         fun fromDouble(value: Double): Value{
             if (value.isFinite()) {
@@ -27,7 +19,8 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
                 val s = scf[0] == '-'
                 if (s) scf = scf.drop(1)
                 //mantissa
-                var m = scf.substringBefore('E').replace(".", "")
+
+                var m = scf.substringBefore('E').replace(ds.toString(), "")
                 var tmp = m.length
                 for (i in (m.length - 1) downTo 0) {
                     if (m[i] == '0') tmp = i
@@ -50,11 +43,20 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
             }
             return Value()
         }
+        fun fromString(value: String?): Value{
+            try {
+                val dbl = value?.replace(" ", "")?.toDouble()
+                if (dbl != null) return fromDouble(dbl)
+            }catch(e: Exception){
+                return Value()
+            }
+            return Value()
+        }
     }
     override fun toString(): String {
         e?.let {
             if (it == 0){
-                return sign() + addDelimiters(m.toString()) + "."
+                return sign() + addDelimiters(m, ' ') + "."
             } else if (it + m.length > maxLength || it < -maxLength){
                 return sign() + scfString()
             } else if (m.isEmpty() && it < 0){
@@ -76,7 +78,7 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
                         val integer = stb.substring(0, stb.length + it)
                         val fract = stb.substring(stb.length + it, stb.length)
                         stb.clear()
-                        stb.append(addDelimiters(integer))
+                        stb.append(addDelimiters(integer, ' '))
                         stb.append('.')
                         stb.append(fract)
                     }
@@ -93,7 +95,9 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
                 return sign() + stb.toString()
             }
         }
-        return sign() + addDelimiters(m)
+
+        return if(m.isNotEmpty()) sign() + addDelimiters(m, ' ')
+        else sign() + "0"
     }
     fun toDouble(): Double{
         val lm = if (m.isNotEmpty()) m.toLong() else 0L
@@ -127,7 +131,7 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
                 return
             }
         }
-        if (m.isNotEmpty()) m.dropLast(1)
+        if (m.isNotEmpty()) m = m.dropLast(1)
     }
     fun addFractional(){
         if (m.length >= maxLength) return
@@ -147,12 +151,15 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
             if (e != null) e = e!! - 1
         }
     }
-    private fun addDelimiters(value: String): String{
-        try {
-            return f.format(value.toLong())
-        } catch (e: Exception){
-            return "0"
+    private fun addDelimiters(value: String, delimiter: Char): String{
+        val stb = StringBuilder()
+        for (i in value.indices){
+            stb.append(value[value.length-1-i])
+            if (i != value.length-1 && (i+1) % 3 == 0) stb.append(delimiter)
+
         }
+        stb.reverse()
+        return stb.toString()
     }
     private fun scfString(): String{
         val s = when(m.length){

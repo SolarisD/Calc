@@ -19,7 +19,7 @@ class Core(private val dao: Dao) {
     private var bufferClearRequest: Boolean
     init {
         val state = AppManager.restoreState()
-        buffer = Buffer()
+        buffer = Buffer(state.buffer)
         bufferOut = buffer.out
         bufferClearRequest = state.bufferClearRequest
         memory = Memory(state.memory)
