@@ -5,18 +5,50 @@ import java.text.DecimalFormatSymbols
 import java.util.*
 import kotlin.math.pow
 
-data class Value(var s: Boolean = false, var m: String = "", var e: Int? = null) {
+data class Value(private var s: Boolean = false, private var m: String = "", private var e: Int? = null) {
     companion object{
         const val maxLength = 10
         const val base = 10.0
-        private val s = DecimalFormatSymbols(Locale.US)
+        private val dsf = DecimalFormatSymbols(Locale.US)
         val f = DecimalFormat()
         init {
-            s.groupingSeparator = ' '
-            f.decimalFormatSymbols = s
+            dsf.groupingSeparator = ' '
+            f.decimalFormatSymbols = dsf
             f.isGroupingUsed = true
-            f.maximumFractionDigits = 12
-            f.maximumIntegerDigits = 12
+            f.maximumFractionDigits = maxLength
+            f.maximumIntegerDigits = maxLength
+        }
+
+        fun fromDouble(value: Double): Value{
+            if (value.isFinite()) {
+                val fmt = "%.${maxLength}E"
+                var scf = String.format(fmt, value)
+                //sign
+                val s = scf[0] == '-'
+                if (s) scf = scf.drop(1)
+                //mantissa
+                var m = scf.substringBefore('E').replace(".", "")
+                var tmp = m.length
+                for (i in (m.length - 1) downTo 0) {
+                    if (m[i] == '0') tmp = i
+                    else break
+                }
+                if (tmp < m.length) m = m.substring(0 until tmp)
+                //exponent
+                val strExponent = scf.substringAfter('E')
+                val expSign = strExponent[0] == '-'
+                var e = if (expSign) -strExponent.drop(1).toInt()
+                else strExponent.drop(1).toInt()
+                e = e - m.length + 1
+                //move dot
+                if (e > 0 && (m.length + e) <= maxLength){
+                    m = (m.toLong() * base.pow(e).toLong()).toString()
+                    e = 0
+                }
+
+                return Value(s, m, if (e != 0) e else null)
+            }
+            return Value()
         }
     }
     override fun toString(): String {
@@ -64,7 +96,7 @@ data class Value(var s: Boolean = false, var m: String = "", var e: Int? = null)
         return sign() + addDelimiters(m)
     }
     fun toDouble(): Double{
-        val lm = if (m.isNotEmpty()) m.toString().toLong() else 0L
+        val lm = if (m.isNotEmpty()) m.toLong() else 0L
         if (s) return -lm * base.pow(e ?: 0)
         return lm * base.pow(e ?: 0)
     }
@@ -72,6 +104,48 @@ data class Value(var s: Boolean = false, var m: String = "", var e: Int? = null)
         s = false
         m = ""
         e = null
+    }
+    fun negative(){
+        s = !s
+    }
+    fun backspace(){
+        e?.let {
+            if (it > 0) {
+                e = it - 1
+                if (e == 0) e = null
+                e?.let {
+                    if (it > 0 && (m.length + it) <= maxLength){
+                        val s = m.toLong() * base.pow(it).toLong()
+                        m = s.toString()
+                        e = null
+                    }
+                }
+            }
+            if (it < 0) e = it + 1
+            if (it == 0) e = null
+            if (it + m.length >= maxLength) {
+                return
+            }
+        }
+        if (m.isNotEmpty()) m.dropLast(1)
+    }
+    fun addFractional(){
+        if (m.length >= maxLength) return
+        if (e == null) e = 0
+    }
+    fun addNumber(num: Char){
+        if (m.length >= maxLength) return
+        if (num == '0'){
+            if (e == null && m.isEmpty()) return
+            else if (m.isEmpty()) e = e!! - 1
+            else {
+                m += num
+                if (e != null) e = e!! - 1
+            }
+        }else{
+            m += num
+            if (e != null) e = e!! - 1
+        }
     }
     private fun addDelimiters(value: String): String{
         try {
@@ -92,17 +166,6 @@ data class Value(var s: Boolean = false, var m: String = "", var e: Int? = null)
         val ins2 = if (e > 0) "E+${e}"
         else "E${e}"
         return  s + ins2
-    }
-    private fun refactoring(){
-        if (e == 0) e = null
-        ////TODO FOR MINUS
-        e?.let {
-            if (it > 0 && (m.length + it) <= maxLength){
-                val s = m.toLong() * base.pow(it).toLong()
-                m = s.toString()
-                e = null
-            }
-        }
     }
     private fun sign(): String {
         return if (s) "-"
