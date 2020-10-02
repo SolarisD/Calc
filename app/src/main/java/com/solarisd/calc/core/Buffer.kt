@@ -1,148 +1,175 @@
 package com.solarisd.calc.core
 
 import androidx.lifecycle.MutableLiveData
-import com.solarisd.calc.app.AppManager
+import kotlin.math.pow
+import kotlin.text.StringBuilder
 
-class Buffer(value: String? = null) {
+class Buffer() {
+    companion object{
+        const val maxLength = 10
+        const val base = 10.0
+    }
     val out: MutableLiveData<String> = MutableLiveData()
-    private var sign: Char? = null
-        set(value){
-            field = value
-            out.postValue(getString())
-        }
-    private var integerPart: String? = null
-        set(value) {
-            field = value
-            out.postValue(getString())
-        }
-    private var delimiter: Char? = null
-        set(value) {
-            field = value
-            out.postValue(getString())
-        }
-    private var fractionalPart: String? = null
-        set(value) {
-            field = value
-            out.postValue(getString())
-        }
-    init {
-        value?.let {
-            setDouble(it.toDoubleFromDisplay())
-        }
-    }
+
+    private var minus: Boolean = false
+    private val significant: StringBuilder = StringBuilder()
+    private var exponent: Int? = null
+
     fun clear() {
-        sign = null
-        integerPart = null
-        delimiter = null
-        fractionalPart = null
-        AppManager.saveBuffer(null)
-    }
-    private fun getString(): String{
-        var ret = "0"
-        sign?.let {ret = "-"}
-        integerPart?.let {
-            if (ret == "-") ret += Converter.f.format(it.toLong())
-            else ret = Converter.f.format(it.toLong())
-        }
-        delimiter?.let { ret += it }
-        fractionalPart?.let { ret += it }
-        return ret
+        minus = false
+        significant.clear()
+        exponent = null
+        out.postValue(toString())
     }
     fun getDouble(): Double{
-        return getString().toDoubleFromDisplay()
+        val s = if (significant.isNotEmpty()) significant.toString().toLong() else 0L
+        if (minus) return -s * base.pow(exponent ?: 0)
+        return s * base.pow(exponent ?: 0)
     }
     fun setDouble(value: Double){
-        if (value.isFinite()){
-            val str = value.toDisplayString().replace(" ", "")
-            if (str.indexOf('-') == 0) sign = '-'
-            else sign = null
-            if (str.indexOf('.') == -1){
-                integerPart = str
-                delimiter = null
-                fractionalPart = null
-            }else{
-                integerPart = str.substringBefore('.')
-                delimiter = '.'
-                fractionalPart = str.substringAfter('.')
+        if (value.isFinite()) {
+            val fmt = "%.${maxLength}E"
+            var scf = String.format(fmt, value)
+            //minus
+            minus = scf[0] == '-'
+            if (minus) scf = scf.drop(1)
+            //significant
+            var strSignificant = scf.substringBefore('E').replace(".", "")
+            var tmp = strSignificant.length
+            for (i in (strSignificant.length - 1) downTo 0) {
+                if (strSignificant[i] == '0') tmp = i
+                else break
             }
+            if (tmp < strSignificant.length) strSignificant = strSignificant.substring(0 until tmp)
+            significant.clear()
+            significant.append(strSignificant)
+            //exponent
+            val strExponent = scf.substringAfter('E')
+            val expSign = strExponent[0] == '-'
+            exponent = if (expSign) -strExponent.drop(1).toInt()
+            else strExponent.drop(1).toInt()
+            exponent = exponent!! - strSignificant.length + 1
+            refactoring()
+            out.postValue(toString())
         } else {
             clear()
-            out.postValue(value.toDisplayString())
-        }
-        AppManager.saveBuffer(getDouble())
-    }
-    private fun getLength(): Int{
-        var ret = 0
-        integerPart?.let {ret += it.length}
-        /*delimiter?.let { ret += 1 }*/
-        fractionalPart?.let {ret += it.length}
-        return ret
-    }
-    fun symbol(symbol: Char){
-        if (getLength() >= 10) return
-        when(symbol){
-            '0' -> addZero()
-            '1' -> addNumber('1')
-            '2' -> addNumber('2')
-            '3' -> addNumber('3')
-            '4' -> addNumber('4')
-            '5' -> addNumber('5')
-            '6' -> addNumber('6')
-            '7' -> addNumber('7')
-            '8' -> addNumber('8')
-            '9' -> addNumber('9')
-            '.' -> addDot()
-            'π' -> setPi()
-        }
-        AppManager.saveBuffer(getDouble())
-    }
-    private fun addDot(){
-        if (integerPart == null) integerPart = "0"
-        delimiter = '.'
-    }
-    private fun addZero() {
-        if(delimiter == null){//work with integer part
-            if (integerPart != null) integerPart += "0"
-        } else { //work with fractional part
-            if (fractionalPart == null) fractionalPart = "0"
-            else fractionalPart += "0"
-        }
-    }
-    private fun addNumber(number: Char){
-        if(delimiter == null){//work with integer part
-            if (integerPart == null) integerPart = number.toString()
-            else integerPart += number
-        } else { //work with fractional part
-            if (fractionalPart == null) fractionalPart = number.toString()
-            else fractionalPart += number
+            out.postValue(value.toString())
         }
     }
     fun negative(){
-        if(integerPart != null){
-            if (sign == null){
-                sign = '-'
-            } else {
-                sign = null
-            }
-            AppManager.saveBuffer(getDouble())
-        }
+        minus = !minus
+        out.postValue(toString())
     }
     fun backspace(){
-        if (delimiter != null){//work with fractional part
-            if(fractionalPart != null){
-                if (fractionalPart!!.length == 1) {fractionalPart = null; delimiter = null}
-                else fractionalPart = fractionalPart!!.dropLast(1)
-                AppManager.saveBuffer(getDouble())
+        exponent?.let {
+            if (it > 0) {
+                exponent = it - 1
+                refactoring()
             }
-        }else {
-            if (integerPart != null){
-                if (integerPart!!.length == 1) {integerPart = null; sign = null}
-                else integerPart = integerPart!!.dropLast(1)
-                AppManager.saveBuffer(getDouble())
+            if (it < 0) exponent = it + 1
+            if (it == 0) exponent = null
+            if (it + significant.length >= maxLength) {
+                out.postValue(toString())
+                return
             }
         }
+        if (significant.isNotEmpty()) significant.deleteAt(significant.lastIndex)
+        out.postValue(toString())
+    }
+    fun symbol(symbol: Char){
+        if (significant.length >= maxLength) return
+        when(symbol){
+            '.' -> addDot()
+            'π' -> setPi()
+            else -> addNumber(symbol)
+        }
+        out.postValue(toString())
+    }
+
+
+    override fun toString(): String {
+        exponent?.let {
+            if (it == 0){
+                return sign() + significant.toDisplayString() + "."
+            } else if (it + significant.length > maxLength || it < -maxLength){
+                return sign() + scfString()
+            } else if (significant.isEmpty() && it < 0){
+                val stb = StringBuilder("0.")
+                val end = -it
+                for (i in 1..end){
+                    stb.append('0')
+                }
+                return sign() + stb.toString()
+            } else {
+                val stb = StringBuilder(significant)
+                if (it > 0) {
+                    val end = it
+                    for (i in 1..end) {
+                        stb.append('0')
+                    }
+                } else {
+                    if (stb.length > -it) stb.insert(stb.length + it, '.')
+                    else if (stb.length == -it) stb.insert(0, "0.")
+                    else {
+                        val end = -it - stb.length
+                        for (i in 1..end){
+                            stb.insert(0,'0')
+                        }
+                        stb.insert(0, "0.")
+                    }
+
+                }
+                return sign() + stb.toString()
+            }
+        }
+        return sign() + significant.toDisplayString()
+    }
+    private fun scfString(): String{
+        val s = when(significant.length){
+            0->{"0.0"}
+            1->{significant.toString() + ".0"}
+            else->{StringBuilder(significant).insert(1, '.').toString()}
+        }
+        val eAdd = significant.length - 1
+        val e = if (exponent != null) exponent!! + eAdd
+        else eAdd
+        val ins2 = if (e > 0) "E+${e}"
+        else "E${e}"
+        return  s + ins2
+    }
+    private fun addDot(){
+        if (exponent == null) exponent = 0
+    }
+    private fun addNumber(num: Char){
+        if (num == '0'){
+            if (exponent == null && significant.isEmpty()) return
+            else if (significant.isEmpty()) exponent = exponent!! - 1
+            else {
+                significant.append(num)
+                if (exponent != null) exponent = exponent!! - 1
+            }
+        }else{
+            significant.append(num)
+            if (exponent != null) exponent = exponent!! - 1
+        }
+
     }
     private fun setPi(){
         setDouble(Math.PI)
     }
+    private fun refactoring(){
+        if (exponent == 0) exponent = null
+        ////TODO FOR MINUS
+        exponent?.let {
+            if (it > 0 && (significant.length + it) <= maxLength){
+                val s = significant.toString().toLong() * base.pow(it).toLong()
+                significant.clear()
+                significant.append(s.toString())
+                exponent = null
+            }
+        }
+    }
+    private fun sign(): String =
+        if(minus) "-"
+        else ""
 }

@@ -12,11 +12,16 @@ object Converter {
         s.groupingSeparator = ' '
         f.decimalFormatSymbols = s
         f.isGroupingUsed = true
-        f.maximumFractionDigits = 50
-        f.maximumIntegerDigits = 50
+        f.maximumFractionDigits = 12
+        f.maximumIntegerDigits = 12
     }
 }
-fun Double?.toDisplayString(): String?  = Converter.f.format(this)
+fun StringBuilder.toDisplayString(): String {
+    if (this.isNotBlank() && this.isNotEmpty()) return Converter.f.format(this.toString().toLong())
+    return "0"
+}
+fun Long.toDisplayString(): String = Converter.f.format(this)
+fun Double?.toDisplayString(): String? = Converter.f.format(this)
 fun Double.toDisplayString(): String = Converter.f.format(this)
 fun String?.toDoubleFromDisplay(): Double? = this?.replace(" ", "")?.toDouble()
 fun String.toDoubleFromDisplay(): Double = this.replace(" ", "").toDouble()

@@ -16,7 +16,8 @@
         android:fontFamily="@font/lcd_font_family"
         android:textColor="@color/color_fore_d"
         android:gravity="start|center_vertical"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:maxLines="1"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_buffer"
@@ -26,7 +27,8 @@
         android:textColor="@color/color_fore_a"
         android:gravity="center_vertical|end"
         android:text="0"
-        android:textSize="60sp"/>
+        android:textSize="50sp"
+        android:maxLines="1"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_operation"
@@ -35,5 +37,6 @@
         android:fontFamily="@font/lcd_font_family"
         android:textColor="@color/color_fore_b"
         android:gravity="center_vertical|end"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:maxLines="1"/>
 </LinearLayout>
