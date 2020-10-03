@@ -39,6 +39,6 @@ class Buffer(value: String? = null) {
     }
     private fun update(){
         out.postValue(value.toString())
-        AppManager.saveBuffer(value.toString())
+        AppManager.saveBuffer(value)
     }
 }

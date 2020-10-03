@@ -7,43 +7,47 @@ import kotlin.math.sin
 import kotlin.math.tan
 
 data class Value private constructor(private var s: Boolean = false, private var m: String = "", private var e: Int? = null, private var nan: Double? = null) {
+
     companion object{
         private const val maxLength = 10
         private const val base = 10.0
         private val ds = DecimalFormatSymbols.getInstance().decimalSeparator
 
-        fun getInstance(value: Double): Value{
-            if (value.isFinite()) {
-                val fmt = "%.${maxLength}E"
-                var scf = String.format(fmt, value)
-                //sign
-                val s = scf[0] == '-'
-                if (s) scf = scf.drop(1)
-                //mantissa
+        fun getInstance(value: Double?): Value{
+            value?.let {
+                if (it.isFinite()) {
+                    val fmt = "%.${maxLength}E"
+                    var scf = String.format(fmt, it)
+                    //sign
+                    val s = scf[0] == '-'
+                    if (s) scf = scf.drop(1)
+                    //mantissa
 
-                var m = scf.substringBefore('E').replace(ds.toString(), "")
-                var tmp = m.length
-                for (i in (m.length - 1) downTo 0) {
-                    if (m[i] == '0') tmp = i
-                    else break
-                }
-                if (tmp < m.length) m = m.substring(0 until tmp)
-                if(m.isEmpty()) return Value()
-                //exponent
-                val strExponent = scf.substringAfter('E')
-                val expSign = strExponent[0] == '-'
-                var e = if (expSign) -strExponent.drop(1).toInt()
-                else strExponent.drop(1).toInt()
-                e = e - m.length + 1
-                //move dot
-                if (e > 0 && (m.length + e) <= maxLength){
-                    m = (m.toLong() * base.pow(e).toLong()).toString()
-                    e = 0
-                }
+                    var m = scf.substringBefore('E').replace(ds.toString(), "")
+                    var tmp = m.length
+                    for (i in (m.length - 1) downTo 0) {
+                        if (m[i] == '0') tmp = i
+                        else break
+                    }
+                    if (tmp < m.length) m = m.substring(0 until tmp)
+                    if(m.isEmpty()) return Value()
+                    //exponent
+                    val strExponent = scf.substringAfter('E')
+                    val expSign = strExponent[0] == '-'
+                    var e = if (expSign) -strExponent.drop(1).toInt()
+                    else strExponent.drop(1).toInt()
+                    e = e - m.length + 1
+                    //move dot
+                    if (e > 0 && (m.length + e) <= maxLength){
+                        m = (m.toLong() * base.pow(e).toLong()).toString()
+                        e = 0
+                    }
 
-                return Value(s, m, if (e != 0) e else null)
+                    return Value(s, m, if (e != 0) e else null)
+                }
+                return Value(nan = it)
             }
-            return Value(nan = value)
+            return Value()
         }
         fun getInstance(value: String?): Value{
             try {
@@ -212,6 +216,10 @@ data class Value private constructor(private var s: Boolean = false, private var
     }
 
     //region VALUE OPERATORS
+    operator fun unaryMinus(): Value{
+        return Value(!s, m, e, nan)
+    }
+
     operator fun plus(b: Value): Value{
         return getInstance(toDouble() + b.toDouble())
     }
