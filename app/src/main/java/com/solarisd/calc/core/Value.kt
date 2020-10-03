@@ -3,13 +3,13 @@ package com.solarisd.calc.core
 import java.text.DecimalFormatSymbols
 import kotlin.math.pow
 
-data class Value(private var s: Boolean = false, private var m: String = "", private var e: Int? = null, private var nan: Double? = null) {
+data class Value private constructor(private var s: Boolean = false, private var m: String = "", private var e: Int? = null, private var nan: Double? = null) {
     companion object{
         private const val maxLength = 10
         private const val base = 10.0
         private val ds = DecimalFormatSymbols.getInstance().decimalSeparator
 
-        fun fromDouble(value: Double): Value{
+        fun getInstance(value: Double): Value{
             if (value.isFinite()) {
                 val fmt = "%.${maxLength}E"
                 var scf = String.format(fmt, value)
@@ -42,10 +42,10 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
             }
             return Value(nan = value)
         }
-        fun fromString(value: String?): Value{
+        fun getInstance(value: String?): Value{
             try {
                 val dbl = value?.replace(" ", "")?.toDouble()
-                if (dbl != null) return fromDouble(dbl)
+                if (dbl != null) return getInstance(dbl)
             }catch(e: Exception){
                 return Value()
             }

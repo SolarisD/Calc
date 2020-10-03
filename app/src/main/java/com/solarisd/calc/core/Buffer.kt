@@ -2,15 +2,10 @@ package com.solarisd.calc.core
 
 import androidx.lifecycle.MutableLiveData
 import com.solarisd.calc.app.AppManager
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import java.util.*
-import kotlin.math.pow
-import kotlin.text.StringBuilder
 
 class Buffer(value: String? = null) {
     val out: MutableLiveData<String> = MutableLiveData()
-    var value: Value = Value.fromString(value)
+    var value: Value = Value.getInstance(value)
     init {
         out.postValue(this.value.toString())
     }
@@ -23,7 +18,7 @@ class Buffer(value: String? = null) {
         return value.toDouble()
     }
     fun setDouble(value: Double){
-        this.value = Value.fromDouble(value)
+        this.value = Value.getInstance(value)
         update()
     }
     fun negative(){
@@ -37,7 +32,7 @@ class Buffer(value: String? = null) {
     fun symbol(symbol: Char){
         when(symbol){
             '.' -> value.addFractional()
-            'π' -> value = Value.fromDouble(Math.PI)
+            'π' -> value = Value.getInstance(Math.PI)
             else -> value.addNumber(symbol)
         }
         update()
