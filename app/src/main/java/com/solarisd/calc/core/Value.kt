@@ -186,4 +186,21 @@ data class Value private constructor(private var s: Boolean = false, private var
         return if (s) "-"
         else ""
     }
+
+    //OPERATORS
+    operator fun plus(b: Value): Value{
+        return getInstance(toDouble() + b.toDouble())
+    }
+
+    operator fun minus(b: Value): Value{
+        return getInstance(toDouble() - b.toDouble())
+    }
+
+    operator fun times(b: Value): Value{
+        return getInstance(toDouble() * b.toDouble())
+    }
+
+    operator fun div(b: Value): Value{
+        return getInstance(toDouble() / b.toDouble())
+    }
 }
