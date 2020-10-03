@@ -50,6 +50,7 @@ abstract class BinaryOperation(): Operation{
 }
 
 class Operations{
+
     companion object{
         const val ADD_ID = "ADD_OPERATION"
         const val SUBTRACT_ID = "SUBTRACT_OPERATION"
@@ -61,6 +62,7 @@ class Operations{
         const val COS_ID = "COS_OPERATION"
         const val TAN_ID = "TAN_OPERATION"
     }
+
     class Add() : BinaryOperation(){
         override val id: String = ADD_ID
         override fun equal(a: Double, b: Double): Double = a+b

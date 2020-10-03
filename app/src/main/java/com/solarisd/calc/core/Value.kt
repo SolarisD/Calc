@@ -1,7 +1,10 @@
 package com.solarisd.calc.core
 
 import java.text.DecimalFormatSymbols
+import kotlin.math.cos
 import kotlin.math.pow
+import kotlin.math.sin
+import kotlin.math.tan
 
 data class Value private constructor(private var s: Boolean = false, private var m: String = "", private var e: Int? = null, private var nan: Double? = null) {
     companion object{
@@ -51,7 +54,19 @@ data class Value private constructor(private var s: Boolean = false, private var
             }
             return Value()
         }
+        fun sin(value: Value): Value{
+            return Value.getInstance(sin(value.toDouble()))
+        }
+
+        fun cos(value: Value): Value{
+            return Value.getInstance(cos(value.toDouble()))
+        }
+
+        fun tan(value: Value): Value{
+            return Value.getInstance(tan(value.toDouble()))
+        }
     }
+
     override fun toString(): String {
         nan?.let{
             return it.toString()
@@ -100,6 +115,7 @@ data class Value private constructor(private var s: Boolean = false, private var
         return if(m.isNotEmpty()) sign() + addDelimiters(m, ' ')
         else sign() + "0"
     }
+
     fun toDouble(): Double{
         nan?.let{
             return it
@@ -108,15 +124,18 @@ data class Value private constructor(private var s: Boolean = false, private var
         if (s) return -lm * base.pow(e ?: 0)
         return lm * base.pow(e ?: 0)
     }
+
     fun clear(){
         s = false
         m = ""
         e = null
         nan = null
     }
+
     fun negative(){
         s = !s
     }
+
     fun backspace(){
         nan?.let { clear() }
         e?.let {
@@ -139,11 +158,13 @@ data class Value private constructor(private var s: Boolean = false, private var
         }
         if (m.isNotEmpty()) m = m.dropLast(1)
     }
+
     fun addFractional(){
         nan?.let { clear() }
         if (m.length >= maxLength) return
         if (e == null) e = 0
     }
+
     fun addNumber(num: Char){
         nan?.let { clear() }
         if (m.length >= maxLength) return
@@ -159,6 +180,7 @@ data class Value private constructor(private var s: Boolean = false, private var
             if (e != null) e = e!! - 1
         }
     }
+
     private fun addDelimiters(value: String, gs: Char): String{
         val stb = StringBuilder()
         for (i in value.indices){
@@ -169,6 +191,7 @@ data class Value private constructor(private var s: Boolean = false, private var
         stb.reverse()
         return stb.toString()
     }
+
     private fun scfString(): String{
         val s = when(m.length){
             0->{"0{$ds}0"}
@@ -182,12 +205,13 @@ data class Value private constructor(private var s: Boolean = false, private var
         else "E${e}"
         return  s + ins2
     }
+
     private fun sign(): String {
         return if (s) "-"
         else ""
     }
 
-    //OPERATORS
+    //region VALUE OPERATORS
     operator fun plus(b: Value): Value{
         return getInstance(toDouble() + b.toDouble())
     }
@@ -203,4 +227,17 @@ data class Value private constructor(private var s: Boolean = false, private var
     operator fun div(b: Value): Value{
         return getInstance(toDouble() / b.toDouble())
     }
+
+    fun pow(b: Value): Value{
+        return getInstance(toDouble().pow(b.toDouble()))
+    }
+
+    fun pow(b: Double): Value{
+        return getInstance(toDouble().pow(b))
+    }
+
+    fun pow(b: Int): Value{
+        return getInstance(toDouble().pow(b))
+    }
+    //endregion
 }
