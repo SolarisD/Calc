@@ -3,7 +3,7 @@ package com.solarisd.calc.core
 import java.text.DecimalFormatSymbols
 import kotlin.math.pow
 
-data class Value(private var s: Boolean = false, private var m: String = "", private var e: Int? = null) {
+data class Value(private var s: Boolean = false, private var m: String = "", private var e: Int? = null, private var nan: Double? = null) {
     companion object{
         private const val maxLength = 10
         private const val base = 10.0
@@ -40,7 +40,7 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
 
                 return Value(s, m, if (e != 0) e else null)
             }
-            return Value()
+            return Value(nan = value)
         }
         fun fromString(value: String?): Value{
             try {
@@ -53,6 +53,9 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
         }
     }
     override fun toString(): String {
+        nan?.let{
+            return it.toString()
+        }
         e?.let {
             if (it == 0){
                 return sign() + addDelimiters(m, ' ') + ds
@@ -94,11 +97,13 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
                 return sign() + stb.toString()
             }
         }
-
         return if(m.isNotEmpty()) sign() + addDelimiters(m, ' ')
         else sign() + "0"
     }
     fun toDouble(): Double{
+        nan?.let{
+            return it
+        }
         val lm = if (m.isNotEmpty()) m.toLong() else 0L
         if (s) return -lm * base.pow(e ?: 0)
         return lm * base.pow(e ?: 0)
@@ -107,11 +112,13 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
         s = false
         m = ""
         e = null
+        nan = null
     }
     fun negative(){
         s = !s
     }
     fun backspace(){
+        nan?.let { clear() }
         e?.let {
             if (it > 0) {
                 e = it - 1
@@ -133,10 +140,12 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
         if (m.isNotEmpty()) m = m.dropLast(1)
     }
     fun addFractional(){
+        nan?.let { clear() }
         if (m.length >= maxLength) return
         if (e == null) e = 0
     }
     fun addNumber(num: Char){
+        nan?.let { clear() }
         if (m.length >= maxLength) return
         if (num == '0'){
             if (e == null && m.isEmpty()) return
