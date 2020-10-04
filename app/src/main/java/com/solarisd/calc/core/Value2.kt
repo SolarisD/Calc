@@ -1,14 +1,78 @@
 package com.solarisd.calc.core
 
 import java.text.DecimalFormatSymbols
+import kotlin.math.cos
 import kotlin.math.pow
+import kotlin.math.sin
+import kotlin.math.tan
 
-data class Value(private var s: Boolean = false, private var m: String = "", private var e: Int? = null, private var nan: Double? = null) {
-
+data class Value2 private constructor(private var s: Boolean = false, private var m: String = "", private var e: Int? = null, private var nan: Double? = null) {
     companion object{
-        const val maxLength = 10
-        const val base = 10.0
-        val ds = DecimalFormatSymbols.getInstance().decimalSeparator
+        private const val maxLength = 10
+        private const val base = 10.0
+        private val ds = DecimalFormatSymbols.getInstance().decimalSeparator
+
+        fun getInstance(value: Double): Value2{
+            if (value.isFinite()) {
+                val fmt = "%.${maxLength}E"
+                var scf = String.format(fmt, value)
+                //sign
+                val s = scf[0] == '-'
+                if (s) scf = scf.drop(1)
+                //mantissa
+
+                var m = scf.substringBefore('E').replace(ds.toString(), "")
+                var tmp = m.length
+                for (i in (m.length - 1) downTo 0) {
+                    if (m[i] == '0') tmp = i
+                    else break
+                }
+                if (tmp < m.length) m = m.substring(0 until tmp)
+                if(m.isEmpty()) return Value2()
+                //exponent
+                val strExponent = scf.substringAfter('E')
+                val expSign = strExponent[0] == '-'
+                var e = if (expSign) -strExponent.drop(1).toInt()
+                else strExponent.drop(1).toInt()
+                e = e - m.length + 1
+                //move dot
+                if (e > 0 && (m.length + e) <= maxLength){
+                    m = (m.toLong() * base.pow(e).toLong()).toString()
+                    e = 0
+                }
+
+                return Value2(s, m, if (e != 0) e else null)
+            }
+            return Value2(nan = value)
+        }
+        fun getInstance(value: Double?): Value2?{
+            value?.let {
+                return getInstance(it)
+            }
+            return null
+        }
+        fun getInstance(value: String?): Value2?{
+            value?.let {
+                try {
+                    val dbl = it.replace(" ", "").toDouble()
+                    return getInstance(dbl)
+                }catch(e: Exception){
+                    return Value2()
+                }
+            }
+            return null
+        }
+        /*fun sin(value: Value): Value{
+            return Value.getInstance(sin(value.toDouble()))
+        }
+
+        fun cos(value: Value): Value{
+            return Value.getInstance(cos(value.toDouble()))
+        }
+
+        fun tan(value: Value): Value{
+            return Value.getInstance(tan(value.toDouble()))
+        }*/
     }
 
     override fun toString(): String {
@@ -60,53 +124,13 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
         else sign() + "0"
     }
 
-    fun getDouble(): Double{
+    fun toDouble(): Double{
         nan?.let{
             return it
         }
         val lm = if (m.isNotEmpty()) m.toLong() else 0L
         if (s) return -lm * base.pow(e ?: 0)
         return lm * base.pow(e ?: 0)
-    }
-
-    fun setDouble(value: Double){
-        if (value.isFinite()) {
-            val fmt = "%.${maxLength}E"
-            var scf = String.format(fmt, this)
-            //sign
-            s = scf[0] == '-'
-            if (s) scf = scf.drop(1)
-            //mantissa
-
-            m = scf.substringBefore('E').replace(ds.toString(), "")
-            var tmp = m.length
-            for (i in (m.length - 1) downTo 0) {
-                if (m[i] == '0') tmp = i
-                else break
-            }
-            if (tmp < m.length) m = m.substring(0 until tmp)
-            if(m.isEmpty()) {
-                clear()
-                return
-            }
-            //exponent
-            val strExponent = scf.substringAfter('E')
-            val expSign = strExponent[0] == '-'
-            e = if (expSign) -strExponent.drop(1).toInt()
-            else strExponent.drop(1).toInt()
-            e = e!! - m.length + 1
-            //move dot
-            if (e!! > 0 && (m.length + e!!) <= Value.maxLength){
-                m = (m.toLong() * Value.base.pow(e!!).toLong()).toString()
-                e = 0
-            }
-
-            if(e == 0) e = null
-
-            return
-        }
-        clear()
-        nan = value
     }
 
     fun clear(){
@@ -227,39 +251,5 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
     fun pow(b: Int): Value{
         return getInstance(toDouble().pow(b))
     }*/
-    /*fun sin(value: Value): Value{
-            return Value.getInstance(sin(value.toDouble()))
-        }
-
-        fun cos(value: Value): Value{
-            return Value.getInstance(cos(value.toDouble()))
-        }
-
-        fun tan(value: Value): Value{
-            return Value.getInstance(tan(value.toDouble()))
-        }*/
     //endregion
-}
-
-fun Double.toValue(): Value{
-    val ret = Value()
-    ret.setDouble(this)
-    return ret
-}
-fun Double?.toValue(): Value?{
-    this?.let {
-        return it.toValue()
-    }
-    return null
-}
-fun String?.toValue(): Value?{
-    this?.let {
-        try {
-            val dbl = it.replace(" ", "").toDouble()
-            return dbl.toValue()
-        }catch(e: Exception){
-            return null
-        }
-    }
-    return null
 }

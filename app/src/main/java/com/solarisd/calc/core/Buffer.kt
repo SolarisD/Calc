@@ -5,7 +5,8 @@ import com.solarisd.calc.app.AppManager
 
 class Buffer(value: String? = null) {
     val out: MutableLiveData<String> = MutableLiveData()
-    var value: Value = Value.getInstance(value)
+    private val value: Value = value.toValue() ?: Value()
+
     init {
         out.postValue(this.value.toString())
     }
@@ -15,10 +16,10 @@ class Buffer(value: String? = null) {
         update()
     }
     fun getDouble(): Double{
-        return value.toDouble()
+        return value.getDouble()
     }
     fun setDouble(value: Double){
-        this.value = Value.getInstance(value)
+        this.value.setDouble(value)
         update()
     }
     fun negative(){
@@ -32,13 +33,13 @@ class Buffer(value: String? = null) {
     fun symbol(symbol: Char){
         when(symbol){
             '.' -> value.addFractional()
-            'π' -> value = Value.getInstance(Math.PI)
+            'π' -> value.setDouble(Math.PI)
             else -> value.addNumber(symbol)
         }
         update()
     }
     private fun update(){
         out.postValue(value.toString())
-        AppManager.saveBuffer(value)
+        AppManager.saveBuffer(value.getDouble())
     }
 }

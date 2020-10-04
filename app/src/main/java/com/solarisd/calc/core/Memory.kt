@@ -7,7 +7,7 @@ class Memory(value: String? = null) {
 
     val out: MutableLiveData<String> = MutableLiveData()
 
-    var data: Value? = null
+    var data: Double? = null
         private set(value) {
             field = value
             out.postValue(value?.toString())
@@ -15,14 +15,14 @@ class Memory(value: String? = null) {
 
     init {
         value?.let {
-            data = Value.getInstance(it)
+            data = it.toDouble()
         }
     }
     fun clear(){
         data = null
         AppManager.saveMemory(null)
     }
-    fun pls(value: Value){
+    fun pls(value: Double){
         data = if(data == null){
             value
         } else{
@@ -30,7 +30,7 @@ class Memory(value: String? = null) {
         }
         AppManager.saveMemory(data)
     }
-    fun mns(value: Value){
+    fun mns(value: Double){
         data = if(data == null){
             -value
         } else{
