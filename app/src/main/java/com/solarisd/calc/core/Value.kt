@@ -72,7 +72,7 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
     fun setDouble(value: Double){
         if (value.isFinite()) {
             val fmt = "%.${maxLength}E"
-            var scf = String.format(fmt, this)
+            var scf = String.format(fmt, value)
             //sign
             s = scf[0] == '-'
             if (s) scf = scf.drop(1)

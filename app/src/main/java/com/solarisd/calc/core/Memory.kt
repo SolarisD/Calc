@@ -10,7 +10,11 @@ class Memory(value: String? = null) {
     var data: Double? = null
         private set(value) {
             field = value
-            out.postValue(value?.toString())
+            if (value != null){
+                out.postValue(value.toValue().toString())
+            } else {
+                out.postValue(null)
+            }
         }
 
     init {

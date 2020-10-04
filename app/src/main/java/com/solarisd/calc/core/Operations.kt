@@ -68,11 +68,11 @@ class Operations{
         override fun equal(a: Double, b: Double): Double = a+b
         override fun toString(): String {
             val post = if (isComplete){
-                "${b.toString()} = ${result.toString()}"
+                "${b.toValue().toString()} = ${result.toValue().toString()}"
             } else {
                 ""
             }
-            return "${a.toString()} + $post"
+            return "${a.toValue().toString()} + $post"
         }
     }
 
@@ -81,11 +81,11 @@ class Operations{
         override fun equal(a: Double, b: Double): Double = a-b
         override fun toString(): String {
             val post = if (isComplete){
-                "${b.toString()} = ${result.toString()}"
+                "${b.toValue().toString()} = ${result.toValue().toString()}"
             } else {
                 ""
             }
-            return "${a.toString()} - $post"
+            return "${a.toValue().toString()} - $post"
         }
     }
 
@@ -94,11 +94,11 @@ class Operations{
         override fun equal(a: Double, b: Double): Double = a*b
         override fun toString(): String {
             val post = if (isComplete){
-                "${b.toString()} = ${result.toString()}"
+                "${b.toValue().toString()} = ${result.toValue().toString()}"
             } else {
                 ""
             }
-            return "${a.toString()} × $post"
+            return "${a.toValue().toString()} × $post"
         }
     }
 
@@ -107,11 +107,11 @@ class Operations{
         override fun equal(a: Double, b: Double): Double = a/b
         override fun toString(): String {
             val post = if (isComplete){
-                "${b.toString()} = ${result.toString()}"
+                "${b.toValue().toString()} = ${result.toValue().toString()}"
             } else {
                 ""
             }
-            return "${a.toString()} ÷ $post"
+            return "${a.toValue().toString()} ÷ $post"
 
         }
     }
@@ -121,7 +121,7 @@ class Operations{
         override fun equal(a: Double): Double = a*a
         override fun toString(): String {
             val sqr = 178.toChar()
-            return "${a.toString()}$sqr = ${result.toString()}"
+            return "${a.toValue().toString()}$sqr = ${result.toValue().toString()}"
         }
     }
 
@@ -129,7 +129,7 @@ class Operations{
         override val id: String = SQRT_ID
         override fun equal(a: Double): Double = sqrt(a)
         override fun toString(): String {
-            return "√${a.toString()} = ${result.toString()}"
+            return "√${a.toValue().toString()} = ${result.toValue().toString()}"
         }
     }
 
@@ -137,7 +137,7 @@ class Operations{
         override val id: String = SIN_ID
         override fun equal(a: Double): Double = sin(a * Math.PI / 180)
         override fun toString(): String {
-            return "sin(${a.toString()}) = ${result.toString()}"
+            return "sin(${a.toValue().toString()}) = ${result.toValue().toString()}"
         }
     }
 
@@ -145,7 +145,7 @@ class Operations{
         override val id: String = COS_ID
         override fun equal(a: Double): Double = cos(a * Math.PI / 180)
         override fun toString(): String {
-            return "cos(${a.toString()}) = ${result.toString()}"
+            return "cos(${a.toValue().toString()}) = ${result.toValue().toString()}"
         }
     }
 
@@ -153,7 +153,7 @@ class Operations{
         override val id: String = TAN_ID
         override fun equal(a: Double): Double = tan(a * Math.PI / 180)
         override fun toString(): String {
-            return "tan($${a.toString()}) = ${result.toString()}"
+            return "tan($${a.toValue().toString()}) = ${result.toValue().toString()}"
         }
     }
 }
