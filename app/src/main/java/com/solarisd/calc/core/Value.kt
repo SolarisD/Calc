@@ -109,6 +109,13 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
         nan = value
     }
 
+    fun setValue(value: Value){
+        s = value.s
+        m = value.m
+        e = value.e
+        nan = value.nan
+    }
+
     fun clear(){
         s = false
         m = ""
