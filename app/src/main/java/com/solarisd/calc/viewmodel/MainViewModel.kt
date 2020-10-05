@@ -50,11 +50,11 @@ class MainViewModel(private val app: Application): AndroidViewModel(app){
             Buttons.MULTIPLY-> c.operation(Operations.Multiply())
             Buttons.DIVIDE-> c.operation(Operations.Divide())
             Buttons.PERCENT-> c.percent()
-            Buttons.SQR-> c.operation(Operations.Sqr())
+            /*Buttons.SQR-> c.operation(Operations.Sqr())
             Buttons.SQRT-> c.operation(Operations.Sqrt())
             Buttons.SIN-> c.operation(Operations.Sin())
             Buttons.COS-> c.operation(Operations.Cos())
-            Buttons.TAN-> c.operation(Operations.Tan())
+            Buttons.TAN-> c.operation(Operations.Tan())*/
             Buttons.M_CLEAR-> c.memoryClear()
             Buttons.M_PLUS-> c.memoryPlus()
             Buttons.M_MINUS-> c.memoryMinus()

@@ -6,23 +6,23 @@ import kotlin.math.*
 
 interface Operation {
     val id: String
-    var a: Double?
+    var a: Value?
     val isComplete: Boolean
-    val result: Double?
+    val result: Value?
     override fun toString(): String
 }
 abstract class UnaryOperation(): Operation{
-    override var a: Double? = null
+    override var a: Value? = null
     override val isComplete: Boolean
         get() = a != null
-    protected abstract fun equal(a: Double): Double
-    override val result: Double?
+    protected abstract fun equal(a: Value): Value
+    override val result: Value?
         get() =
             if (isComplete){
                 try {
                     equal(a!!)
                 }catch (e: Exception){
-                    Double.NaN
+                    Value.NaN
                 }
 
             } else {
@@ -30,18 +30,18 @@ abstract class UnaryOperation(): Operation{
             }
 }
 abstract class BinaryOperation(): Operation{
-    override var a: Double? = null
-    var b: Double? = null
+    override var a: Value? = null
+    var b: Value? = null
     override val isComplete: Boolean
         get() = a != null && b != null
-    protected abstract fun equal(a: Double, b: Double): Double
-    override val result: Double?
+    protected abstract fun equal(a: Value, b: Value): Value
+    override val result: Value?
         get() =
             if (isComplete){
                 try {
                     equal(a!!, b!!)
                 }catch (e: Exception){
-                    Double.NaN
+                    Value.NaN
                 }
 
             } else {
@@ -65,58 +65,58 @@ class Operations{
 
     class Add() : BinaryOperation(){
         override val id: String = ADD_ID
-        override fun equal(a: Double, b: Double): Double = a+b
+        override fun equal(a: Value, b: Value): Value = a+b
         override fun toString(): String {
             val post = if (isComplete){
-                "${b.toValue().toString()} = ${result.toValue().toString()}"
+                "${b.toString()} = ${result.toString()}"
             } else {
                 ""
             }
-            return "${a.toValue().toString()} + $post"
+            return "${a.toString()} + $post"
         }
     }
 
     class Subtract() : BinaryOperation(){
         override val id: String = SUBTRACT_ID
-        override fun equal(a: Double, b: Double): Double = a-b
+        override fun equal(a: Value, b: Value): Value = a-b
         override fun toString(): String {
             val post = if (isComplete){
-                "${b.toValue().toString()} = ${result.toValue().toString()}"
+                "${b.toString()} = ${result.toString()}"
             } else {
                 ""
             }
-            return "${a.toValue().toString()} - $post"
+            return "${a.toString()} - $post"
         }
     }
 
     class Multiply() : BinaryOperation(){
         override val id: String = MULTIPLY_ID
-        override fun equal(a: Double, b: Double): Double = a*b
+        override fun equal(a: Value, b: Value): Value = a*b
         override fun toString(): String {
             val post = if (isComplete){
-                "${b.toValue().toString()} = ${result.toValue().toString()}"
+                "${b.toString()} = ${result.toString()}"
             } else {
                 ""
             }
-            return "${a.toValue().toString()} × $post"
+            return "${a.toString()} × $post"
         }
     }
 
     class Divide() : BinaryOperation(){
         override val id: String = DIVIDE_ID
-        override fun equal(a: Double, b: Double): Double = a/b
+        override fun equal(a: Value, b: Value): Value = a/b
         override fun toString(): String {
             val post = if (isComplete){
-                "${b.toValue().toString()} = ${result.toValue().toString()}"
+                "${b.toString()} = ${result.toString()}"
             } else {
                 ""
             }
-            return "${a.toValue().toString()} ÷ $post"
+            return "${a.toString()} ÷ $post"
 
         }
     }
 
-    class Sqr() : UnaryOperation(){
+    /*class Sqr() : UnaryOperation(){
         override val id: String = SQR_ID
         override fun equal(a: Double): Double = a*a
         override fun toString(): String {
@@ -155,6 +155,6 @@ class Operations{
         override fun toString(): String {
             return "tan($${a.toValue().toString()}) = ${result.toValue().toString()}"
         }
-    }
+    }*/
 }
 

@@ -3,12 +3,17 @@ package com.solarisd.calc.core
 import java.text.DecimalFormatSymbols
 import kotlin.math.pow
 
-data class Value(private var s: Boolean = false, private var m: String = "", private var e: Int? = null, private var nan: Double? = null) {
-
+data class Value constructor (private var s: Boolean = false, private var m: String = "", private var e: Int? = null, private var nan: Double? = null) {
+    constructor(double: Double): this(){
+        setDouble(double)
+    }
     companion object{
         const val maxLength = 10
         const val base = 10.0
         val ds = DecimalFormatSymbols.getInstance().decimalSeparator
+        val NaN = Value(Double.NaN)
+        val POSITIVE_INFINITY = Value(Double.POSITIVE_INFINITY)
+        val NEGATIVE_INFINITY = Value(Double.NEGATIVE_INFINITY)
     }
 
     override fun toString(): String {
@@ -251,13 +256,11 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
 }
 
 fun Double.toValue(): Value{
-    val ret = Value()
-    ret.setDouble(this)
-    return ret
+    return Value(this)
 }
 fun Double?.toValue(): Value?{
     this?.let {
-        return it.toValue()
+        return Value(it)
     }
     return null
 }
@@ -265,7 +268,7 @@ fun String?.toValue(): Value?{
     this?.let {
         try {
             val dbl = it.replace(" ", "").toDouble()
-            return dbl.toValue()
+            return Value(dbl)
         }catch(e: Exception){
             return null
         }

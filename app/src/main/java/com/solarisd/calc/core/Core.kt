@@ -70,8 +70,8 @@ class Core(private val dao: Dao) {
     }
     fun result() {
         if (binary != null) {
-            binary!!.b = buffer.getDouble()
-            buffer.setDouble(binary!!.result!!)
+            binary!!.b = buffer.getValue()
+            buffer.setValue(binary!!.result!!)
             last = binary
             binary = null
             operationOut.postValue(last)
@@ -79,7 +79,7 @@ class Core(private val dao: Dao) {
         } else {
             if (last != null) {
                 last!!.a = last!!.result!!
-                buffer.setDouble(last!!.result!!)
+                buffer.setValue(last!!.result!!)
                 operationOut.postValue(last)
                 saveToHistory(last)
             }
@@ -93,8 +93,8 @@ class Core(private val dao: Dao) {
         if (binary == null) {
             newOperation(op)
         } else {
-            binary!!.b = buffer.getDouble()
-            buffer.setDouble(binary!!.result!!)
+            binary!!.b = buffer.getValue()
+            buffer.setValue(binary!!.result!!)
             last = binary
             binary = null
             operationOut.postValue(last)
@@ -107,10 +107,10 @@ class Core(private val dao: Dao) {
         AppManager.saveBufferClearRequest(bufferClearRequest)
     }
     private fun newOperation(op: Operation) {
-        op.a = buffer.getDouble()
+        op.a = buffer.getValue()
         when (op) {
             is UnaryOperation -> {
-                buffer.setDouble(op.result!!)
+                buffer.setValue(op.result!!)
                 last = op
                 operationOut.postValue(last)
             }
@@ -122,9 +122,9 @@ class Core(private val dao: Dao) {
     }
     fun percent() {
         if (binary != null) {
-            val prc = buffer.getDouble()
-            binary!!.b = binary!!.a!! * prc * 0.01
-            buffer.setDouble(binary!!.result!!)
+            val prc = buffer.getValue()
+            binary!!.b = binary!!.a!! * prc * Value(0.01)
+            buffer.setValue(binary!!.result!!)
             last = binary
             binary = null
             operationOut.postValue(last)

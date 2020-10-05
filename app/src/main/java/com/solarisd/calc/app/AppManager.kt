@@ -59,7 +59,7 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
     }
 
     //region Save/Restore core state TODO: rewrite to ROOM or something else
-    fun saveBuffer(value: Double?){
+    fun saveBuffer(value: Value?){
         if (value != null){
             pref.edit()
                 .putString(BUFFER_STATE_KEY, value.toString())
@@ -134,10 +134,10 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
     private fun storeStringToOperation(value: String?): Operation?{
         value?.let {
             val list = it.split(';')
-            var a: Double? = null
-            if (list.size > 1 && list[1] != "null") a = list[1].toDouble()
-            var b: Double? = null
-            if (list.size > 2 && list[2] != "null") b = list[2].toDouble()
+            var a: Value? = null
+            if (list.size > 1 && list[1] != "null") a = list[1].toValue()
+            var b: Value? = null
+            if (list.size > 2 && list[2] != "null") b = list[2].toValue()
             return when(list[0]){
                 Operations.ADD_ID -> {
                     Operations.Add().apply {
@@ -163,7 +163,7 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
                         this.b = b
                     }
                 }
-                Operations.SQR_ID ->{
+                /*Operations.SQR_ID ->{
                     Operations.Sqr().apply {
                         this.a = a
                     }
@@ -187,7 +187,7 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
                     Operations.Tan().apply {
                         this.a = a
                     }
-                }
+                }*/
                 else-> null
             }
         }
