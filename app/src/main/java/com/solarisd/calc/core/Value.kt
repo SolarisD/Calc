@@ -205,27 +205,27 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
     }
 
     //region VALUE OPERATORS
-    /*operator fun unaryMinus(): Value{
-        return Value(!s, m, e, nan)
+    operator fun unaryMinus(): Value{
+        return this.copy(s = !s)
     }
 
     operator fun plus(b: Value): Value{
-        return getInstance(toDouble() + b.toDouble())
+        return (getDouble() + b.getDouble()).toValue()
     }
 
     operator fun minus(b: Value): Value{
-        return getInstance(toDouble() - b.toDouble())
+        return (getDouble() - b.getDouble()).toValue()
     }
 
     operator fun times(b: Value): Value{
-        return getInstance(toDouble() * b.toDouble())
+        return (getDouble() * b.getDouble()).toValue()
     }
 
     operator fun div(b: Value): Value{
-        return getInstance(toDouble() / b.toDouble())
+        return (getDouble() / b.getDouble()).toValue()
     }
 
-    fun pow(b: Value): Value{
+    /*fun pow(b: Value): Value{
         return getInstance(toDouble().pow(b.toDouble()))
     }
 

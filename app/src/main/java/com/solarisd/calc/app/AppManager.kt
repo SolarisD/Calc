@@ -75,7 +75,7 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
             .putBoolean(BUFFER_CLEAR_REQUEST_KEY, value)
             .apply()
     }
-    fun saveMemory(value: Double?){
+    fun saveMemory(value: Value?){
         if (value != null){
             pref.edit()
                 .putString(MEMORY_STATE_KEY, value.toString())

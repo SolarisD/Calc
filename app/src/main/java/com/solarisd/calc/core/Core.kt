@@ -55,11 +55,9 @@ class Core(private val dao: Dao) {
     //endregion
     //region WORK WITH MEMORY<--->BUFFER
     fun memoryClear() = memory.clear()
-    fun memoryPlus() = memory.pls(buffer.getDouble())
-    fun memoryMinus() = memory.mns(buffer.getDouble())
-    fun memoryRestore() = memory.data?.let {
-        buffer.setDouble(it)
-    }
+    fun memoryPlus() = memory.pls(buffer.getValue())
+    fun memoryMinus() = memory.mns(buffer.getValue())
+    fun memoryRestore() = buffer.setValue(memory.get())
     //endregion
     //region WORK WITH OPERATIONS<--->BUFFER
     fun clear() {
