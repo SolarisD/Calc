@@ -3,12 +3,10 @@ package com.solarisd.calc.core
 import androidx.lifecycle.MutableLiveData
 import com.solarisd.calc.app.AppManager
 
-class Memory(value: String? = null) {
-
+class Memory(value: Value? = null) {
     val out: MutableLiveData<String> = MutableLiveData()
-
-    private var value: Value? = null
-        private set(value) {
+    private var value: Value? = value
+        set(value) {
             field = value
             if (value != null){
                 out.postValue(value.toString())
@@ -16,12 +14,6 @@ class Memory(value: String? = null) {
                 out.postValue(null)
             }
         }
-
-    init {
-        value?.let {
-            this.value = it.toValue()
-        }
-    }
     fun clear(){
         value = null
         AppManager.saveMemory(null)

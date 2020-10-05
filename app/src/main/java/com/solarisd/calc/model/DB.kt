@@ -3,11 +3,9 @@ package com.solarisd.calc.model
 import android.content.Context
 import android.media.VolumeShaper
 import androidx.room.*
-import com.solarisd.calc.core.BinaryOperation
-import com.solarisd.calc.core.Operation
-import com.solarisd.calc.core.Operations
+import com.solarisd.calc.core.*
 
-@Database(entities = [Record::class, State::class], version = 4, exportSchema = false)
+@Database(entities = [Record::class, State::class], version = 5, exportSchema = false)
 @TypeConverters(DB.Converters::class)
 abstract class DB: RoomDatabase(){
     abstract fun dao(): Dao
@@ -24,9 +22,13 @@ abstract class DB: RoomDatabase(){
 
     class Converters {
         @TypeConverter
-        fun operationToString(value: Operation?): String? = ""
+        fun operationToString(operation: Operation?): String? = ""
         @TypeConverter
-        fun stringToOperation(value: String?): Operation? = null
+        fun stringToOperation(string: String?): Operation? = null
+        @TypeConverter
+        fun valueToString(value: Value?): String? = value.toString()
+        @TypeConverter
+        fun stringToValue(string: String?): Value? = string.toValue()
     }
 }
 

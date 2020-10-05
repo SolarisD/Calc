@@ -3,23 +3,14 @@ package com.solarisd.calc.core
 import androidx.lifecycle.MutableLiveData
 import com.solarisd.calc.app.AppManager
 
-class Buffer(value: String? = null) {
+class Buffer(value: Value? = null) {
     val out: MutableLiveData<String> = MutableLiveData()
-    private val v: Value = value.toValue() ?: Value()
-
+    private val v: Value = value ?: Value()
     init {
-        out.postValue(this.v.toString())
-    }
-
-    fun clear() {
-        v.clear()
         update()
     }
-    fun getDouble(): Double{
-        return v.getDouble()
-    }
-    fun setDouble(value: Double){
-        this.v.setDouble(value)
+    fun clear() {
+        v.clear()
         update()
     }
     fun getValue(): Value {

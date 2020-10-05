@@ -116,7 +116,7 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
         val memory = pref.getString(MEMORY_STATE_KEY, null)
         val binary = storeStringToOperation(pref.getString(BINARY_STATE_KEY, null))
         val last = storeStringToOperation(pref.getString(LAST_STATE_KEY, null))
-        return State(0, buffer, bufferClearRequest, memory, binary, last)
+        return State(0, buffer.toValue(), bufferClearRequest, memory.toValue(), binary, last)
     }
 
     //CONVERTERS

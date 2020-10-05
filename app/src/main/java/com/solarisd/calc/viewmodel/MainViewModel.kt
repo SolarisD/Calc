@@ -76,9 +76,10 @@ class MainViewModel(private val app: Application): AndroidViewModel(app){
     }
     fun pasteFromClipboard(value: String): String?{
         return try {
-            val double = value.toDouble()
-            c.setBufferValue(double)
-            double.toString()
+            value.toValue()?.let {
+                c.setBufferValue(it)
+            }
+            value
         } catch (e: Exception){
             null
         }
