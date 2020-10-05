@@ -135,7 +135,7 @@ class Core(private val dao: Dao) {
     }
     private fun saveToHistory(op: Operation?){
         op?.let {
-            GlobalScope.launch { dao.insertHistoryRecord(Record(expression = it.toString())) }
+            GlobalScope.launch { dao.insertHistoryRecord(Record(op = it)) }
         }
     }
     //endregion

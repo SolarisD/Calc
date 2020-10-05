@@ -120,7 +120,7 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
     }
 
     //CONVERTERS
-    private fun operationToStoreString(value: Operation?): String? =
+    fun operationToStoreString(value: Operation?): String? =
         when(value){
             is UnaryOperation -> {
                 "${value.id};${value.a}"
@@ -131,7 +131,7 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
             else-> null
         }
 
-    private fun storeStringToOperation(value: String?): Operation?{
+    fun storeStringToOperation(value: String?): Operation?{
         value?.let {
             val list = it.split(';')
             var a: Value? = null
