@@ -2,7 +2,9 @@ package com.solarisd.calc.viewmodel
 
 import android.app.Application
 import android.content.Context
+import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.media.SoundPool
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -14,8 +16,19 @@ import com.solarisd.calc.model.*
 import java.lang.Exception
 
 class MainViewModel(private val app: Application): AndroidViewModel(app){
-    private var mp: MediaPlayer? = null
     private val c = Core(DB.getInstance(app).dao())
+    private val sp: SoundPool
+    private val resID: Int
+    init {
+        val attr = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+            .build()
+        sp = SoundPool.Builder()
+            .setAudioAttributes(attr)
+            .build()
+        resID = sp.load(app, R.raw.button_click_sfx, 1)
+    }
     val bufferDisplay:  LiveData<String> = Transformations.map(c.bufferOut){
         it?.toString() ?: "0"
     }
@@ -75,16 +88,8 @@ class MainViewModel(private val app: Application): AndroidViewModel(app){
     }
     private fun sound(){
         if (AppManager.sound){
-            if (mp != null){
-                if(mp!!.isPlaying) {
-                    mp!!.stop()
-                    mp!!.reset()
-                    mp!!.release()
-                    mp = null
-                }
-            }
-            mp = MediaPlayer.create(app, R.raw.button_click_sfx)
-            mp?.start()
+            sp.stop(resID)
+            sp.play(resID, 0.1f, 0.1f, 1, 0, 1.0f)
         }
     }
 }
