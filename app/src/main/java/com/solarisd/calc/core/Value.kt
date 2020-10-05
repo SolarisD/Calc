@@ -71,7 +71,7 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
 
     fun setDouble(value: Double){
         if (value.isFinite()) {
-            val fmt = "%.${maxLength}E"
+            val fmt = "%.${maxLength - 1}E"
             var scf = String.format(fmt, value)
             //sign
             s = scf[0] == '-'
@@ -123,9 +123,12 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
     fun backspace(){
         nan?.let { clear() }
         e?.let {
+            if (it == 0) {
+                e = null
+                return
+            }
             if (it > 0) {
                 e = it - 1
-                if (e == 0) e = null
                 e?.let {
                     if (it > 0 && (m.length + it) <= maxLength){
                         val s = m.toLong() * base.pow(it).toLong()
@@ -135,7 +138,6 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
                 }
             }
             if (it < 0) e = it + 1
-            if (it == 0) e = null
             if (it + m.length >= maxLength) {
                 return
             }
@@ -170,16 +172,16 @@ data class Value(private var s: Boolean = false, private var m: String = "", pri
         for (i in value.indices){
             stb.append(value[value.length-1-i])
             if (i != value.length-1 && (i+1) % 3 == 0) stb.append(gs)
-
         }
         stb.reverse()
-        return stb.toString()
+        return if(stb.isNotEmpty()) stb.toString()
+        else "0"
     }
 
     private fun scfString(): String{
         val s = when(m.length){
-            0->{"0{$ds}0"}
-            1->{"$m{$ds}0"}
+            0->{"0${ds}0"}
+            1->{"$m${ds}0"}
             else->{StringBuilder(m).insert(1, ds).toString()}
         }
         val eAdd = m.length - 1
