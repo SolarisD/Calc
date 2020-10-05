@@ -4,15 +4,22 @@ import androidx.lifecycle.MutableLiveData
 import com.solarisd.calc.app.AppManager
 
 class Memory(value: String? = null) {
+
     val out: MutableLiveData<String> = MutableLiveData()
+
     var data: Double? = null
         private set(value) {
             field = value
-            out.postValue(value?.toDisplayString())
+            if (value != null){
+                out.postValue(value.toValue().toString())
+            } else {
+                out.postValue(null)
+            }
         }
+
     init {
         value?.let {
-            data = it.toDoubleFromDisplay()
+            data = it.toDouble()
         }
     }
     fun clear(){

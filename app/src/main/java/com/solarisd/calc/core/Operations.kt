@@ -50,6 +50,7 @@ abstract class BinaryOperation(): Operation{
 }
 
 class Operations{
+
     companion object{
         const val ADD_ID = "ADD_OPERATION"
         const val SUBTRACT_ID = "SUBTRACT_OPERATION"
@@ -61,16 +62,17 @@ class Operations{
         const val COS_ID = "COS_OPERATION"
         const val TAN_ID = "TAN_OPERATION"
     }
+
     class Add() : BinaryOperation(){
         override val id: String = ADD_ID
         override fun equal(a: Double, b: Double): Double = a+b
         override fun toString(): String {
             val post = if (isComplete){
-                "${b.toDisplayString()} = ${result.toDisplayString()}"
+                "${b.toValue().toString()} = ${result.toValue().toString()}"
             } else {
                 ""
             }
-            return "${a.toDisplayString()} + $post"
+            return "${a.toValue().toString()} + $post"
         }
     }
 
@@ -79,11 +81,11 @@ class Operations{
         override fun equal(a: Double, b: Double): Double = a-b
         override fun toString(): String {
             val post = if (isComplete){
-                "${b.toDisplayString()} = ${result.toDisplayString()}"
+                "${b.toValue().toString()} = ${result.toValue().toString()}"
             } else {
                 ""
             }
-            return "${a.toDisplayString()} - $post"
+            return "${a.toValue().toString()} - $post"
         }
     }
 
@@ -92,11 +94,11 @@ class Operations{
         override fun equal(a: Double, b: Double): Double = a*b
         override fun toString(): String {
             val post = if (isComplete){
-                "${b.toDisplayString()} = ${result.toDisplayString()}"
+                "${b.toValue().toString()} = ${result.toValue().toString()}"
             } else {
                 ""
             }
-            return "${a.toDisplayString()} × $post"
+            return "${a.toValue().toString()} × $post"
         }
     }
 
@@ -105,11 +107,11 @@ class Operations{
         override fun equal(a: Double, b: Double): Double = a/b
         override fun toString(): String {
             val post = if (isComplete){
-                "${b.toDisplayString()} = ${result.toDisplayString()}"
+                "${b.toValue().toString()} = ${result.toValue().toString()}"
             } else {
                 ""
             }
-            return "${a.toDisplayString()} ÷ $post"
+            return "${a.toValue().toString()} ÷ $post"
 
         }
     }
@@ -119,7 +121,7 @@ class Operations{
         override fun equal(a: Double): Double = a*a
         override fun toString(): String {
             val sqr = 178.toChar()
-            return "${a.toDisplayString()}$sqr = ${result.toDisplayString()}"
+            return "${a.toValue().toString()}$sqr = ${result.toValue().toString()}"
         }
     }
 
@@ -127,7 +129,7 @@ class Operations{
         override val id: String = SQRT_ID
         override fun equal(a: Double): Double = sqrt(a)
         override fun toString(): String {
-            return "√${a.toDisplayString()} = ${result.toDisplayString()}"
+            return "√${a.toValue().toString()} = ${result.toValue().toString()}"
         }
     }
 
@@ -135,7 +137,7 @@ class Operations{
         override val id: String = SIN_ID
         override fun equal(a: Double): Double = sin(a * Math.PI / 180)
         override fun toString(): String {
-            return "sin(${a.toDisplayString()}) = ${result.toDisplayString()}"
+            return "sin(${a.toValue().toString()}) = ${result.toValue().toString()}"
         }
     }
 
@@ -143,7 +145,7 @@ class Operations{
         override val id: String = COS_ID
         override fun equal(a: Double): Double = cos(a * Math.PI / 180)
         override fun toString(): String {
-            return "cos(${a.toDisplayString()}) = ${result.toDisplayString()}"
+            return "cos(${a.toValue().toString()}) = ${result.toValue().toString()}"
         }
     }
 
@@ -151,7 +153,7 @@ class Operations{
         override val id: String = TAN_ID
         override fun equal(a: Double): Double = tan(a * Math.PI / 180)
         override fun toString(): String {
-            return "tan($${a.toDisplayString()}) = ${result.toDisplayString()}"
+            return "tan($${a.toValue().toString()}) = ${result.toValue().toString()}"
         }
     }
 }
