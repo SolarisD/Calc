@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.solarisd.calc">
+    package="com.luzevdmitry.calculator">
 
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name=".app.App"
+        android:name="com.luzevdmitry.calculator.app.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_calc"
         android:label="@string/app_label"
@@ -13,28 +13,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeMain">
 
-        <activity android:name=".view.HistoryActivity"
+        <activity android:name="com.luzevdmitry.calculator.view.HistoryActivity"
             android:label="@string/history_activity_label"
-            android:parentActivityName=".view.MainActivity"
+            android:parentActivityName="com.luzevdmitry.calculator.view.MainActivity"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".view.AboutActivity"
+            android:name="com.luzevdmitry.calculator.view.AboutActivity"
             android:label="@string/about_activity_label"
-            android:parentActivityName=".view.MainActivity"
+            android:parentActivityName="com.luzevdmitry.calculator.view.MainActivity"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".view.SettingsActivity"
+            android:name="com.luzevdmitry.calculator.view.SettingsActivity"
             android:label="@string/settings_activity_label"
-            android:parentActivityName=".view.MainActivity"
+            android:parentActivityName="com.luzevdmitry.calculator.view.MainActivity"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".view.MainActivity"
+            android:name="com.luzevdmitry.calculator.view.MainActivity"
             android:label="@string/main_activity_label"
             android:screenOrientation="portrait">
 
