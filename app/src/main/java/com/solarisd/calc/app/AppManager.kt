@@ -29,9 +29,9 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
         AppManager.app = app
         pref = PreferenceManager.getDefaultSharedPreferences(app)
         keyboard = pref.getBoolean(AppManager.app.getString(R.string.extended_keyboard_key), false)
-        vibro = pref.getBoolean(AppManager.app.getString(R.string.vibration_buttons_key), false)
-        sound = pref.getBoolean(AppManager.app.getString(R.string.sound_buttons_key), false)
-        nightTheme = pref.getBoolean(AppManager.app.getString(R.string.night_theme_key), false)
+        vibro = pref.getBoolean(AppManager.app.getString(R.string.pref_haptic_buttons_key), false)
+        sound = pref.getBoolean(AppManager.app.getString(R.string.pref_sound_buttons_key), false)
+        nightTheme = pref.getBoolean(AppManager.app.getString(R.string.pref_dark_theme_key), false)
         if (nightTheme) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         pref.registerOnSharedPreferenceChangeListener(this)
@@ -44,14 +44,14 @@ object AppManager: SharedPreferences.OnSharedPreferenceChangeListener {
             app.getString(R.string.extended_keyboard_key)->{
                 keyboard = false //pref.getBoolean(app.getString(R.string.extended_keyboard_key), false)
             }
-            app.getString(R.string.vibration_buttons_key)->{
-                vibro = pref.getBoolean(app.getString(R.string.vibration_buttons_key), false)
+            app.getString(R.string.pref_haptic_buttons_key)->{
+                vibro = pref.getBoolean(app.getString(R.string.pref_haptic_buttons_key), false)
             }
-            app.getString(R.string.sound_buttons_key)->{
-                sound = pref.getBoolean(app.getString(R.string.sound_buttons_key), false)
+            app.getString(R.string.pref_sound_buttons_key)->{
+                sound = pref.getBoolean(app.getString(R.string.pref_sound_buttons_key), false)
             }
-            app.getString(R.string.night_theme_key)->{
-                nightTheme = pref.getBoolean(app.getString(R.string.night_theme_key), false)
+            app.getString(R.string.pref_dark_theme_key)->{
+                nightTheme = pref.getBoolean(app.getString(R.string.pref_dark_theme_key), false)
                 if(nightTheme) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }

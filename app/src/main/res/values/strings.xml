@@ -1,9 +1,25 @@
 <resources>
-    <string name="app_name">CalcS</string>
-
     <!--PREFERENCE KEYS-->
-    <string name="extended_keyboard_key">extended_keyboard</string>
-    <string name="vibration_buttons_key">vibration_buttons</string>
-    <string name="sound_buttons_key">sound_buttons</string>
-    <string name="night_theme_key">night_theme</string>
+    <string name="extended_keyboard_key" translatable="false">extended_keyboard</string>
+    <string name="pref_dark_theme_key" translatable="false">dark_theme</string>
+    <string name="pref_haptic_buttons_key" translatable="false">vibration_buttons</string>
+    <string name="pref_sound_buttons_key" translatable="false">sound_buttons</string>
+
+    <!--LABELS-->
+    <string name="app_label">Calculator</string>
+    <string name="main_activity_label">Calculator</string>
+    <string name="settings_activity_label">Settings</string>
+    <string name="about_activity_label">About</string>
+    <string name="history_activity_label">History</string>
+    <string name="decimal_separator">.</string>
+
+    <string name="pref_night_theme_title">Dark theme</string>
+    <string name="pref_night_theme_summary">On/off</string>
+
+    <string name="pref_haptic_buttons_title">Vibration</string>
+    <string name="pref_haptic_buttons_summary">On/off</string>
+
+    <string name="pref_sound_buttons_title">Sound</string>
+    <string name="pref_sound_buttons_summary">On/off</string>
+
 </resources>

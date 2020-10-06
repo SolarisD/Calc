@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--LABELS-->
+    <string name="app_label">Калькулятор</string>
+    <string name="main_activity_label">Калькулятор</string>
+    <string name="settings_activity_label">Настройки</string>
+    <string name="about_activity_label">О программе</string>
+    <string name="history_activity_label">История</string>
+    <string name="decimal_separator">,</string>
+
+
+    <string name="pref_night_theme_title">Темная тема</string>
+    <string name="pref_night_theme_summary">Вкл/Выкл</string>
+
+    <string name="pref_haptic_buttons_title">Виброотклик</string>
+    <string name="pref_haptic_buttons_summary">Вкл/Выкл</string>
+
+    <string name="pref_sound_buttons_title">Звук</string>
+    <string name="pref_sound_buttons_summary">Вкл/Выкл</string>
+</resources>

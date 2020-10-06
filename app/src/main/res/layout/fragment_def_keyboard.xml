@@ -219,7 +219,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_dot"
                 style="@style/SymbolButton"
-                android:text="."
+                android:text="@string/decimal_separator"
                 android:hapticFeedbackEnabled="@{appManager.vibro}"
                 android:onClick="@{() -> vm.buttonPressed(Buttons.DOT)}"/>
 

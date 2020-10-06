@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             DISPLAY_INCLUDE_COPY->{
                 display_include.tv_buffer.text?.let {
                     val cbm = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                    cbm.setPrimaryClip(ClipData.newPlainText(getString(R.string.app_name), it))
+                    cbm.setPrimaryClip(ClipData.newPlainText(getString(R.string.app_label), it))
                     Toast.makeText(this, "VALUE $it COPIED", Toast.LENGTH_SHORT).show()
                 }
             }
