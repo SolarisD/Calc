@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                 display_include.tv_buffer.text?.let {
                     val cbm = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                     cbm.setPrimaryClip(ClipData.newPlainText(getString(R.string.app_label), it))
-                    Toast.makeText(this, "VALUE $it COPIED", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, resources.getString(R.string.value_copied, it), Toast.LENGTH_SHORT).show()
                 }
             }
             DISPLAY_INCLUDE_PASTE->{
@@ -69,9 +69,8 @@ class MainActivity : AppCompatActivity() {
                     if(it.description.hasMimeType(MIMETYPE_TEXT_PLAIN)){
                         it.getItemAt(0).text?.let {text->
                             val result = vm.pasteFromClipboard(text.toString())
-                            if (result != null) Toast.makeText(this, "PASTE $result VALUE", Toast.LENGTH_SHORT).show()
-                            else Toast.makeText(this, "CAN'T PASTE $text", Toast.LENGTH_SHORT).show()
-
+                            if (result != null) Toast.makeText(this, resources.getString(R.string.value_pasted, text), Toast.LENGTH_SHORT).show()
+                            else Toast.makeText(this, resources.getString(R.string.value_not_pasted, text), Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

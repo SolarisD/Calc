@@ -75,13 +75,14 @@ class MainViewModel(private val app: Application): AndroidViewModel(app){
         }
     }
     fun pasteFromClipboard(value: String): String?{
-        return try {
+        try {
             value.toValue()?.let {
                 c.setBufferValue(it)
+                return it.toString()
             }
-            value
+            return null
         } catch (e: Exception){
-            null
+            return null
         }
     }
     fun clearInput(){

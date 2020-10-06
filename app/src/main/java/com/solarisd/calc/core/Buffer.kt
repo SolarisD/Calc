@@ -7,26 +7,26 @@ class Buffer(value: Value? = null) {
     val out: MutableLiveData<String> = MutableLiveData()
     private val v: Value = value ?: Value()
     init {
-        update()
+        post()
     }
     fun clear() {
         v.clear()
-        update()
+        post()
     }
     fun getValue(): Value {
         return v.copy()
     }
     fun setValue(value: Value){
         v.setValue(value)
-        update()
+        post()
     }
     fun negative(){
         v.negative()
-        update()
+        post()
     }
     fun backspace(){
         v.backspace()
-        update()
+        post()
     }
     fun symbol(symbol: Char){
         when(symbol){
@@ -34,9 +34,9 @@ class Buffer(value: Value? = null) {
             'π' -> v.setDouble(Math.PI)
             else -> v.addNumber(symbol)
         }
-        update()
+        post()
     }
-    private fun update(){
+    private fun post(){
         out.postValue(v.toString())
         AppManager.saveBuffer(v.copy())
     }

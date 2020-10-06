@@ -1,6 +1,9 @@
 package com.solarisd.calc.core
 
+import com.solarisd.calc.core.Value.Companion.df
+import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
 import kotlin.math.pow
 
 data class Value constructor (private var s: Boolean = false, private var m: String = "", private var e: Int? = null, private var nan: Double? = null) {
@@ -11,6 +14,7 @@ data class Value constructor (private var s: Boolean = false, private var m: Str
         const val maxLength = 10
         const val base = 10.0
         val ds = DecimalFormatSymbols.getInstance().decimalSeparator
+        val df = NumberFormat.getInstance()
         val NaN = Value(Double.NaN)
         val POSITIVE_INFINITY = Value(Double.POSITIVE_INFINITY)
         val NEGATIVE_INFINITY = Value(Double.NEGATIVE_INFINITY)
@@ -267,7 +271,7 @@ fun Double?.toValue(): Value?{
 fun String?.toValue(): Value?{
     this?.let {
         try {
-            val dbl = it.replace(" ", "").toDouble()
+            val dbl = df.parse(it.replace(" ", ""))?.toDouble() ?: 0.0
             return Value(dbl)
         }catch(e: Exception){
             return null

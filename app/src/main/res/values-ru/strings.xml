@@ -17,4 +17,7 @@
 
     <string name="pref_sound_buttons_title">Звук</string>
     <string name="pref_sound_buttons_summary">Вкл/Выкл</string>
+    <string name="value_copied">Значение %s скопировано</string>
+    <string name="value_pasted">Значение %s вставлено</string>
+    <string name="value_not_pasted">Невозможно вставить значение %s</string>
 </resources>
