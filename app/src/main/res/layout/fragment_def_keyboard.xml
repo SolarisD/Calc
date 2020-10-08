@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <import type="com.luzevdmitry.calculator.core.Buttons"/>
+        <import type="com.dmitryluzev.calculator.core.Buttons"/>
         <variable
             name="vm"
-            type="com.luzevdmitry.calculator.viewmodel.MainViewModel" />
+            type="com.dmitryluzev.calculator.viewmodel.MainViewModel" />
         <variable
             name="appManager"
-            type="com.luzevdmitry.calculator.app.AppManager" />
+            type="com.dmitryluzev.calculator.app.AppManager" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
