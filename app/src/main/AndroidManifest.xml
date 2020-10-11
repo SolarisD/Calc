@@ -7,9 +7,9 @@
     <application
         android:name="com.dmitryluzev.calculator.app.App"
         android:allowBackup="true"
-        android:icon="@drawable/ic_calc"
+        android:icon="@drawable/ic_calculator"
         android:label="@string/app_label"
-        android:roundIcon="@drawable/ic_calc_round"
+        android:roundIcon="@drawable/ic_calculator_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemeMain">
 
