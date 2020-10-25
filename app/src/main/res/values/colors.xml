@@ -10,6 +10,7 @@
     <color name="color_fore_b">#36393C</color>
     <color name="color_fore_c">#EE2829</color>
     <color name="color_fore_d">#4A6997</color>
+    <color name="color_fore_e">#A4B1C4</color>
 
     <bool name="window_light_status_bar">true</bool>
 

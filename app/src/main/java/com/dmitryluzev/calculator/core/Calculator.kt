@@ -10,7 +10,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @ActivityScope
-class Calculator @Inject constructor(private val buffer: Buffer, private val memory: Memory, private val alu: Alu){
+class Calculator @Inject constructor(private val buffer: Buffer,
+                                     private val memory: Memory,
+                                     private val alu: Alu2){
 
     val bufferDisplay: LiveData<String> = Transformations.map(buffer.out){ it?.toString() ?: "0" }
     val memoryDisplay: LiveData<String> = Transformations.map(memory.out){ if (it.isNullOrEmpty()) "" else "M: $it" }
