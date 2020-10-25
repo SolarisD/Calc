@@ -1,92 +1,59 @@
 package com.dmitryluzev.calculator.viewmodel
 
-import android.app.Application
-import android.media.AudioAttributes
-import android.media.SoundPool
-import androidx.lifecycle.*
-import com.dmitryluzev.calculator.R
-import com.dmitryluzev.calculator.app.AppManager
-import com.dmitryluzev.calculator.core.*
-import com.dmitryluzev.calculator.model.*
-import java.lang.Exception
 
-class MainViewModel(private val app: Application): AndroidViewModel(app){
-    private val c = Core(DB.getInstance(app).dao())
-    private val sp: SoundPool
-    private val resID: Int
+import androidx.lifecycle.*
+import com.dmitryluzev.calculator.core.*
+import com.dmitryluzev.calculator.di.scopes.ActivityScope
+import com.dmitryluzev.calculator.model.Dao
+import com.dmitryluzev.calculator.model.Record
+import com.dmitryluzev.calculator.operations.Operation
+import kotlinx.coroutines.*
+import javax.inject.Inject
+
+@ActivityScope
+class MainViewModel @Inject constructor(private val dao: Dao, private val calc: Calculator): ViewModel(){
+
+    val bufferDisplay:  LiveData<String> = calc.bufferDisplay
+    val memoryDisplay:  LiveData<String> = calc.memoryDisplay
+    val aluComplete:  LiveData<String> = calc.aluComplete
+    val aluCurrent:  LiveData<String> = calc.aluCurrent
+
     init {
-        val attr = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-            .build()
-        sp = SoundPool.Builder()
-            .setAudioAttributes(attr)
-            .build()
-        resID = sp.load(app, R.raw.button_click_sfx, 1)
-    }
-    val bufferDisplay:  LiveData<String> = Transformations.map(c.bufferOut){
-        it?.toString() ?: "0"
-    }
-    val memoryDisplay:  LiveData<String> = Transformations.map(c.memoryOut){
-        if (it.isNullOrEmpty()) ""
-        else "M: $it"
-    }
-    val operationDisplay:  LiveData<String> = Transformations.map(c.operationOut){
-        it?.toString() ?: ""
-    }
-    fun buttonPressed(button: Buttons){
-        //vibrate()
-        sound()
-        when(button) {
-            Buttons.ZERO-> c.symbol('0')
-            Buttons.ONE-> c.symbol('1')
-            Buttons.TWO-> c.symbol('2')
-            Buttons.THREE-> c.symbol('3')
-            Buttons.FOUR-> c.symbol('4')
-            Buttons.FIVE-> c.symbol('5')
-            Buttons.SIX-> c.symbol('6')
-            Buttons.SEVEN-> c.symbol('7')
-            Buttons.EIGHT->  c.symbol('8')
-            Buttons.NINE-> c.symbol('9')
-            Buttons.DOT-> c.symbol('.')
-            Buttons.NEGATIVE -> c.negative()
-            Buttons.CLEAR-> c.clear()
-            Buttons.BACKSPACE-> c.backspace()
-            Buttons.RESULT-> c.result()
-            Buttons.PLUS-> c.operation(Operations.Add())
-            Buttons.MINUS-> c.operation(Operations.Subtract())
-            Buttons.MULTIPLY-> c.operation(Operations.Multiply())
-            Buttons.DIVIDE-> c.operation(Operations.Divide())
-            Buttons.PERCENT-> c.percent()
-            /*Buttons.SQR-> c.operation(Operations.Sqr())
-            Buttons.SQRT-> c.operation(Operations.Sqrt())
-            Buttons.SIN-> c.operation(Operations.Sin())
-            Buttons.COS-> c.operation(Operations.Cos())
-            Buttons.TAN-> c.operation(Operations.Tan())*/
-            Buttons.M_CLEAR-> c.memoryClear()
-            Buttons.M_PLUS-> c.memoryPlus()
-            Buttons.M_MINUS-> c.memoryMinus()
-            Buttons.M_RESTORE-> c.memoryRestore()
-        }
-    }
-    fun pasteFromClipboard(value: String): String?{
-        try {
-            value.toValue()?.let {
-                c.setBufferValue(it)
-                return it.toString()
+        if (!calc.initialized){
+            viewModelScope.launch(Dispatchers.IO) {
+                val state = dao.getState(0)
+                withContext(Dispatchers.Main){
+                    state?.let {
+                        calc.setState(it)
+                    }
+                }
             }
-            return null
-        } catch (e: Exception){
-            return null
+        }
+        calc.setOnResultReadyListener {
+            viewModelScope.launch(Dispatchers.IO) {
+                dao.insertHistoryRecord(Record(op = it))
+            }
         }
     }
-    fun clearInput(){
-        c.clearBuffer()
-    }
-    private fun sound(){
-        if (AppManager.sound){
-            sp.stop(resID)
-            sp.play(resID, 0.1f, 0.1f, 1, 0, 1.0f)
+    fun saveState(){
+        val state = calc.getState()
+        viewModelScope.launch(Dispatchers.IO) {
+            dao.insertState(state)
         }
     }
+    //#region calculator forwarding
+    fun clear() = calc.clear()
+    fun symbol(symbol: Symbols) = calc.symbol(symbol)
+    fun negative() = calc.negative()
+    fun backspace() = calc.backspace()
+    fun result() = calc.result()
+    fun operation(operation: Operation)  = calc.operation(operation)
+    fun percent() = calc.percent()
+    fun memoryClear() = calc.memoryClear()
+    fun memoryAdd() = calc.memoryAdd()
+    fun memorySubtract() = calc.memorySubtract()
+    fun memoryRestore() = calc.memoryRestore()
+    fun pasteFromClipboard(value: String): String? = calc.pasteFromClipboard(value)
+    fun clearBuffer() = calc.clearBuffer()
+    //#endregion
 }

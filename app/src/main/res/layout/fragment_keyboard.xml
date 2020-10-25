@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText"
+    tools:context=".view.KeyboardFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.05"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_m_clear"
+            style="@style/MemoryButton"
+            android:text="MC" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_m_add"
+            style="@style/MemoryButton"
+            android:text="M+" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_m_subtract"
+            style="@style/MemoryButton"
+            android:text="M-" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_m_restore"
+            style="@style/MemoryButton"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:text="MR" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_clear"
+            style="@style/ClearButton"
+            android:text="C"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_backspace"
+            style="@style/OperationButton"
+            app:icon="@drawable/ic_baseline_backspace_24"
+            app:iconTint="@color/color_fore_c"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="24dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_percent"
+            style="@style/OperationButton"
+            android:text="%"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_divide"
+            style="@style/OperationButton"
+            android:text="÷"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_7"
+            style="@style/SymbolButton"
+            android:text="7"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_8"
+            style="@style/SymbolButton"
+            android:text="8"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_9"
+            style="@style/SymbolButton"
+            android:text="9"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_multiply"
+            style="@style/OperationButton"
+            android:text="×"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_4"
+            style="@style/SymbolButton"
+            android:text="4"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_5"
+            style="@style/SymbolButton"
+            android:text="5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_6"
+            style="@style/SymbolButton"
+            android:text="6"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_subtract"
+            style="@style/OperationButton"
+            android:text="-"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_1"
+            style="@style/SymbolButton"
+            android:text="1"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_2"
+            style="@style/SymbolButton"
+            android:text="2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_3"
+            style="@style/SymbolButton"
+            android:text="3"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_add"
+            style="@style/OperationButton"
+            android:text="+"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_0"
+            style="@style/SymbolButton"
+            android:text="0"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_dot"
+            style="@style/SymbolButton"
+            android:text="@string/decimal_separator"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_negative"
+            style="@style/SymbolButton"
+            android:text="±"/>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_result"
+            style="@style/OperationButton"
+            android:text="="/>
+    </LinearLayout>
+
+</LinearLayout>

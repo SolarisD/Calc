@@ -1,11 +1,11 @@
 package com.dmitryluzev.calculator.core
 
 import androidx.lifecycle.MutableLiveData
-import com.dmitryluzev.calculator.app.AppManager
+import javax.inject.Inject
 
-class Memory(value: Value? = null) {
+class Memory @Inject constructor() {
     val out: MutableLiveData<String> = MutableLiveData()
-    private var value: Value? = value
+    private var value: Value? = null
     init {
         post()
     }
@@ -13,7 +13,7 @@ class Memory(value: Value? = null) {
         value = null
         post()
     }
-    fun pls(value: Value){
+    fun add(value: Value){
         this.value = if(this.value == null){
             value
         } else{
@@ -21,7 +21,7 @@ class Memory(value: Value? = null) {
         }
         post()
     }
-    fun mns(value: Value){
+    fun sub(value: Value){
         this.value = if(this.value == null){
             -value
         } else{
@@ -29,8 +29,8 @@ class Memory(value: Value? = null) {
         }
         post()
     }
-    fun get(): Value{
-        return value?.copy() ?: Value()
+    fun getValue(): Value?{
+        return value?.copy()
     }
     private fun post(){
         if (value != null){
@@ -38,6 +38,5 @@ class Memory(value: Value? = null) {
         } else {
             out.postValue(null)
         }
-        AppManager.saveMemory(value)
     }
 }

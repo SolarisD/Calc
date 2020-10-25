@@ -1,14 +1,14 @@
 package com.dmitryluzev.calculator.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.dmitryluzev.calculator.model.DB
+import androidx.lifecycle.ViewModel
+import com.dmitryluzev.calculator.di.scopes.ActivityScope
 import com.dmitryluzev.calculator.model.Dao
 import com.dmitryluzev.calculator.model.Record
+import javax.inject.Inject
 
-class HistoryViewModel(private val app: Application): AndroidViewModel(app) {
-    private val dao: Dao = DB.getInstance(app).dao()
+@ActivityScope
+class HistoryViewModel @Inject constructor(private val dao: Dao): ViewModel() {
     val historyRecords: LiveData<List<Record>> = dao.getHistoryRecords()
     fun clearHistory() {
         dao.clearHistoryRecords()

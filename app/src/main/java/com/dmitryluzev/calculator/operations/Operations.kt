@@ -1,65 +1,17 @@
-package com.dmitryluzev.calculator.core
+package com.dmitryluzev.calculator.operations
 
-import java.lang.Exception
+import com.dmitryluzev.calculator.core.Value
 
-interface Operation {
-    val id: String
-    var a: Value?
-    val isComplete: Boolean
-    val result: Value?
-    override fun toString(): String
-}
-abstract class UnaryOperation(): Operation{
-    override var a: Value? = null
-    override val isComplete: Boolean
-        get() = a != null
-    protected abstract fun equal(a: Value): Value
-    override val result: Value?
-        get() =
-            if (isComplete){
-                try {
-                    equal(a!!)
-                }catch (e: Exception){
-                    Value.NaN
-                }
-
-            } else {
-                null
-            }
-}
-abstract class BinaryOperation(): Operation{
-    override var a: Value? = null
-    var b: Value? = null
-    override val isComplete: Boolean
-        get() = a != null && b != null
-    protected abstract fun equal(a: Value, b: Value): Value
-    override val result: Value?
-        get() =
-            if (isComplete){
-                try {
-                    equal(a!!, b!!)
-                }catch (e: Exception){
-                    Value.NaN
-                }
-
-            } else {
-                null
-            }
-}
-
-class Operations{
-
-    companion object{
-        const val ADD_ID = "ADD_OPERATION"
-        const val SUBTRACT_ID = "SUBTRACT_OPERATION"
-        const val MULTIPLY_ID = "MULTIPLY_OPERATION"
-        const val DIVIDE_ID = "DIVIDE_OPERATION"
-        const val SQR_ID = "SQR_OPERATION"
-        const val SQRT_ID = "SQRT_OPERATION"
-        const val SIN_ID = "SIN_OPERATION"
-        const val COS_ID = "COS_OPERATION"
-        const val TAN_ID = "TAN_OPERATION"
-    }
+object Operations{
+    const val ADD_ID = "ADD_OPERATION"
+    const val SUBTRACT_ID = "SUBTRACT_OPERATION"
+    const val MULTIPLY_ID = "MULTIPLY_OPERATION"
+    const val DIVIDE_ID = "DIVIDE_OPERATION"
+    const val SQR_ID = "SQR_OPERATION"
+    const val SQRT_ID = "SQRT_OPERATION"
+    const val SIN_ID = "SIN_OPERATION"
+    const val COS_ID = "COS_OPERATION"
+    const val TAN_ID = "TAN_OPERATION"
 
     class Add() : BinaryOperation(){
         override val id: String = ADD_ID
@@ -155,4 +107,3 @@ class Operations{
         }
     }*/
 }
-

@@ -2,7 +2,7 @@ package com.dmitryluzev.calculator.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.dmitryluzev.calculator.core.Operation
+import com.dmitryluzev.calculator.operations.Operation
 
 @Entity(tableName = "history_records")
 data class Record(

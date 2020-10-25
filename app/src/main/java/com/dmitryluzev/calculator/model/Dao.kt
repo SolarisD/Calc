@@ -20,6 +20,9 @@ interface Dao {
     @Query("SELECT * FROM states")
     fun getStates(): List<State>
 
+    @Query("SELECT * FROM states WHERE id = :id")
+    fun getState(id: Int): State?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertState(state: State)
 

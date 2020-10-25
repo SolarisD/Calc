@@ -10,6 +10,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.elevation = 0f
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.settings_layout, SettingsFragment())

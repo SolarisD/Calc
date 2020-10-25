@@ -1,34 +1,39 @@
 package com.dmitryluzev.calculator.view
 
-
 import android.content.ClipData
 import android.content.ClipDescription.MIMETYPE_TEXT_PLAIN
 import android.content.ClipboardManager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.ContextMenu
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.SavedStateViewModelFactory
+import com.dmitryluzev.calculator.app.App
 import com.dmitryluzev.calculator.R
-import com.dmitryluzev.calculator.app.AppManager
+import com.dmitryluzev.calculator.app.Pref
+import com.dmitryluzev.calculator.di.components.MainComponent
 import com.dmitryluzev.calculator.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.display.view.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
     companion object{
         const val DISPLAY_INCLUDE_COPY = 101;
         const val DISPLAY_INCLUDE_PASTE = 102;
     }
-    private val vm: MainViewModel by viewModels{SavedStateViewModelFactory(application, this)}
+    lateinit var mainComponent: MainComponent
+    @Inject lateinit var pref: Pref
+    @Inject lateinit var vm: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        mainComponent = (application as App).appComponent.mainComponent().create()
+        mainComponent.inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        supportActionBar?.elevation = 0f
         registration()
         loadKeyboardFragment()
     }
@@ -82,23 +87,28 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         loadKeyboardFragment()
     }
+    override fun onSaveInstanceState(outState: Bundle) {
+        vm.saveState()
+        super.onSaveInstanceState(outState)
+    }
     private fun registration(){
         vm.bufferDisplay.observe(this, { display_include.tv_buffer.text = it})
         vm.memoryDisplay.observe(this, { display_include.tv_memory.text = it})
-        vm.operationDisplay.observe(this, { display_include.tv_operation.text = it})
+        vm.aluCurrent.observe(this, { display_include.tv_current.text = it})
+        vm.aluComplete.observe(this, { display_include.tv_complete.text = it})
         display_include.setOnClickListener { showHistoryActivity() }
         registerForContextMenu(display_include)
     }
     private fun loadKeyboardFragment() {
-        if(AppManager.keyboard){
-            supportFragmentManager
+        if(pref.keyboard){
+            /*supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.keyboard_layout, ExtKeyboardFragment())
-                .commit()
+                .commit()*/
         }else{
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.keyboard_layout, DefKeyboardFragment())
+                .replace(R.id.keyboard_layout, KeyboardFragment())
                 .commit()
         }
     }
