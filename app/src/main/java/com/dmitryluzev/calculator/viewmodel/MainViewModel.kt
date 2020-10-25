@@ -15,10 +15,9 @@ class MainViewModel @Inject constructor(private val dao: Dao, private val calc: 
 
     val bufferDisplay:  LiveData<String> = calc.bufferDisplay
     val memoryDisplay:  LiveData<String> = calc.memoryDisplay
-    val aluComplete:  LiveData<String> = calc.aluComplete
-    val aluCurrent:  LiveData<String> = calc.aluCurrent
+    val operationDisplay: LiveData<List<Operation>> = calc.operationDisplay
 
-    init {
+        init {
         if (!calc.initialized){
             viewModelScope.launch(Dispatchers.IO) {
                 val state = dao.getState(0)

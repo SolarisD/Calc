@@ -9,8 +9,10 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitryluzev.calculator.app.App
 import com.dmitryluzev.calculator.R
+import com.dmitryluzev.calculator.adapter.OperationViewAdapter
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.di.components.MainComponent
 import com.dmitryluzev.calculator.viewmodel.MainViewModel
@@ -94,9 +96,11 @@ class MainActivity : AppCompatActivity() {
     private fun registration(){
         vm.bufferDisplay.observe(this, { display_include.tv_buffer.text = it})
         vm.memoryDisplay.observe(this, { display_include.tv_memory.text = it})
-        vm.aluCurrent.observe(this, { display_include.tv_current.text = it})
-        vm.aluComplete.observe(this, { display_include.tv_complete.text = it})
+        display_include.rv_operations.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true)
         display_include.setOnClickListener { showHistoryActivity() }
+        vm.operationDisplay.observe(this){
+            display_include.rv_operations.adapter = OperationViewAdapter(it)
+        }
         registerForContextMenu(display_include)
     }
     private fun loadKeyboardFragment() {

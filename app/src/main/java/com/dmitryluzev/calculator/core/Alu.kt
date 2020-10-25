@@ -7,9 +7,7 @@ import com.dmitryluzev.calculator.operations.Operations
 import javax.inject.Inject
 
 class Alu @Inject constructor(){
-    val outCurrent: MutableLiveData<String> = MutableLiveData()
-    val outComplete: MutableLiveData<String> = MutableLiveData()
-
+    val out: MutableLiveData<List<Operation>> = MutableLiveData()
     var current: Operation? = null
         private set
     var complete: Operation? = null
@@ -88,7 +86,9 @@ class Alu @Inject constructor(){
         onResultReadyListener = listener
     }
     private fun post(){
-        outComplete.postValue(if(complete == null) "" else complete.toString())
-        outCurrent.postValue(if(current == null) "" else current.toString())
+        val ret: MutableList<Operation> = mutableListOf()
+        current?.let { ret.add(it) }
+        complete?.let { ret.add(it) }
+        out.postValue(ret)
     }
 }

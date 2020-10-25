@@ -5,14 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".view.MainActivity">
-
-
     <include
         android:id="@+id/display_include"
         layout="@layout/display"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"/>
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"/>
 
     <FrameLayout
         android:id="@+id/keyboard_layout"

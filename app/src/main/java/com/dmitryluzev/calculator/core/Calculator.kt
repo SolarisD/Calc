@@ -14,9 +14,7 @@ class Calculator @Inject constructor(private val buffer: Buffer, private val mem
 
     val bufferDisplay: LiveData<String> = Transformations.map(buffer.out){ it?.toString() ?: "0" }
     val memoryDisplay: LiveData<String> = Transformations.map(memory.out){ if (it.isNullOrEmpty()) "" else "M: $it" }
-    val aluComplete: LiveData<String> = alu.outComplete
-    val aluCurrent: LiveData<String> = alu.outCurrent
-
+    val operationDisplay: LiveData<List<Operation>> = alu.out
     private var onResultReadyListener: ((Operation)->Unit)? = null
     var initialized = false
         private set
