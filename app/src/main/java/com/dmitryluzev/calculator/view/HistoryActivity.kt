@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.adapter.HistoryViewAdapter
 import com.dmitryluzev.calculator.app.App
-import com.dmitryluzev.calculator.di.components.HistoryComponent
 import com.dmitryluzev.calculator.viewmodel.HistoryViewModel
 import kotlinx.android.synthetic.main.activity_history.*
 import kotlinx.coroutines.Dispatchers

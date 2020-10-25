@@ -8,18 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.operations.Operation
 
-class HistoryViewAdapterH(private val records: List<Operation>): RecyclerView.Adapter<HistoryViewAdapterH.HistoryViewHolder>()  {
+class OperationViewAdapter(private val records: List<Operation>): RecyclerView.Adapter<OperationViewAdapter.HistoryViewHolder>()  {
     class HistoryViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val historyRecord: TextView = view.findViewById(R.id.tv_history_record)
+        val operation: TextView = view.findViewById(R.id.tv_operation)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.history_view_holder, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.operation_view_holder, parent, false)
         return HistoryViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        holder.historyRecord.text = records[position].toString()
+        holder.operation.text = records[position].toString()
     }
 
     override fun getItemCount(): Int {
