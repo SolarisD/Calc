@@ -9,7 +9,7 @@
     <string name="app_label">Calculator</string>
     <string name="main_activity_label">Calculator</string>
     <string name="settings_activity_label">Settings</string>
-    <string name="about_activity_label">About</string>
+    <string name="info_activity_label">Info</string>
     <string name="history_activity_label">History</string>
     <string name="decimal_separator">.</string>
 
@@ -26,4 +26,6 @@
     <string name="value_copied">"Value %s is copied"</string>
     <string name="value_pasted">"Value %s is pasted"</string>
     <string name="value_not_pasted">Can\'t paste value %s</string>
+    <string name="build_type">Build type:</string>
+    <string name="app_version">App version:</string>
 </resources>

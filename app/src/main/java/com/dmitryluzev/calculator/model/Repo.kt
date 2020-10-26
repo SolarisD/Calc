@@ -24,7 +24,6 @@ class Repo @Inject constructor(private val dao: Dao, private val pref: Pref) {
             dao.clearHistoryRecords()
         }
     }
-
     fun saveState(state: Calculator.State) = pref.saveState(state)
     fun restoreState(): Calculator.State = pref.restoreState()
 }

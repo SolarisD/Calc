@@ -20,8 +20,8 @@
         </activity>
 
         <activity
-            android:name="com.dmitryluzev.calculator.view.AboutActivity"
-            android:label="@string/about_activity_label"
+            android:name="com.dmitryluzev.calculator.view.InfoActivity"
+            android:label="@string/info_activity_label"
             android:parentActivityName="com.dmitryluzev.calculator.view.MainActivity"
             android:screenOrientation="portrait">
         </activity>

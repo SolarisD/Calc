@@ -4,7 +4,7 @@
     <string name="app_label">Калькулятор</string>
     <string name="main_activity_label">Калькулятор</string>
     <string name="settings_activity_label">Настройки</string>
-    <string name="about_activity_label">О программе</string>
+    <string name="info_activity_label">Информация</string>
     <string name="history_activity_label">История</string>
     <string name="decimal_separator">,</string>
 
@@ -20,4 +20,6 @@
     <string name="value_copied">Значение %s скопировано</string>
     <string name="value_pasted">Значение %s вставлено</string>
     <string name="value_not_pasted">Невозможно вставить значение %s</string>
+    <string name="build_type">Тип сборки:</string>
+    <string name="app_version">Версия приложения:</string>
 </resources>

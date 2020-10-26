@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitryluzev.calculator.app.App
 import com.dmitryluzev.calculator.R
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.settings_menu_item-> showSettingsActivity()
-            /*R.id.about_menu_item-> showAboutActivity()*/
+            R.id.about_menu_item-> showAboutActivity()
         }
         return true
     }
@@ -120,7 +119,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, SettingsActivity::class.java))
     }
     private fun showAboutActivity() {
-        startActivity(Intent(this, AboutActivity::class.java))
+        startActivity(Intent(this, InfoActivity::class.java))
     }
     private fun showHistoryActivity() {
         startActivity(Intent(this, HistoryActivity::class.java))
