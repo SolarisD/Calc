@@ -4,6 +4,14 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+    signingConfigs {
+        test_signing {
+            storeFile file('/mnt/MEDIA/PROJECS/Android/Keys/luzevdmitry_calculator.jks')
+            storePassword '12041961Polet!'
+            keyAlias 'calculator'
+            keyPassword '12041961Polet!'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
@@ -11,9 +19,9 @@ android {
         applicationId "com.luzevdmitry.calculator"
         minSdkVersion 20
         targetSdkVersion 30
-        multiDexEnabled true
-        versionCode 2
-        versionName "1.0.1"
+        //multiDexEnabled true
+        versionCode 3
+        versionName "1.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -22,6 +30,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.test_signing
         }
     }
 

@@ -8,9 +8,9 @@ import com.dmitryluzev.calculator.model.Repo
 import com.dmitryluzev.calculator.operations.Operation
 import kotlinx.coroutines.*
 import javax.inject.Inject
-
+//: ViewModel()
 @ActivityScope
-class MainViewModel @Inject constructor(private val calc: Calculator, private val repo: Repo): ViewModel(){
+class MainViewModel @Inject constructor(private val calc: Calculator, private val repo: Repo){
 
     val bufferDisplay:  LiveData<String> = calc.bufferDisplay
     val memoryDisplay:  LiveData<String> = calc.memoryDisplay
