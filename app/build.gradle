@@ -11,6 +11,7 @@ android {
         applicationId "com.luzevdmitry.calculator"
         minSdkVersion 20
         targetSdkVersion 30
+        multiDexEnabled true
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

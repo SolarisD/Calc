@@ -20,4 +20,6 @@ abstract class UnaryOperation(): Operation {
             } else {
                 null
             }
+
+    override fun toStoreString(): String = "${id};${a}"
 }

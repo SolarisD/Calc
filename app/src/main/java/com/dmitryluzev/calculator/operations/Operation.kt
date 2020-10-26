@@ -8,4 +8,5 @@ interface Operation {
     val isComplete: Boolean
     val result: Value?
     override fun toString(): String
+    fun toStoreString(): String
 }

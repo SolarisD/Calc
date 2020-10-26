@@ -4,41 +4,28 @@ package com.dmitryluzev.calculator.viewmodel
 import androidx.lifecycle.*
 import com.dmitryluzev.calculator.core.*
 import com.dmitryluzev.calculator.di.scopes.ActivityScope
-import com.dmitryluzev.calculator.model.Dao
-import com.dmitryluzev.calculator.model.Record
+import com.dmitryluzev.calculator.model.Repo
 import com.dmitryluzev.calculator.operations.Operation
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @ActivityScope
-class MainViewModel @Inject constructor(private val dao: Dao, private val calc: Calculator): ViewModel(){
+class MainViewModel @Inject constructor(private val calc: Calculator, private val repo: Repo): ViewModel(){
 
     val bufferDisplay:  LiveData<String> = calc.bufferDisplay
     val memoryDisplay:  LiveData<String> = calc.memoryDisplay
     val operationDisplay: LiveData<List<Operation>> = calc.operationDisplay
 
-        init {
+    init {
         if (!calc.initialized){
-            viewModelScope.launch(Dispatchers.IO) {
-                val state = dao.getState(0)
-                withContext(Dispatchers.Main){
-                    state?.let {
-                        calc.setState(it)
-                    }
-                }
-            }
+            calc.setState(repo.restoreState())
         }
         calc.setOnResultReadyListener {
-            viewModelScope.launch(Dispatchers.IO) {
-                dao.insertHistoryRecord(Record(op = it))
-            }
+            repo.saveToHistory(it)
         }
     }
     fun saveState(){
-        val state = calc.getState()
-        viewModelScope.launch(Dispatchers.IO) {
-            dao.insertState(state)
-        }
+        repo.saveState(calc.getState())
     }
     //#region calculator forwarding
     fun clear() = calc.clear()

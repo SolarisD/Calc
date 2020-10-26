@@ -3,33 +3,28 @@ package com.dmitryluzev.calculator.core
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.dmitryluzev.calculator.di.scopes.ActivityScope
-import com.dmitryluzev.calculator.model.State
 import com.dmitryluzev.calculator.operations.Operation
 import java.lang.Exception
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @ActivityScope
 class Calculator @Inject constructor(private val buffer: Buffer,
                                      private val memory: Memory,
-                                     private val alu: Alu2){
-
+                                     private val alu: Alu){
     val bufferDisplay: LiveData<String> = Transformations.map(buffer.out){ it?.toString() ?: "0" }
     val memoryDisplay: LiveData<String> = Transformations.map(memory.out){ if (it.isNullOrEmpty()) "" else "M: $it" }
     val operationDisplay: LiveData<List<Operation>> = alu.out
     private var onResultReadyListener: ((Operation)->Unit)? = null
     var initialized = false
         private set
-
     init {
         alu.setOnResultReadyListener { buffer.setValue(it.result!!); onResultReadyListener?.invoke(it) }
     }
-
-    fun getState() = State(0, buffer.getValue(), memory.getValue(), alu.current, alu.complete)
+    fun getState() = State(buffer.getValue(), memory.getValue(), alu.current, alu.complete, alu.prev)
     fun setState(state: State){
         state.buffer?.let { buffer.setValue(it) }
         state.memory?.let { memory.add(it) }
-        alu.setState(state.current, state.complete)
+        alu.setState(state.current, state.complete, state.prev)
         initialized = true
     }
     fun setOnResultReadyListener(listener:(Operation) -> Unit){
@@ -74,4 +69,12 @@ class Calculator @Inject constructor(private val buffer: Buffer,
     fun clearBuffer(){
         buffer.clear()
     }
+
+    data class State(
+        val buffer: Value? = null,
+        val memory: Value? = null,
+        val current: Operation? = null,
+        val complete: Operation? = null,
+        val prev: Operation? = null
+    )
 }

@@ -21,4 +21,6 @@ abstract class BinaryOperation(): Operation {
             } else {
                 null
             }
+
+    override fun toStoreString(): String = "${id};${a};${b}"
 }
