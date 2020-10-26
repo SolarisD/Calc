@@ -9,7 +9,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class Repo @Inject constructor(private val dao: Dao, private val pref: Pref) {
     val history: LiveData<List<Operation>> = Transformations.map(dao.getHistoryRecords()){ it.map { it.op }}
     fun saveToHistory(operation: Operation){
