@@ -2,15 +2,15 @@ package com.dmitryluzev.calculator.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.dmitryluzev.calculator.di.scopes.ActivityScope
 import com.dmitryluzev.calculator.operations.Operation
 import java.lang.Exception
-import javax.inject.Inject
 
-@ActivityScope
-class Calculator @Inject constructor(private val buffer: Buffer,
-                                     private val memory: Memory,
-                                     private val alu: Alu){
+
+class Calculator constructor(){
+    private val buffer: Buffer = Buffer()
+    private val memory: Memory = Memory()
+    private val alu: Alu = Alu()
+
     val bufferDisplay: LiveData<String> = Transformations.map(buffer.out){ it?.toString() ?: "0" }
     val memoryDisplay: LiveData<String> = Transformations.map(memory.out){ if (it.isNullOrEmpty()) "" else "M: $it" }
     val operationDisplay: LiveData<List<Operation>> = alu.out

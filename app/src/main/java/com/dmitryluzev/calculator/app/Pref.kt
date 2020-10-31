@@ -8,9 +8,6 @@ import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.core.Calculator
 import com.dmitryluzev.calculator.core.toOperation
 import com.dmitryluzev.calculator.core.toValue
-import com.dmitryluzev.calculator.model.Converters
-import javax.inject.Inject
-import javax.inject.Singleton
 
 const val BUFFER_STATE_KEY = "buffer_state"
 const val MEMORY_STATE_KEY = "memory_state"
@@ -19,18 +16,26 @@ const val COMPLETE_OP_STATE_KEY = "complete_op_state"
 const val PREV_OP_STATE_KEY = "prev_op_state"
 
 
-@Singleton
-class Pref @Inject constructor(private val application: Application): SharedPreferences.OnSharedPreferenceChangeListener {
+
+class Pref private constructor(private val application: Application): SharedPreferences.OnSharedPreferenceChangeListener {
+    companion object{
+        private var instance: Pref? = null
+        fun getInstance(application: Application): Pref {
+            if (instance == null) {
+                instance = Pref(application)
+            }
+            return instance!!
+        }
+    }
+
+
     private var pref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
     private var nightTheme: Boolean = false
     var haptic: Boolean = false
         private set
     var sound: Boolean = false
         private set
-    var keyboard: Boolean = false
-        private set
     init {
-        keyboard = pref.getBoolean(application.getString(R.string.extended_keyboard_key), false)
         haptic = pref.getBoolean(application.getString(R.string.pref_haptic_buttons_key), false)
         sound = pref.getBoolean(application.getString(R.string.pref_sound_buttons_key), false)
         nightTheme = pref.getBoolean(application.getString(R.string.pref_dark_theme_key), false)
@@ -40,9 +45,6 @@ class Pref @Inject constructor(private val application: Application): SharedPref
     }
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
         when(p1){
-            application.getString(R.string.extended_keyboard_key)->{
-                keyboard = false //pref.getBoolean(app.getString(R.string.extended_keyboard_key), false)
-            }
             application.getString(R.string.pref_haptic_buttons_key)->{
                 haptic = pref.getBoolean(application.getString(R.string.pref_haptic_buttons_key), false)
             }

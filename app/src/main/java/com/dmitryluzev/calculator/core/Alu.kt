@@ -4,9 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import com.dmitryluzev.calculator.operations.BinaryOperation
 import com.dmitryluzev.calculator.operations.Operation
 import com.dmitryluzev.calculator.operations.Operations
-import javax.inject.Inject
 
-class Alu @Inject constructor(){
+class Alu constructor(){
     val out: MutableLiveData<List<Operation>> = MutableLiveData()
     var current: Operation? = null
         private set

@@ -1,16 +1,13 @@
-package com.dmitryluzev.calculator.viewmodel
+package com.dmitryluzev.calculator.view.main
 
 
+import android.app.Application
 import androidx.lifecycle.*
 import com.dmitryluzev.calculator.core.*
-import com.dmitryluzev.calculator.di.scopes.ActivityScope
 import com.dmitryluzev.calculator.model.Repo
 import com.dmitryluzev.calculator.operations.Operation
-import kotlinx.coroutines.*
-import javax.inject.Inject
-//: ViewModel()
-@ActivityScope
-class MainViewModel @Inject constructor(private val calc: Calculator, private val repo: Repo){
+
+class MainViewModel(private val repo: Repo, private val calc: Calculator): ViewModel(){
 
     val bufferDisplay:  LiveData<String> = calc.bufferDisplay
     val memoryDisplay:  LiveData<String> = calc.memoryDisplay
@@ -28,7 +25,7 @@ class MainViewModel @Inject constructor(private val calc: Calculator, private va
         repo.saveState(calc.getState())
     }
     //#region calculator forwarding
-    fun clear() = calc.clear()
+    fun clearCalc() = calc.clear()
     fun symbol(symbol: Symbols) = calc.symbol(symbol)
     fun negative() = calc.negative()
     fun backspace() = calc.backspace()
@@ -42,4 +39,14 @@ class MainViewModel @Inject constructor(private val calc: Calculator, private va
     fun pasteFromClipboard(value: String): String? = calc.pasteFromClipboard(value)
     fun clearBuffer() = calc.clearBuffer()
     //#endregion
+}
+
+class MainViewModelFactory(private val repo: Repo, private val calc: Calculator): ViewModelProvider.Factory{
+    @Suppress("unchecked_cast")
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        if(modelClass.isAssignableFrom(MainViewModel::class.java)){
+            return MainViewModel(repo, calc) as T
+        }
+        throw IllegalArgumentException("ViewModel class isn't MainViewModel")
+    }
 }

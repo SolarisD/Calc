@@ -12,8 +12,8 @@ interface Dao {
     fun getHistoryRecords(): LiveData<List<Record>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertHistoryRecord(history: Record)
+    suspend fun insertHistoryRecord(history: Record)
 
     @Query("DELETE FROM history_records")
-    fun clearHistoryRecords()
+    suspend fun clearHistoryRecords()
 }

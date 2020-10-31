@@ -1,9 +1,8 @@
 package com.dmitryluzev.calculator.core
 
 import androidx.lifecycle.MutableLiveData
-import javax.inject.Inject
 
-class Memory @Inject constructor() {
+class Memory constructor() {
     val out: MutableLiveData<String> = MutableLiveData()
     private var value: Value? = null
     init {
