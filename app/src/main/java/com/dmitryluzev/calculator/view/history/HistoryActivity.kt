@@ -18,7 +18,8 @@ import kotlinx.coroutines.launch
 class HistoryActivity : AppCompatActivity() {
     private lateinit var vm: HistoryViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
-        vm = ViewModelProvider(this, HistoryViewModelFactory(Repo.getInstance(application)))
+        val repo = Repo.getInstance(application)
+        vm = ViewModelProvider(this, HistoryViewModelFactory(repo))
             .get(HistoryViewModel::class.java)
 
         super.onCreate(savedInstanceState)

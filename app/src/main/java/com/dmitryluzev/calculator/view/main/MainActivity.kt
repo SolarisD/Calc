@@ -8,20 +8,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.adapter.OperationViewAdapter
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.core.Calculator
+import com.dmitryluzev.calculator.databinding.ActivityMainBinding
 import com.dmitryluzev.calculator.model.Repo
 import com.dmitryluzev.calculator.view.history.HistoryActivity
 import com.dmitryluzev.calculator.view.InfoActivity
-import com.dmitryluzev.calculator.view.KeyboardFragment
+import com.dmitryluzev.calculator.view.keyboard.KeyboardFragment
 import com.dmitryluzev.calculator.view.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.display.view.*
 
 class MainActivity : AppCompatActivity() {
     companion object{
@@ -31,12 +31,22 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var vm: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
-        vm = ViewModelProvider(this, MainViewModelFactory(Repo.getInstance(application), Calculator()))
+        val calc = Calculator.getInstance()
+        val repo = Repo.getInstance(application)
+        val pref = Pref.getInstance(application)
+        vm = ViewModelProvider(this, MainViewModelFactory(calc, repo, pref))
             .get(MainViewModel::class.java)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        binding.lifecycleOwner = this
+        binding.vm = vm
+        binding.displayView.setOnClickListener { showHistoryActivity() }
+        binding.rvOperations.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true)
+        vm.operationDisplay.observe(this){
+            binding.rvOperations.adapter = OperationViewAdapter(it)
+        }
         supportActionBar?.elevation = 0f
-        registration()
+        registerForContextMenu(display_view)
         loadKeyboardFragment()
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -54,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
         when(v){
-            display_include->{
+            display_view->{
                 /*menu?.setHeaderTitle("Copy/paste menu")*/
                 menu?.add(Menu.NONE, DISPLAY_INCLUDE_COPY, Menu.NONE, "Copy");
                 menu?.add(Menu.NONE, DISPLAY_INCLUDE_PASTE, Menu.NONE, "Paste")
@@ -64,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     override fun onContextItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             DISPLAY_INCLUDE_COPY ->{
-                display_include.tv_buffer.text?.let {
+                tv_buffer.text?.let {
                     val cbm = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                     cbm.setPrimaryClip(ClipData.newPlainText(getString(R.string.app_label), it))
                     //Toast.makeText(this, resources.getString(R.string.value_copied, it), Toast.LENGTH_SHORT).show()
@@ -92,16 +102,6 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         vm.saveState()
         super.onSaveInstanceState(outState)
-    }
-    private fun registration(){
-        vm.bufferDisplay.observe(this, { display_include.tv_buffer.text = it})
-        vm.memoryDisplay.observe(this, { display_include.tv_memory.text = it})
-        display_include.rv_operations.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true)
-        display_include.setOnClickListener { showHistoryActivity() }
-        vm.operationDisplay.observe(this){
-            display_include.rv_operations.adapter = OperationViewAdapter(it)
-        }
-        registerForContextMenu(display_include)
     }
     private fun loadKeyboardFragment() {
         supportFragmentManager

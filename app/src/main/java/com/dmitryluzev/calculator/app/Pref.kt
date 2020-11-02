@@ -3,22 +3,27 @@ package com.dmitryluzev.calculator.app
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.core.Calculator
 import com.dmitryluzev.calculator.core.toOperation
 import com.dmitryluzev.calculator.core.toValue
 
-const val BUFFER_STATE_KEY = "buffer_state"
-const val MEMORY_STATE_KEY = "memory_state"
-const val CURRENT_OP_STATE_KEY = "current_op_state"
-const val COMPLETE_OP_STATE_KEY = "complete_op_state"
-const val PREV_OP_STATE_KEY = "prev_op_state"
+
 
 
 
 class Pref private constructor(private val application: Application): SharedPreferences.OnSharedPreferenceChangeListener {
     companion object{
+
+        const val BUFFER_STATE_KEY = "buffer_state"
+        const val MEMORY_STATE_KEY = "memory_state"
+        const val CURRENT_OP_STATE_KEY = "current_op_state"
+        const val COMPLETE_OP_STATE_KEY = "complete_op_state"
+        const val PREV_OP_STATE_KEY = "prev_op_state"
+
         private var instance: Pref? = null
         fun getInstance(application: Application): Pref {
             if (instance == null) {
@@ -27,20 +32,17 @@ class Pref private constructor(private val application: Application): SharedPref
             return instance!!
         }
     }
+    private val pref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
 
+    var haptic: Boolean
+        private set
+    var sound: Boolean
+        private set
 
-    private var pref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
-    private var nightTheme: Boolean = false
-    var haptic: Boolean = false
-        private set
-    var sound: Boolean = false
-        private set
     init {
         haptic = pref.getBoolean(application.getString(R.string.pref_haptic_buttons_key), false)
         sound = pref.getBoolean(application.getString(R.string.pref_sound_buttons_key), false)
-        nightTheme = pref.getBoolean(application.getString(R.string.pref_dark_theme_key), false)
-        if (nightTheme) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        setAppTheme()
         pref.registerOnSharedPreferenceChangeListener(this)
     }
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
@@ -49,16 +51,18 @@ class Pref private constructor(private val application: Application): SharedPref
                 haptic = pref.getBoolean(application.getString(R.string.pref_haptic_buttons_key), false)
             }
             application.getString(R.string.pref_sound_buttons_key)->{
-                sound = pref.getBoolean(application.getString(R.string.pref_sound_buttons_key), false)
+                sound  = pref.getBoolean(application.getString(R.string.pref_sound_buttons_key), false)
             }
             application.getString(R.string.pref_dark_theme_key)->{
-                nightTheme = pref.getBoolean(application.getString(R.string.pref_dark_theme_key), false)
-                if(nightTheme) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                setAppTheme()
             }
         }
     }
-
+    private fun setAppTheme(){
+        if(pref.getBoolean(application.getString(R.string.pref_dark_theme_key), false))
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    }
     fun restoreState(): Calculator.State {
         val buffer = pref.getString(BUFFER_STATE_KEY, null)?.toValue()
         val memory = pref.getString(MEMORY_STATE_KEY, null)?.toValue()

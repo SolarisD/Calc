@@ -2,11 +2,22 @@ package com.dmitryluzev.calculator.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.dmitryluzev.calculator.operations.Operation
+import com.dmitryluzev.calculator.core.operations.Operation
 import java.lang.Exception
 
 
-class Calculator constructor(){
+class Calculator private constructor(){
+    companion object{
+        private var INSTANCE: Calculator? = null
+        fun getInstance(): Calculator{
+            var instance = INSTANCE
+            if (instance == null){
+                instance = Calculator()
+                INSTANCE = instance
+            }
+            return instance
+        }
+    }
     private val buffer: Buffer = Buffer()
     private val memory: Memory = Memory()
     private val alu: Alu = Alu()

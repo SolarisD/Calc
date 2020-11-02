@@ -1,21 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".view.main.MainActivity">
-    <include
-        android:id="@+id/display_include"
-        layout="@layout/display"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
-        android:id="@+id/keyboard_layout"
+    <data>
+        <variable
+            name="vm"
+            type="com.dmitryluzev.calculator.view.main.MainViewModel" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="4dp"/>
-</LinearLayout>
+        android:orientation="vertical"
+        tools:context=".view.main.MainActivity">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/display_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/color_a"
+            tools:ignore="HardcodedText"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_memory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{vm.memoryDisplay}"
+                    android:textColor="@color/color_fore_d"
+                    android:gravity="start|center_vertical"
+                    android:padding="4dp"
+                    android:textSize="16sp"
+                    android:maxLines="1" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_buffer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_fore_a"
+                    android:gravity="center_vertical|end"
+                    android:text="@{vm.bufferDisplay}"
+                    android:padding="4dp"
+                    android:textSize="46sp"
+                    android:maxLines="1" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_operations"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    app:cardBackgroundColor="@color/color_a" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <FrameLayout
+            android:id="@+id/keyboard_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp" />
+    </LinearLayout>
+</layout>

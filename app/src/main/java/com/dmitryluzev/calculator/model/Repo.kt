@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.core.Calculator
-import com.dmitryluzev.calculator.operations.Operation
+import com.dmitryluzev.calculator.core.operations.Operation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -35,6 +35,4 @@ class Repo private constructor(application: Application) {
             dao.clearHistoryRecords()
         }
     }
-    fun saveState(state: Calculator.State) = pref.saveState(state)
-    fun restoreState(): Calculator.State = pref.restoreState()
 }

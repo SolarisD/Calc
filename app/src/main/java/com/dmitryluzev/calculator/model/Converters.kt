@@ -2,12 +2,9 @@ package com.dmitryluzev.calculator.model
 
 import androidx.room.TypeConverter
 import com.dmitryluzev.calculator.core.Value
+import com.dmitryluzev.calculator.core.operations.Operation
 import com.dmitryluzev.calculator.core.toOperation
 import com.dmitryluzev.calculator.core.toValue
-import com.dmitryluzev.calculator.operations.BinaryOperation
-import com.dmitryluzev.calculator.operations.Operation
-import com.dmitryluzev.calculator.operations.Operations
-import com.dmitryluzev.calculator.operations.UnaryOperation
 
 class Converters {
     @TypeConverter
