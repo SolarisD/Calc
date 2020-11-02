@@ -1,12 +1,12 @@
 package com.dmitryluzev.calculator.core
 
 import androidx.lifecycle.MutableLiveData
-import com.dmitryluzev.calculator.operations.BinaryOperation
-import com.dmitryluzev.calculator.operations.Operation
-import com.dmitryluzev.calculator.operations.Operations
-import javax.inject.Inject
+import com.dmitryluzev.calculator.core.operations.BinaryOperation
+import com.dmitryluzev.calculator.core.operations.Multiply
+import com.dmitryluzev.calculator.core.operations.Operation
+import com.dmitryluzev.calculator.core.operations.UnaryOperation
 
-class Alu @Inject constructor(){
+class Alu constructor(){
     val out: MutableLiveData<List<Operation>> = MutableLiveData()
     var current: Operation? = null
         private set
@@ -28,14 +28,15 @@ class Alu @Inject constructor(){
     }
     fun setOperation(operation: Operation, value: Value){
         if (current == null){
-            if (operation is BinaryOperation){
-                current = operation
-                current!!.a = value
-            } else {
+            if (operation is UnaryOperation) {
                 operation.a = value
                 current = operation
                 push()
                 onResultReadyListener?.invoke(complete!!)
+            }
+            if (operation is BinaryOperation){
+                operation.a = value
+                current = operation
             }
         }
         post()
@@ -72,7 +73,7 @@ class Alu @Inject constructor(){
             push()
             onResultReadyListener?.invoke(complete!!)
         } else {
-            val ret = Operations.Multiply()
+            val ret = Multiply()
             ret.a = Value(1.0)
             ret.b = Value(0.01) * value
             current = ret

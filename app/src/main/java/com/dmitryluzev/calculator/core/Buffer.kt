@@ -1,9 +1,8 @@
 package com.dmitryluzev.calculator.core
 
 import androidx.lifecycle.MutableLiveData
-import javax.inject.Inject
 
-class Buffer @Inject constructor() {
+class Buffer constructor() {
     val out: MutableLiveData<String> = MutableLiveData()
     private val v: Value = Value()
     var clearRequest = false

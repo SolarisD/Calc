@@ -1,8 +1,6 @@
 package com.dmitryluzev.calculator.core
 
-import android.media.VolumeShaper
-import com.dmitryluzev.calculator.operations.Operation
-import com.dmitryluzev.calculator.operations.Operations
+import com.dmitryluzev.calculator.core.operations.*
 
 fun Double.toValue(): Value{
     return Value(this)
@@ -33,55 +31,30 @@ fun String?.toOperation(): Operation?{
         var b: Value? = null
         if (list.size > 2 && list[2] != "null") b = list[2].toValue()
         return when(list[0]){
-            Operations.ADD_ID -> {
-                Operations.Add().apply {
+            ID.ADD.tag -> {
+                Add().apply {
                     this.a = a
                     this.b = b
                 }
             }
-            Operations.SUBTRACT_ID -> {
-                Operations.Subtract().apply {
+            ID.SUBTRACT.tag -> {
+                Subtract().apply {
                     this.a = a
                     this.b = b
                 }
             }
-            Operations.MULTIPLY_ID -> {
-                Operations.Multiply().apply {
+            ID.MULTIPLY.tag -> {
+                Multiply().apply {
                     this.a = a
                     this.b = b
                 }
             }
-            Operations.DIVIDE_ID ->{
-                Operations.Divide().apply {
+            ID.DIVIDE.tag ->{
+                Divide().apply {
                     this.a = a
                     this.b = b
                 }
             }
-            /*Operations.SQR_ID ->{
-                Operations.Sqr().apply {
-                    this.a = a
-                }
-            }
-            Operations.SQRT_ID ->{
-                Operations.Sqrt().apply {
-                    this.a = a
-                }
-            }
-            Operations.SIN_ID ->{
-                Operations.Sin().apply {
-                    this.a = a
-                }
-            }
-            Operations.COS_ID ->{
-                Operations.Cos().apply {
-                    this.a = a
-                }
-            }
-            Operations.TAN_ID ->{
-                Operations.Tan().apply {
-                    this.a = a
-                }
-            }*/
             else-> null
         }
     }

@@ -4,11 +4,17 @@ import android.app.Application
 import android.media.AudioAttributes
 import android.media.SoundPool
 import com.dmitryluzev.calculator.R
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class Sound @Inject constructor(application: Application) {
+class Sound private constructor(application: Application) {
+    companion object{
+        private var instance: Sound? = null
+        fun getInstance(application: Application): Sound {
+            if (instance == null) {
+                instance = Sound(application)
+            }
+            return instance!!
+        }
+    }
     private var sp: SoundPool
     private var buttonSoundId: Int
     init {

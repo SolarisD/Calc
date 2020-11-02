@@ -1,28 +1,31 @@
-package com.dmitryluzev.calculator.view
+package com.dmitryluzev.calculator.view.history
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.adapter.HistoryViewAdapter
-import com.dmitryluzev.calculator.app.App
-import com.dmitryluzev.calculator.viewmodel.HistoryViewModel
+import com.dmitryluzev.calculator.databinding.ActivityHistoryBinding
+import com.dmitryluzev.calculator.model.Repo
 import kotlinx.android.synthetic.main.activity_history.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class HistoryActivity : AppCompatActivity() {
-    @Inject lateinit var vm: HistoryViewModel
-
+    private lateinit var vm: HistoryViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
-        (application as App).appComponent.historyComponent().create().inject(this)
+        val repo = Repo.getInstance(application)
+        vm = ViewModelProvider(this, HistoryViewModelFactory(repo))
+            .get(HistoryViewModel::class.java)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_history)
-
+        val binding = ActivityHistoryBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.vm = vm
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
 
