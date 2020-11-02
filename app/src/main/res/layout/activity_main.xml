@@ -22,7 +22,8 @@
             app:cardBackgroundColor="@color/color_a"
             tools:ignore="HardcodedText"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp">
+            android:layout_marginRight="8dp"
+            android:onClick="startHistoryActivity">
 
             <LinearLayout
                 android:orientation="vertical"

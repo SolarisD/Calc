@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.vm = vm
-        binding.displayView.setOnClickListener { showHistoryActivity() }
         binding.rvOperations.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true)
         vm.operationDisplay.observe(this){
             binding.rvOperations.adapter = OperationViewAdapter(it)
@@ -56,8 +55,8 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.settings_menu_item-> showSettingsActivity()
-            R.id.about_menu_item-> showAboutActivity()
+            R.id.settings_menu_item-> startActivity(Intent(this, SettingsActivity::class.java))
+            R.id.about_menu_item-> startActivity(Intent(this, InfoActivity::class.java))
         }
         return true
     }
@@ -109,13 +108,6 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.keyboard_layout, KeyboardFragment())
             .commit()
     }
-    private fun showSettingsActivity() {
-        startActivity(Intent(this, SettingsActivity::class.java))
-    }
-    private fun showAboutActivity() {
-        startActivity(Intent(this, InfoActivity::class.java))
-    }
-    private fun showHistoryActivity() {
-        startActivity(Intent(this, HistoryActivity::class.java))
-    }
+
+    fun startHistoryActivity(view: View) {startActivity(Intent(this, HistoryActivity::class.java))}
 }
