@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".view.history.HistoryActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_history"
+    <data>
+        <variable
+            name="vm"
+            type="com.dmitryluzev.calculator.view.history.HistoryViewModel" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="4dp"
-        android:elevation="4dp">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:orientation="vertical"
+        tools:context=".view.history.HistoryActivity">
 
-</LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:elevation="4dp"/>
+
+    </LinearLayout>
+</layout>
 
 
     <!--android:layout_margin="8dp"

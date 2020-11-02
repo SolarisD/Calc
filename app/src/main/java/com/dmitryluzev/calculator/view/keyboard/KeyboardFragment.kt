@@ -27,7 +27,7 @@ class KeyboardFragment : Fragment() {
         vm = ViewModelProvider(this, KeyboardViewModelFactory(calculator, pref, sound)).get(KeyboardViewModel::class.java)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding = DataBindingUtil.inflate<FragmentKeyboardBinding>(layoutInflater, R.layout.fragment_keyboard, container, false)
+        val binding = FragmentKeyboardBinding.inflate(layoutInflater)
         binding.vm = vm
         return binding.root
     }

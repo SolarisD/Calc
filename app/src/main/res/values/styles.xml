@@ -6,7 +6,13 @@
         <item name="colorOnPrimary">@color/color_fore_a</item>
         <item name="colorSecondary">@color/color_fore_c</item>
         <item name="colorOnSecondary">@color/color_fore_b</item>
+
         <item name="toolbarStyle">@style/MyToolbarStyle</item>
+
+        <item name="actionBarPopupTheme">@style/CustomPopupTheme</item>
+
+        <item name="actionModePopupWindowStyle">@style/CustomPopupTheme</item><!--NOT-->
+
         <item name="android:colorBackground">@color/color_b</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">@bool/window_light_status_bar</item>
     </style>
@@ -15,7 +21,10 @@
     <style name="MyToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
         <item name="titleTextColor">@color/color_fore_a</item>
         <item name="android:background">@color/color_b</item>
-        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="CustomPopupTheme" parent="ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="android:textColor">@color/color_fore_a</item>
     </style>
 
     <!--Buttons customization-->

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.adapter.HistoryViewAdapter
+import com.dmitryluzev.calculator.databinding.ActivityHistoryBinding
 import com.dmitryluzev.calculator.model.Repo
 import kotlinx.android.synthetic.main.activity_history.*
 import kotlinx.coroutines.Dispatchers
@@ -21,10 +22,10 @@ class HistoryActivity : AppCompatActivity() {
         val repo = Repo.getInstance(application)
         vm = ViewModelProvider(this, HistoryViewModelFactory(repo))
             .get(HistoryViewModel::class.java)
-
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_history)
-
+        val binding = ActivityHistoryBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.vm = vm
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f
 

@@ -37,7 +37,8 @@ class MainActivity : AppCompatActivity() {
         vm = ViewModelProvider(this, MainViewModelFactory(calc, repo, pref))
             .get(MainViewModel::class.java)
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         binding.lifecycleOwner = this
         binding.vm = vm
         binding.rvOperations.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true)
