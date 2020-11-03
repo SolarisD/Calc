@@ -11,19 +11,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
-class Repo private constructor(application: Application) {
-    companion object{
-        private var instance: Repo? = null
-        fun getInstance(application: Application): Repo {
-            if (instance == null) {
-                instance = Repo(application)
-            }
-            return instance!!
-        }
-    }
-    private val dao = DB.getInstance(application).dao
-    private val pref = Pref.getInstance(application)
-
+class Repo constructor(private val dao: Dao) {
     val history: LiveData<List<Operation>> = Transformations.map(dao.getHistoryRecords()){ it.map { it.op }}
     fun saveToHistory(operation: Operation){
         GlobalScope.launch(Dispatchers.IO) {

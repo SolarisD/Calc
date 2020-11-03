@@ -16,6 +16,7 @@ import com.dmitryluzev.calculator.adapter.OperationViewAdapter
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.core.Calculator
 import com.dmitryluzev.calculator.databinding.ActivityMainBinding
+import com.dmitryluzev.calculator.model.DB
 import com.dmitryluzev.calculator.model.Repo
 import com.dmitryluzev.calculator.view.history.HistoryActivity
 import com.dmitryluzev.calculator.view.InfoActivity
@@ -27,7 +28,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var vm: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         val calc = Calculator.getInstance()
-        val repo = Repo.getInstance(application)
+        val dao = DB.getInstance(applicationContext).dao
+        val repo = Repo(dao)
         val pref = Pref.getInstance(application)
         vm = ViewModelProvider(this, MainViewModelFactory(calc, repo, pref))
             .get(MainViewModel::class.java)
@@ -36,12 +38,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.lifecycleOwner = this
         binding.vm = vm
-        binding.rvOperations.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true)
         vm.operationDisplay.observe(this){
             binding.rvOperations.adapter = OperationViewAdapter(it)
         }
         supportActionBar?.elevation = 0f
-        registerForContextMenu(display_view)
+        registerForContextMenu(binding.displayView)
         loadKeyboardFragment()
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
+            R.id.history_menu_item-> startActivity(Intent(this, HistoryActivity::class.java))
             R.id.settings_menu_item-> startActivity(Intent(this, SettingsActivity::class.java))
             R.id.about_menu_item-> startActivity(Intent(this, InfoActivity::class.java))
         }
@@ -98,6 +100,4 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.keyboard_layout, KeyboardFragment())
             .commit()
     }
-
-    fun startHistoryActivity(view: View) {startActivity(Intent(this, HistoryActivity::class.java))}
 }

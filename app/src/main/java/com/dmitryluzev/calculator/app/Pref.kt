@@ -3,8 +3,6 @@ package com.dmitryluzev.calculator.app
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.core.Calculator
@@ -17,7 +15,6 @@ import com.dmitryluzev.calculator.core.toValue
 
 class Pref private constructor(private val application: Application): SharedPreferences.OnSharedPreferenceChangeListener {
     companion object{
-
         const val BUFFER_STATE_KEY = "buffer_state"
         const val MEMORY_STATE_KEY = "memory_state"
         const val CURRENT_OP_STATE_KEY = "current_op_state"
@@ -42,7 +39,7 @@ class Pref private constructor(private val application: Application): SharedPref
     init {
         haptic = pref.getBoolean(application.getString(R.string.pref_haptic_buttons_key), false)
         sound = pref.getBoolean(application.getString(R.string.pref_sound_buttons_key), false)
-        setAppTheme()
+        setAppThemeMode(pref.getBoolean(application.getString(R.string.pref_dark_theme_key), false))
         pref.registerOnSharedPreferenceChangeListener(this)
     }
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
@@ -54,13 +51,12 @@ class Pref private constructor(private val application: Application): SharedPref
                 sound  = pref.getBoolean(application.getString(R.string.pref_sound_buttons_key), false)
             }
             application.getString(R.string.pref_dark_theme_key)->{
-                setAppTheme()
+                setAppThemeMode(pref.getBoolean(application.getString(R.string.pref_dark_theme_key), false))
             }
         }
     }
-    private fun setAppTheme(){
-        if(pref.getBoolean(application.getString(R.string.pref_dark_theme_key), false))
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+    private fun setAppThemeMode(mode: Boolean){
+        if(mode) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
     fun restoreState(): Calculator.State {

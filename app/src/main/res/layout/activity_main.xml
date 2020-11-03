@@ -22,8 +22,7 @@
             app:cardBackgroundColor="@color/color_a"
             tools:ignore="HardcodedText"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:onClick="startHistoryActivity">
+            android:layout_marginRight="8dp">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -56,6 +55,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_operations"
                     android:orientation="horizontal"
+                    app:reverseLayout="true"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
