@@ -8,9 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.adapter.OperationViewAdapter
 import com.dmitryluzev.calculator.app.Pref
@@ -41,7 +39,6 @@ class MainActivity : AppCompatActivity() {
         vm.operationDisplay.observe(this){
             binding.rvOperations.adapter = OperationViewAdapter(it)
         }
-        supportActionBar?.elevation = 0f
         registerForContextMenu(binding.displayView)
         loadKeyboardFragment()
     }

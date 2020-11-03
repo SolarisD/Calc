@@ -13,6 +13,7 @@
         <!--toolBar, appBar, statusBar-->
         <!--<item name="actionBarSize">36dp</item>-->
         <item name="toolbarStyle">@style/CalculatorToolbar</item>
+        <item name="actionBarStyle">@style/CalculatorActionBar</item>
         <item name="actionBarPopupTheme">@style/CalculatorPopupMenu</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">@bool/window_light_status_bar</item>
 

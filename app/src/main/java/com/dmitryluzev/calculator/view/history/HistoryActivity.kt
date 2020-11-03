@@ -29,7 +29,6 @@ class HistoryActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.vm = vm
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.elevation = 0f
 
         rcv_history.layoutManager = LinearLayoutManager(this)
         vm.historyRecords.observe(this){

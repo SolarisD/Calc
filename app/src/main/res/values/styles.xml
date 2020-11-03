@@ -3,8 +3,14 @@
 
     <!--Toolbar customization-->
     <style name="CalculatorToolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="elevation">0dp</item>
         <item name="titleTextColor">@color/color_fore_a</item>
         <item name="android:background">@color/color_b</item>
+    </style>
+
+    <!--ActionBar customization-->
+    <style name="CalculatorActionBar" parent="Widget.MaterialComponents.ActionBar.Solid">
+        <item name="elevation">0dp</item>
     </style>
 
     <!--Menues customization-->
