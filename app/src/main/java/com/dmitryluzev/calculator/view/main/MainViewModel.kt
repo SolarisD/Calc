@@ -7,10 +7,10 @@ import com.dmitryluzev.calculator.core.*
 import com.dmitryluzev.calculator.model.Repo
 
 class MainViewModel(private val calc: Calculator, private val repo: Repo, private val pref: Pref): ViewModel(){
-    val bufferDisplay = calc.bufferDisplay
-    val memoryDisplay = calc.memoryDisplay
-    val aluCurrent = calc.aluCurrent
-    val aluComplete = calc.aluComplete
+    val bufferDisplay: LiveData<String> = Transformations.map(calc.bufferOut){ it?.toString() ?: "0" }
+    val memoryDisplay: LiveData<String> = Transformations.map(calc.memoryDisplay){ if (it == null) "" else "M: $it" }
+    val aluCurrent: LiveData<String> = Transformations.map(calc.aluCurrent){ it?.toString() }
+    val aluComplete: LiveData<String> = Transformations.map(calc.aluComplete){ it?.toString()}
     init {
         if (!calc.initialized){
             calc.setState(pref.restoreState())

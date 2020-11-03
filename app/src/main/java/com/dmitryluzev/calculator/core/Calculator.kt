@@ -22,10 +22,11 @@ class Calculator private constructor(){
     private val memory: Memory = Memory()
     private val alu: Alu = Alu()
 
-    val bufferDisplay: LiveData<String> = Transformations.map(buffer.out){ it?.toString() ?: "0" }
-    val memoryDisplay: LiveData<String> = Transformations.map(memory.out){ if (it.isNullOrEmpty()) "" else "M: $it" }
-    val aluCurrent: LiveData<String> = alu.outCurrent
-    val aluComplete: LiveData<String> = alu.outComplete
+    val bufferOut: LiveData<Value> = buffer.out
+    val memoryDisplay: LiveData<Value> = memory.out
+    val aluCurrent: LiveData<Operation> = alu.outCurrent
+    val aluComplete: LiveData<Operation> = alu.outComplete
+
     private var onResultReadyListener: ((Operation)->Unit)? = null
     var initialized = false
         private set
