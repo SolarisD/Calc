@@ -7,7 +7,9 @@ import com.dmitryluzev.calculator.core.operations.Operation
 import com.dmitryluzev.calculator.core.operations.UnaryOperation
 
 class Alu constructor(){
-    val out: MutableLiveData<List<Operation>> = MutableLiveData()
+    val outCurrent = MutableLiveData<String>()
+    val outComplete = MutableLiveData<String>()
+
     var current: Operation? = null
         private set
     var complete: Operation? = null
@@ -93,11 +95,23 @@ class Alu constructor(){
     }
 
     private fun post(){
-        val ret: MutableList<Operation> = mutableListOf()
-        current?.let { ret.add(it) }
-        complete?.let { ret.add(it) }
-        prev?.let { if (ret.size < 2) ret.add(it) }
-        out.postValue(ret)
+        var cur: String? = null
+        var compl: String? = null
+
+        current?.let {
+            cur = it.toString()
+        }
+        complete?.let {
+            if (cur == null) cur = it.toString()
+            else compl = it.toString()
+        }
+        prev?.let {
+            if (cur == null) cur = it.toString()
+            else if (compl == null) compl = it.toString()
+        }
+
+        outCurrent.value = cur
+        outComplete.value = compl
     }
 
 

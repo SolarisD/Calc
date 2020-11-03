@@ -36,9 +36,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.lifecycleOwner = this
         binding.vm = vm
-        vm.operationDisplay.observe(this){
-            binding.rvOperations.adapter = OperationViewAdapter(it)
-        }
         registerForContextMenu(binding.displayView)
         loadKeyboardFragment()
     }

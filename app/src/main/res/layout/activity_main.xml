@@ -52,14 +52,47 @@
                     android:textSize="46sp"
                     android:maxLines="1" />
 
-                <androidx.recyclerview.widget.RecyclerView
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_height="32dp"
+                    android:scrollbars="none"
+                    android:rotationY="180">
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:rotationY="180">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_alu_b"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{vm.aluComplete}"
+                            android:textColor="@color/color_fore_e"
+                            android:textSize="16sp"
+                            android:layout_margin="4dp"
+                            android:background="@drawable/displays_border"/>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_alu_a"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{vm.aluCurrent}"
+                            android:textColor="@color/color_fore_a"
+                            android:textSize="16sp"
+                            android:layout_margin="4dp"
+                            android:background="@drawable/displays_border"/>
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <!--<androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_operations"
                     android:orientation="horizontal"
                     app:reverseLayout="true"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
-                    app:cardBackgroundColor="@color/color_a" />
+                    app:cardBackgroundColor="@color/color_a" />-->
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

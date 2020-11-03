@@ -24,7 +24,8 @@ class Calculator private constructor(){
 
     val bufferDisplay: LiveData<String> = Transformations.map(buffer.out){ it?.toString() ?: "0" }
     val memoryDisplay: LiveData<String> = Transformations.map(memory.out){ if (it.isNullOrEmpty()) "" else "M: $it" }
-    val operationDisplay: LiveData<List<Operation>> = alu.out
+    val aluCurrent: LiveData<String> = alu.outCurrent
+    val aluComplete: LiveData<String> = alu.outComplete
     private var onResultReadyListener: ((Operation)->Unit)? = null
     var initialized = false
         private set
