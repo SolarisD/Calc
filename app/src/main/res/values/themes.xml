@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="AppThemeMain" parent="Theme.MaterialComponents.DayNight">
+
+        <item name="colorPrimary">@color/color_b</item>
+        <item name="colorPrimaryDark">@color/color_c</item>
+        <item name="colorPrimaryVariant">@color/color_c</item>
+        <item name="colorOnPrimary">@color/color_fore_a</item>
+        <item name="colorSecondary">@color/color_fore_c</item>
+        <item name="colorOnSecondary">@color/color_fore_b</item>
+        <item name="android:colorBackground">@color/color_b</item>
+
+        <!--toolBar, appBar, statusBar-->
+        <item name="actionBarSize">36dp</item>
+        <item name="toolbarStyle">@style/CalculatorToolbar</item>
+        <item name="actionBarPopupTheme">@style/CalculatorPopupMenu</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">@bool/window_light_status_bar</item>
+
+        <!--Context menues-->
+        <item name="colorSurface">@color/color_b</item>
+        <item name="android:textColorPrimary">@color/color_fore_a</item>
+
+        <!--Other-->
+    </style>
+</resources>
