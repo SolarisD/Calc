@@ -6,13 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.app.Sound
 import com.dmitryluzev.calculator.core.Calculator
-import com.dmitryluzev.calculator.core.operations.ID
 import com.dmitryluzev.calculator.databinding.FragmentKeyboardBinding
 
 class KeyboardFragment : Fragment() {

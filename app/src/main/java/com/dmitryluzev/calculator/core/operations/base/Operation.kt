@@ -1,4 +1,4 @@
-package com.dmitryluzev.calculator.core.operations
+package com.dmitryluzev.calculator.core.operations.base
 
 import com.dmitryluzev.calculator.core.Value
 

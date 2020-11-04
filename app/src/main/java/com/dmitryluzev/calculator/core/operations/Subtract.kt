@@ -1,8 +1,9 @@
 package com.dmitryluzev.calculator.core.operations
 
 import com.dmitryluzev.calculator.core.Value
+import com.dmitryluzev.calculator.core.operations.base.BinaryOperation
 
-class Subtract internal constructor() : BinaryOperation() {
+class Subtract internal constructor(a: Value? = null, b: Value? = null) : BinaryOperation(a, b) {
     override fun equal(a: Value, b: Value): Value = a - b
     override fun toString(): String {
         val ret = StringBuilder()

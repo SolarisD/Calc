@@ -4,13 +4,13 @@ package com.dmitryluzev.calculator.view.main
 import androidx.lifecycle.*
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.core.*
-import com.dmitryluzev.calculator.core.operations.Operation
 import com.dmitryluzev.calculator.model.Repo
 
 class MainViewModel(private val calc: Calculator, private val repo: Repo, private val pref: Pref): ViewModel(){
-    val bufferDisplay:  LiveData<String> = calc.bufferDisplay
-    val memoryDisplay:  LiveData<String> = calc.memoryDisplay
-    val operationDisplay: LiveData<List<Operation>> = calc.operationDisplay
+    val bufferDisplay: LiveData<String> = Transformations.map(calc.bufferOut){ it?.toString() ?: "0" }
+    val memoryDisplay: LiveData<String> = Transformations.map(calc.memoryDisplay){ if (it == null) "" else "M: $it" }
+    val aluCurrent: LiveData<String> = Transformations.map(calc.aluCurrent){ it?.toString() }
+    val aluComplete: LiveData<String> = Transformations.map(calc.aluComplete){ it?.toString()}
     init {
         if (!calc.initialized){
             calc.setState(pref.restoreState())

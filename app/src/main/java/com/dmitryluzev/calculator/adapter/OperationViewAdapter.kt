@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.R
-import com.dmitryluzev.calculator.core.operations.Operation
+import com.dmitryluzev.calculator.core.operations.base.Operation
 
 class OperationViewAdapter(private val records: List<Operation>): RecyclerView.Adapter<OperationViewAdapter.HistoryViewHolder>()  {
     class HistoryViewHolder(view: View): RecyclerView.ViewHolder(view){

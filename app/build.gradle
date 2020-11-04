@@ -5,14 +5,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs'
 
 android {
-    signingConfigs {
-        test_signing {
-            storeFile file('/mnt/MEDIA/PROJECS/Android/Keys/luzevdmitry_calculator.jks')
-            storePassword '12041961Polet!'
-            keyAlias 'calculator'
-            keyPassword '12041961Polet!'
-        }
-    }
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
@@ -21,8 +13,8 @@ android {
         minSdkVersion 20
         targetSdkVersion 30
         //multiDexEnabled true
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.0.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -31,7 +23,6 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.test_signing
         }
     }
 
@@ -58,7 +49,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.fragment:fragment-ktx:1.2.5'
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.preference:preference-ktx:1.1.1"

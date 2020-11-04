@@ -3,7 +3,7 @@ package com.dmitryluzev.calculator.core
 import androidx.lifecycle.MutableLiveData
 
 class Buffer constructor() {
-    val out: MutableLiveData<String> = MutableLiveData()
+    val out: MutableLiveData<Value> = MutableLiveData()
     private val v: Value = Value()
     var clearRequest = false
         private set
@@ -52,6 +52,6 @@ class Buffer constructor() {
         post()
     }
     private fun post(){
-        out.postValue(v.toString())
+        out.value = v
     }
 }

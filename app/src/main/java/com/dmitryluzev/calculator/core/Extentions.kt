@@ -1,6 +1,7 @@
 package com.dmitryluzev.calculator.core
 
 import com.dmitryluzev.calculator.core.operations.*
+import com.dmitryluzev.calculator.core.operations.base.Operation
 
 fun Double.toValue(): Value{
     return Value(this)
@@ -22,7 +23,6 @@ fun String?.toValue(): Value?{
     }
     return null
 }
-
 fun String?.toOperation(): Operation?{
     this?.let {
         val list = it.split(';')
@@ -30,33 +30,7 @@ fun String?.toOperation(): Operation?{
         if (list.size > 1 && list[1] != "null") a = list[1].toValue()
         var b: Value? = null
         if (list.size > 2 && list[2] != "null") b = list[2].toValue()
-        return when(list[0]){
-            ID.ADD.tag -> {
-                Add().apply {
-                    this.a = a
-                    this.b = b
-                }
-            }
-            ID.SUBTRACT.tag -> {
-                Subtract().apply {
-                    this.a = a
-                    this.b = b
-                }
-            }
-            ID.MULTIPLY.tag -> {
-                Multiply().apply {
-                    this.a = a
-                    this.b = b
-                }
-            }
-            ID.DIVIDE.tag ->{
-                Divide().apply {
-                    this.a = a
-                    this.b = b
-                }
-            }
-            else-> null
-        }
+        return  OperationFactory.create(list[0], a, b)
     }
     return null
 }

@@ -3,7 +3,7 @@ package com.dmitryluzev.calculator.core
 import androidx.lifecycle.MutableLiveData
 
 class Memory constructor() {
-    val out: MutableLiveData<String> = MutableLiveData()
+    val out: MutableLiveData<Value> = MutableLiveData()
     private var value: Value? = null
     init {
         post()
@@ -32,10 +32,11 @@ class Memory constructor() {
         return value?.copy()
     }
     private fun post(){
-        if (value != null){
-            out.postValue(value.toString())
+        out.value = value
+        /*if (value != null){
+            out.postValue(value)
         } else {
             out.postValue(null)
-        }
+        }*/
     }
 }
