@@ -1,8 +1,8 @@
 package com.dmitryluzev.calculator.core
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import com.dmitryluzev.calculator.core.operations.Operation
+import com.dmitryluzev.calculator.core.operations.OperationFactory
+import com.dmitryluzev.calculator.core.operations.base.Operation
 import java.lang.Exception
 
 
@@ -33,7 +33,7 @@ class Calculator private constructor(){
     init {
         alu.setOnResultReadyListener { buffer.setValue(it.result!!); onResultReadyListener?.invoke(it) }
     }
-    fun getState() = State(buffer.getValue(), memory.getValue(), alu.current, alu.complete, alu.prev)
+    fun getState() = State(buffer.getValue(), memory.getValue(), alu.current, alu.complete, null)
     fun setState(state: State){
         state.buffer?.let { buffer.setValue(it) }
         state.memory?.let { memory.add(it) }
@@ -48,14 +48,19 @@ class Calculator private constructor(){
     fun negative() = buffer.negative()
     fun backspace() = buffer.backspace()
     fun result() {
-        if (alu.current != null) alu.setValue(buffer.getValue())
-        else alu.repeat()
+        alu.current?.let {
+            if (it.result == null) alu.setValue(buffer.getValue())
+            else alu.repeat()
+        }
     }
-    fun operation(op: Operation) {
-        if (alu.current != null)
-            if (buffer.clearRequest) alu.change(op)
-            else alu.setValue(buffer.getValue())
-        alu.setOperation(op, buffer.getValue())
+    fun operation(id: OperationFactory.ID) {
+        alu.current?.let {
+            if (it.result == null){
+                if (buffer.clearRequest) alu.changeOperation(id)
+                else alu.setValue(buffer.getValue())
+            }
+        }
+        alu.setOperation(id, buffer.getValue())
     }
     fun percent() {
         alu.setPercent(buffer.getValue())

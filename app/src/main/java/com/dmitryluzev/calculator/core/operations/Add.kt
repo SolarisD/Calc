@@ -1,6 +1,7 @@
 package com.dmitryluzev.calculator.core.operations
 
 import com.dmitryluzev.calculator.core.Value
+import com.dmitryluzev.calculator.core.operations.base.BinaryOperation
 
 
 class Add internal constructor() : BinaryOperation() {

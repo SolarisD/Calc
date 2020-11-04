@@ -1,11 +1,8 @@
 package com.dmitryluzev.calculator.model
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.dmitryluzev.calculator.app.Pref
-import com.dmitryluzev.calculator.core.Calculator
-import com.dmitryluzev.calculator.core.operations.Operation
+import com.dmitryluzev.calculator.core.operations.base.Operation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

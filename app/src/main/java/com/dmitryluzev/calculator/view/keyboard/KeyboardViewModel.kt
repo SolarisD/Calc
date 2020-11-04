@@ -6,9 +6,7 @@ import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.app.Sound
 import com.dmitryluzev.calculator.core.Calculator
 import com.dmitryluzev.calculator.core.Symbols
-import com.dmitryluzev.calculator.core.operations.Companion
-import com.dmitryluzev.calculator.core.operations.ID
-import com.dmitryluzev.calculator.core.operations.Operation
+import com.dmitryluzev.calculator.core.operations.OperationFactory
 
 class KeyboardViewModel(private val calc: Calculator, private val pref: Pref, private val sound: Sound) : ViewModel(){
     val haptic: Boolean
@@ -34,8 +32,8 @@ class KeyboardViewModel(private val calc: Calculator, private val pref: Pref, pr
         calc.result()
         playSound()
     }
-    fun operation(id: ID){
-        calc.operation(Companion.createFromID(id))
+    fun operation(id: OperationFactory.ID){
+        calc.operation(id)
         playSound()
     }
     fun percent(){

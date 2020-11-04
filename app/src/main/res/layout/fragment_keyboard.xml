@@ -6,7 +6,7 @@
 
     <data>
         <import type="com.dmitryluzev.calculator.core.Symbols"/>
-        <import type="com.dmitryluzev.calculator.core.operations.ID"/>
+        <import type="com.dmitryluzev.calculator.core.operations.OperationFactory"/>
         <variable
             name="vm"
             type="com.dmitryluzev.calculator.view.keyboard.KeyboardViewModel" />
@@ -92,7 +92,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_divide"
                 style="@style/OperationButton"
-                android:onClick="@{() -> vm.operation(ID.DIVIDE)}"
+                android:onClick="@{() -> vm.operation(OperationFactory.ID.DIVIDE)}"
                 android:text="÷" />
 
         </LinearLayout>
@@ -127,7 +127,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_multiply"
                 style="@style/OperationButton"
-                android:onClick="@{() -> vm.operation(ID.MULTIPLY)}"
+                android:onClick="@{() -> vm.operation(OperationFactory.ID.MULTIPLY)}"
                 android:text="×" />
         </LinearLayout>
 
@@ -161,7 +161,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_subtract"
                 style="@style/OperationButton"
-                android:onClick="@{() -> vm.operation(ID.SUBTRACT)}"
+                android:onClick="@{() -> vm.operation(OperationFactory.ID.SUBTRACT)}"
                 android:text="-" />
 
         </LinearLayout>
@@ -196,7 +196,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_add"
                 style="@style/OperationButton"
-                android:onClick="@{() -> vm.operation(ID.ADD)}"
+                android:onClick="@{() -> vm.operation(OperationFactory.ID.ADD)}"
                 android:text="+" />
 
         </LinearLayout>

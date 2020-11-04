@@ -2,7 +2,7 @@ package com.dmitryluzev.calculator.model
 
 import androidx.room.TypeConverter
 import com.dmitryluzev.calculator.core.Value
-import com.dmitryluzev.calculator.core.operations.Operation
+import com.dmitryluzev.calculator.core.operations.base.Operation
 import com.dmitryluzev.calculator.core.toOperation
 import com.dmitryluzev.calculator.core.toValue
 

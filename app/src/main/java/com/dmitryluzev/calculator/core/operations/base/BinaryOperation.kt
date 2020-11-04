@@ -1,6 +1,7 @@
-package com.dmitryluzev.calculator.core.operations
+package com.dmitryluzev.calculator.core.operations.base
 
 import com.dmitryluzev.calculator.core.Value
+import com.dmitryluzev.calculator.core.operations.OperationFactory
 import java.lang.Exception
 
 abstract class BinaryOperation(): Operation {
@@ -19,5 +20,5 @@ abstract class BinaryOperation(): Operation {
                 null
             }
 
-    override fun toStoreString(): String = "${Companion.getTagId(this)};${a};${b}"
+    override fun toStoreString(): String = "${OperationFactory.getTagId(this)};${a};${b}"
 }
