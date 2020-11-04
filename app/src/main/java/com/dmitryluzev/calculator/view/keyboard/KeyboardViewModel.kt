@@ -32,7 +32,7 @@ class KeyboardViewModel(private val calc: Calculator, private val pref: Pref, pr
         calc.result()
         playSound()
     }
-    fun operation(id: OperationFactory.ID){
+    fun operation(id: String){
         calc.operation(id)
         playSound()
     }

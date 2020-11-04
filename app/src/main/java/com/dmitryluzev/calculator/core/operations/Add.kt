@@ -4,7 +4,7 @@ import com.dmitryluzev.calculator.core.Value
 import com.dmitryluzev.calculator.core.operations.base.BinaryOperation
 
 
-class Add internal constructor() : BinaryOperation() {
+class Add internal constructor(a: Value? = null, b: Value? = null) : BinaryOperation(a, b) {
     override fun equal(a: Value, b: Value): Value = a + b
     override fun toString(): String {
         val ret = StringBuilder()

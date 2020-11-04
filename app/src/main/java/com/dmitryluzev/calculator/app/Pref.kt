@@ -9,10 +9,6 @@ import com.dmitryluzev.calculator.core.Calculator
 import com.dmitryluzev.calculator.core.toOperation
 import com.dmitryluzev.calculator.core.toValue
 
-
-
-
-
 class Pref private constructor(private val application: Application): SharedPreferences.OnSharedPreferenceChangeListener {
     companion object{
         const val BUFFER_STATE_KEY = "buffer_state"

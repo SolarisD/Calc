@@ -92,7 +92,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_divide"
                 style="@style/OperationButton"
-                android:onClick="@{() -> vm.operation(OperationFactory.ID.DIVIDE)}"
+                android:onClick="@{() -> vm.operation(OperationFactory.DIVIDE_ID)}"
                 android:text="÷" />
 
         </LinearLayout>
@@ -127,7 +127,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_multiply"
                 style="@style/OperationButton"
-                android:onClick="@{() -> vm.operation(OperationFactory.ID.MULTIPLY)}"
+                android:onClick="@{() -> vm.operation(OperationFactory.MULTIPLY_ID)}"
                 android:text="×" />
         </LinearLayout>
 
@@ -161,7 +161,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_subtract"
                 style="@style/OperationButton"
-                android:onClick="@{() -> vm.operation(OperationFactory.ID.SUBTRACT)}"
+                android:onClick="@{() -> vm.operation(OperationFactory.SUBTRACT_ID)}"
                 android:text="-" />
 
         </LinearLayout>
@@ -196,7 +196,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_add"
                 style="@style/OperationButton"
-                android:onClick="@{() -> vm.operation(OperationFactory.ID.ADD)}"
+                android:onClick="@{() -> vm.operation(OperationFactory.ADD_ID)}"
                 android:text="+" />
 
         </LinearLayout>

@@ -53,7 +53,7 @@ class Calculator private constructor(){
             else alu.repeat()
         }
     }
-    fun operation(id: OperationFactory.ID) {
+    fun operation(id: String) {
         alu.current?.let {
             if (it.result == null){
                 if (buffer.clearRequest) alu.changeOperation(id)

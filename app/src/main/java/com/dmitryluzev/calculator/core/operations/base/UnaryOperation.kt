@@ -4,8 +4,7 @@ import com.dmitryluzev.calculator.core.Value
 import com.dmitryluzev.calculator.core.operations.OperationFactory
 import java.lang.Exception
 
-abstract class UnaryOperation(): Operation {
-    override var a: Value? = null
+abstract class UnaryOperation(override var a: Value?): Operation {
     protected abstract fun equal(a: Value): Value
     override val result: Value?
         get() =
@@ -18,5 +17,5 @@ abstract class UnaryOperation(): Operation {
             } else {
                 null
             }
-    override fun toStoreString(): String = "${OperationFactory.getTagId(this)};${a}"
+    override fun toStoreString(): String = "${OperationFactory.getId(this)};${a}"
 }

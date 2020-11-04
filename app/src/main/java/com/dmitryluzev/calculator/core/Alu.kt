@@ -26,18 +26,20 @@ class Alu constructor(){
         complete = null
         post()
     }
-    fun setOperation(id: OperationFactory.ID, value: Value){
-        val op = OperationFactory.createFromID(id)
-        complete = current
-        op.a = value
-        current = op
-        if (op is UnaryOperation) {
-            onResultReadyListener?.invoke(current!!)
+    fun setOperation(id: String, value: Value){
+        OperationFactory.create(id, value)?.let {
+            complete = current
+            it.a = value
+            current = it
+            if (it is UnaryOperation) {
+                onResultReadyListener?.invoke(current!!)
+            }
+            post()
         }
-        post()
+
     }
-    fun changeOperation(id: OperationFactory.ID){
-        val op = OperationFactory.createFromID(id)
+    fun changeOperation(id: String){
+        val op = OperationFactory.create(id)
         if (current is BinaryOperation){
             current?.let {
                 current = op

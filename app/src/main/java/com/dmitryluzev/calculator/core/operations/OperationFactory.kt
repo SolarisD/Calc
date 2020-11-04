@@ -1,33 +1,27 @@
 package com.dmitryluzev.calculator.core.operations
 
+import android.renderscript.Sampler
+import com.dmitryluzev.calculator.core.Value
 import com.dmitryluzev.calculator.core.operations.base.Operation
 
 object OperationFactory {
-    enum class ID(val tag: String) {
-        ADD("ADD_OPERATION"),
-        SUBTRACT("SUBTRACT_OPERATION"),
-        MULTIPLY("MULTIPLY_OPERATION"),
-        DIVIDE("DIVIDE_OPERATION")
-    }
-    fun createFromID(id: ID): Operation = when(id){
-        ID.ADD -> Add()
-        ID.SUBTRACT -> Subtract()
-        ID.MULTIPLY -> Multiply()
-        ID.DIVIDE -> Divide()
-    }
-    fun createFromIdTag(tag: String): Operation? = when(tag){
-        ID.ADD.tag -> Add()
-        ID.SUBTRACT.tag -> Subtract()
-        ID.MULTIPLY.tag -> Multiply()
-        ID.DIVIDE.tag -> Subtract()
+    const val ADD_ID = "ADD_OPERATION"
+    const val SUBTRACT_ID = "SUBTRACT_OPERATION"
+    const val MULTIPLY_ID = "MULTIPLY_OPERATION"
+    const val DIVIDE_ID = "DIVIDE_OPERATION"
+    fun create(id: String, a: Value? = null, b: Value? = null): Operation? = when(id){
+        ADD_ID -> Add(a, b)
+        SUBTRACT_ID -> Subtract(a, b)
+        MULTIPLY_ID -> Multiply(a, b)
+        DIVIDE_ID -> Divide(a, b)
         else -> null
     }
-    fun getTagId(operation: Operation): String = when(operation){
-        is Add -> ID.ADD.tag
-        is Subtract -> ID.SUBTRACT.tag
-        is Multiply -> ID.MULTIPLY.tag
-        is Divide -> ID.DIVIDE.tag
-        else -> throw IllegalArgumentException("operation isn't Operation class")
+    fun getId(operation: Operation): String = when(operation){
+        is Add -> ADD_ID
+        is Subtract -> SUBTRACT_ID
+        is Multiply -> MULTIPLY_ID
+        is Divide -> DIVIDE_ID
+        else -> throw IllegalArgumentException("Unknown class")
     }
     fun copy(operation: Operation): Operation = when(operation) {
         is Add -> {
