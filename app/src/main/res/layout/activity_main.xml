@@ -28,7 +28,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dp">
+                android:layout_margin="4dp">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_memory"
@@ -57,7 +57,8 @@
                     android:layout_gravity="end"
                     android:layout_height="32dp"
                     android:scrollbars="none"
-                    android:rotationY="180">
+                    android:rotationY="180"
+                    android:padding="4dp">
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
@@ -71,7 +72,6 @@
                             android:text="@{vm.aluComplete}"
                             android:textColor="@color/color_fore_e"
                             android:textSize="16sp"
-                            android:layout_margin="4dp"
                             android:background="@drawable/displays_border"/>
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_alu_a"
@@ -80,7 +80,7 @@
                             android:text="@{vm.aluCurrent}"
                             android:textColor="@color/color_fore_a"
                             android:textSize="16sp"
-                            android:layout_margin="4dp"
+                            android:layout_marginStart="8dp"
                             android:background="@drawable/displays_border"/>
                     </LinearLayout>
                 </HorizontalScrollView>
