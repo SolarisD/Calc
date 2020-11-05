@@ -10,7 +10,6 @@ import android.view.*
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.dmitryluzev.calculator.R
-import com.dmitryluzev.calculator.adapter.OperationViewAdapter
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.core.Calculator
 import com.dmitryluzev.calculator.databinding.ActivityMainBinding
@@ -18,9 +17,8 @@ import com.dmitryluzev.calculator.model.DB
 import com.dmitryluzev.calculator.model.Repo
 import com.dmitryluzev.calculator.view.history.HistoryActivity
 import com.dmitryluzev.calculator.view.InfoActivity
-import com.dmitryluzev.calculator.view.keyboard.KeyboardFragment
+import com.dmitryluzev.calculator.view.calculator.CalculatorFragment
 import com.dmitryluzev.calculator.view.SettingsActivity
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var vm: MainViewModel
@@ -33,10 +31,10 @@ class MainActivity : AppCompatActivity() {
             .get(MainViewModel::class.java)
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding.mainToolbar
+        setSupportActionBar(binding.mainToolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         setContentView(binding.root)
-        binding.lifecycleOwner = this
-        binding.vm = vm
-        registerForContextMenu(binding.displayView)
         loadKeyboardFragment()
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -52,34 +50,8 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
-    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
-        super.onCreateContextMenu(menu, v, menuInfo)
-        menuInflater.inflate(R.menu.copy_paste_menu, menu)
-    }
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.copy_menu_item->{
-                tv_buffer.text?.let {
-                    val cbm = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                    cbm.setPrimaryClip(ClipData.newPlainText(getString(R.string.app_label), it))
-                    //Toast.makeText(this, resources.getString(R.string.value_copied, it), Toast.LENGTH_SHORT).show()
-                }
-            }
-            R.id.paste_menu_item->{
-                val clip = (getSystemService(CLIPBOARD_SERVICE) as ClipboardManager).primaryClip
-                clip?.let {
-                    if(it.description.hasMimeType(MIMETYPE_TEXT_PLAIN)){
-                        it.getItemAt(0).text?.let {text->
-                            val result = vm.pasteFromClipboard(text.toString())
-                            if (result != null) Toast.makeText(this, resources.getString(R.string.value_pasted, text), Toast.LENGTH_SHORT).show()
-                            else Toast.makeText(this, resources.getString(R.string.value_not_pasted, text), Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            }
-        }
-        return super.onContextItemSelected(item)
-    }
+
+
     override fun onResume() {
         super.onResume()
         loadKeyboardFragment()
@@ -89,9 +61,9 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
     }
     private fun loadKeyboardFragment() {
-        supportFragmentManager
+        /*supportFragmentManager
             .beginTransaction()
-            .replace(R.id.keyboard_layout, KeyboardFragment())
-            .commit()
+            .replace(R.id.fragments_layout, CalculatorFragment())
+            .commit()*/
     }
 }

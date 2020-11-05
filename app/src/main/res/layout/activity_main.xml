@@ -4,102 +4,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="vm"
-            type="com.dmitryluzev.calculator.view.main.MainViewModel" />
-    </data>
 
+    </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".view.main.MainActivity">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/display_view"
+        android:orientation="vertical">
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/color_a"
-            tools:ignore="HardcodedText"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp">
-
-            <LinearLayout
-                android:orientation="vertical"
+            android:orientation="vertical"
+            tools:context=".view.main.MainActivity">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/main_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_memory"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{vm.memoryDisplay}"
-                    android:textColor="@color/color_fore_d"
-                    android:gravity="start|center_vertical"
-                    android:padding="4dp"
-                    android:textSize="16sp"
-                    android:maxLines="1" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_buffer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/color_fore_a"
-                    android:gravity="center_vertical|end"
-                    android:text="@{vm.bufferDisplay}"
-                    android:padding="4dp"
-                    android:textSize="46sp"
-                    android:maxLines="1" />
-
-                <HorizontalScrollView
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_height="32dp"
-                    android:scrollbars="none"
-                    android:rotationY="180"
-                    android:padding="4dp">
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|end"
-                        android:rotationY="180">
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_alu_b"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{vm.aluComplete}"
-                            android:textColor="@color/color_fore_e"
-                            android:textSize="16sp"
-                            android:background="@drawable/displays_border"/>
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_alu_a"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{vm.aluCurrent}"
-                            android:textColor="@color/color_fore_a"
-                            android:textSize="16sp"
-                            android:layout_marginStart="8dp"
-                            android:background="@drawable/displays_border"/>
-                    </LinearLayout>
-                </HorizontalScrollView>
-
-                <!--<androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_operations"
-                    android:orientation="horizontal"
-                    app:reverseLayout="true"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    app:cardBackgroundColor="@color/color_a" />-->
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <FrameLayout
-            android:id="@+id/keyboard_layout"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/backgroundColor"
+                app:menu="@menu/main_menu">
+            </com.google.android.material.appbar.MaterialToolbar>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/main_toolbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/main_activity_label"
+                android:textAllCaps="false"
+                android:textAppearance="?attr/textAppearanceHeadline6"/>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <fragment
+            android:id="@+id/navHostFragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="4dp" />
+            app:navGraph = "@navigation/main_navigation"
+            app:defaultNavHost = "true"/>
     </LinearLayout>
 </layout>

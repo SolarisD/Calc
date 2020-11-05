@@ -11,6 +11,7 @@ class MainViewModel(private val calc: Calculator, private val repo: Repo, privat
     val memoryDisplay: LiveData<String> = Transformations.map(calc.memoryDisplay){ if (it == null) "" else "M: $it" }
     val aluCurrent: LiveData<String> = Transformations.map(calc.aluCurrent){ it?.toString() }
     val aluComplete: LiveData<String> = Transformations.map(calc.aluComplete){ it?.toString()}
+
     init {
         if (!calc.initialized){
             calc.setState(pref.restoreState())

@@ -1,47 +1,48 @@
 <resources >
 
+    <style name="BaseButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/mtrl_btn_bg_color_selector</item>
+        <item name="android:textColor">@color/mtrl_btn_text_color_selector</item>
+        <item name="android:textSize">30sp</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="SymbolButton" parent="BaseButton">
+
+    </style>
+
+    <style name="ClearButton" parent="BaseButton">
+
+    </style>
+
+    <style name="OperationButton" parent="BaseButton">
+
+    </style>
+
+    <style name="MemoryButton" parent="BaseButton">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+
+
+
+
 
     <!--Toolbar customization-->
-    <style name="CalculatorToolbar" parent="Widget.MaterialComponents.Toolbar">
-        <item name="elevation">0dp</item>
-        <item name="titleTextColor">@color/color_fore_a</item>
-        <item name="android:background">@color/color_b</item>
-    </style>
+    <!--<style name="CalculatorToolbar" parent="Widget.MaterialComponents.Toolbar">
+        &lt;!&ndash;<item name="titleTextColor">@color/color_fore_a</item>
+        <item name="android:background">@color/color_b</item>&ndash;&gt;
+    </style>-->
 
-    <!--ActionBar customization-->
-    <style name="CalculatorActionBar" parent="Widget.MaterialComponents.ActionBar.Solid">
-        <item name="elevation">0dp</item>
-    </style>
+
 
     <!--Menues customization-->
-    <style name="CalculatorPopupMenu" parent="Widget.MaterialComponents.PopupMenu">
+   <!-- <style name="CalculatorPopupMenu" parent="Widget.MaterialComponents.PopupMenu">
         <item name="android:textColorPrimary">@color/color_fore_a</item>
         <item name="colorSurface">@color/color_b</item>
     </style>
 
-    <style name="BaseButton" parent="Widget.MaterialComponents.Button">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_marginStart">4dp</item>
-        <item name="android:layout_marginEnd">4dp</item>
-    </style>
-
-    <style name="SymbolButton" parent="BaseButton">
-        <item name="android:textColor">@color/color_fore_a</item>
-        <item name="android:textSize">30sp</item>
-    </style>
-    <style name="ClearButton" parent="BaseButton">
-        <item name="android:textColor">@color/color_fore_c</item>
-        <item name="android:textSize">30sp</item>
-    </style>
-    <style name="OperationButton" parent="BaseButton">
-        <item name="android:textColor">@color/color_fore_b</item>
-        <item name="android:textSize">30sp</item>
-    </style>
-    <style name="MemoryButton" parent="BaseButton">
-        <item name="android:textColor">@color/color_fore_d</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
+    -->
 </resources>
