@@ -19,10 +19,9 @@
                 android:id="@+id/main_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/backgroundColor"
-                app:menu="@menu/main_menu">
+                android:background="@color/backgroundColor">
             </com.google.android.material.appbar.MaterialToolbar>
-            <com.google.android.material.textview.MaterialTextView
+            <!--<com.google.android.material.textview.MaterialTextView
                 android:id="@+id/main_toolbar_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -30,7 +29,7 @@
                 android:gravity="center"
                 android:text="@string/main_activity_label"
                 android:textAllCaps="false"
-                android:textAppearance="?attr/textAppearanceHeadline6"/>
+                android:textAppearance="?attr/textAppearanceHeadline6"/>-->
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
         <fragment
             android:id="@+id/navHostFragment"

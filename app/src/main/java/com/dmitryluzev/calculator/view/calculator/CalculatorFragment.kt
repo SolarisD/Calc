@@ -1,14 +1,12 @@
 package com.dmitryluzev.calculator.view.calculator
 
-import android.content.ClipData
-import android.content.ClipDescription
-import android.content.ClipboardManager
-import android.content.Context
+import android.content.*
 import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.app.Sound
@@ -16,6 +14,8 @@ import com.dmitryluzev.calculator.core.Calculator
 import com.dmitryluzev.calculator.databinding.FragmentCalculatorBinding
 import com.dmitryluzev.calculator.model.DB
 import com.dmitryluzev.calculator.model.Repo
+import com.dmitryluzev.calculator.view.InfoActivity
+import com.dmitryluzev.calculator.view.SettingsActivity
 
 class CalculatorFragment : Fragment() {
     private lateinit var vm: CalculatorViewModel
@@ -34,9 +34,26 @@ class CalculatorFragment : Fragment() {
         binding = FragmentCalculatorBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         binding.vm = vm
-        registerForContextMenu(binding.tvBuffer)
+        setHasOptionsMenu(true)
+        /*registerForContextMenu(binding.tvBuffer)*/
         return binding.root
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.main_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        super.onOptionsItemSelected(item)
+        when(item.itemId){
+            R.id.history_menu_item-> {
+                findNavController().navigate(R.id.historyFragment)
+            }
+        }
+        return true
+    }
+
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
         requireActivity().menuInflater.inflate(R.menu.copy_paste_menu, menu)
@@ -64,6 +81,10 @@ class CalculatorFragment : Fragment() {
             }
         }
         return super.onContextItemSelected(item)
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        vm.saveState()
+        super.onSaveInstanceState(outState)
     }
 }
 

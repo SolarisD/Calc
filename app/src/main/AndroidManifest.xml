@@ -13,12 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeMain">
 
-        <activity android:name="com.dmitryluzev.calculator.view.history.HistoryActivity"
-            android:label="@string/history_activity_label"
-            android:parentActivityName="com.dmitryluzev.calculator.view.main.MainActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
         <activity
             android:name="com.dmitryluzev.calculator.view.InfoActivity"
             android:label="@string/info_activity_label"
