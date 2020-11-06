@@ -2,19 +2,26 @@ package com.dmitryluzev.calculator.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var drawerLayout: DrawerLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         binding.mainToolbar
         setSupportActionBar(binding.mainToolbar)
-        setContentView(binding.root)
         val navController = findNavController(R.id.navHostFragment)
-        NavigationUI.setupWithNavController(binding.mainToolbar, navController)
+        drawerLayout = binding.drawerLayout
+        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.navHostFragment)
+        return NavigationUI.navigateUp(navController, drawerLayout)
     }
 }

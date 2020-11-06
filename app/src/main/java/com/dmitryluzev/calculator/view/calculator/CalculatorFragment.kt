@@ -40,15 +40,15 @@ class CalculatorFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.main_menu, menu)
     }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)
-        when(item.itemId){
+        *//*when(item.itemId){
             R.id.history_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionCalculatorFragmentToHistoryFragment())
             R.id.settings_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionGlobalSettingsFragment())
             R.id.about_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionGlobalInfoFragment())
-        }
+        }*//*
         return true
-    }
+    }*/
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
         requireActivity().menuInflater.inflate(R.menu.copy_paste_menu, menu)
