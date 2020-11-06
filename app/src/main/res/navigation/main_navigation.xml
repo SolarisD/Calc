@@ -15,4 +15,9 @@
         android:name="com.dmitryluzev.calculator.view.history.HistoryFragment"
         android:label="@string/history_activity_label"
         tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.dmitryluzev.calculator.view.InfoFragment"
+        android:label="@string/info_activity_label"
+        tools:layout="@layout/fragment_info" />
 </navigation>

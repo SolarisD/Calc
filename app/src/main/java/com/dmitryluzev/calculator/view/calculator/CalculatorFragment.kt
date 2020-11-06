@@ -14,8 +14,6 @@ import com.dmitryluzev.calculator.core.Calculator
 import com.dmitryluzev.calculator.databinding.FragmentCalculatorBinding
 import com.dmitryluzev.calculator.model.DB
 import com.dmitryluzev.calculator.model.Repo
-import com.dmitryluzev.calculator.view.InfoActivity
-import com.dmitryluzev.calculator.view.SettingsActivity
 
 class CalculatorFragment : Fragment() {
     private lateinit var vm: CalculatorViewModel
@@ -47,9 +45,8 @@ class CalculatorFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)
         when(item.itemId){
-            R.id.history_menu_item-> {
-                findNavController().navigate(R.id.historyFragment)
-            }
+            R.id.history_menu_item-> findNavController().navigate(R.id.historyFragment)
+            R.id.about_menu_item-> findNavController().navigate(R.id.infoFragment)
         }
         return true
     }

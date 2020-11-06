@@ -14,7 +14,7 @@ class HistoryViewAdapter(private val records: List<Operation>): RecyclerView.Ada
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.history_view_holder, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.vh_history, parent, false)
         return HistoryViewHolder(view)
     }
 
