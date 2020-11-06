@@ -13,7 +13,6 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         binding.mainToolbar
         setSupportActionBar(binding.mainToolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
         setContentView(binding.root)
         val navController = findNavController(R.id.navHostFragment)
         NavigationUI.setupWithNavController(binding.mainToolbar, navController)

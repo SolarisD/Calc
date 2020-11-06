@@ -14,7 +14,7 @@
         android:theme="@style/AppThemeMain">
 
         <activity
-            android:name="com.dmitryluzev.calculator.view.SettingsActivity"
+            android:name="com.dmitryluzev.calculator.view.SettingsFragment"
             android:label="@string/settings_activity_label"
             android:parentActivityName="com.dmitryluzev.calculator.view.MainActivity"
             android:screenOrientation="portrait">

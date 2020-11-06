@@ -33,24 +33,22 @@ class CalculatorFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.vm = vm
         setHasOptionsMenu(true)
-        /*registerForContextMenu(binding.tvBuffer)*/
+        registerForContextMenu(binding.tvBuffer)
         return binding.root
     }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.main_menu, menu)
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)
         when(item.itemId){
-            R.id.history_menu_item-> findNavController().navigate(R.id.historyFragment)
-            R.id.about_menu_item-> findNavController().navigate(R.id.infoFragment)
+            R.id.history_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionCalculatorFragmentToHistoryFragment())
+            R.id.settings_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionGlobalSettingsFragment())
+            R.id.about_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionGlobalInfoFragment())
         }
         return true
     }
-
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
         requireActivity().menuInflater.inflate(R.menu.copy_paste_menu, menu)
