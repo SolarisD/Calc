@@ -2,6 +2,7 @@ package com.dmitryluzev.calculator.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.navHostFragment)
         drawerLayout = binding.drawerLayout
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+        NavigationUI.setupWithNavController(binding.navigationView, navController)
     }
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.navHostFragment)

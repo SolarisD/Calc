@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.app.Sound
@@ -32,23 +34,10 @@ class CalculatorFragment : Fragment() {
         binding = FragmentCalculatorBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         binding.vm = vm
-        setHasOptionsMenu(true)
         registerForContextMenu(binding.tvBuffer)
+        /*setHasOptionsMenu(true)*/
         return binding.root
     }
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.main_menu, menu)
-    }
-    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        super.onOptionsItemSelected(item)
-        *//*when(item.itemId){
-            R.id.history_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionCalculatorFragmentToHistoryFragment())
-            R.id.settings_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionGlobalSettingsFragment())
-            R.id.about_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionGlobalInfoFragment())
-        }*//*
-        return true
-    }*/
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
         requireActivity().menuInflater.inflate(R.menu.copy_paste_menu, menu)
@@ -81,6 +70,19 @@ class CalculatorFragment : Fragment() {
         vm.saveState()
         super.onSaveInstanceState(outState)
     }
+
+    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.main_menu, menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.history_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionCalculatorFragmentToHistoryFragment())
+            R.id.settings_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionGlobalSettingsFragment())
+            R.id.about_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionGlobalInfoFragment())
+        }
+        return super.onOptionsItemSelected(item)
+    }*/
 }
 
 
