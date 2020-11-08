@@ -9,11 +9,7 @@
         android:id="@+id/calculatorFragment"
         android:name="com.dmitryluzev.calculator.view.calculator.CalculatorFragment"
         android:label="@string/main_activity_label"
-        tools:layout="@layout/fragment_calculator" >
-        <action
-            android:id="@+id/action_calculatorFragment_to_historyFragment"
-            app:destination="@id/historyFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_calculator" />
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.dmitryluzev.calculator.view.history.HistoryFragment"
@@ -24,10 +20,19 @@
         android:name="com.dmitryluzev.calculator.view.InfoFragment"
         android:label="@string/info_activity_label"
         tools:layout="@layout/fragment_info" />
-    <action android:id="@+id/action_global_infoFragment" app:destination="@id/infoFragment" />
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.dmitryluzev.calculator.view.SettingsFragment"
         android:label="@string/settings_activity_label" />
-    <action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment" />
+
+    <action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment"/>
+    <action
+        android:id="@+id/action_global_historyFragment"
+        app:destination="@id/historyFragment"
+        app:enterAnim="@anim/slide_out_left"
+        app:exitAnim="@anim/slide_in_right"
+        app:popEnterAnim="@anim/slide_out_left"
+        app:popExitAnim="@anim/slide_in_right" />
+    <action android:id="@+id/action_global_infoFragment" app:destination="@id/infoFragment"/>
 </navigation>
