@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryColor">#F0F2F4</color> <!--Buttons-->
-    <color name="onPrimaryColor">#6C788A</color>
-    <color name="backgroundColor">#F4F6F8</color>
+    <color name="primaryColor">#DDDDDD</color>
+    <color name="onPrimaryColor">#000000</color>
 
+    <color name="backgroundColor">#FFFFFF</color>
+    <color name="onBackgroundColor">#000000</color>
 
-    <!--&lt;!&ndash;BACK COLORS&ndash;&gt;
-    <color name="color_a">#F4F6F8</color>
-    <color name="color_b">#F0F2F4</color>
-    <color name="color_c">#F0F2F4</color>
-
-    &lt;!&ndash;FORE COLORS&ndash;&gt;
-    <color name="color_fore_a">#6C788A</color>
-    <color name="color_fore_b">#36393C</color>
-    <color name="color_fore_c">#EE2829</color>
-    <color name="color_fore_d">#4A6997</color>
-    <color name="color_fore_e">#A4B1C4</color>-->
+    <color name="memoryColor">#000000</color>
+    <color name="operationColor">#000000</color>
+    <color name="operationOldColor">#000000</color>
+    <color name="symbolColor">#000000</color>
 
     <bool name="window_light_status_bar">true</bool>
 

@@ -1,48 +1,41 @@
 <resources >
-
-    <style name="BaseButton" parent="Widget.MaterialComponents.Button">
+    <!--BUTTONS-->
+    <style name="BaseButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="backgroundTint">@color/mtrl_btn_bg_color_selector</item>
         <item name="android:textColor">@color/mtrl_btn_text_color_selector</item>
         <item name="android:textSize">30sp</item>
-        <item name="elevation">0dp</item>
+        <item name="android:insetTop">2dp</item>
+        <item name="android:insetBottom">2dp</item>
+        <item name="android:insetLeft">2dp</item>
+        <item name="android:insetRight">2dp</item>
     </style>
 
     <style name="SymbolButton" parent="BaseButton">
-
-    </style>
-
-    <style name="ClearButton" parent="BaseButton">
-
+        <item name="android:textColor">@color/symbolColor</item>
+        <item name="iconTint">@color/symbolColor</item>
     </style>
 
     <style name="OperationButton" parent="BaseButton">
-
+        <item name="android:textColor">@color/operationColor</item>
+        <item name="iconTint">@color/operationColor</item>
+    </style>
+    <style name="OperationButtonInverse" parent="BaseButton">
+        <item name="android:textColor">@color/primaryColor</item>
+        <item name="iconTint">@color/primaryColor</item>
+        <item name="backgroundTint">@color/operationColor</item>
     </style>
 
     <style name="MemoryButton" parent="BaseButton">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/memoryColor</item>
+        <item name="iconTint">@color/memoryColor</item>
+    </style>
+
+    <style name="TextAppearance.PopupMenu.Calculator" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/onBackgroundColor</item>
     </style>
 
 
-
-
-
-
-
-    <!--Toolbar customization-->
-    <!--<style name="CalculatorToolbar" parent="Widget.MaterialComponents.Toolbar">
-        &lt;!&ndash;<item name="titleTextColor">@color/color_fore_a</item>
-        <item name="android:background">@color/color_b</item>&ndash;&gt;
-    </style>-->
-
-
-
-    <!--Menues customization-->
-   <!-- <style name="CalculatorPopupMenu" parent="Widget.MaterialComponents.PopupMenu">
-        <item name="android:textColorPrimary">@color/color_fore_a</item>
-        <item name="colorSurface">@color/color_b</item>
-    </style>
-
-    -->
 </resources>

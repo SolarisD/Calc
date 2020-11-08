@@ -11,7 +11,7 @@
         android:label="@string/app_label"
         android:roundIcon="@drawable/ic_calculator_round"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeMain">
+        android:theme="@style/App.Theme">
 
         <activity
             android:name="com.dmitryluzev.calculator.view.SettingsFragment"
