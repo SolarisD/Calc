@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dmitryluzev.calculator.R
@@ -48,7 +49,7 @@ class CalculatorFragment : Fragment() {
                 binding.tvBuffer.text?.let {
                     val cbm = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                     cbm.setPrimaryClip(ClipData.newPlainText(getString(R.string.app_label), it))
-                    //Toast.makeText(this, resources.getString(R.string.value_copied, it), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this.context, resources.getString(R.string.value_copied, it), Toast.LENGTH_SHORT).show()
                 }
             }
             R.id.paste_menu_item->{

@@ -55,7 +55,7 @@ class Calculator private constructor(){
     fun operation(id: String) {
         alu.current?.let {
             if (it.result == null){
-                if (buffer.clearRequest) alu.changeOperation(id)
+                if (buffer.clearRequest) {alu.changeOperation(id); return}
                 else alu.setValue(buffer.getValue())
             }
         }

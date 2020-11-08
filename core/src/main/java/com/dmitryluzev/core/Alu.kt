@@ -40,11 +40,12 @@ class Alu constructor(){
 
     }
     fun changeOperation(id: String){
-        val op = OperationFactory.create(id)
-        if (current is BinaryOperation){
-            current?.let {
-                current = op
-                current!!.a = it.a
+        OperationFactory.create(id)?.let { newOp->
+            if (current is BinaryOperation){
+                current?.let {
+                    newOp.a = it.a
+                    current = newOp
+                }
             }
         }
         post()

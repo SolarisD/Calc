@@ -24,7 +24,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp">
+            android:layout_margin="8dp">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_memory"
@@ -48,23 +48,24 @@
 
             <HorizontalScrollView
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_height="40dp"
                 android:rotationY="180"
-                android:padding="4dp"
+                android:layout_margin="4dp"
                 android:scrollbars="none">
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_gravity="center_vertical|end"
                     android:rotationY="180">
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_alu_b"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:text="@{vm.aluComplete}"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:paddingStart="4dp"
                         android:paddingEnd="4dp"
                         android:background="@drawable/displays_border"
@@ -73,8 +74,9 @@
                         android:id="@+id/tv_alu_a"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:text="@{vm.aluCurrent}"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:layout_marginStart="8dp"
                         android:paddingStart="4dp"
                         android:paddingEnd="4dp"
