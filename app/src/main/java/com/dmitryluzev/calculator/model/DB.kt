@@ -1,7 +1,10 @@
 package com.dmitryluzev.calculator.model
 
 import android.content.Context
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
 
 @Database(entities = [Record::class], version = 10, exportSchema = false)

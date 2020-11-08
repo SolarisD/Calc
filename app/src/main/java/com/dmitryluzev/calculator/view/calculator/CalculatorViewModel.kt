@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.app.Sound
-import com.dmitryluzev.calculator.core.Calculator
-import com.dmitryluzev.calculator.core.Symbols
 import com.dmitryluzev.calculator.model.Repo
+import com.dmitryluzev.core.Calculator
+import com.dmitryluzev.core.Symbols
 
 class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, private val pref: Pref, private val sound: Sound) : ViewModel(){
     val haptic: Boolean
@@ -85,7 +85,7 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
     }
 }
 
-class KeyboardViewModelFactory(private val calc: Calculator, private val repo: Repo, private val pref: Pref, private val sound: Sound): ViewModelProvider.Factory{
+class CalculatorViewModelFactory(private val calc: Calculator, private val repo: Repo, private val pref: Pref, private val sound: Sound): ViewModelProvider.Factory{
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CalculatorViewModel::class.java)){

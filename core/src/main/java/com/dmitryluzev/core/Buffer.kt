@@ -1,6 +1,7 @@
-package com.dmitryluzev.calculator.core
+package com.dmitryluzev.core
 
 import androidx.lifecycle.MutableLiveData
+import com.dmitryluzev.core.values.Value
 
 class Buffer constructor() {
     val out: MutableLiveData<Value> = MutableLiveData()

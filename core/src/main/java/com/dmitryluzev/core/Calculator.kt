@@ -1,10 +1,9 @@
-package com.dmitryluzev.calculator.core
+package com.dmitryluzev.core
 
 import androidx.lifecycle.LiveData
-import com.dmitryluzev.calculator.core.operations.OperationFactory
-import com.dmitryluzev.calculator.core.operations.base.Operation
-import java.lang.Exception
-
+import com.dmitryluzev.core.operations.base.Operation
+import com.dmitryluzev.core.values.Value
+import com.dmitryluzev.core.values.toValue
 
 class Calculator private constructor(){
     companion object{

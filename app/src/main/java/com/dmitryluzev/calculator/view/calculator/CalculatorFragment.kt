@@ -1,21 +1,21 @@
 package com.dmitryluzev.calculator.view.calculator
 
-import android.content.*
+import android.content.ClipData
+import android.content.ClipDescription
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.app.Sound
-import com.dmitryluzev.calculator.core.Calculator
 import com.dmitryluzev.calculator.databinding.FragmentCalculatorBinding
 import com.dmitryluzev.calculator.model.DB
 import com.dmitryluzev.calculator.model.Repo
+import com.dmitryluzev.core.Calculator
 
 class CalculatorFragment : Fragment() {
     private lateinit var vm: CalculatorViewModel
@@ -28,7 +28,7 @@ class CalculatorFragment : Fragment() {
         val pref = Pref.getInstance(application)
         val sound = Sound.getInstance(application)
         val calculator = Calculator.getInstance()
-        vm = ViewModelProvider(this, KeyboardViewModelFactory(calculator, repo, pref, sound)).get(CalculatorViewModel::class.java)
+        vm = ViewModelProvider(this, CalculatorViewModelFactory(calculator, repo, pref, sound)).get(CalculatorViewModel::class.java)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCalculatorBinding.inflate(layoutInflater)

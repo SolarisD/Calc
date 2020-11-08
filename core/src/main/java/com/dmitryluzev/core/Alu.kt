@@ -1,11 +1,12 @@
-package com.dmitryluzev.calculator.core
+package com.dmitryluzev.core
 
 import androidx.lifecycle.MutableLiveData
-import com.dmitryluzev.calculator.core.operations.base.BinaryOperation
-import com.dmitryluzev.calculator.core.operations.Multiply
-import com.dmitryluzev.calculator.core.operations.OperationFactory
-import com.dmitryluzev.calculator.core.operations.base.Operation
-import com.dmitryluzev.calculator.core.operations.base.UnaryOperation
+import com.dmitryluzev.core.operations.Multiply
+import com.dmitryluzev.core.operations.OperationFactory
+import com.dmitryluzev.core.operations.base.BinaryOperation
+import com.dmitryluzev.core.operations.base.Operation
+import com.dmitryluzev.core.operations.base.UnaryOperation
+import com.dmitryluzev.core.values.Value
 
 class Alu constructor(){
     val outCurrent = MutableLiveData<Operation>()

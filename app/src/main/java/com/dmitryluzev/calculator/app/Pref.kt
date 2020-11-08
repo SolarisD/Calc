@@ -5,9 +5,9 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.dmitryluzev.calculator.R
-import com.dmitryluzev.calculator.core.Calculator
-import com.dmitryluzev.calculator.core.toOperation
-import com.dmitryluzev.calculator.core.toValue
+import com.dmitryluzev.core.Calculator
+import com.dmitryluzev.core.values.toOperation
+import com.dmitryluzev.core.values.toValue
 
 class Pref private constructor(private val application: Application): SharedPreferences.OnSharedPreferenceChangeListener {
     companion object{
@@ -87,7 +87,7 @@ class Pref private constructor(private val application: Application): SharedPref
         //Current operation
         if (state.current != null){
             pref.edit()
-                .putString(CURRENT_OP_STATE_KEY, state.current.toStoreString())
+                .putString(CURRENT_OP_STATE_KEY, state.current?.toStoreString())
                 .apply()
         } else {
             pref.edit()
@@ -97,7 +97,7 @@ class Pref private constructor(private val application: Application): SharedPref
         //Complete operation
         if (state.complete != null){
             pref.edit()
-                .putString(COMPLETE_OP_STATE_KEY, state.complete.toStoreString())
+                .putString(COMPLETE_OP_STATE_KEY, state.complete?.toStoreString())
                 .apply()
         } else {
             pref.edit()
@@ -107,7 +107,7 @@ class Pref private constructor(private val application: Application): SharedPref
         //Prev operation
         if (state.prev != null){
             pref.edit()
-                .putString(PREV_OP_STATE_KEY, state.prev.toStoreString())
+                .putString(PREV_OP_STATE_KEY, state.prev?.toStoreString())
                 .apply()
         } else {
             pref.edit()

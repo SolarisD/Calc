@@ -2,7 +2,6 @@ package com.dmitryluzev.core.operations.base
 
 import com.dmitryluzev.core.operations.OperationFactory
 import com.dmitryluzev.core.values.Value
-import java.lang.Exception
 
 abstract class UnaryOperation(override var a: Value?): Operation {
     protected abstract fun equal(a: Value): Value

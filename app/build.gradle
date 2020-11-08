@@ -85,4 +85,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     androidTestImplementation "androidx.room:room-testing:$roomVersion"
 
+    //LIBS
+    implementation project(":core")
+
 }

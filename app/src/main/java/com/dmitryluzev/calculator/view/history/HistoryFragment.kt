@@ -49,22 +49,4 @@ class HistoryFragment : Fragment() {
         }
         return super.onOptionsItemSelected(item)
     }
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        val dao = DB.getInstance(applicationContext).dao
-        val repo = Repo(dao)
-        vm = ViewModelProvider(this, HistoryViewModelFactory(repo))
-            .get(HistoryViewModel::class.java)
-        super.onCreate(savedInstanceState)
-        val binding = ActivityHistoryBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        binding.vm = vm
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        rcv_history.layoutManager = LinearLayoutManager(this)
-        vm.historyRecords.observe(this){
-            it?.let {
-                rcv_history.adapter = HistoryViewAdapter(it)
-            }
-        }
-    }*/
 }
