@@ -24,7 +24,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:layout_margin="4dp">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_memory"
@@ -51,12 +51,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:rotationY="180"
-                android:layout_margin="4dp"
-                android:scrollbars="none">
+                android:scrollbars="none"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp">
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="36dp"
                     android:layout_gravity="center_vertical|end"
                     android:rotationY="180">
                     <com.google.android.material.textview.MaterialTextView
