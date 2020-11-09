@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryColor">#DDDDDD</color>
-    <color name="onPrimaryColor">#000000</color>
+    <color name="primaryColor">#e6e9f2</color>
+    <color name="onPrimaryColor">#3d3d3d</color>
+    <color name="secondaryColor">#787b85</color>
 
     <color name="backgroundColor">#FFFFFF</color>
-    <color name="onBackgroundColor">#000000</color>
+    <color name="onBackgroundColor">#3d3d3d</color>
 
-    <color name="memoryColor">#000000</color>
-    <color name="operationColor">#000000</color>
-    <color name="operationOldColor">#000000</color>
-    <color name="symbolColor">#000000</color>
+    <color name="operationColor">#BB8800</color>
+    <color name="operationFrontColor">#3d3d3d</color>
+    <color name="operationFrontMemoryColor">#0b0b0d</color>
+
+
+    <color name="symbolColor">#0088BB</color>
+    <color name="symbolFrontColor">#292929</color>
+
 
     <bool name="window_light_status_bar">true</bool>
 

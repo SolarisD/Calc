@@ -4,6 +4,7 @@
         <!--COLORS-->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorOnPrimary">@color/onPrimaryColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
         <!--BACKPLANE-->
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="colorOnBackground">@color/onBackgroundColor</item>
@@ -14,10 +15,17 @@
 
         <item name="android:windowLightStatusBar" tools:targetApi="23">@bool/window_light_status_bar</item>
         <item name="actionBarSize">42dp</item>
+
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.SmallComponent</item>
     </style>
 
     <style name="Toolbar.Theme" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
         <item name="colorControlNormal">@color/onBackgroundColor</item>
         <item name="android:textColorPrimary">@color/onBackgroundColor</item>
+    </style>
+
+    <style name="ShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">6dp</item>
     </style>
 </resources>

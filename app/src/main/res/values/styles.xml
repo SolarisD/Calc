@@ -1,41 +1,40 @@
 <resources >
-    <!--BUTTONS-->
-    <style name="BaseButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="backgroundTint">@color/mtrl_btn_bg_color_selector</item>
-        <item name="android:textColor">@color/mtrl_btn_text_color_selector</item>
-        <item name="android:textSize">30sp</item>
-        <item name="android:insetTop">2dp</item>
-        <item name="android:insetBottom">2dp</item>
-        <item name="android:insetLeft">2dp</item>
-        <item name="android:insetRight">2dp</item>
-    </style>
-
-    <style name="SymbolButton" parent="BaseButton">
-        <item name="android:textColor">@color/symbolColor</item>
-        <item name="iconTint">@color/symbolColor</item>
-    </style>
-
-    <style name="OperationButton" parent="BaseButton">
-        <item name="android:textColor">@color/operationColor</item>
-        <item name="iconTint">@color/operationColor</item>
-    </style>
-    <style name="OperationButtonInverse" parent="BaseButton">
-        <item name="android:textColor">@color/primaryColor</item>
-        <item name="iconTint">@color/primaryColor</item>
-        <item name="backgroundTint">@color/operationColor</item>
-    </style>
-
-    <style name="MemoryButton" parent="BaseButton">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/memoryColor</item>
-        <item name="iconTint">@color/memoryColor</item>
-    </style>
-
     <style name="TextAppearance.PopupMenu.Calculator" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/onBackgroundColor</item>
     </style>
+
+    <!--BUTTONS-->
+    <style name="Button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:insetTop">@dimen/buttons_inset</item>
+        <item name="android:insetBottom">@dimen/buttons_inset</item>
+        <item name="android:insetLeft">@dimen/buttons_inset</item>
+        <item name="android:insetRight">@dimen/buttons_inset</item>
+        <item name="cornerRadius">4dp</item>
+    </style>
+    <style name="Button.Memory" parent="Button">
+        <item name="android:textSize">20sp</item>
+        <item name="backgroundTint">@color/operationColor</item>
+        <item name="android:textColor">@color/operationFrontColor</item>
+    </style>
+    <style name="Button.Operation">
+        <item name="android:textSize">30sp</item>
+        <item name="backgroundTint">@color/operationColor</item>
+        <item name="iconTint">@color/operationFrontColor</item>
+        <item name="android:textColor">@color/operationFrontColor</item>
+    </style>
+    <style name="Button.Symbol">
+        <item name="android:textSize">30sp</item>
+        <item name="backgroundTint">@color/symbolColor</item>
+        <item name="android:textColor">@color/symbolFrontColor</item>
+    </style>
+
+
+
+
+
+
+
 
 
 </resources>

@@ -13,6 +13,6 @@
         android:layout_gravity="end|center_vertical"
         android:layout_margin="4dp"
         android:textSize="18sp"
-        android:textColor="@color/operationColor"
+        android:textColor="@color/operationFrontColor"
         android:maxLines="1"/>
 </LinearLayout>
