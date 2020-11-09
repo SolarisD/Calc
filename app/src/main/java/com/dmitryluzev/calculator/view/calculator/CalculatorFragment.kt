@@ -10,7 +10,9 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitryluzev.calculator.R
+import com.dmitryluzev.calculator.adapter.HistoryViewAdapter
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.app.Sound
 import com.dmitryluzev.calculator.databinding.FragmentCalculatorBinding
@@ -36,7 +38,12 @@ class CalculatorFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.vm = vm
         registerForContextMenu(binding.tvBuffer)
-        /*setHasOptionsMenu(true)*/
+        binding.rcvHistory.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, true)
+        vm.historyDisplay.observe(viewLifecycleOwner){
+            it?.let {
+                binding.rcvHistory.adapter = HistoryViewAdapter(it)
+            }
+        }
         return binding.root
     }
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {

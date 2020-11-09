@@ -9,6 +9,7 @@ import com.dmitryluzev.calculator.app.Sound
 import com.dmitryluzev.calculator.model.Repo
 import com.dmitryluzev.core.Calculator
 import com.dmitryluzev.core.Symbols
+import com.dmitryluzev.core.operations.base.Operation
 
 class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, private val pref: Pref, private val sound: Sound) : ViewModel(){
     val haptic: Boolean
@@ -16,6 +17,8 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
 
     val bufferDisplay: LiveData<String> = Transformations.map(calc.bufferOut){ it?.toString() ?: "0" }
     val memoryDisplay: LiveData<String> = Transformations.map(calc.memoryDisplay){ if (it == null) "" else "M: $it" }
+    val historyDisplay: LiveData<List<Operation>> = repo.history
+
     val aluCurrent: LiveData<String> = Transformations.map(calc.aluCurrent){ it?.toString() }
     val aluComplete: LiveData<String> = Transformations.map(calc.aluComplete){ it?.toString()}
     init {
