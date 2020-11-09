@@ -25,47 +25,44 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp">
-            <HorizontalScrollView
+            <ScrollView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="72dp"
                 android:layout_gravity="end"
                 android:rotationY="180"
                 android:scrollbars="none"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp">
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center_vertical|end"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
                     android:rotationY="180">
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_alu_b"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
+                        android:layout_gravity="end|bottom"
                         android:text="@{vm.aluComplete}"
                         android:textSize="18sp"
                         android:textColor="@color/operationFrontColor"
-                        android:paddingStart="4dp"
-                        android:paddingEnd="4dp"
+                        android:layout_margin="4dp"
                         android:background="@drawable/displays_border"
                         android:visibility="@{vm.aluComplete != null ? View.VISIBLE : View.GONE}"/>
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_alu_a"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
+                        android:layout_gravity="end|bottom"
                         android:text="@{vm.aluCurrent}"
                         android:textSize="20sp"
                         android:textColor="@color/operationFrontColor"
-                        android:layout_marginStart="8dp"
-                        android:paddingStart="4dp"
-                        android:paddingEnd="4dp"
+                        android:layout_margin="4dp"
                         android:background="@drawable/displays_border"
                         android:visibility="@{vm.aluCurrent != null ? View.VISIBLE : View.GONE}"/>
                 </LinearLayout>
-            </HorizontalScrollView>
+            </ScrollView>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_buffer"
