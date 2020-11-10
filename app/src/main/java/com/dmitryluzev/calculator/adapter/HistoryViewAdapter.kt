@@ -8,7 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.core.operations.base.Operation
 
-class HistoryViewAdapter(private val records: List<Operation>): RecyclerView.Adapter<HistoryViewAdapter.HistoryViewHolder>()  {
+class HistoryViewAdapter(): RecyclerView.Adapter<HistoryViewAdapter.HistoryViewHolder>()  {
+    var records: List<Operation> = listOf()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     class HistoryViewHolder(view: View): RecyclerView.ViewHolder(view){
         val historyRecord: TextView = view.findViewById(R.id.tv_history_record)
     }

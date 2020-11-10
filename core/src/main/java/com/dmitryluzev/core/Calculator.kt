@@ -23,8 +23,7 @@ class Calculator private constructor(){
 
     val bufferOut: LiveData<Value> = buffer.out
     val memoryDisplay: LiveData<Value> = memory.out
-    val aluCurrent: LiveData<Operation> = alu.outCurrent
-    val aluComplete: LiveData<Operation> = alu.outComplete
+    val aluOut: LiveData<Operation> = alu.out
 
     private var onResultReadyListener: ((Operation)->Unit)? = null
     var initialized = false
@@ -32,7 +31,7 @@ class Calculator private constructor(){
     init {
         alu.setOnResultReadyListener { buffer.setValue(it.result!!); onResultReadyListener?.invoke(it) }
     }
-    fun getState() = State(buffer.getValue(), memory.getValue(), alu.current, alu.complete, null)
+    fun getState() = State(buffer.getValue(), memory.getValue(), alu.operation, null, null)
     fun setState(state: State){
         state.buffer?.let { buffer.setValue(it) }
         state.memory?.let { memory.add(it) }
@@ -47,13 +46,13 @@ class Calculator private constructor(){
     fun negative() = buffer.negative()
     fun backspace() = buffer.backspace()
     fun result() {
-        alu.current?.let {
+        alu.operation?.let {
             if (it.result == null) alu.setValue(buffer.getValue())
             else alu.repeat()
         }
     }
     fun operation(id: String) {
-        alu.current?.let {
+        alu.operation?.let {
             if (it.result == null){
                 if (buffer.clearRequest) {alu.changeOperation(id); return}
                 else alu.setValue(buffer.getValue())

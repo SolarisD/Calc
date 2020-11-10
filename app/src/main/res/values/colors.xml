@@ -10,6 +10,7 @@
     <color name="operationColor">#BB8800</color>
     <color name="operationFrontColor">#3d3d3d</color>
     <color name="operationFrontMemoryColor">#0b0b0d</color>
+    <color name="operationFrontHistoryColor">#999999</color>
 
 
     <color name="symbolColor">#0088BB</color>

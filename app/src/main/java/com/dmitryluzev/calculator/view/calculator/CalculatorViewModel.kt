@@ -15,12 +15,11 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
     val haptic: Boolean
         get() = pref.haptic
 
+    val historyDisplay: LiveData<List<Operation>> = repo.history
+    val aluDisplay: LiveData<String> = Transformations.map(calc.aluOut){ it?.toString() }
     val bufferDisplay: LiveData<String> = Transformations.map(calc.bufferOut){ it?.toString() ?: "0" }
     val memoryDisplay: LiveData<String> = Transformations.map(calc.memoryDisplay){ if (it == null) "" else "M: $it" }
-    val historyDisplay: LiveData<List<Operation>> = repo.history
 
-    val aluCurrent: LiveData<String> = Transformations.map(calc.aluCurrent){ it?.toString() }
-    val aluComplete: LiveData<String> = Transformations.map(calc.aluComplete){ it?.toString()}
     init {
         if (!calc.initialized){
             calc.setState(pref.restoreState())

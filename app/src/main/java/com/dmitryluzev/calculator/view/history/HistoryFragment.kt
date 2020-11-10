@@ -27,9 +27,10 @@ class HistoryFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.vm = vm
         binding.rcvHistory.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+        binding.rcvHistory.adapter = HistoryViewAdapter()
         vm.historyRecords.observe(viewLifecycleOwner){
             it?.let {
-                binding.rcvHistory.adapter = HistoryViewAdapter(it)
+                (binding.rcvHistory.adapter as HistoryViewAdapter).records = it
             }
         }
         setHasOptionsMenu(true)

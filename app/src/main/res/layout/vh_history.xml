@@ -10,8 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|center_vertical"
-        android:layout_margin="4dp"
-        android:textSize="18sp"
-        android:textColor="@color/operationFrontColor"
+        android:layout_margin="2dp"
+        android:textSize="20sp"
+        android:textColor="@color/operationFrontHistoryColor"
         android:maxLines="1"/>
 </LinearLayout>
