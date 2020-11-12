@@ -41,6 +41,7 @@ class CalculatorFragment : Fragment() {
         binding.vm = vm
         registerForContextMenu(binding.tvBuffer)
         val manager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, true)
+
         binding.rcvHistory.layoutManager = manager
         val adapter = HistoryViewAdapter()
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
@@ -52,6 +53,9 @@ class CalculatorFragment : Fragment() {
         binding.rcvHistory.adapter = adapter
         vm.historyDisplay.observe(viewLifecycleOwner){
             adapter.submitList(it)
+        }
+        binding.tvBuffer.setOnClickListener {
+            findNavController().navigate(CalculatorFragmentDirections.actionCalculatorFragmentToHistoryFragment())
         }
         return binding.root
     }

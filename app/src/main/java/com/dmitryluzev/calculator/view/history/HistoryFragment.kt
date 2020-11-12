@@ -25,7 +25,7 @@ class HistoryFragment : Fragment() {
         val binding = FragmentHistoryBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         binding.vm = vm
-        binding.rcvHistory.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+        binding.rcvHistory.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, true)
         val adapter = HistoryViewAdapter()
         binding.rcvHistory.adapter = adapter
         vm.historyRecords.observe(viewLifecycleOwner){
