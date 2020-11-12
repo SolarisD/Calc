@@ -32,10 +32,14 @@
                 android:id="@+id/rcv_history"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="4dp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_alu" />
-
-            <com.google.android.material.textview.MaterialTextView
+                android:padding="2dp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_buffer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+<!--android:background="@drawable/rv_border"-->
+            <!--<com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_alu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,7 +51,7 @@
                 android:visibility="@{vm.aluDisplay != null ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toTopOf="@+id/tv_buffer"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent" />-->
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_buffer"

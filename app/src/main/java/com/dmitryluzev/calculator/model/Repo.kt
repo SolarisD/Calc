@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 
 class Repo constructor(private val dao: Dao) {
-    val history: LiveData<List<Operation>> = Transformations.map(dao.getHistoryRecords()){ it.map { it.op }}
+    val history: LiveData<List<Record>> = dao.getHistoryRecords()
     fun saveToHistory(operation: Operation){
         GlobalScope.launch(Dispatchers.IO) {
             dao.insertHistoryRecord(Record(op = operation))

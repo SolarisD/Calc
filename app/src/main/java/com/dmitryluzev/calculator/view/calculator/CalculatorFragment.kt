@@ -10,7 +10,9 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.adapter.HistoryViewAdapter
 import com.dmitryluzev.calculator.app.Pref
@@ -38,13 +40,18 @@ class CalculatorFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.vm = vm
         registerForContextMenu(binding.tvBuffer)
-        binding.rcvHistory.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, true)
-        binding.rcvHistory.adapter = HistoryViewAdapter()
-        vm.historyDisplay.observe(viewLifecycleOwner){
-            it?.let {
-                (binding.rcvHistory.adapter as HistoryViewAdapter).records = it
-                binding.rcvHistory.layoutManager?.scrollToPosition(0)
+        val manager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, true)
+        binding.rcvHistory.layoutManager = manager
+        val adapter = HistoryViewAdapter()
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
+                binding.rcvHistory.scrollToPosition(0)
             }
+        })
+        binding.rcvHistory.adapter = adapter
+        vm.historyDisplay.observe(viewLifecycleOwner){
+            adapter.submitList(it)
         }
         return binding.root
     }
@@ -80,19 +87,6 @@ class CalculatorFragment : Fragment() {
         vm.saveState()
         super.onSaveInstanceState(outState)
     }
-
-    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.main_menu, menu)
-    }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.history_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionCalculatorFragmentToHistoryFragment())
-            R.id.settings_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionGlobalSettingsFragment())
-            R.id.about_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionGlobalInfoFragment())
-        }
-        return super.onOptionsItemSelected(item)
-    }*/
 }
 
 

@@ -29,10 +29,6 @@
     <action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment"/>
     <action
         android:id="@+id/action_global_historyFragment"
-        app:destination="@id/historyFragment"
-        app:enterAnim="@anim/slide_out_left"
-        app:exitAnim="@anim/slide_in_right"
-        app:popEnterAnim="@anim/slide_out_left"
-        app:popExitAnim="@anim/slide_in_right" />
+        app:destination="@id/historyFragment" />
     <action android:id="@+id/action_global_infoFragment" app:destination="@id/infoFragment"/>
 </navigation>

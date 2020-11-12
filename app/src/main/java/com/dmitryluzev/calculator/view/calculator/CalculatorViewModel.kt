@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.app.Sound
+import com.dmitryluzev.calculator.model.Record
 import com.dmitryluzev.calculator.model.Repo
 import com.dmitryluzev.core.Calculator
 import com.dmitryluzev.core.Symbols
@@ -15,7 +16,7 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
     val haptic: Boolean
         get() = pref.haptic
 
-    val historyDisplay: LiveData<List<Operation>> = repo.history
+    val historyDisplay = repo.history
     val aluDisplay: LiveData<String> = Transformations.map(calc.aluOut){ it?.toString() }
     val bufferDisplay: LiveData<String> = Transformations.map(calc.bufferOut){ it?.toString() ?: "0" }
     val memoryDisplay: LiveData<String> = Transformations.map(calc.memoryDisplay){ if (it == null) "" else "M: $it" }

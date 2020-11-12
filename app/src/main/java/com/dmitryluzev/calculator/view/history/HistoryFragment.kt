@@ -13,7 +13,6 @@ import com.dmitryluzev.calculator.model.DB
 import com.dmitryluzev.calculator.model.Repo
 
 class HistoryFragment : Fragment() {
-
     private lateinit var vm: HistoryViewModel
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -27,11 +26,10 @@ class HistoryFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.vm = vm
         binding.rcvHistory.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
-        binding.rcvHistory.adapter = HistoryViewAdapter()
+        val adapter = HistoryViewAdapter()
+        binding.rcvHistory.adapter = adapter
         vm.historyRecords.observe(viewLifecycleOwner){
-            it?.let {
-                (binding.rcvHistory.adapter as HistoryViewAdapter).records = it
-            }
+            adapter.submitList(it)
         }
         setHasOptionsMenu(true)
         return binding.root

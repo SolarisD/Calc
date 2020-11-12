@@ -8,7 +8,7 @@ import androidx.room.Query
 
 @Dao
 interface Dao {
-    @Query("SELECT * FROM history_records ORDER BY ID DESC")
+    @Query("SELECT * FROM history_records ORDER BY ID DESC") //
     fun getHistoryRecords(): LiveData<List<Record>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
