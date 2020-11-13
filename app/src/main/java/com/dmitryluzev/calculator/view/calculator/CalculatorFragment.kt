@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.R
+import com.dmitryluzev.calculator.adapter.HistoryPreviewAdapter
 import com.dmitryluzev.calculator.adapter.HistoryViewAdapter
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.app.Sound
@@ -43,7 +44,9 @@ class CalculatorFragment : Fragment() {
         val manager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, true)
 
         binding.rcvHistory.layoutManager = manager
-        val adapter = HistoryViewAdapter()
+        val adapter = HistoryPreviewAdapter{
+            findNavController().navigate(CalculatorFragmentDirections.actionCalculatorFragmentToHistoryFragment())
+        }
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 super.onItemRangeInserted(positionStart, itemCount)
@@ -53,9 +56,6 @@ class CalculatorFragment : Fragment() {
         binding.rcvHistory.adapter = adapter
         vm.historyDisplay.observe(viewLifecycleOwner){
             adapter.submitList(it)
-        }
-        binding.tvBuffer.setOnClickListener {
-            findNavController().navigate(CalculatorFragmentDirections.actionCalculatorFragmentToHistoryFragment())
         }
         return binding.root
     }

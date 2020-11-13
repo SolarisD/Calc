@@ -13,8 +13,10 @@
         <action
             android:id="@+id/action_calculatorFragment_to_historyFragment"
             app:destination="@id/historyFragment"
-            app:enterAnim="@anim/slide_in_bottom"
-            app:exitAnim="@anim/slide_out_bottom" />
+            app:enterAnim="@anim/history_in"
+            app:exitAnim="@anim/calc_out"
+            app:popEnterAnim="@anim/calc_in"
+            app:popExitAnim="@anim/history_out" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
