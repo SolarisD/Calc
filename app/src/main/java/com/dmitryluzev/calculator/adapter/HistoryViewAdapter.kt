@@ -13,7 +13,8 @@ import com.dmitryluzev.calculator.model.Record
 class HistoryViewAdapter: ListAdapter<Record, HistoryViewAdapter.HistoryViewHolder>(HistoryDiffCallback())  {
 
     class HistoryViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val historyRecord: TextView = view.findViewById(R.id.tv_history_record)
+        val date: TextView = view.findViewById(R.id.tv_date)
+        val record: TextView = view.findViewById(R.id.tv_record)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
@@ -22,13 +23,14 @@ class HistoryViewAdapter: ListAdapter<Record, HistoryViewAdapter.HistoryViewHold
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        holder.historyRecord.text = getItem(position).op.toString()
+        holder.date.text = getItem(position).date.toString()
+        holder.record.text = getItem(position).op.toString()
     }
 }
 
 class HistoryDiffCallback: DiffUtil.ItemCallback<Record>(){
     override fun areItemsTheSame(oldItem: Record, newItem: Record): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.id == newItem.id && oldItem.date == newItem.date
     }
 
     override fun areContentsTheSame(oldItem: Record, newItem: Record): Boolean {

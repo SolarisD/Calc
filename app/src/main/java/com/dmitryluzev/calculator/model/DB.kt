@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 
-@Database(entities = [Record::class], version = 10, exportSchema = false)
+@Database(entities = [Record::class], version = 11, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DB: RoomDatabase(){
     abstract val dao: Dao
