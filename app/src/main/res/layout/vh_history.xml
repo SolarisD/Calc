@@ -12,6 +12,6 @@
         android:layout_gravity="end|center_vertical"
         android:layout_margin="2dp"
         android:textSize="20sp"
-        android:textColor="@color/pr_soft"
+        android:textColor="@color/onBackgroundColor"
         android:maxLines="2"/>
 </LinearLayout>

@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryColor">#2d2a2a</color>
-    <color name="backgroundColor">#1d1a1a</color>
+    <color name="pr">#fefefe</color>
+    <color name="sc">#6B83CC</color>
+    <color name="backgroundColor">#2d2d33</color>
+    <color name="onBackgroundColor">#8D8C8E</color>
 
-
-<!--    &lt;!&ndash;BACK COLORS&ndash;&gt;
-    <color name="color_a">#1d1a1a</color>
-    <color name="color_b">#2d2a2a</color>
-    <color name="color_c">#2d2a2a</color>
-&lt;!&ndash;0f0d0b&ndash;&gt;
-    &lt;!&ndash;FORE COLORS&ndash;&gt;
-    <color name="color_fore_a">#c9c6c3</color>
-    <color name="color_fore_b">#82807d</color>
-    <color name="color_fore_c">#EE2829</color>
-    <color name="color_fore_d">#4A6997</color>
-    <color name="color_fore_e">#646566</color>-->
-
+    <color name="onSc">#fefefe</color>
     <bool name="window_light_status_bar">false</bool>
 </resources>
