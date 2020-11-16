@@ -6,11 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.app.Sound
-import com.dmitryluzev.calculator.model.Record
 import com.dmitryluzev.calculator.model.Repo
 import com.dmitryluzev.core.Calculator
 import com.dmitryluzev.core.Symbols
-import com.dmitryluzev.core.operations.base.Operation
 
 class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, private val pref: Pref, private val sound: Sound) : ViewModel(){
     val haptic: Boolean

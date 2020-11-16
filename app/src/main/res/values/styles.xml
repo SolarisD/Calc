@@ -5,28 +5,32 @@
     </style>
 
     <!--BUTTONS-->
-    <style name="Button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+    <style name="Button" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:insetTop">@dimen/buttons_inset</item>
         <item name="android:insetBottom">@dimen/buttons_inset</item>
         <item name="android:insetLeft">@dimen/buttons_inset</item>
         <item name="android:insetRight">@dimen/buttons_inset</item>
-        <item name="cornerRadius">4dp</item>
     </style>
     <style name="Button.Memory" parent="Button">
         <item name="android:textSize">20sp</item>
-        <item name="backgroundTint">@color/operationColor</item>
-        <item name="android:textColor">@color/operationFrontColor</item>
+        <!--<item name="backgroundTint">@color/memoryColor</item>-->
+        <item name="android:textColor">@color/pr_soft</item>
     </style>
     <style name="Button.Operation">
         <item name="android:textSize">30sp</item>
-        <item name="backgroundTint">@color/operationColor</item>
-        <item name="iconTint">@color/operationFrontColor</item>
-        <item name="android:textColor">@color/operationFrontColor</item>
+        <!--<item name="backgroundTint">@color/operationColor</item>-->
+        <item name="iconTint">@color/sc</item>
+        <item name="android:textColor">@color/sc</item>
+    </style>
+    <style name="Button.Operation.Inv">
+        <item name="backgroundTint">@color/sc</item>
+        <item name="iconTint">@color/backgroundColor</item>
+        <item name="android:textColor">@color/backgroundColor</item>
     </style>
     <style name="Button.Symbol">
         <item name="android:textSize">30sp</item>
-        <item name="backgroundTint">@color/symbolColor</item>
-        <item name="android:textColor">@color/symbolFrontColor</item>
+        <!--<item name="backgroundTint">@color/symbolColor</item>-->
+        <item name="android:textColor">@color/pr</item>
     </style>
 
 

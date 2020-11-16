@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.adapter.HistoryPreviewAdapter
-import com.dmitryluzev.calculator.adapter.HistoryViewAdapter
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.app.Sound
 import com.dmitryluzev.calculator.databinding.FragmentCalculatorBinding

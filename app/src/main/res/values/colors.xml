@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryColor">#e6e9f2</color>
-    <color name="onPrimaryColor">#3d3d3d</color>
-    <color name="secondaryColor">#787b85</color>
+    <color name="pr">#2d2d33</color>
+    <color name="pr_soft">#8D8C8E</color>
+    <color name="sc">#385098</color>
+    <color name="backgroundColor">#fefefe</color>
 
-    <color name="backgroundColor">#FFFFFF</color>
-    <color name="onBackgroundColor">#3d3d3d</color>
-
-    <color name="operationColor">#A0A0A0</color>
-    <color name="operationFrontColor">#3d3d3d</color>
-    <color name="operationFrontMemoryColor">#0b0b0d</color>
-    <color name="operationFrontHistoryColor">#999999</color>
-
-
-    <color name="symbolColor">#BBBBBB</color>
-    <color name="symbolFrontColor">#292929</color>
-
+    <color name="onBackgroundColor">@color/pr_soft</color>
 
     <bool name="window_light_status_bar">true</bool>
-
 </resources>

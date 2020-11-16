@@ -44,9 +44,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|end"
                 android:text="@{vm.aluDisplay}"
-                android:textColor="@color/operationFrontColor"
+                android:textColor="@color/pr"
                 android:textSize="20sp"
-                android:textStyle="bold"
                 android:visibility="@{vm.aluDisplay != null ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toTopOf="@+id/tv_buffer"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +59,7 @@
                 android:maxLines="1"
                 android:padding="4dp"
                 android:text="@{vm.bufferDisplay}"
-                android:textColor="@color/symbolFrontColor"
+                android:textColor="@color/pr"
                 android:textSize="46sp"
                 app:layout_constraintBottom_toTopOf="@+id/tv_memory" />
 
@@ -72,9 +71,11 @@
                 android:maxLines="1"
                 android:padding="4dp"
                 android:text="@{vm.memoryDisplay}"
-                android:textColor="@color/operationFrontColor"
+                android:textColor="@color/pr_soft"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -82,11 +83,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1.07">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.05"
+                android:layout_weight="1.1"
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
@@ -355,7 +356,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_result"
-                    style="@style/Button.Operation"
+                    style="@style/Button.Operation.Inv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
