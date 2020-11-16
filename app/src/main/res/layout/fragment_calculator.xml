@@ -96,8 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.memoryClear()}"
+                    android:onClick="@{(v) -> vm.memoryClear(v)}"
                     android:text="MC" />
 
                 <com.google.android.material.button.MaterialButton
@@ -106,8 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.memoryAdd()}"
+                    android:onClick="@{(v) -> vm.memoryAdd(v)}"
                     android:text="M+" />
 
                 <com.google.android.material.button.MaterialButton
@@ -116,8 +114,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.memorySubtract()}"
+                    android:onClick="@{(v) -> vm.memorySubtract(v)}"
                     android:text="M-" />
 
                 <com.google.android.material.button.MaterialButton
@@ -126,8 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.memoryRestore()}"
+                    android:onClick="@{(v) -> vm.memoryRestore(v)}"
                     android:text="MR" />
 
             </LinearLayout>
@@ -143,8 +139,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.clearCalc()}"
+                    android:onClick="@{(v) -> vm.clearCalc(v)}"
                     android:text="C" />
 
                 <com.google.android.material.button.MaterialButton
@@ -152,10 +147,11 @@
                     style="@style/Button.Operation"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+
+
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.backspace()}"
-                    android:onLongClick="@{() -> vm.clearBuffer()}"
+                    android:onClick="@{(v) -> vm.backspace(v)}"
+                    android:onLongClick="@{(v) -> vm.clearBuffer(v)}"
                     app:icon="@drawable/ic_baseline_backspace_24"
                     app:iconGravity="textStart"
                     app:iconPadding="0dp"
@@ -167,8 +163,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.percent()}"
+                    android:onClick="@{(v) -> vm.percent(v)}"
                     android:text="%" />
 
                 <com.google.android.material.button.MaterialButton
@@ -177,7 +172,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{() -> vm.operation(OperationFactory.DIVIDE_ID)}"
+                    android:onClick="@{(v) -> vm.operation(v, OperationFactory.DIVIDE_ID)}"
                     android:text="÷" />
 
             </LinearLayout>
@@ -193,8 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.symbol(Symbols.SEVEN)}"
+                    android:onClick="@{(v) -> vm.symbol(v, Symbols.SEVEN)}"
                     android:text="7" />
 
                 <com.google.android.material.button.MaterialButton
@@ -203,8 +197,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.symbol(Symbols.EIGHT)}"
+                    android:onClick="@{(v) -> vm.symbol(v, Symbols.EIGHT)}"
                     android:text="8" />
 
                 <com.google.android.material.button.MaterialButton
@@ -213,8 +206,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.symbol(Symbols.NINE)}"
+                    android:onClick="@{(v) -> vm.symbol(v, Symbols.NINE)}"
                     android:text="9" />
 
                 <com.google.android.material.button.MaterialButton
@@ -223,7 +215,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{() -> vm.operation(OperationFactory.MULTIPLY_ID)}"
+                    android:onClick="@{(v) -> vm.operation(v, OperationFactory.MULTIPLY_ID)}"
                     android:text="×" />
             </LinearLayout>
             <LinearLayout
@@ -238,8 +230,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.symbol(Symbols.FOUR)}"
+                    android:onClick="@{(v) -> vm.symbol(v, Symbols.FOUR)}"
                     android:text="4"/>
 
                 <com.google.android.material.button.MaterialButton
@@ -248,8 +239,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.symbol(Symbols.FIVE)}"
+                    android:onClick="@{(v) -> vm.symbol(v, Symbols.FIVE)}"
                     android:text="5" />
 
                 <com.google.android.material.button.MaterialButton
@@ -258,8 +248,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.symbol(Symbols.SIX)}"
+                    android:onClick="@{(v) -> vm.symbol(v, Symbols.SIX)}"
                     android:text="6" />
 
                 <com.google.android.material.button.MaterialButton
@@ -268,7 +257,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{() -> vm.operation(OperationFactory.SUBTRACT_ID)}"
+                    android:onClick="@{(v) -> vm.operation(v, OperationFactory.SUBTRACT_ID)}"
                     android:text="-" />
 
             </LinearLayout>
@@ -284,8 +273,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.symbol(Symbols.ONE)}"
+                    android:onClick="@{(v) -> vm.symbol(v, Symbols.ONE)}"
                     android:text="1" />
 
                 <com.google.android.material.button.MaterialButton
@@ -294,8 +282,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.symbol(Symbols.TWO)}"
+                    android:onClick="@{(v) -> vm.symbol(v, Symbols.TWO)}"
                     android:text="2" />
 
                 <com.google.android.material.button.MaterialButton
@@ -304,8 +291,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.symbol(Symbols.THREE)}"
+                    android:onClick="@{(v) -> vm.symbol(v, Symbols.THREE)}"
                     android:text="3" />
 
                 <com.google.android.material.button.MaterialButton
@@ -314,7 +300,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{() -> vm.operation(OperationFactory.ADD_ID)}"
+                    android:onClick="@{(v) -> vm.operation(v, OperationFactory.ADD_ID)}"
                     android:text="+" />
 
             </LinearLayout>
@@ -330,8 +316,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.symbol(Symbols.ZERO)}"
+                    android:onClick="@{(v) -> vm.symbol(v, Symbols.ZERO)}"
                     android:text="0" />
 
                 <com.google.android.material.button.MaterialButton
@@ -340,8 +325,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.symbol(Symbols.DOT)}"
+                    android:onClick="@{(v) -> vm.symbol(v, Symbols.DOT)}"
                     android:text="@string/decimal_separator" />
 
                 <com.google.android.material.button.MaterialButton
@@ -350,8 +334,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.negative()}"
+                    android:onClick="@{(v) -> vm.negative(v)}"
                     android:text="±" />
 
                 <com.google.android.material.button.MaterialButton
@@ -360,8 +343,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hapticFeedbackEnabled="@{vm.haptic}"
-                    android:onClick="@{() -> vm.result()}"
+                    android:onClick="@{(v) -> vm.result(v)}"
                     android:text="=" />
             </LinearLayout>
         </LinearLayout>

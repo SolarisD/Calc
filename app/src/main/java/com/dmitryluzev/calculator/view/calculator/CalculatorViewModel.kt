@@ -1,5 +1,7 @@
 package com.dmitryluzev.calculator.view.calculator
 
+import android.view.HapticFeedbackConstants
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
@@ -12,7 +14,7 @@ import com.dmitryluzev.core.Symbols
 
 class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, private val pref: Pref, private val sound: Sound) : ViewModel(){
     val haptic: Boolean
-        get() = pref.haptic
+        get() = true//pref.haptic
 
     val historyDisplay = repo.history
     val aluDisplay: LiveData<String> = Transformations.map(calc.aluOut){ it?.toString() }
@@ -32,56 +34,57 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
     }
     fun pasteFromClipboard(value: String): String? = calc.pasteFromClipboard(value)
 
-    fun clearCalc() {
+    fun clearCalc(view: View) {
         calc.clear()
-        playSound()
+        haptics(view)
     }
-    fun symbol(symbol: Symbols) {
+    fun symbol(view: View, symbol: Symbols) {
         calc.symbol(symbol)
-        playSound()
+        haptics(view)
     }
-    fun negative(){
+    fun negative(view: View){
         calc.negative()
-        playSound()
+        haptics(view)
     }
-    fun backspace(){
+    fun backspace(view: View){
         calc.backspace()
-        playSound()
+        haptics(view)
     }
-    fun result(){
+    fun result(view: View){
         calc.result()
-        playSound()
+        haptics(view)
     }
-    fun operation(id: String){
+    fun operation(view: View, id: String){
         calc.operation(id)
-        playSound()
+        haptics(view)
     }
-    fun percent(){
+    fun percent(view: View){
         calc.percent()
-        playSound()
+        haptics(view)
     }
-    fun memoryClear(){
+    fun memoryClear(view: View){
         calc.memoryClear()
-        playSound()
+        haptics(view)
     }
-    fun memoryAdd(){
+    fun memoryAdd(view: View){
         calc.memoryAdd()
-        playSound()
+        haptics(view)
     }
-    fun memorySubtract(){
+    fun memorySubtract(view: View){
         calc.memorySubtract()
-        playSound()
+        haptics(view)
     }
-    fun memoryRestore(){
+    fun memoryRestore(view: View){
         calc.memoryRestore()
-        playSound()
+        haptics(view)
     }
-    fun clearBuffer(): Boolean{
+    fun clearBuffer(view: View): Boolean{
         calc.clearBuffer()
-        playSound()
+        haptics(view)
         return true
     }
-    private fun playSound(){
+    private fun haptics(view: View? = null){
+        if (pref.haptic) view?.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
         if (pref.sound) sound.button()
     }
 }

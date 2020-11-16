@@ -1,7 +1,7 @@
 <resources>
     <!--PREFERENCE KEYS-->
     <string name="pref_dark_theme_key" translatable="false">dark_theme</string>
-    <string name="pref_haptic_buttons_key" translatable="false">vibration_buttons</string>
+    <string name="pref_haptic_buttons_key" translatable="false">haptic_buttons</string>
     <string name="pref_sound_buttons_key" translatable="false">sound_buttons</string>
 
     <!--LABELS-->
