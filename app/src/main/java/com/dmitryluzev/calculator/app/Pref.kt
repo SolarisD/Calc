@@ -8,14 +8,14 @@ import com.dmitryluzev.calculator.R
 import com.dmitryluzev.core.Calculator
 import com.dmitryluzev.core.values.toOperation
 import com.dmitryluzev.core.values.toValue
+import java.util.*
 
 class Pref private constructor(private val application: Application): SharedPreferences.OnSharedPreferenceChangeListener {
     companion object{
         const val BUFFER_STATE_KEY = "buffer_state"
         const val MEMORY_STATE_KEY = "memory_state"
-        const val CURRENT_OP_STATE_KEY = "current_op_state"
-        const val COMPLETE_OP_STATE_KEY = "complete_op_state"
-        const val PREV_OP_STATE_KEY = "prev_op_state"
+        const val ALU_OP_STATE_KEY = "alu_state"
+        const val DISPLAY_HISTORY_DATE_KEY = "display_history_date"
 
         private var instance: Pref? = null
         fun getInstance(application: Application): Pref {
@@ -58,10 +58,8 @@ class Pref private constructor(private val application: Application): SharedPref
     fun restoreState(): Calculator.State {
         val buffer = pref.getString(BUFFER_STATE_KEY, null)?.toValue()
         val memory = pref.getString(MEMORY_STATE_KEY, null)?.toValue()
-        val current = pref.getString(CURRENT_OP_STATE_KEY, null).toOperation()
-        val complete = pref.getString(COMPLETE_OP_STATE_KEY, null).toOperation()
-        val prev = pref.getString(PREV_OP_STATE_KEY, null).toOperation()
-        return Calculator.State(buffer, memory, current, complete, prev)
+        val alu = pref.getString(ALU_OP_STATE_KEY, null).toOperation()
+        return Calculator.State(buffer, memory, alu)
     }
     fun saveState(state: Calculator.State){
         //Buffer
@@ -85,34 +83,20 @@ class Pref private constructor(private val application: Application): SharedPref
                 .apply()
         }
         //Current operation
-        if (state.current != null){
+        if (state.alu != null){
             pref.edit()
-                .putString(CURRENT_OP_STATE_KEY, state.current?.toStoreString())
+                .putString(ALU_OP_STATE_KEY, state.alu?.toStoreString())
                 .apply()
         } else {
             pref.edit()
-                .remove(CURRENT_OP_STATE_KEY)
-                .apply()
-        }
-        //Complete operation
-        if (state.complete != null){
-            pref.edit()
-                .putString(COMPLETE_OP_STATE_KEY, state.complete?.toStoreString())
-                .apply()
-        } else {
-            pref.edit()
-                .remove(COMPLETE_OP_STATE_KEY)
-                .apply()
-        }
-        //Prev operation
-        if (state.prev != null){
-            pref.edit()
-                .putString(PREV_OP_STATE_KEY, state.prev?.toStoreString())
-                .apply()
-        } else {
-            pref.edit()
-                .remove(PREV_OP_STATE_KEY)
+                .remove(ALU_OP_STATE_KEY)
                 .apply()
         }
     }
+    fun saveDisplayHistoryDate(date: Date){
+        pref.edit()
+            .putLong(DISPLAY_HISTORY_DATE_KEY, date.time)
+            .apply()
+    }
+    fun restoreDisplayHistoryDate() = Date(pref.getLong(DISPLAY_HISTORY_DATE_KEY, System.currentTimeMillis()))
 }

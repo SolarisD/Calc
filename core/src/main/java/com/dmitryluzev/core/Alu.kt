@@ -14,7 +14,7 @@ class Alu constructor(){
         private set
     private var onResultReadyListener: ((Operation)->Unit)? = null
 
-    fun setState(current: Operation? = null, complete: Operation? = null, prev: Operation? = null){
+    fun setState(current: Operation? = null){
         operation = current
         post()
     }

@@ -7,7 +7,7 @@ import com.dmitryluzev.core.values.toOperation
 import com.dmitryluzev.core.values.toValue
 import java.util.*
 
-class Converters {
+class Converters{
     @TypeConverter
     fun operationToString(operation: Operation?): String? {
         operation?.let { return it.toStoreString() }

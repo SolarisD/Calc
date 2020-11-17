@@ -31,11 +31,11 @@ class Calculator private constructor(){
     init {
         alu.setOnResultReadyListener { buffer.setValue(it.result!!); onResultReadyListener?.invoke(it) }
     }
-    fun getState() = State(buffer.getValue(), memory.getValue(), alu.operation, null, null)
+    fun getState() = State(buffer.getValue(), memory.getValue(), alu.operation)
     fun setState(state: State){
         state.buffer?.let { buffer.setValue(it) }
         state.memory?.let { memory.add(it) }
-        alu.setState(state.current, state.complete, state.prev)
+        alu.setState(state.alu)
         initialized = true
     }
     fun setOnResultReadyListener(listener:(Operation) -> Unit){
@@ -89,8 +89,6 @@ class Calculator private constructor(){
     data class State(
         val buffer: Value? = null,
         val memory: Value? = null,
-        val current: Operation? = null,
-        val complete: Operation? = null,
-        val prev: Operation? = null
+        val alu: Operation? = null
     )
 }

@@ -2,25 +2,21 @@ package com.dmitryluzev.calculator.view.calculator
 
 import android.view.HapticFeedbackConstants
 import android.view.View
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.app.Sound
+import com.dmitryluzev.calculator.model.Record
 import com.dmitryluzev.calculator.model.Repo
 import com.dmitryluzev.core.Calculator
 import com.dmitryluzev.core.Symbols
+import java.util.*
 
 class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, private val pref: Pref, private val sound: Sound) : ViewModel(){
-    val haptic: Boolean
-        get() = true//pref.haptic
-
-    val historyDisplay = repo.history
+    private val historyDate: MutableLiveData<Date> = MutableLiveData(pref.restoreDisplayHistoryDate())
+    val historyDisplay: LiveData<List<Record>> = Transformations.switchMap(historyDate){ repo.getHistoryFromDate(it) }
     val aluDisplay: LiveData<String> = Transformations.map(calc.aluOut){ it?.toString() }
     val bufferDisplay: LiveData<String> = Transformations.map(calc.bufferOut){ it?.toString() ?: "0" }
     val memoryDisplay: LiveData<String> = Transformations.map(calc.memoryDisplay){ if (it == null) "" else "M: $it" }
-
     init {
         if (!calc.initialized){
             calc.setState(pref.restoreState())
@@ -31,11 +27,16 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
     }
     fun saveState(){
         pref.saveState(calc.getState())
+        historyDate.value?.let { pref.saveDisplayHistoryDate(it) }
     }
     fun pasteFromClipboard(value: String): String? = calc.pasteFromClipboard(value)
-
     fun clearCalc(view: View) {
         calc.clear()
+        haptics(view)
+    }
+    fun allClear(view: View){
+        calc.clear()
+        historyDate.value = Date(System.currentTimeMillis())
         haptics(view)
     }
     fun symbol(view: View, symbol: Symbols) {
