@@ -139,8 +139,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.allClear(v)}"
-                    android:text="C" />
+                    android:onClick="@{(v) -> vm.bufferDisplay.equals(&quot;0&quot;) ? vm.allClear(v) : vm.clearCalc(v)}"
+                    android:text="@{vm.bufferDisplay.equals(&quot;0&quot;) ? &quot;AC&quot; : &quot;C&quot;}" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_backspace"

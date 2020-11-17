@@ -15,7 +15,7 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
     private val historyDate: MutableLiveData<Date> = MutableLiveData(pref.restoreDisplayHistoryDate())
     val historyDisplay: LiveData<List<Record>> = Transformations.switchMap(historyDate){ repo.getHistoryFromDate(it) }
     val aluDisplay: LiveData<String> = Transformations.map(calc.aluOut){ it?.toString() }
-    val bufferDisplay: LiveData<String> = Transformations.map(calc.bufferOut){ it?.toString() ?: "0" }
+    val bufferDisplay: LiveData<String> = Transformations.map(calc.bufferOut){ it?.toString() }
     val memoryDisplay: LiveData<String> = Transformations.map(calc.memoryDisplay){ if (it == null) "" else "M: $it" }
     init {
         if (!calc.initialized){
