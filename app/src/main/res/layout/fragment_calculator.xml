@@ -3,13 +3,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="HardcodedText | NestedWeights"
-    >
+    tools:ignore="HardcodedText | NestedWeights" >
 
     <data>
         <import type="android.view.View" />
-        <import type="com.dmitryluzev.core.Symbols"/>
-        <import type="com.dmitryluzev.core.operations.OperationFactory"/>
+        <import type="com.dmitryluzev.calculator.view.calculator.Buttons"/>
         <variable
             name="vm"
             type="com.dmitryluzev.calculator.view.calculator.CalculatorViewModel" />
@@ -96,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.memoryClear(v)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.MEM_CLEAR)}"
                     android:text="MC" />
 
                 <com.google.android.material.button.MaterialButton
@@ -105,7 +103,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.memoryAdd(v)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.MEM_ADD)}"
                     android:text="M+" />
 
                 <com.google.android.material.button.MaterialButton
@@ -114,7 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.memorySubtract(v)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.MEM_SUB)}"
                     android:text="M-" />
 
                 <com.google.android.material.button.MaterialButton
@@ -123,7 +121,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.memoryRestore(v)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.MEM_RESTORE)}"
                     android:text="MR" />
 
             </LinearLayout>
@@ -139,7 +137,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.bufferDisplay.equals(&quot;0&quot;) ? vm.allClear(v) : vm.clearCalc(v)}"
+                    android:onClick="@{(v) -> vm.bufferDisplay.equals(&quot;0&quot;) ? vm.buttonEvents(v, Buttons.ALL_CLEAR) : vm.buttonEvents(v, Buttons.CALC_CLEAR)}"
                     android:text="@{vm.bufferDisplay.equals(&quot;0&quot;) ? &quot;AC&quot; : &quot;C&quot;}" />
 
                 <com.google.android.material.button.MaterialButton
@@ -150,8 +148,8 @@
 
 
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.backspace(v)}"
-                    android:onLongClick="@{(v) -> vm.clearBuffer(v)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.BACKSPACE)}"
+                    android:onLongClick="@{(v) -> vm.buttonEvents(v, Buttons.BUFFER_CLEAR)}"
                     app:icon="@drawable/ic_baseline_backspace_24"
                     app:iconGravity="textStart"
                     app:iconPadding="0dp"
@@ -163,7 +161,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.percent(v)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.PERCENT)}"
                     android:text="%" />
 
                 <com.google.android.material.button.MaterialButton
@@ -172,7 +170,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.operation(v, OperationFactory.DIVIDE_ID)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.DIV)}"
                     android:text="÷" />
 
             </LinearLayout>
@@ -188,7 +186,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.symbol(v, Symbols.SEVEN)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.SEVEN)}"
                     android:text="7" />
 
                 <com.google.android.material.button.MaterialButton
@@ -197,7 +195,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.symbol(v, Symbols.EIGHT)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.EIGHT)}"
                     android:text="8" />
 
                 <com.google.android.material.button.MaterialButton
@@ -206,7 +204,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.symbol(v, Symbols.NINE)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.NINE)}"
                     android:text="9" />
 
                 <com.google.android.material.button.MaterialButton
@@ -215,7 +213,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.operation(v, OperationFactory.MULTIPLY_ID)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.MUL)}"
                     android:text="×" />
             </LinearLayout>
             <LinearLayout
@@ -230,7 +228,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.symbol(v, Symbols.FOUR)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.FOUR)}"
                     android:text="4"/>
 
                 <com.google.android.material.button.MaterialButton
@@ -239,7 +237,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.symbol(v, Symbols.FIVE)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.FIVE)}"
                     android:text="5" />
 
                 <com.google.android.material.button.MaterialButton
@@ -248,7 +246,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.symbol(v, Symbols.SIX)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.SIX)}"
                     android:text="6" />
 
                 <com.google.android.material.button.MaterialButton
@@ -257,7 +255,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.operation(v, OperationFactory.SUBTRACT_ID)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.SUB)}"
                     android:text="-" />
 
             </LinearLayout>
@@ -273,7 +271,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.symbol(v, Symbols.ONE)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.ONE)}"
                     android:text="1" />
 
                 <com.google.android.material.button.MaterialButton
@@ -282,7 +280,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.symbol(v, Symbols.TWO)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.TWO)}"
                     android:text="2" />
 
                 <com.google.android.material.button.MaterialButton
@@ -291,7 +289,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.symbol(v, Symbols.THREE)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.THREE)}"
                     android:text="3" />
 
                 <com.google.android.material.button.MaterialButton
@@ -300,7 +298,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.operation(v, OperationFactory.ADD_ID)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.ADD)}"
                     android:text="+" />
 
             </LinearLayout>
@@ -316,7 +314,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.symbol(v, Symbols.ZERO)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.ZERO)}"
                     android:text="0" />
 
                 <com.google.android.material.button.MaterialButton
@@ -325,7 +323,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.symbol(v, Symbols.DOT)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.DOT)}"
                     android:text="@string/decimal_separator" />
 
                 <com.google.android.material.button.MaterialButton
@@ -334,7 +332,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.negative(v)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.NEGATIVE)}"
                     android:text="±" />
 
                 <com.google.android.material.button.MaterialButton
@@ -343,7 +341,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="@{(v) -> vm.result(v)}"
+                    android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.RESULT)}"
                     android:text="=" />
             </LinearLayout>
         </LinearLayout>
