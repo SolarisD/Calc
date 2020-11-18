@@ -13,35 +13,30 @@
             type="com.dmitryluzev.calculator.view.calculator.CalculatorViewModel" />
     </data>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="2dp"
-        tools:context=".view.calculator.CalculatorFragment"
-        android:rotation="180"
-        android:scrollbars="vertical"
-        android:verticalScrollbarPosition="left">
+
+        tools:context=".view.calculator.CalculatorFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:rotation="180">
+            android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcv_history"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="2dp"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_alu"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.6" />
+                    android:overScrollMode="never"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_alu" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_alu"
@@ -87,7 +82,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -367,6 +361,6 @@
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </layout>

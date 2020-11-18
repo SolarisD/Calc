@@ -18,13 +18,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="2dp"
+        android:gravity="bottom"
         tools:context=".view.calculator.CalculatorFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:layout_weight="2">
+            android:layout_weight="1.5">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_history"
@@ -81,11 +82,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_weight="1.07">
+            android:layout_weight="1">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.1"
+                android:layout_weight="1.07"
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton

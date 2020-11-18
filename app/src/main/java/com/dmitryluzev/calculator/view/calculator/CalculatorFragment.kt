@@ -10,14 +10,12 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.adapter.HistoryPreviewAdapter
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.app.Sound
-import com.dmitryluzev.calculator.databinding.FragmentCalculator2Binding
 import com.dmitryluzev.calculator.databinding.FragmentCalculatorBinding
 import com.dmitryluzev.calculator.model.DB
 import com.dmitryluzev.calculator.model.Repo
@@ -25,7 +23,7 @@ import com.dmitryluzev.core.Calculator
 
 class CalculatorFragment : Fragment() {
     private lateinit var vm: CalculatorViewModel
-    private lateinit var binding: FragmentCalculator2Binding
+    private lateinit var binding: FragmentCalculatorBinding
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val application = requireNotNull(this.activity).application
@@ -37,7 +35,7 @@ class CalculatorFragment : Fragment() {
         vm = ViewModelProvider(this, CalculatorViewModelFactory(calculator, repo, pref, sound)).get(CalculatorViewModel::class.java)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentCalculator2Binding.inflate(layoutInflater)
+        binding = FragmentCalculatorBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         binding.vm = vm
         registerForContextMenu(binding.tvBuffer)
@@ -45,7 +43,8 @@ class CalculatorFragment : Fragment() {
 
         binding.rcvHistory.layoutManager = manager
         val adapter = HistoryPreviewAdapter{
-            findNavController().navigate(CalculatorFragmentDirections.actionCalculatorFragmentToHistoryFragment())
+            //OnitemClickListener
+            /*findNavController().navigate(CalculatorFragmentDirections.actionCalculatorFragmentToHistoryFragment())*/
         }
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
