@@ -9,7 +9,7 @@
         android:id="@+id/calculatorFragment"
         android:name="com.dmitryluzev.calculator.view.calculator.CalculatorFragment"
         android:label="@string/main_activity_label"
-        tools:layout="@layout/fragment_calculator" >
+        tools:layout="@layout/fragment_calculator_old" >
         <action
             android:id="@+id/action_calculatorFragment_to_historyFragment"
             app:destination="@id/historyFragment"
