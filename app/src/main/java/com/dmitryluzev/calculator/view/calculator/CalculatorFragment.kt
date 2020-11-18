@@ -17,6 +17,7 @@ import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.adapter.HistoryPreviewAdapter
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.app.Sound
+import com.dmitryluzev.calculator.databinding.FragmentCalculator2Binding
 import com.dmitryluzev.calculator.databinding.FragmentCalculatorBinding
 import com.dmitryluzev.calculator.model.DB
 import com.dmitryluzev.calculator.model.Repo
@@ -24,7 +25,7 @@ import com.dmitryluzev.core.Calculator
 
 class CalculatorFragment : Fragment() {
     private lateinit var vm: CalculatorViewModel
-    private lateinit var binding: FragmentCalculatorBinding
+    private lateinit var binding: FragmentCalculator2Binding
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val application = requireNotNull(this.activity).application
@@ -36,7 +37,7 @@ class CalculatorFragment : Fragment() {
         vm = ViewModelProvider(this, CalculatorViewModelFactory(calculator, repo, pref, sound)).get(CalculatorViewModel::class.java)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentCalculatorBinding.inflate(layoutInflater)
+        binding = FragmentCalculator2Binding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         binding.vm = vm
         registerForContextMenu(binding.tvBuffer)
