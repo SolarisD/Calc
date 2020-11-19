@@ -3,423 +3,362 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="HardcodedText | NestedWeights">
+    tools:ignore="HardcodedText | NestedWeights" >
 
     <data>
         <import type="android.view.View" />
-        <import type="com.dmitryluzev.core.Symbols"/>
-        <import type="com.dmitryluzev.core.operations.OperationFactory"/>
+        <import type="com.dmitryluzev.calculator.view.calculator.Buttons"/>
         <variable
             name="vm"
             type="com.dmitryluzev.calculator.view.calculator.CalculatorViewModel" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:padding="2dp"
         tools:context=".view.calculator.CalculatorFragment">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvHistory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:layout_above="@+id/llDisplays"
+            android:padding="2dp"/>
+
+        <LinearLayout
+            android:id="@+id/llDisplays"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/clKeyboard"
+            android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_memory"
+                android:id="@+id/tv_alu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{vm.memoryDisplay}"
-                android:gravity="start|center_vertical"
-                android:padding="4dp"
-                android:textSize="16sp"
-                android:maxLines="1" />
+                android:gravity="center_vertical|end"
+                android:text="@{vm.aluDisplay}"
+                android:textColor="@color/pr"
+                android:textSize="20sp"
+                android:visibility="@{vm.aluDisplay != null ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toTopOf="@+id/tv_buffer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_buffer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|end"
-                android:text="@{vm.bufferDisplay}"
+                android:maxLines="1"
                 android:padding="4dp"
+                android:text="@{vm.bufferDisplay}"
+                android:textColor="@color/pr"
                 android:textSize="46sp"
-                android:maxLines="1" />
+                app:layout_constraintBottom_toTopOf="@+id/tv_memory" />
 
-            <HorizontalScrollView
-                android:layout_width="wrap_content"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_memory"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:rotationY="180"
-                android:layout_margin="4dp"
-                android:scrollbars="none">
+                android:gravity="start|center_vertical"
+                android:maxLines="1"
+                android:padding="4dp"
+                android:text="@{vm.memoryDisplay}"
+                android:textColor="@color/onBackgroundColor"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clKeyboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical|end"
-                    android:rotationY="180">
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_alu_b"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@{vm.aluComplete}"
-                        android:textSize="20sp"
-                        android:paddingStart="4dp"
-                        android:paddingEnd="4dp"
-                        android:background="@drawable/displays_border"
-                        android:visibility="@{vm.aluComplete != null ? View.VISIBLE : View.GONE}"/>
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_alu_a"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@{vm.aluCurrent}"
-                        android:textSize="20sp"
-                        android:layout_marginStart="8dp"
-                        android:paddingStart="4dp"
-                        android:paddingEnd="4dp"
-                        android:background="@drawable/displays_border"
-                        android:visibility="@{vm.aluCurrent != null ? View.VISIBLE : View.GONE}"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.1"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_m_clear"
+                        style="@style/Button.Memory"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.MEM_CLEAR)}"
+                        android:text="MC" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_m_add"
+                        style="@style/Button.Memory"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.MEM_ADD)}"
+                        android:text="M+" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_m_subtract"
+                        style="@style/Button.Memory"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.MEM_SUB)}"
+                        android:text="M-" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_m_restore"
+                        style="@style/Button.Memory"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.MEM_RESTORE)}"
+                        android:text="MR" />
+
                 </LinearLayout>
-            </HorizontalScrollView>
-        </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_clear"
+                        style="@style/Button.Operation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.bufferDisplay.equals(&quot;0&quot;) ? vm.buttonEvents(v, Buttons.ALL_CLEAR) : vm.buttonEvents(v, Buttons.CALC_CLEAR)}"
+                        android:text="@{vm.bufferDisplay.equals(&quot;0&quot;) ? &quot;AC&quot; : &quot;C&quot;}" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_backspace"
+                        style="@style/Button.Operation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.03"
-            android:orientation="horizontal">
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.BACKSPACE)}"
+                        android:onLongClick="@{(v) -> vm.buttonEvents(v, Buttons.BUFFER_CLEAR)}"
+                        app:icon="@drawable/ic_baseline_backspace_24"
+                        app:iconGravity="textStart"
+                        app:iconPadding="0dp"
+                        app:iconSize="24dp" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_m_clear"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/MemoryButton"
-                android:onClick="@{() -> vm.memoryClear()}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="MC" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_percent"
+                        style="@style/Button.Operation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.PERCENT)}"
+                        android:text="%" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_m_add"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/MemoryButton"
-                android:onClick="@{() -> vm.memoryAdd()}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="M+" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_divide"
+                        style="@style/Button.Operation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.DIV)}"
+                        android:text="÷" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_m_subtract"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/MemoryButton"
-                android:onClick="@{() -> vm.memorySubtract()}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="M-" />
+                </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_m_restore"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/MemoryButton"
-                android:onClick="@{() -> vm.memoryRestore()}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="MR" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-        </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_7"
+                        style="@style/Button.Symbol"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.SEVEN)}"
+                        android:text="7" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_8"
+                        style="@style/Button.Symbol"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.EIGHT)}"
+                        android:text="8" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_clear"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/ClearButton"
-                android:onClick="@{() -> vm.clearCalc()}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="C"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_9"
+                        style="@style/Button.Symbol"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.NINE)}"
+                        android:text="9" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_backspace"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/OperationButton"
-                app:icon="@drawable/ic_baseline_backspace_24"
-                app:iconGravity="textStart"
-                app:iconPadding="0dp"
-                app:iconSize="24dp"
-                android:onClick="@{() -> vm.backspace()}"
-                android:onLongClick = "@{() -> vm.clearBuffer()}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_multiply"
+                        style="@style/Button.Operation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.MUL)}"
+                        android:text="×" />
+                </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_percent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/OperationButton"
-                android:onClick="@{() -> vm.percent()}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="%" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_divide"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/OperationButton"
-                android:onClick="@{() -> vm.operation(OperationFactory.DIVIDE_ID)}"
-                android:text="÷" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_4"
+                        style="@style/Button.Symbol"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.FOUR)}"
+                        android:text="4" />
 
-        </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_5"
+                        style="@style/Button.Symbol"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.FIVE)}"
+                        android:text="5" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_6"
+                        style="@style/Button.Symbol"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.SIX)}"
+                        android:text="6" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_7"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/SymbolButton"
-                android:onClick="@{() -> vm.symbol(Symbols.SEVEN)}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="7" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_subtract"
+                        style="@style/Button.Operation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.SUB)}"
+                        android:text="-" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_8"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/SymbolButton"
-                android:onClick="@{() -> vm.symbol(Symbols.EIGHT)}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="8" />
+                </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_9"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/SymbolButton"
-                android:onClick="@{() -> vm.symbol(Symbols.NINE)}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="9" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_multiply"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/OperationButton"
-                android:onClick="@{() -> vm.operation(OperationFactory.MULTIPLY_ID)}"
-                android:text="×" />
-        </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_1"
+                        style="@style/Button.Symbol"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.ONE)}"
+                        android:text="1" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_2"
+                        style="@style/Button.Symbol"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.TWO)}"
+                        android:text="2" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/SymbolButton"
-                android:onClick="@{() -> vm.symbol(Symbols.FOUR)}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="4" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_3"
+                        style="@style/Button.Symbol"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.THREE)}"
+                        android:text="3" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/SymbolButton"
-                android:onClick="@{() -> vm.symbol(Symbols.FIVE)}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="5" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_add"
+                        style="@style/Button.Operation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.ADD)}"
+                        android:text="+" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_6"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/SymbolButton"
-                android:onClick="@{() -> vm.symbol(Symbols.SIX)}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="6" />
+                </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_subtract"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/OperationButton"
-                android:onClick="@{() -> vm.operation(OperationFactory.SUBTRACT_ID)}"
-                android:text="-" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-        </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_0"
+                        style="@style/Button.Symbol"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.ZERO)}"
+                        android:text="0" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_dot"
+                        style="@style/Button.Symbol"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.DOT)}"
+                        android:text="@string/decimal_separator" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/SymbolButton"
-                android:onClick="@{() -> vm.symbol(Symbols.ONE)}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="1" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_negative"
+                        style="@style/Button.Symbol"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.NEGATIVE)}"
+                        android:text="±" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/SymbolButton"
-                android:onClick="@{() -> vm.symbol(Symbols.TWO)}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="2" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_result"
+                        style="@style/Button.Operation.Inv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="@{(v) -> vm.buttonEvents(v, Buttons.RESULT)}"
+                        android:text="=" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/SymbolButton"
-                android:onClick="@{() -> vm.symbol(Symbols.THREE)}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="3" />
+    </RelativeLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_add"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/OperationButton"
-                android:onClick="@{() -> vm.operation(OperationFactory.ADD_ID)}"
-                android:text="+" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_0"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/SymbolButton"
-                android:onClick="@{() -> vm.symbol(Symbols.ZERO)}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="0" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_dot"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/SymbolButton"
-                android:onClick="@{() -> vm.symbol(Symbols.DOT)}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="@string/decimal_separator" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_negative"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/SymbolButton"
-                android:onClick="@{() -> vm.negative()}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="±" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_result"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                style="@style/OperationButton"
-                android:onClick="@{() -> vm.result()}"
-                android:hapticFeedbackEnabled="@{vm.haptic}"
-                android:text="=" />
-        </LinearLayout>
-
-    </LinearLayout>
 </layout>

@@ -10,6 +10,8 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.app.Sound
@@ -36,7 +38,23 @@ class CalculatorFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.vm = vm
         registerForContextMenu(binding.tvBuffer)
-        /*setHasOptionsMenu(true)*/
+        val manager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, true)
+
+        binding.rcvHistory.layoutManager = manager
+        val adapter = HistoryPreviewAdapter{
+            //OnitemClickListener
+            /*findNavController().navigate(CalculatorFragmentDirections.actionCalculatorFragmentToHistoryFragment())*/
+        }
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
+                binding.rcvHistory.scrollToPosition(0)
+            }
+        })
+        binding.rcvHistory.adapter = adapter
+        vm.historyDisplay.observe(viewLifecycleOwner){
+            adapter.submitList(it)
+        }
         return binding.root
     }
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
@@ -71,19 +89,6 @@ class CalculatorFragment : Fragment() {
         vm.saveState()
         super.onSaveInstanceState(outState)
     }
-
-    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.main_menu, menu)
-    }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.history_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionCalculatorFragmentToHistoryFragment())
-            R.id.settings_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionGlobalSettingsFragment())
-            R.id.about_menu_item -> findNavController().navigate(CalculatorFragmentDirections.actionGlobalInfoFragment())
-        }
-        return super.onOptionsItemSelected(item)
-    }*/
 }
 
 

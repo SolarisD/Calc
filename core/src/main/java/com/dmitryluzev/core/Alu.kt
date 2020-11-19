@@ -9,31 +9,25 @@ import com.dmitryluzev.core.operations.base.UnaryOperation
 import com.dmitryluzev.core.values.Value
 
 class Alu constructor(){
-    val outCurrent = MutableLiveData<Operation>()
-    val outComplete = MutableLiveData<Operation>()
-
-    var current: Operation? = null
-        private set
-    var complete: Operation? = null
+    val out = MutableLiveData<Operation>()
+    var operation: Operation? = null
         private set
     private var onResultReadyListener: ((Operation)->Unit)? = null
 
-    fun setState(current: Operation? = null, complete: Operation? = null, prev: Operation? = null){
-        this.current = current; this.complete = complete;
+    fun setState(current: Operation? = null){
+        operation = current
         post()
     }
     fun clear(){
-        current = null
-        complete = null
+        operation = null
         post()
     }
     fun setOperation(id: String, value: Value){
         OperationFactory.create(id, value)?.let {
-            complete = current
             it.a = value
-            current = it
+            operation = it
             if (it is UnaryOperation) {
-                onResultReadyListener?.invoke(current!!)
+                onResultReadyListener?.invoke(operation!!)
             }
             post()
         }
@@ -41,51 +35,55 @@ class Alu constructor(){
     }
     fun changeOperation(id: String){
         OperationFactory.create(id)?.let { newOp->
-            if (current is BinaryOperation){
-                current?.let {
+            if (operation is BinaryOperation){
+                operation?.let {
                     newOp.a = it.a
-                    current = newOp
+                    operation = newOp
                 }
             }
         }
         post()
     }
     fun setValue(value: Value){
-        if(current is BinaryOperation){
-            (current as BinaryOperation).apply { b = value }
-            onResultReadyListener?.invoke(current!!)
+        if(operation is BinaryOperation){
+            (operation as BinaryOperation).apply { b = value }
+            onResultReadyListener?.invoke(operation!!)
         }
         post()
     }
     fun repeat(){
-        current?.let {
+        operation?.let {
             val op = OperationFactory.copy(it)
             op.a = it.result
-            complete = current
-            current = op
-            onResultReadyListener?.invoke(current!!)
+            operation = op
+            onResultReadyListener?.invoke(operation!!)
         }
         post()
     }
     fun setPercent(value: Value){
-        if(current is BinaryOperation){
-            (current as BinaryOperation).apply { b = value * Value(0.01) * current!!.a!! }
-            onResultReadyListener?.invoke(current!!)
+        if(operation is BinaryOperation){
+            (operation as BinaryOperation).apply { b = value * Value(0.01) * operation!!.a!! }
+            onResultReadyListener?.invoke(operation!!)
         } else {
             val ret = Multiply()
             ret.a = Value(1.0)
             ret.b = Value(0.01) * value
-            current = ret
-            onResultReadyListener?.invoke(current!!)
+            operation = ret
+            onResultReadyListener?.invoke(operation!!)
         }
         post()
     }
     fun setOnResultReadyListener(listener:(Operation) -> Unit){
         onResultReadyListener = listener
     }
-    private fun post(){
-        outCurrent.value = current
-        outComplete.value = complete
-    }
 
+    private fun post(){
+        operation?.let {
+            if (it.result == null) {
+                out.value = operation
+                return
+            }
+        }
+        out.value = null
+    }
 }

@@ -1,18 +1,20 @@
 package com.dmitryluzev.calculator.model
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import com.dmitryluzev.core.operations.base.Operation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.*
 
 
 class Repo constructor(private val dao: Dao) {
-    val history: LiveData<List<Operation>> = Transformations.map(dao.getHistoryRecords()){ it.map { it.op }}
+    val history: LiveData<List<Record>> = dao.getAllRecords()
+    fun getHistoryFromDate(date: Date?): LiveData<List<Record>> = dao.getRecordsFromDate(date)
     fun saveToHistory(operation: Operation){
         GlobalScope.launch(Dispatchers.IO) {
-            dao.insertHistoryRecord(Record(op = operation))
+            val date = Date(System.currentTimeMillis())
+            dao.insertHistoryRecord(Record(date = date, op = operation))
         }
     }
     fun clearHistory(){

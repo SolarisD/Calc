@@ -1,23 +1,23 @@
 package com.dmitryluzev.calculator.view.calculator
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import android.view.HapticFeedbackConstants
+import android.view.View
+import androidx.lifecycle.*
 import com.dmitryluzev.calculator.app.Pref
 import com.dmitryluzev.calculator.app.Sound
+import com.dmitryluzev.calculator.model.Record
 import com.dmitryluzev.calculator.model.Repo
 import com.dmitryluzev.core.Calculator
 import com.dmitryluzev.core.Symbols
+import com.dmitryluzev.core.operations.OperationFactory
+import java.util.*
 
 class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, private val pref: Pref, private val sound: Sound) : ViewModel(){
-    val haptic: Boolean
-        get() = pref.haptic
-
-    val bufferDisplay: LiveData<String> = Transformations.map(calc.bufferOut){ it?.toString() ?: "0" }
+    private val historyDate: MutableLiveData<Date> = MutableLiveData(pref.restoreDisplayHistoryDate())
+    val historyDisplay: LiveData<List<Record>> = Transformations.switchMap(historyDate){ repo.getHistoryFromDate(it) }
+    val aluDisplay: LiveData<String> = Transformations.map(calc.aluOut){ it?.toString() }
+    val bufferDisplay: LiveData<String> = Transformations.map(calc.bufferOut){ it?.toString() }
     val memoryDisplay: LiveData<String> = Transformations.map(calc.memoryDisplay){ if (it == null) "" else "M: $it" }
-    val aluCurrent: LiveData<String> = Transformations.map(calc.aluCurrent){ it?.toString() }
-    val aluComplete: LiveData<String> = Transformations.map(calc.aluComplete){ it?.toString()}
     init {
         if (!calc.initialized){
             calc.setState(pref.restoreState())
@@ -28,59 +28,44 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
     }
     fun saveState(){
         pref.saveState(calc.getState())
+        historyDate.value?.let { pref.saveDisplayHistoryDate(it) }
     }
     fun pasteFromClipboard(value: String): String? = calc.pasteFromClipboard(value)
-
-    fun clearCalc() {
-        calc.clear()
-        playSound()
-    }
-    fun symbol(symbol: Symbols) {
-        calc.symbol(symbol)
-        playSound()
-    }
-    fun negative(){
-        calc.negative()
-        playSound()
-    }
-    fun backspace(){
-        calc.backspace()
-        playSound()
-    }
-    fun result(){
-        calc.result()
-        playSound()
-    }
-    fun operation(id: String){
-        calc.operation(id)
-        playSound()
-    }
-    fun percent(){
-        calc.percent()
-        playSound()
-    }
-    fun memoryClear(){
-        calc.memoryClear()
-        playSound()
-    }
-    fun memoryAdd(){
-        calc.memoryAdd()
-        playSound()
-    }
-    fun memorySubtract(){
-        calc.memorySubtract()
-        playSound()
-    }
-    fun memoryRestore(){
-        calc.memoryRestore()
-        playSound()
-    }
-    fun clearBuffer(): Boolean{
-        calc.clearBuffer()
-        playSound()
+    fun buttonEvents(view: View, button: Buttons): Boolean{
+        haptics(view)
+        when(button){
+            Buttons.MEM_CLEAR -> calc.memoryClear()
+            Buttons.MEM_ADD -> calc.memoryAdd()
+            Buttons.MEM_SUB -> calc.memorySubtract()
+            Buttons.MEM_RESTORE -> calc.memoryRestore()
+            Buttons.CALC_CLEAR -> calc.clear()
+            Buttons.ALL_CLEAR -> {calc.clear(); historyDate.value = Date(System.currentTimeMillis())}
+            Buttons.BACKSPACE -> calc.backspace()
+            Buttons.BUFFER_CLEAR -> calc.clearBuffer()
+            Buttons.PERCENT -> calc.percent()
+            Buttons.DIV -> calc.operation(OperationFactory.DIVIDE_ID)
+            Buttons.MUL -> calc.operation(OperationFactory.MULTIPLY_ID)
+            Buttons.SUB -> calc.operation(OperationFactory.SUBTRACT_ID)
+            Buttons.ADD -> calc.operation(OperationFactory.ADD_ID)
+            Buttons.RESULT -> calc.result()
+            Buttons.DOT -> calc.symbol(Symbols.DOT)
+            Buttons.NEGATIVE -> calc.negative()
+            Buttons.ZERO -> calc.symbol(Symbols.ZERO)
+            Buttons.ONE -> calc.symbol(Symbols.ONE)
+            Buttons.TWO -> calc.symbol(Symbols.TWO)
+            Buttons.THREE -> calc.symbol(Symbols.THREE)
+            Buttons.FOUR -> calc.symbol(Symbols.FOUR)
+            Buttons.FIVE -> calc.symbol(Symbols.FIVE)
+            Buttons.SIX -> calc.symbol(Symbols.SIX)
+            Buttons.SEVEN -> calc.symbol(Symbols.SEVEN)
+            Buttons.EIGHT -> calc.symbol(Symbols.EIGHT)
+            Buttons.NINE -> calc.symbol(Symbols.NINE)
+        }
         return true
     }
-    private fun playSound(){
+
+    private fun haptics(view: View? = null){
+        if (pref.haptic) view?.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
         if (pref.sound) sound.button()
     }
 }

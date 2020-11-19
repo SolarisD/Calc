@@ -9,7 +9,15 @@
         android:id="@+id/calculatorFragment"
         android:name="com.dmitryluzev.calculator.view.calculator.CalculatorFragment"
         android:label="@string/main_activity_label"
-        tools:layout="@layout/fragment_calculator" />
+        tools:layout="@layout/fragment_calculator_old" >
+        <action
+            android:id="@+id/action_calculatorFragment_to_historyFragment"
+            app:destination="@id/historyFragment"
+            app:enterAnim="@anim/history_in"
+            app:exitAnim="@anim/calc_out"
+            app:popEnterAnim="@anim/calc_in"
+            app:popExitAnim="@anim/history_out" />
+    </fragment>
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.dmitryluzev.calculator.view.history.HistoryFragment"
@@ -29,10 +37,6 @@
     <action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment"/>
     <action
         android:id="@+id/action_global_historyFragment"
-        app:destination="@id/historyFragment"
-        app:enterAnim="@anim/slide_out_left"
-        app:exitAnim="@anim/slide_in_right"
-        app:popEnterAnim="@anim/slide_out_left"
-        app:popExitAnim="@anim/slide_in_right" />
+        app:destination="@id/historyFragment" />
     <action android:id="@+id/action_global_infoFragment" app:destination="@id/infoFragment"/>
 </navigation>

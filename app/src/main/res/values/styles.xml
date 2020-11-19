@@ -1,27 +1,36 @@
 <resources >
+    <style name="TextAppearance.PopupMenu.Calculator" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/onBackgroundColor</item>
+    </style>
 
-    <style name="BaseButton" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">@color/mtrl_btn_bg_color_selector</item>
-        <item name="android:textColor">@color/mtrl_btn_text_color_selector</item>
+    <!--BUTTONS-->
+    <style name="Button" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:insetTop">@dimen/buttons_inset</item>
+        <item name="android:insetBottom">@dimen/buttons_inset</item>
+        <item name="android:insetLeft">@dimen/buttons_inset</item>
+        <item name="android:insetRight">@dimen/buttons_inset</item>
+    </style>
+    <style name="Button.Memory" parent="Button">
+        <item name="android:textSize">20sp</item>
+        <!--<item name="backgroundTint">@color/memoryColor</item>-->
+        <item name="android:textColor">@color/onBackgroundColor</item>
+    </style>
+    <style name="Button.Operation">
         <item name="android:textSize">30sp</item>
-        <item name="elevation">0dp</item>
+        <!--<item name="backgroundTint">@color/operationColor</item>-->
+        <item name="iconTint">@color/sc</item>
+        <item name="android:textColor">@color/sc</item>
     </style>
-
-    <style name="SymbolButton" parent="BaseButton">
-
+    <style name="Button.Operation.Inv">
+        <item name="backgroundTint">@color/sc</item>
+        <item name="iconTint">@color/onSc</item>
+        <item name="android:textColor">@color/onSc</item>
     </style>
-
-    <style name="ClearButton" parent="BaseButton">
-
-    </style>
-
-    <style name="OperationButton" parent="BaseButton">
-
-    </style>
-
-    <style name="MemoryButton" parent="BaseButton">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold</item>
+    <style name="Button.Symbol">
+        <item name="android:textSize">30sp</item>
+        <!--<item name="backgroundTint">@color/symbolColor</item>-->
+        <item name="android:textColor">@color/pr</item>
     </style>
 
 
@@ -30,19 +39,6 @@
 
 
 
-    <!--Toolbar customization-->
-    <!--<style name="CalculatorToolbar" parent="Widget.MaterialComponents.Toolbar">
-        &lt;!&ndash;<item name="titleTextColor">@color/color_fore_a</item>
-        <item name="android:background">@color/color_b</item>&ndash;&gt;
-    </style>-->
 
 
-
-    <!--Menues customization-->
-   <!-- <style name="CalculatorPopupMenu" parent="Widget.MaterialComponents.PopupMenu">
-        <item name="android:textColorPrimary">@color/color_fore_a</item>
-        <item name="colorSurface">@color/color_b</item>
-    </style>
-
-    -->
 </resources>

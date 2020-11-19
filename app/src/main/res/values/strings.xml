@@ -1,7 +1,10 @@
 <resources>
+    <string name="test_text">Test text</string>
+
+
     <!--PREFERENCE KEYS-->
     <string name="pref_dark_theme_key" translatable="false">dark_theme</string>
-    <string name="pref_haptic_buttons_key" translatable="false">vibration_buttons</string>
+    <string name="pref_haptic_buttons_key" translatable="false">haptic_buttons</string>
     <string name="pref_sound_buttons_key" translatable="false">sound_buttons</string>
 
     <!--LABELS-->
@@ -28,4 +31,5 @@
     <string name="build_type">Build type:</string>
     <string name="app_version">App version:</string>
     <string name="buttons_settings_group">Buttons</string>
+
 </resources>

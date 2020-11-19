@@ -7,13 +7,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitryluzev.calculator.R
-import com.dmitryluzev.calculator.adapter.HistoryViewAdapter
 import com.dmitryluzev.calculator.databinding.FragmentHistoryBinding
 import com.dmitryluzev.calculator.model.DB
 import com.dmitryluzev.calculator.model.Repo
 
 class HistoryFragment : Fragment() {
-
     private lateinit var vm: HistoryViewModel
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -26,11 +24,11 @@ class HistoryFragment : Fragment() {
         val binding = FragmentHistoryBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         binding.vm = vm
-        binding.rcvHistory.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+        binding.rcvHistory.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, true)
+        val adapter = HistoryViewAdapter()
+        binding.rcvHistory.adapter = adapter
         vm.historyRecords.observe(viewLifecycleOwner){
-            it?.let {
-                binding.rcvHistory.adapter = HistoryViewAdapter(it)
-            }
+            adapter.submitRecordList(it)
         }
         setHasOptionsMenu(true)
         return binding.root

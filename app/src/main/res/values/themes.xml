@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="AppThemeMain" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="App.Theme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!--COLORS-->
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorOnPrimary">@color/onPrimaryColor</item>
+        <!--<item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorOnPrimary">@color/onPrimaryColor</item>-->
+        <item name="colorSecondary">@color/sc</item>
         <!--BACKPLANE-->
         <item name="android:colorBackground">@color/backgroundColor</item>
+        <item name="colorOnBackground">@color/onBackgroundColor</item>
         <item name="android:statusBarColor">@color/backgroundColor</item>
+
+        <item name="popupMenuBackground">@color/backgroundColor</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/TextAppearance.PopupMenu.Calculator</item>
+
         <item name="android:windowLightStatusBar" tools:targetApi="23">@bool/window_light_status_bar</item>
         <item name="actionBarSize">42dp</item>
-        <!--
-        &lt;!&ndash;Context menu&ndash;&gt;
-        <item name="colorSurface">@color/color_b</item>
-        <item name="android:textColorPrimary">@color/color_fore_a</item>-->
 
-        <!--Other-->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.SmallComponent</item>
+    </style>
+
+    <style name="Toolbar.Theme" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <item name="colorControlNormal">@color/onBackgroundColor</item>
+        <item name="android:textColorPrimary">@color/onBackgroundColor</item>
+    </style>
+
+    <style name="ShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">2dp</item>
     </style>
 </resources>

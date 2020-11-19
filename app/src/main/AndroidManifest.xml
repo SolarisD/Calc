@@ -11,14 +11,7 @@
         android:label="@string/app_label"
         android:roundIcon="@drawable/ic_calculator_round"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeMain">
-
-        <activity
-            android:name="com.dmitryluzev.calculator.view.SettingsFragment"
-            android:label="@string/settings_activity_label"
-            android:parentActivityName="com.dmitryluzev.calculator.view.MainActivity"
-            android:screenOrientation="portrait">
-        </activity>
+        android:theme="@style/App.Theme">
 
         <activity
             android:name="com.dmitryluzev.calculator.view.MainActivity"
