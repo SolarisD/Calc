@@ -29,7 +29,7 @@ class HistoryFragment : Fragment() {
         val adapter = HistoryViewAdapter()
         binding.rcvHistory.adapter = adapter
         vm.historyRecords.observe(viewLifecycleOwner){
-            adapter.submitList(it)
+            adapter.submitRecordList(it)
         }
         setHasOptionsMenu(true)
         return binding.root
