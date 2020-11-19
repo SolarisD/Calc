@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitryluzev.calculator.R
-import com.dmitryluzev.calculator.adapter.HistoryViewAdapter
 import com.dmitryluzev.calculator.databinding.FragmentHistoryBinding
 import com.dmitryluzev.calculator.model.DB
 import com.dmitryluzev.calculator.model.Repo

@@ -1,4 +1,4 @@
-package com.dmitryluzev.calculator.adapter
+package com.dmitryluzev.calculator.view.calculator
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.model.Record
 
-class HistoryPreviewAdapter(private val onClick: () -> Unit): ListAdapter<Record, HistoryPreviewAdapter.HistoryPreviewHolder>(DiffCallback())  {
+class HistoryPreviewAdapter(private val onClick: () -> Unit): ListAdapter<Record, HistoryPreviewAdapter.HistoryPreviewHolder>(
+    DiffCallback()
+)  {
 
     class HistoryPreviewHolder(view: View): RecyclerView.ViewHolder(view){
         val record: TextView = view.findViewById(R.id.tv_record)

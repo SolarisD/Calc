@@ -1,4 +1,4 @@
-package com.dmitryluzev.calculator.adapter
+package com.dmitryluzev.calculator.view.history
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +9,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.model.Record
+import java.text.SimpleDateFormat
 import java.util.*
 
-class HistoryViewAdapter: ListAdapter<HistoryViewAdapter.Item, RecyclerView.ViewHolder>(HistoryDiffCallback())  {
+class HistoryViewAdapter: ListAdapter<HistoryViewAdapter.Item, RecyclerView.ViewHolder>(
+    HistoryDiffCallback()
+)  {
     companion object{
         const val TYPE_ITEM = 0
         const val TYPE_HEADER = 1
+        private val df = SimpleDateFormat.getDateInstance()
     }
 
     sealed class Item{
@@ -29,12 +33,17 @@ class HistoryViewAdapter: ListAdapter<HistoryViewAdapter.Item, RecyclerView.View
 
     fun submitRecordList(list: List<Record>?){
         list?.let {
+            if (it.isEmpty()) return@let
             val itemList = mutableListOf<Item>()
-            val header = list[0].date
-            itemList.add(Item.HistoryViewHeader(header))
+            var savedDate = list[0].date
             it.forEach {record ->
+                if (record.date.date != savedDate.date || record.date.month != savedDate.month || record.date.year != savedDate.year){
+                    itemList.add(Item.HistoryViewHeader(savedDate))
+                    savedDate = record.date
+                }
                 itemList.add(Item.HistoryViewRecord(record))
             }
+            itemList.add(Item.HistoryViewHeader(savedDate))
             submitList(itemList)
             return
         }
@@ -68,7 +77,7 @@ class HistoryViewAdapter: ListAdapter<HistoryViewAdapter.Item, RecyclerView.View
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when(viewType){
-            TYPE_ITEM->{
+            TYPE_ITEM ->{
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.vh_history_record, parent, false)
                 return RecordViewHolder(view)
             }
@@ -86,7 +95,7 @@ class HistoryViewAdapter: ListAdapter<HistoryViewAdapter.Item, RecyclerView.View
                 holder.record.text = (getItem(position) as Item.HistoryViewRecord).record.op.toString()
             }
             is HeaderViewHolder -> {
-                holder.date.text = (getItem(position) as Item.HistoryViewHeader).date.toString()
+                holder.date.text = df.format((getItem(position) as Item.HistoryViewHeader).date)
             }
         }
     }
