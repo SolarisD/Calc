@@ -3,6 +3,7 @@ package com.dmitryluzev.calculator.app
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.core.Calculator
@@ -26,6 +27,7 @@ class Pref private constructor(private val application: Application): SharedPref
         }
     }
     private val pref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
+    val liveDark = MutableLiveData(false)
 
     var haptic: Boolean
         private set
@@ -33,9 +35,10 @@ class Pref private constructor(private val application: Application): SharedPref
         private set
 
     init {
+        liveDark.value = pref.getBoolean(application.getString(R.string.pref_dark_theme_key), false)
         haptic = pref.getBoolean(application.getString(R.string.pref_haptic_buttons_key), false)
         sound = pref.getBoolean(application.getString(R.string.pref_sound_buttons_key), false)
-        setAppThemeMode(pref.getBoolean(application.getString(R.string.pref_dark_theme_key), false))
+        setAppThemeMode(liveDark.value!!)
         pref.registerOnSharedPreferenceChangeListener(this)
     }
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
@@ -47,9 +50,15 @@ class Pref private constructor(private val application: Application): SharedPref
                 sound  = pref.getBoolean(application.getString(R.string.pref_sound_buttons_key), false)
             }
             application.getString(R.string.pref_dark_theme_key)->{
-                setAppThemeMode(pref.getBoolean(application.getString(R.string.pref_dark_theme_key), false))
+                liveDark.value = pref.getBoolean(application.getString(R.string.pref_dark_theme_key), false)
+                setAppThemeMode(liveDark.value!!)
             }
         }
+    }
+    fun saveDark(value: Boolean){
+        pref.edit()
+            .putBoolean(application.getString(R.string.pref_dark_theme_key), value)
+            .apply()
     }
     private fun setAppThemeMode(mode: Boolean){
         if(mode) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="activity_margin">16dp</dimen>
     <!--<bool name="window_light_status_bar">true</bool>-->
 </resources>
