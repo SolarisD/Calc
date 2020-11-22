@@ -1,26 +1,22 @@
 package com.dmitryluzev.calculator.view
 
-import android.content.Intent
-import androidx.appcompat.widget.ShareActionProvider
 import android.os.Bundle
-import android.view.Menu
 import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.core.view.MenuItemCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.dmitryluzev.calculator.R
-import com.dmitryluzev.calculator.app.Pref
+import com.dmitryluzev.calculator.app.PrefManager
 import com.dmitryluzev.calculator.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navController: NavController
-    private lateinit var pref: Pref
+    private lateinit var prefManager: PrefManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -29,34 +25,51 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.mainToolbar)
         navController = findNavController(R.id.navHostFragment)
         drawerLayout = binding.drawerLayout
-        pref = Pref.getInstance(application)
+        prefManager = PrefManager.getInstance(application)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         //NavigationUI.setupWithNavController(binding.navigationView, navController)
 
         ////SETUP navigation menu
-        val darkThemeCheckBox = binding.navigationView.menu.findItem(R.id.themeDarkEnable).actionView as CheckBox
-        darkThemeCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            pref.saveDark(isChecked)
+        val darkCheckBox = binding.navigationView.menu.findItem(R.id.themeDarkEnable).actionView as CheckBox
+        val hapticCheckBox = binding.navigationView.menu.findItem(R.id.hapticButtonsEnable).actionView as CheckBox
+        val soundCheckBox = binding.navigationView.menu.findItem(R.id.soundButtonsEnable).actionView as CheckBox
+        prefManager.livePref.observe(this){
+            it?.let {
+                if (darkCheckBox.isChecked != it.dark) darkCheckBox.isChecked = it.dark
+                if (hapticCheckBox.isChecked != it.haptic) hapticCheckBox.isChecked = it.haptic
+                if (soundCheckBox.isChecked != it.sound) soundCheckBox.isChecked = it.sound
+            }
         }
-        pref.liveDark.observe(this){
-            if (darkThemeCheckBox.isChecked != it) darkThemeCheckBox.isChecked = it
+        darkCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            prefManager.saveDark(isChecked)
+        }
+        hapticCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            prefManager.saveHaptic(isChecked)
+        }
+        soundCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            prefManager.saveSound(isChecked)
         }
 
         binding.navigationView.setNavigationItemSelectedListener { menuItem->
             when(menuItem.itemId){
                 R.id.historyFragment -> {
                     navController.navigate(R.id.action_global_historyFragment)
-                }
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    return@setNavigationItemSelectedListener true
+                }/*
                 R.id.settingsFragment -> {
                     navController.navigate(R.id.action_global_settingsFragment)
                 }
                 R.id.infoFragment -> {
                     navController.navigate(R.id.action_global_infoFragment)
-                }
+                }*/
             }
-            menuItem.isChecked = true
+            false
+        }
+
+        binding.btnInfo.setOnClickListener {
+            navController.navigate(R.id.action_global_infoFragment)
             binding.drawerLayout.closeDrawer(GravityCompat.START)
-            true
         }
     }
     override fun onSupportNavigateUp(): Boolean {

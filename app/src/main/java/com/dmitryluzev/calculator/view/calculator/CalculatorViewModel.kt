@@ -3,7 +3,7 @@ package com.dmitryluzev.calculator.view.calculator
 import android.view.HapticFeedbackConstants
 import android.view.View
 import androidx.lifecycle.*
-import com.dmitryluzev.calculator.app.Pref
+import com.dmitryluzev.calculator.app.PrefManager
 import com.dmitryluzev.calculator.app.Sound
 import com.dmitryluzev.calculator.model.Record
 import com.dmitryluzev.calculator.model.Repo
@@ -12,23 +12,23 @@ import com.dmitryluzev.core.Symbols
 import com.dmitryluzev.core.operations.OperationFactory
 import java.util.*
 
-class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, private val pref: Pref, private val sound: Sound) : ViewModel(){
-    private val historyDate: MutableLiveData<Date> = MutableLiveData(pref.restoreDisplayHistoryDate())
+class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, private val prefManager: PrefManager, private val sound: Sound) : ViewModel(){
+    private val historyDate: MutableLiveData<Date> = MutableLiveData(prefManager.restoreDisplayHistoryDate())
     val historyDisplay: LiveData<List<Record>> = Transformations.switchMap(historyDate){ repo.getHistoryFromDate(it) }
     val aluDisplay: LiveData<String> = Transformations.map(calc.aluOut){ it?.toString() }
     val bufferDisplay: LiveData<String> = Transformations.map(calc.bufferOut){ it?.toString() }
     val memoryDisplay: LiveData<String> = Transformations.map(calc.memoryDisplay){ if (it == null) "" else "M: $it" }
     init {
         if (!calc.initialized){
-            calc.setState(pref.restoreState())
+            calc.setState(prefManager.restoreState())
         }
         calc.setOnResultReadyListener {
             repo.saveToHistory(it)
         }
     }
     fun saveState(){
-        pref.saveState(calc.getState())
-        historyDate.value?.let { pref.saveDisplayHistoryDate(it) }
+        prefManager.saveState(calc.getState())
+        historyDate.value?.let { prefManager.saveDisplayHistoryDate(it) }
     }
     fun pasteFromClipboard(value: String): String? = calc.pasteFromClipboard(value)
     fun buttonEvents(view: View, button: Buttons): Boolean{
@@ -65,16 +65,18 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
     }
 
     private fun haptics(view: View? = null){
-        if (pref.haptic) view?.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
-        if (pref.sound) sound.button()
+        prefManager.livePref.value?.let {
+            if (it.haptic) view?.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+            if (it.sound) sound.button()
+        }
     }
 }
 
-class CalculatorViewModelFactory(private val calc: Calculator, private val repo: Repo, private val pref: Pref, private val sound: Sound): ViewModelProvider.Factory{
+class CalculatorViewModelFactory(private val calc: Calculator, private val repo: Repo, private val prefManager: PrefManager, private val sound: Sound): ViewModelProvider.Factory{
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CalculatorViewModel::class.java)){
-            return CalculatorViewModel(calc, repo, pref, sound) as T
+            return CalculatorViewModel(calc, repo, prefManager, sound) as T
         }
 
         throw IllegalArgumentException("ViewModel class isn't KeyboardViewModel")
