@@ -44,6 +44,7 @@
             android:layout_gravity="start"
             android:background="@color/backgroundColor"
             app:headerLayout="@layout/nav_header"
+            app:itemIconPadding="16dp"
             app:itemIconTint="@color/onBackgroundColor"
             app:itemTextAppearance="@style/TextAppearance.PopupMenu.Calculator"
             app:itemTextColor="@color/onBackgroundColor"
@@ -53,21 +54,27 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:orientation="vertical">
+
+                <View android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"/>
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnInfo"
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:padding="16dp"
                     android:text="@string/info_activity_label"
                     android:textAlignment="viewStart"
                     android:textAppearance="@style/TextAppearance.PopupMenu.Calculator"
                     android:backgroundTint="@color/backgroundColor"
                     android:textColor="@color/onBackgroundColor"
                     app:icon="@drawable/ic_baseline_info_24"
-                    app:iconTint="@color/onBackgroundColor"/>
+                    app:iconTint="@color/onBackgroundColor"
+                    app:iconPadding="16dp"/>
             </LinearLayout>
         </com.google.android.material.navigation.NavigationView>
     </androidx.drawerlayout.widget.DrawerLayout>
