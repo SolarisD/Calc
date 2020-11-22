@@ -1,7 +1,4 @@
 <resources>
-    <string name="test_text">Test text</string>
-
-
     <!--PREFERENCE KEYS-->
     <string name="pref_dark_theme_key" translatable="false">dark_theme</string>
     <string name="pref_haptic_buttons_key" translatable="false">haptic_buttons</string>
@@ -26,8 +23,6 @@
 
     <!--MESSAGES-->
     <string name="value_copied">"Value %s is copied"</string>
-    <string name="value_pasted">"Value %s is pasted"</string>
-    <string name="value_not_pasted">Can\'t paste value %s</string>
     <string name="build_type">Build type:</string>
     <string name="app_version">App version:</string>
     <string name="buttons_settings_group">Buttons</string>

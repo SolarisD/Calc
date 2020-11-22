@@ -1,17 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="HardcodedText">
     <item
         android:id="@+id/historyFragment"
         android:title="@string/history_activity_label"
         android:icon="@drawable/ic_baseline_history_24"/>
-    <item
-        android:id="@+id/settingsFragment"
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:title="@string/settings_activity_label"/>
-    <item
-        android:id="@+id/infoFragment"
-        android:title="@string/info_activity_label"
-        android:icon="@drawable/ic_baseline_info_24"/>
+
+    <item android:title="@string/settings_activity_label">
+        <menu>
+            <item android:id="@+id/themeDarkEnable"
+                android:title="@string/pref_night_theme_title"
+                app:actionViewClass="android.widget.CheckBox"/>
+            <item android:id="@+id/hapticButtonsEnable"
+                android:title="@string/pref_haptic_buttons_title"
+                app:actionViewClass="android.widget.CheckBox"/>
+            <item android:id="@+id/soundButtonsEnable"
+                android:title="@string/pref_sound_buttons_title"
+                app:actionViewClass="android.widget.CheckBox"/>
+        </menu>
+    </item>
+
+<!--    <group android:id="@+id/settingsGroup">
+        <item
+            android:id="@+id/infoFragment"
+            android:title="@string/info_activity_label"
+            android:icon="@drawable/ic_baseline_info_24"/>
+    </group>-->
 </menu>
+
+    <!--<item android:title="@string/settings_activity_label">
+    <menu>
+        <group android:id="@+id/settingsGroup">
+            <item
+                android:id="@+id/themeDarkEnable"
+                android:title="@string/pref_night_theme_title"
+                app:actionViewClass="com.google.android.material.checkbox.MaterialCheckBox"/>
+            <item
+                android:id="@+id/hapticButtonsEnable"
+                android:title="@string/pref_haptic_buttons_title"
+                app:actionViewClass="com.google.android.material.checkbox.MaterialCheckBox"/>
+            <item
+                android:id="@+id/soundButtonsEnable"
+                android:title="@string/pref_sound_buttons_title"
+                app:actionViewClass="com.google.android.material.checkbox.MaterialCheckBox"/>
+        </group>
+    </menu>
+    </item>-->
+
+    <!--<item android:title="@string/settings_activity_label">
+            <menu>
+
+            </menu>
+        </item>-->
+
+    <!--<item
+    android:id="@+id/settingsFragment"
+    android:icon="@drawable/ic_baseline_settings_24"
+    android:title="@string/settings_activity_label"/>-->

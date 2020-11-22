@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.R
-import com.dmitryluzev.calculator.app.Pref
+import com.dmitryluzev.calculator.app.PrefManager
 import com.dmitryluzev.calculator.app.Sound
 import com.dmitryluzev.calculator.databinding.FragmentCalculatorBinding
 import com.dmitryluzev.calculator.model.DB
@@ -28,7 +28,7 @@ class CalculatorFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val dao = DB.getInstance(application).dao
         val repo = Repo(dao)
-        val pref = Pref.getInstance(application)
+        val pref = PrefManager.getInstance(application)
         val sound = Sound.getInstance(application)
         val calculator = Calculator.getInstance()
         vm = ViewModelProvider(this, CalculatorViewModelFactory(calculator, repo, pref, sound)).get(CalculatorViewModel::class.java)
