@@ -16,5 +16,4 @@ abstract class UnaryOperation(override var a: Value?): Operation {
             } else {
                 null
             }
-    override fun toStoreString(): String = "${OperationFactory.getId(this)};${a}"
 }

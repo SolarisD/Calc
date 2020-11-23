@@ -5,5 +5,4 @@ import com.dmitryluzev.core.values.Value
 interface Operation {
     var a: Value?
     val result: Value?
-    fun toStoreString(): String
 }

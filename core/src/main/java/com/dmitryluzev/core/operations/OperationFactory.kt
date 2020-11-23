@@ -1,7 +1,10 @@
 package com.dmitryluzev.core.operations
 
+import com.dmitryluzev.core.operations.base.BinaryOperation
 import com.dmitryluzev.core.operations.base.Operation
+import com.dmitryluzev.core.operations.base.UnaryOperation
 import com.dmitryluzev.core.values.Value
+import com.dmitryluzev.core.values.toValue
 
 object OperationFactory {
     const val ADD_ID = "ADD_OPERATION"
@@ -14,13 +17,6 @@ object OperationFactory {
         MULTIPLY_ID -> Multiply(a, b)
         DIVIDE_ID -> Divide(a, b)
         else -> null
-    }
-    fun getId(operation: Operation): String = when(operation){
-        is Add -> ADD_ID
-        is Subtract -> SUBTRACT_ID
-        is Multiply -> MULTIPLY_ID
-        is Divide -> DIVIDE_ID
-        else -> throw IllegalArgumentException("Unknown class")
     }
     fun copy(operation: Operation): Operation = when(operation) {
         is Add -> {
@@ -48,5 +44,32 @@ object OperationFactory {
             ret
         }
         else -> throw IllegalArgumentException("operation isn't Operation class")
+    }
+    private fun getId(operation: Operation): String = when(operation){
+        is Add -> ADD_ID
+        is Subtract -> SUBTRACT_ID
+        is Multiply -> MULTIPLY_ID
+        is Divide -> DIVIDE_ID
+        else -> throw IllegalArgumentException("Unknown class")
+    }
+    fun toStoreString(operation: Operation?) = when(operation){
+        is UnaryOperation -> {
+            "${getId(operation)};${operation.a}"
+        }
+        is BinaryOperation -> {
+            "${getId(operation)};${operation.a};${operation.b}"
+        }
+        else -> null
+    }
+    fun fromStoreString(string: String?): Operation?{
+        string?.let {
+            val list = it.split(';')
+            var a: Value? = null
+            if (list.size > 1 && list[1] != "null") a = list[1].toValue()
+            var b: Value? = null
+            if (list.size > 2 && list[2] != "null") b = list[2].toValue()
+            return  OperationFactory.create(list[0], a, b)
+        }
+        return null
     }
 }

@@ -16,6 +16,4 @@ abstract class BinaryOperation(override var a: Value?, var b: Value?): Operation
             } else {
                 null
             }
-
-    override fun toStoreString(): String = "${OperationFactory.getId(this)};${a};${b}"
 }
