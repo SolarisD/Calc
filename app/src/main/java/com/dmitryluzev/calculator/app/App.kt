@@ -3,7 +3,9 @@ package com.dmitryluzev.calculator.app
 import android.app.Application
 
 class App: Application() {
-    /*val appComponent: AppComponent by lazy {
-        DaggerAppComponent.factory().create(this)
-    }*/
+    override fun onCreate() {
+        //Preload manager to init theme
+        val prefManager = PrefManager.getInstance(this)
+        super.onCreate()
+    }
 }

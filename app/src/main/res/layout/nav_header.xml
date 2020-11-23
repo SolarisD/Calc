@@ -14,11 +14,11 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageViewLeft"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="8dp"
-            app:srcCompat="@drawable/ic_calculator_round" />
+            app:srcCompat="@drawable/ic_calculator" />
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

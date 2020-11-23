@@ -24,7 +24,7 @@
     <!--MESSAGES-->
     <string name="value_copied">"Value %s is copied"</string>
     <string name="build_type">Build type:</string>
-    <string name="app_version">App version:</string>
+    <string name="app_version">Version:</string>
     <string name="buttons_settings_group">Buttons</string>
 
 </resources>
