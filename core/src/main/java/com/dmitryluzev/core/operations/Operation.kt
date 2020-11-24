@@ -8,4 +8,4 @@ interface Operation {
 
 abstract class UnaryOperation(var a: Value?): Operation
 
-abstract class BinaryOperation(var a: Value?, var b: Value?): Operation
+abstract class BinaryOperation(var a: Value?, var b: Value?, var percentage: Boolean = false): Operation

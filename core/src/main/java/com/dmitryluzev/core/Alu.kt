@@ -48,17 +48,11 @@ class Alu constructor(){
         post()
     }
     fun setPercent(value: Value){
-        /*if(operation is BinaryOperation){
-            (operation as BinaryOperation).apply { b = value * Value(0.01) * operation!!.a!! }
-            onResultReadyListener?.invoke(operation!!)
-        } else {
-            val ret = Multiply()
-            ret.a = Value(1.0)
-            ret.b = Value(0.01) * value
-            operation = ret
+        if(operation is BinaryOperation){
+            (operation as BinaryOperation).apply { b = value; percentage = true }
             onResultReadyListener?.invoke(operation!!)
         }
-        post()*/
+        post()
     }
     fun setOnResultReadyListener(listener:(Operation) -> Unit){
         onResultReadyListener = listener
@@ -73,4 +67,16 @@ class Alu constructor(){
         }
         out.value = null
     }
+
+    /*if(operation is BinaryOperation){
+            (operation as BinaryOperation).apply { b = value * Value(0.01) * operation!!.a!! }
+            onResultReadyListener?.invoke(operation!!)
+        } else {
+            val ret = Multiply()
+            ret.a = Value(1.0)
+            ret.b = Value(0.01) * value
+            operation = ret
+            onResultReadyListener?.invoke(operation!!)
+        }
+        post()*/
 }
