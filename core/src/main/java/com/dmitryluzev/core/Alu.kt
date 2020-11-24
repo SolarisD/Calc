@@ -2,8 +2,8 @@ package com.dmitryluzev.core
 
 import androidx.lifecycle.MutableLiveData
 import com.dmitryluzev.core.operations.BinaryOperation
-import com.dmitryluzev.core.operations.OperationFactory
 import com.dmitryluzev.core.operations.Operation
+import com.dmitryluzev.core.operations.OperationFactory
 import com.dmitryluzev.core.operations.UnaryOperation
 import com.dmitryluzev.core.values.Value
 
@@ -50,8 +50,10 @@ class Alu constructor(){
     fun setPercent(value: Value){
         if(operation is BinaryOperation){
             (operation as BinaryOperation).apply { b = value; percentage = true }
-            onResultReadyListener?.invoke(operation!!)
+        } else {
+            operation = OperationFactory.create(OperationFactory.DIVIDE_ID, value, Value(100.0), false)
         }
+        operation?.let { onResultReadyListener?.invoke(it) }
         post()
     }
     fun setOnResultReadyListener(listener:(Operation) -> Unit){
@@ -67,16 +69,4 @@ class Alu constructor(){
         }
         out.value = null
     }
-
-    /*if(operation is BinaryOperation){
-            (operation as BinaryOperation).apply { b = value * Value(0.01) * operation!!.a!! }
-            onResultReadyListener?.invoke(operation!!)
-        } else {
-            val ret = Multiply()
-            ret.a = Value(1.0)
-            ret.b = Value(0.01) * value
-            operation = ret
-            onResultReadyListener?.invoke(operation!!)
-        }
-        post()*/
 }

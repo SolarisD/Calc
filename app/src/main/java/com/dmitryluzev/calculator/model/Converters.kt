@@ -1,8 +1,8 @@
 package com.dmitryluzev.calculator.model
 
 import androidx.room.TypeConverter
-import com.dmitryluzev.core.operations.OperationFactory
 import com.dmitryluzev.core.operations.Operation
+import com.dmitryluzev.core.operations.OperationFactory
 import com.dmitryluzev.core.values.Value
 import com.dmitryluzev.core.values.toValue
 import java.util.*
