@@ -63,8 +63,16 @@ class HistoryViewAdapter: ListAdapter<HistoryViewAdapter.Item, RecyclerView.View
             return oldItem.type == newItem.type
         }
 
-        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-            return oldItem == newItem
+        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean = when(oldItem){
+            is Item.HistoryViewRecord -> {
+                val new = newItem as Item.HistoryViewRecord
+                oldItem.record.id == new.record.id
+                        && oldItem.record.date == new.record.date
+                        && oldItem.record.op == new.record.op
+            }
+            is Item.HistoryViewHeader -> {
+                oldItem.date == (newItem as Item.HistoryViewHeader).date
+            }
         }
     }
 

@@ -20,12 +20,12 @@ class HistoryPreviewAdapter(private val onClick: () -> Unit): ListAdapter<Record
 
     class DiffCallback: DiffUtil.ItemCallback<Record>(){
         override fun areItemsTheSame(oldItem: Record, newItem: Record): Boolean {
-            return oldItem.id == newItem.id && oldItem.date == newItem.date
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Record, newItem: Record): Boolean {
-            return (oldItem.op::class == newItem.op::class
-                    && oldItem.op.result == newItem.op.result)
+            return (oldItem.date == newItem.date
+                    && oldItem.op == newItem.op)
         }
     }
 
