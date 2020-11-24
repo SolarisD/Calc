@@ -42,6 +42,29 @@ object OperationFactory {
         }
         else -> throw IllegalArgumentException("operation isn't Operation class")
     }
+    fun change(oldOperation: Operation?, idNew: String): Operation?{
+        if(oldOperation is BinaryOperation){
+            val newOp = create(idNew)
+            if (newOp is BinaryOperation) {
+                newOp.a = oldOperation.a
+                return newOp
+            }
+        }
+        return oldOperation
+    }
+    fun repeat(operation: Operation?): Operation? = when(operation){
+            is UnaryOperation -> {
+                val newOp = copy(operation) as UnaryOperation
+                newOp.a = operation.result
+                newOp
+            }
+            is BinaryOperation -> {
+                val newOp = copy(operation) as BinaryOperation
+                newOp.a = operation.result
+                newOp
+            }
+            else -> null
+        }
     private fun getId(operation: Operation): String = when(operation){
         is Add -> ADD_ID
         is Subtract -> SUBTRACT_ID

@@ -32,15 +32,8 @@ class Alu constructor(){
 
     }
     fun changeOperation(id: String){
-        /*OperationFactory.create(id)?.let { newOp->
-            if (operation is BinaryOperation){
-                operation?.let {
-                    newOp.a = it.a
-                    operation = newOp
-                }
-            }
-        }
-        post()*/
+        operation = OperationFactory.change(operation, id)
+        post()
     }
     fun setValue(value: Value){
         if(operation is BinaryOperation){
@@ -50,13 +43,9 @@ class Alu constructor(){
         post()
     }
     fun repeat(){
-        /*operation?.let {
-            val op = OperationFactory.copy(it)
-            op.a = it.result
-            operation = op
-            onResultReadyListener?.invoke(operation!!)
-        }
-        post()*/
+        operation = OperationFactory.repeat(operation)
+        operation?.let { onResultReadyListener?.invoke(it) }
+        post()
     }
     fun setPercent(value: Value){
         /*if(operation is BinaryOperation){
