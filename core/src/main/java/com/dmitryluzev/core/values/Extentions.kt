@@ -1,8 +1,5 @@
 package com.dmitryluzev.core.values
 
-import com.dmitryluzev.core.operations.OperationFactory
-import com.dmitryluzev.core.operations.base.Operation
-
 fun Double.toValue(): Value{
     return Value(this)
 }

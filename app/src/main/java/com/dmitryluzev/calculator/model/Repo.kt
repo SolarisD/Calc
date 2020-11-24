@@ -1,7 +1,7 @@
 package com.dmitryluzev.calculator.model
 
 import androidx.lifecycle.LiveData
-import com.dmitryluzev.core.operations.base.Operation
+import com.dmitryluzev.core.operations.Operation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

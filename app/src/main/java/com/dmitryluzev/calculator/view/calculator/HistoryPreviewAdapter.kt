@@ -25,7 +25,6 @@ class HistoryPreviewAdapter(private val onClick: () -> Unit): ListAdapter<Record
 
         override fun areContentsTheSame(oldItem: Record, newItem: Record): Boolean {
             return (oldItem.op::class == newItem.op::class
-                    && oldItem.op.a == newItem.op.a
                     && oldItem.op.result == newItem.op.result)
         }
     }

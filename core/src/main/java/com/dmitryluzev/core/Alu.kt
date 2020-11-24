@@ -1,11 +1,10 @@
 package com.dmitryluzev.core
 
 import androidx.lifecycle.MutableLiveData
-import com.dmitryluzev.core.operations.Multiply
+import com.dmitryluzev.core.operations.BinaryOperation
 import com.dmitryluzev.core.operations.OperationFactory
-import com.dmitryluzev.core.operations.base.BinaryOperation
-import com.dmitryluzev.core.operations.base.Operation
-import com.dmitryluzev.core.operations.base.UnaryOperation
+import com.dmitryluzev.core.operations.Operation
+import com.dmitryluzev.core.operations.UnaryOperation
 import com.dmitryluzev.core.values.Value
 
 class Alu constructor(){
@@ -24,7 +23,6 @@ class Alu constructor(){
     }
     fun setOperation(id: String, value: Value){
         OperationFactory.create(id, value)?.let {
-            it.a = value
             operation = it
             if (it is UnaryOperation) {
                 onResultReadyListener?.invoke(operation!!)
@@ -34,7 +32,7 @@ class Alu constructor(){
 
     }
     fun changeOperation(id: String){
-        OperationFactory.create(id)?.let { newOp->
+        /*OperationFactory.create(id)?.let { newOp->
             if (operation is BinaryOperation){
                 operation?.let {
                     newOp.a = it.a
@@ -42,7 +40,7 @@ class Alu constructor(){
                 }
             }
         }
-        post()
+        post()*/
     }
     fun setValue(value: Value){
         if(operation is BinaryOperation){
@@ -52,16 +50,16 @@ class Alu constructor(){
         post()
     }
     fun repeat(){
-        operation?.let {
+        /*operation?.let {
             val op = OperationFactory.copy(it)
             op.a = it.result
             operation = op
             onResultReadyListener?.invoke(operation!!)
         }
-        post()
+        post()*/
     }
     fun setPercent(value: Value){
-        if(operation is BinaryOperation){
+        /*if(operation is BinaryOperation){
             (operation as BinaryOperation).apply { b = value * Value(0.01) * operation!!.a!! }
             onResultReadyListener?.invoke(operation!!)
         } else {
@@ -71,7 +69,7 @@ class Alu constructor(){
             operation = ret
             onResultReadyListener?.invoke(operation!!)
         }
-        post()
+        post()*/
     }
     fun setOnResultReadyListener(listener:(Operation) -> Unit){
         onResultReadyListener = listener
