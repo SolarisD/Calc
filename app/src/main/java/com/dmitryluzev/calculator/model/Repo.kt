@@ -8,7 +8,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
 
-
 class Repo constructor(private val dao: Dao) {
     private val repoScope = CoroutineScope(Dispatchers.IO)
     val history: LiveData<List<Record>> = dao.getAllRecords()
