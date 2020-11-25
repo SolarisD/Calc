@@ -9,17 +9,21 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.model.Record
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HistoryViewAdapter: ListAdapter<HistoryViewAdapter.Item, RecyclerView.ViewHolder>(
-    HistoryDiffCallback()
-)  {
+class HistoryViewAdapter:
+    ListAdapter<HistoryViewAdapter.Item, RecyclerView.ViewHolder>(HistoryDiffCallback()){
     companion object{
         const val TYPE_ITEM = 0
         const val TYPE_HEADER = 1
         private val df = SimpleDateFormat.getDateInstance()
     }
+    private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     sealed class Item{
         abstract val type: Int
@@ -32,22 +36,25 @@ class HistoryViewAdapter: ListAdapter<HistoryViewAdapter.Item, RecyclerView.View
     }
 
     fun submitRecordList(list: List<Record>?){
-        list?.let {
-            if (it.isEmpty()) return@let
-            val itemList = mutableListOf<Item>()
-            var savedDate = list[0].date
-            it.forEach {record ->
-                if (record.date.date != savedDate.date || record.date.month != savedDate.month || record.date.year != savedDate.year){
-                    itemList.add(Item.HistoryViewHeader(savedDate))
-                    savedDate = record.date
+        if (list.isNullOrEmpty()){
+            submitList(listOf())
+        } else {
+            adapterScope.launch {
+                val itemList = mutableListOf<Item>()
+                var savedDate = list[0].date
+                list.forEach {record ->
+                    if (record.date.date != savedDate.date || record.date.month != savedDate.month || record.date.year != savedDate.year){
+                        itemList.add(Item.HistoryViewHeader(savedDate))
+                        savedDate = record.date
+                    }
+                    itemList.add(Item.HistoryViewRecord(record))
                 }
-                itemList.add(Item.HistoryViewRecord(record))
+                itemList.add(Item.HistoryViewHeader(savedDate))
+                withContext(Dispatchers.Main){
+                    submitList(itemList)
+                }
             }
-            itemList.add(Item.HistoryViewHeader(savedDate))
-            submitList(itemList)
-            return
         }
-        submitList(listOf())
     }
 
     class RecordViewHolder(view: View): RecyclerView.ViewHolder(view){
@@ -63,8 +70,16 @@ class HistoryViewAdapter: ListAdapter<HistoryViewAdapter.Item, RecyclerView.View
             return oldItem.type == newItem.type
         }
 
-        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-            return oldItem == newItem
+        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean = when(oldItem){
+            is Item.HistoryViewRecord -> {
+                val new = newItem as Item.HistoryViewRecord
+                oldItem.record.id == new.record.id
+                        && oldItem.record.date == new.record.date
+                        && oldItem.record.op == new.record.op
+            }
+            is Item.HistoryViewHeader -> {
+                oldItem.date == (newItem as Item.HistoryViewHeader).date
+            }
         }
     }
 

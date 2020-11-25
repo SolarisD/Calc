@@ -1,52 +1,103 @@
 package com.dmitryluzev.core.operations
 
-import com.dmitryluzev.core.operations.base.Operation
 import com.dmitryluzev.core.values.Value
+import com.dmitryluzev.core.values.toValue
 
 object OperationFactory {
     const val ADD_ID = "ADD_OPERATION"
     const val SUBTRACT_ID = "SUBTRACT_OPERATION"
     const val MULTIPLY_ID = "MULTIPLY_OPERATION"
     const val DIVIDE_ID = "DIVIDE_OPERATION"
-    fun create(id: String, a: Value? = null, b: Value? = null): Operation? = when(id){
-        ADD_ID -> Add(a, b)
-        SUBTRACT_ID -> Subtract(a, b)
-        MULTIPLY_ID -> Multiply(a, b)
-        DIVIDE_ID -> Divide(a, b)
+    fun create(id: String, a: Value? = null, b: Value? = null, percentage: Boolean = false): Operation? = when(id){
+        ADD_ID -> Add(a, b, percentage)
+        SUBTRACT_ID -> Subtract(a, b, percentage)
+        MULTIPLY_ID -> Multiply(a, b, percentage)
+        DIVIDE_ID -> Divide(a, b, percentage)
         else -> null
     }
-    fun getId(operation: Operation): String = when(operation){
-        is Add -> ADD_ID
-        is Subtract -> SUBTRACT_ID
-        is Multiply -> MULTIPLY_ID
-        is Divide -> DIVIDE_ID
-        else -> throw IllegalArgumentException("Unknown class")
-    }
-    fun copy(operation: Operation): Operation = when(operation) {
+    private fun copy(operation: Operation): Operation = when(operation) {
         is Add -> {
             val ret = Add()
             ret.a = operation.a
             ret.b = operation.b
+            ret.percentage = operation.percentage
             ret
         }
         is Subtract -> {
             val ret = Subtract()
             ret.a = operation.a
             ret.b = operation.b
+            ret.percentage = operation.percentage
             ret
         }
         is Multiply -> {
             val ret = Multiply()
             ret.a = operation.a
             ret.b = operation.b
+            ret.percentage = operation.percentage
             ret
         }
         is Divide -> {
             val ret = Divide()
             ret.a = operation.a
             ret.b = operation.b
+            ret.percentage = operation.percentage
             ret
         }
         else -> throw IllegalArgumentException("operation isn't Operation class")
+    }
+    private fun getId(operation: Operation): String = when(operation){
+        is Add -> ADD_ID
+        is Subtract -> SUBTRACT_ID
+        is Multiply -> MULTIPLY_ID
+        is Divide -> DIVIDE_ID
+        else -> throw IllegalArgumentException("Unknown class")
+    }
+    fun change(oldOperation: Operation?, idNew: String): Operation? = when(oldOperation){
+        is BinaryOperation -> {
+            val newOp = create(idNew)
+            if (newOp is BinaryOperation) {
+                newOp.a = oldOperation.a
+                newOp
+            } else {
+                oldOperation
+            }
+        }
+        else -> oldOperation
+    }
+    fun repeat(operation: Operation?): Operation? = when(operation){
+            is UnaryOperation -> {
+                val newOp = copy(operation) as UnaryOperation
+                newOp.a = operation.result
+                newOp
+            }
+            is BinaryOperation -> {
+                val newOp = copy(operation) as BinaryOperation
+                newOp.a = operation.result
+                newOp
+            }
+            else -> null
+        }
+    fun toStoreString(operation: Operation?) = when(operation){
+        is UnaryOperation -> {
+            "${getId(operation)};${operation.a}"
+        }
+        is BinaryOperation -> {
+            "${getId(operation)};${operation.a};${operation.b};${operation.percentage}"
+        }
+        else -> null
+    }
+    fun fromStoreString(string: String?): Operation?{
+        string?.let {
+            val list = it.split(';')
+            var a: Value? = null
+            if (list.size > 1 && list[1] != "null") a = list[1].toValue()
+            var b: Value? = null
+            if (list.size > 2 && list[2] != "null") b = list[2].toValue()
+            var percentage = false
+            if (list.size > 3 && list[3] != "null") percentage = list[3].toBoolean()
+            return create(list[0], a, b, percentage)
+        }
+        return null
     }
 }

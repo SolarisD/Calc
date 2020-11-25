@@ -10,9 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.model.Record
 
-class HistoryPreviewAdapter(private val onClick: () -> Unit): ListAdapter<Record, HistoryPreviewAdapter.HistoryPreviewHolder>(
-    DiffCallback()
-)  {
+class HistoryPreviewAdapter(private val onClick: () -> Unit):
+    ListAdapter<Record, HistoryPreviewAdapter.HistoryPreviewHolder>(DiffCallback())  {
 
     class HistoryPreviewHolder(view: View): RecyclerView.ViewHolder(view){
         val record: TextView = view.findViewById(R.id.tv_record)
@@ -20,18 +19,18 @@ class HistoryPreviewAdapter(private val onClick: () -> Unit): ListAdapter<Record
 
     class DiffCallback: DiffUtil.ItemCallback<Record>(){
         override fun areItemsTheSame(oldItem: Record, newItem: Record): Boolean {
-            return oldItem.id == newItem.id && oldItem.date == newItem.date
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Record, newItem: Record): Boolean {
-            return (oldItem.op::class == newItem.op::class
-                    && oldItem.op.a == newItem.op.a
-                    && oldItem.op.result == newItem.op.result)
+            return (oldItem.date == newItem.date
+                    && oldItem.op == newItem.op)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryPreviewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.vh_preview_history_record, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.vh_preview_history_record, parent, false)
         return HistoryPreviewHolder(view)
     }
 

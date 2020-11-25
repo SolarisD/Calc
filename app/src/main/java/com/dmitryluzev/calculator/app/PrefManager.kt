@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.core.Calculator
-import com.dmitryluzev.core.values.toOperation
+import com.dmitryluzev.core.operations.OperationFactory
 import com.dmitryluzev.core.values.toValue
 import java.util.*
 
@@ -85,7 +85,7 @@ class PrefManager private constructor(private val application: Application): Sha
     fun restoreState(): Calculator.State {
         val buffer = sharedPref.getString(BUFFER_STATE_KEY, null)?.toValue()
         val memory = sharedPref.getString(MEMORY_STATE_KEY, null)?.toValue()
-        val alu = sharedPref.getString(ALU_OP_STATE_KEY, null).toOperation()
+        val alu = OperationFactory.fromStoreString(sharedPref.getString(ALU_OP_STATE_KEY, null))
         return Calculator.State(buffer, memory, alu)
     }
     fun saveState(state: Calculator.State){
@@ -112,7 +112,7 @@ class PrefManager private constructor(private val application: Application): Sha
         //Current operation
         if (state.alu != null){
             sharedPref.edit()
-                .putString(ALU_OP_STATE_KEY, state.alu?.toStoreString())
+                .putString(ALU_OP_STATE_KEY, OperationFactory.toStoreString(state.alu))
                 .apply()
         } else {
             sharedPref.edit()

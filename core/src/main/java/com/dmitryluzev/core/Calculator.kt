@@ -1,7 +1,7 @@
 package com.dmitryluzev.core
 
 import androidx.lifecycle.LiveData
-import com.dmitryluzev.core.operations.base.Operation
+import com.dmitryluzev.core.operations.Operation
 import com.dmitryluzev.core.values.Value
 import com.dmitryluzev.core.values.toValue
 

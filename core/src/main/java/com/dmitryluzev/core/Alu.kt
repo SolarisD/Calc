@@ -1,11 +1,10 @@
 package com.dmitryluzev.core
 
 import androidx.lifecycle.MutableLiveData
-import com.dmitryluzev.core.operations.Multiply
+import com.dmitryluzev.core.operations.BinaryOperation
+import com.dmitryluzev.core.operations.Operation
 import com.dmitryluzev.core.operations.OperationFactory
-import com.dmitryluzev.core.operations.base.BinaryOperation
-import com.dmitryluzev.core.operations.base.Operation
-import com.dmitryluzev.core.operations.base.UnaryOperation
+import com.dmitryluzev.core.operations.UnaryOperation
 import com.dmitryluzev.core.values.Value
 
 class Alu constructor(){
@@ -24,7 +23,6 @@ class Alu constructor(){
     }
     fun setOperation(id: String, value: Value){
         OperationFactory.create(id, value)?.let {
-            it.a = value
             operation = it
             if (it is UnaryOperation) {
                 onResultReadyListener?.invoke(operation!!)
@@ -34,14 +32,7 @@ class Alu constructor(){
 
     }
     fun changeOperation(id: String){
-        OperationFactory.create(id)?.let { newOp->
-            if (operation is BinaryOperation){
-                operation?.let {
-                    newOp.a = it.a
-                    operation = newOp
-                }
-            }
-        }
+        operation = OperationFactory.change(operation, id)
         post()
     }
     fun setValue(value: Value){
@@ -52,25 +43,17 @@ class Alu constructor(){
         post()
     }
     fun repeat(){
-        operation?.let {
-            val op = OperationFactory.copy(it)
-            op.a = it.result
-            operation = op
-            onResultReadyListener?.invoke(operation!!)
-        }
+        operation = OperationFactory.repeat(operation)
+        operation?.let { onResultReadyListener?.invoke(it) }
         post()
     }
     fun setPercent(value: Value){
         if(operation is BinaryOperation){
-            (operation as BinaryOperation).apply { b = value * Value(0.01) * operation!!.a!! }
-            onResultReadyListener?.invoke(operation!!)
+            (operation as BinaryOperation).apply { b = value; percentage = true }
         } else {
-            val ret = Multiply()
-            ret.a = Value(1.0)
-            ret.b = Value(0.01) * value
-            operation = ret
-            onResultReadyListener?.invoke(operation!!)
+            operation = OperationFactory.create(OperationFactory.DIVIDE_ID, value, Value(100.0), false)
         }
+        operation?.let { onResultReadyListener?.invoke(it) }
         post()
     }
     fun setOnResultReadyListener(listener:(Operation) -> Unit){
