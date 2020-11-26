@@ -1,21 +1,19 @@
+
 package com.dmitryluzev.calculator.view.calculator
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.dmitryluzev.calculator.R
+import com.dmitryluzev.calculator.databinding.VhBinaryOperationBinding
 import com.dmitryluzev.calculator.model.Record
+import com.dmitryluzev.core.operations.BinaryOperation
 
-class HistoryPreviewAdapter(private val onClick: () -> Unit):
+class HistoryPreviewAdapter():
     ListAdapter<Record, HistoryPreviewAdapter.HistoryPreviewHolder>(DiffCallback())  {
 
-    class HistoryPreviewHolder(view: View): RecyclerView.ViewHolder(view){
-        val record: TextView = view.findViewById(R.id.tv_record)
-    }
+    class HistoryPreviewHolder(val binding: VhBinaryOperationBinding): RecyclerView.ViewHolder(binding.root)
 
     class DiffCallback: DiffUtil.ItemCallback<Record>(){
         override fun areItemsTheSame(oldItem: Record, newItem: Record): Boolean {
@@ -29,13 +27,11 @@ class HistoryPreviewAdapter(private val onClick: () -> Unit):
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryPreviewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.vh_preview_history_record, parent, false)
-        return HistoryPreviewHolder(view)
+        val binding = VhBinaryOperationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return HistoryPreviewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: HistoryPreviewHolder, position: Int) {
-        holder.record.text = getItem(position).op.toString()
-        holder.record.setOnClickListener { onClick() }
+        holder.binding.operation = getItem(position).op as BinaryOperation
     }
 }

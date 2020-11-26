@@ -39,18 +39,8 @@ class CalculatorFragment : Fragment() {
         binding.vm = vm
         registerForContextMenu(binding.tvBuffer)
         val manager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, true)
-
         binding.rcvHistory.layoutManager = manager
-        val adapter = HistoryPreviewAdapter{
-            //OnitemClickListener
-            /*findNavController().navigate(CalculatorFragmentDirections.actionCalculatorFragmentToHistoryFragment())*/
-        }
-        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                super.onItemRangeInserted(positionStart, itemCount)
-                binding.rcvHistory.scrollToPosition(0)
-            }
-        })
+        val adapter = HistoryPreviewAdapter()
         binding.rcvHistory.adapter = adapter
         vm.historyDisplay.observe(viewLifecycleOwner){
             adapter.submitList(it)
@@ -75,9 +65,7 @@ class CalculatorFragment : Fragment() {
                 clip?.let {
                     if(it.description.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)){
                         it.getItemAt(0).text?.let {text->
-                            val result = vm.pasteFromClipboard(text.toString())
-                            /*if (result != null) Toast.makeText(this, resources.getString(R.string.value_pasted, text), Toast.LENGTH_SHORT).show()
-                            else Toast.makeText(this, resources.getString(R.string.value_not_pasted, text), Toast.LENGTH_SHORT).show()*/
+                            vm.pasteFromClipboard(text.toString())
                         }
                     }
                 }
