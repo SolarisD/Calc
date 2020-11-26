@@ -1,8 +1,11 @@
 package com.dmitryluzev.calculator.view.history
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +28,13 @@ class HistoryFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.vm = vm
         binding.rcvHistory.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, true)
-        val adapter = HistoryViewAdapter()
+        val adapter = HistoryViewAdapter(){
+            it?.let {
+                val cbm = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                cbm.setPrimaryClip(ClipData.newPlainText(getString(R.string.app_label), it.toString()))
+                Toast.makeText(this.context, resources.getString(R.string.value_copied, it), Toast.LENGTH_SHORT).show()
+            }
+        }
         binding.rcvHistory.adapter = adapter
         vm.historyRecords.observe(viewLifecycleOwner){
             adapter.submitRecordList(it)
