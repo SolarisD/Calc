@@ -35,3 +35,28 @@ class HistoryPreviewAdapter():
         holder.binding.operation = getItem(position).op as BinaryOperation
     }
 }
+
+
+/*class HistoryPreviewAdapter(): RecyclerView.Adapter<HistoryPreviewAdapter.HistoryPreviewHolder>()  {
+
+    private var data = listOf<Record>()
+
+    fun setData(list: List<Record>?){
+        data = list ?: listOf()
+        notifyDataSetChanged()
+    }
+
+    class HistoryPreviewHolder(val binding: VhBinaryOperationBinding): RecyclerView.ViewHolder(binding.root)
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryPreviewHolder {
+        val binding = VhBinaryOperationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return HistoryPreviewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: HistoryPreviewHolder, position: Int) {
+        holder.binding.operation = data[position].op as BinaryOperation
+    }
+
+    override fun getItemCount(): Int = data.size
+}*/

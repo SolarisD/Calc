@@ -37,12 +37,13 @@ class CalculatorFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.vm = vm
         registerForContextMenu(binding.tvBuffer)
-        val manager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, true)
+        val manager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
         binding.rcvHistory.layoutManager = manager
         val adapter = HistoryPreviewAdapter()
         binding.rcvHistory.adapter = adapter
         vm.historyDisplay.observe(viewLifecycleOwner){
             adapter.submitList(it)
+            if(!it.isNullOrEmpty()) binding.rcvHistory.smoothScrollToPosition(it.lastIndex)
         }
         return binding.root
     }
