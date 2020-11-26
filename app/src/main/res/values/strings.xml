@@ -26,5 +26,7 @@
     <string name="build_type">Build type:</string>
     <string name="app_version">Version:</string>
     <string name="buttons_settings_group">Buttons</string>
+    <string name="copy_item">Copy</string>
+    <string name="share_item">Share</string>
 
 </resources>

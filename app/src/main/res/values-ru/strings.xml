@@ -21,4 +21,6 @@
     <string name="build_type">Тип сборки:</string>
     <string name="app_version">Версия:</string>
     <string name="buttons_settings_group">Кнопки</string>
+    <string name="copy_item">Копировать</string>
+    <string name="share_item">Отправить</string>
 </resources>
