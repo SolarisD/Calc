@@ -14,22 +14,24 @@
     <style name="Button.Memory" parent="Button">
         <item name="android:textSize">20sp</item>
         <!--<item name="backgroundTint">@color/memoryColor</item>-->
+        <item name="rippleColor">@color/onBackgroundColor</item>
         <item name="android:textColor">@color/onBackgroundColor</item>
     </style>
     <style name="Button.Operation">
         <item name="android:textSize">30sp</item>
-        <!--<item name="backgroundTint">@color/operationColor</item>-->
+        <item name="rippleColor">@color/sc</item>
         <item name="iconTint">@color/sc</item>
         <item name="android:textColor">@color/sc</item>
     </style>
     <style name="Button.Operation.Inv">
         <item name="backgroundTint">@color/sc</item>
+        <item name="rippleColor">@color/onSc</item>
         <item name="iconTint">@color/onSc</item>
         <item name="android:textColor">@color/onSc</item>
     </style>
     <style name="Button.Symbol">
         <item name="android:textSize">30sp</item>
-        <!--<item name="backgroundTint">@color/symbolColor</item>-->
+        <item name="rippleColor">@color/pr</item>
         <item name="android:textColor">@color/pr</item>
     </style>
 

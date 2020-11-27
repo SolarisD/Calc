@@ -2,9 +2,8 @@
 <resources>
     <color name="pr">#2d2d33</color>
     <color name="sc">#385098</color>
+    <color name="onSc">#fefefe</color>
     <color name="backgroundColor">#fefefe</color>
     <color name="onBackgroundColor">#8D8C8E</color>
-
-    <color name="onSc">#fefefe</color>
     <bool name="window_light_status_bar">true</bool>
 </resources>
