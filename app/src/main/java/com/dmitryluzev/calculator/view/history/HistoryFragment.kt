@@ -1,9 +1,6 @@
 package com.dmitryluzev.calculator.view.history
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.os.Bundle
 import android.view.*
 import android.widget.PopupMenu
@@ -33,7 +30,7 @@ class HistoryFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.vm = vm
         binding.rcvHistory.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, true)
-        val adapter = HistoryViewAdapter(::showPopup)
+        val adapter = HistoryViewAdapter(::showCopySharePopup)
         binding.rcvHistory.adapter = adapter
         vm.historyRecords.observe(viewLifecycleOwner){
             adapter.submitRecordList(it)
@@ -56,21 +53,37 @@ class HistoryFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showPopup(textView: TextView){
+    private fun showCopySharePopup(textView: TextView) {
+        textView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
         textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.onSc))
         textView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.sc))
         val popup = PopupMenu(this.context, textView)
         popup.inflate(R.menu.history_item_menu)
         popup.setOnDismissListener {
-            textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.onBackgroundColor))
+            textView.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.onBackgroundColor
+                )
+            )
             textView.background = null
         }
         popup.setOnMenuItemClickListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.copy_menu_item -> {
-                    val cbm = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    cbm.setPrimaryClip(ClipData.newPlainText(getString(R.string.app_label), textView.text))
-                    Toast.makeText(this.context, resources.getString(R.string.value_copied, textView.text), Toast.LENGTH_SHORT).show()
+                    val cbm =
+                        requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    cbm.setPrimaryClip(
+                        ClipData.newPlainText(
+                            getString(R.string.app_label),
+                            textView.text
+                        )
+                    )
+                    Toast.makeText(
+                        this.context,
+                        resources.getString(R.string.value_copied, textView.text),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 R.id.share_menu_item -> {
                     val sendIntent: Intent = Intent().apply {

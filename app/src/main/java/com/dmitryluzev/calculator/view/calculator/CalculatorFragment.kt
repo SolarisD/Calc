@@ -36,48 +36,26 @@ class CalculatorFragment : Fragment() {
         binding = FragmentCalculatorBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         binding.vm = vm
-        registerForContextMenu(binding.tvBuffer)
         val manager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
         binding.rcvHistory.layoutManager = manager
-        val adapter = CalculatorAdapter(::showPopup)
+        val adapter = CalculatorAdapter(::showCopySharePopup)
         binding.rcvHistory.adapter = adapter
         vm.historyDisplay.observe(viewLifecycleOwner){
             adapter.submitList(it)
             if(!it.isNullOrEmpty()) binding.rcvHistory.smoothScrollToPosition(it.lastIndex)
         }
+        binding.tvBuffer.setOnClickListener {
+            showCopyPastePopup(it as TextView)
+        }
         return binding.root
     }
-    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
-        super.onCreateContextMenu(menu, v, menuInfo)
-        requireActivity().menuInflater.inflate(R.menu.buffer_menu, menu)
-    }
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.copy_menu_item->{
-                binding.tvBuffer.text?.let {
-                    val cbm = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                    cbm.setPrimaryClip(ClipData.newPlainText(getString(R.string.app_label), it))
-                    Toast.makeText(this.context, resources.getString(R.string.value_copied, it), Toast.LENGTH_SHORT).show()
-                }
-            }
-            R.id.paste_menu_item->{
-                val clip = (requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager).primaryClip
-                clip?.let {
-                    if(it.description.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)){
-                        it.getItemAt(0).text?.let {text->
-                            vm.pasteFromClipboard(text.toString())
-                        }
-                    }
-                }
-            }
-        }
-        return super.onContextItemSelected(item)
-    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         vm.saveState()
         super.onSaveInstanceState(outState)
     }
-    private fun showPopup(textView: TextView) {
+    private fun showCopySharePopup(textView: TextView) {
+        textView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
         textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.onSc))
         textView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.sc))
         val popup = PopupMenu(this.context, textView)
@@ -122,7 +100,92 @@ class CalculatorFragment : Fragment() {
         }
         popup.show()
     }
+    private fun showCopyPastePopup(textView: TextView) {
+        textView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.onSc))
+        textView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.sc))
+        val popup = PopupMenu(this.context, textView)
+        popup.inflate(R.menu.buffer_menu)
+        popup.setOnDismissListener {
+            textView.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.onBackgroundColor
+                )
+            )
+            textView.background = null
+        }
+        popup.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.copy_menu_item -> {
+                    val cbm =
+                        requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                    cbm.setPrimaryClip(
+                        ClipData.newPlainText(
+                            getString(R.string.app_label),
+                            textView.text
+                        )
+                    )
+                    Toast.makeText(
+                        this.context,
+                        resources.getString(R.string.value_copied, textView.text),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                R.id.paste_menu_item -> {
+                    val clip = (requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager).primaryClip
+                    clip?.let {
+                        if(it.description.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)){
+                            it.getItemAt(0).text?.let {text->
+                                vm.pasteFromClipboard(text.toString())
+                            }
+                        }
+                    }
+                }
+                /*R.id.share_menu_item -> {
+                    val sendIntent: Intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, textView.text)
+                        type = "text/plain"
+                    }
+                    val shareIntent = Intent.createChooser(sendIntent, null)
+                    startActivity(shareIntent)
+                }*/
+            }
+            return@setOnMenuItemClickListener false
+        }
+        popup.show()
+    }
 }
+
+
+//registerForContextMenu(binding.tvBuffer)
+/*override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
+       super.onCreateContextMenu(menu, v, menuInfo)
+       requireActivity().menuInflater.inflate(R.menu.buffer_menu, menu)
+   }
+   override fun onContextItemSelected(item: MenuItem): Boolean {
+       when(item.itemId){
+           R.id.copy_menu_item->{
+               binding.tvBuffer.text?.let {
+                   val cbm = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                   cbm.setPrimaryClip(ClipData.newPlainText(getString(R.string.app_label), it))
+                   Toast.makeText(this.context, resources.getString(R.string.value_copied, it), Toast.LENGTH_SHORT).show()
+               }
+           }
+           R.id.paste_menu_item->{
+               val clip = (requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager).primaryClip
+               clip?.let {
+                   if(it.description.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)){
+                       it.getItemAt(0).text?.let {text->
+                           vm.pasteFromClipboard(text.toString())
+                       }
+                   }
+               }
+           }
+       }
+       return super.onContextItemSelected(item)
+   }*/
 
 
 
