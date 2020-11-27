@@ -11,7 +11,7 @@ import com.dmitryluzev.calculator.databinding.VhBinaryOperationBinding
 import com.dmitryluzev.calculator.model.Record
 import com.dmitryluzev.core.operations.BinaryOperation
 
-class CalculatorAdapter(val valueClickListener: (textView: TextView) -> Unit):
+class CalculatorAdapter(val valueClickListener: (textView: TextView) -> Boolean):
     ListAdapter<Record, CalculatorAdapter.HistoryPreviewHolder>(DiffCallback())  {
 
     class HistoryPreviewHolder(val binding: VhBinaryOperationBinding): RecyclerView.ViewHolder(binding.root)
@@ -34,8 +34,8 @@ class CalculatorAdapter(val valueClickListener: (textView: TextView) -> Unit):
 
     override fun onBindViewHolder(holder: HistoryPreviewHolder, position: Int) {
         holder.binding.operation = getItem(position).op as BinaryOperation
-        holder.binding.tvA.setOnClickListener { valueClickListener(holder.binding.tvA) }
-        holder.binding.tvB.setOnClickListener { valueClickListener(holder.binding.tvB) }
-        holder.binding.tvResult.setOnClickListener { valueClickListener(holder.binding.tvResult) }
+        holder.binding.tvA.setOnLongClickListener { valueClickListener(holder.binding.tvA) }
+        holder.binding.tvB.setOnLongClickListener { valueClickListener(holder.binding.tvB) }
+        holder.binding.tvResult.setOnLongClickListener { valueClickListener(holder.binding.tvResult) }
     }
 }

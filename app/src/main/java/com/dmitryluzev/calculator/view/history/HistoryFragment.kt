@@ -53,7 +53,7 @@ class HistoryFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showCopySharePopup(textView: TextView) {
+    private fun showCopySharePopup(textView: TextView): Boolean {
         textView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
         textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.onSc))
         textView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.sc))
@@ -98,5 +98,6 @@ class HistoryFragment : Fragment() {
             return@setOnMenuItemClickListener false
         }
         popup.show()
+        return false
     }
 }

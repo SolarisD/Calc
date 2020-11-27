@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HistoryViewAdapter(val valueClickListener: (textView: TextView) -> Unit):
+class HistoryViewAdapter(val valueClickListener: (textView: TextView) -> Boolean):
     ListAdapter<HistoryViewAdapter.Item, RecyclerView.ViewHolder>(HistoryDiffCallback()){
 
     companion object{
@@ -108,9 +108,9 @@ class HistoryViewAdapter(val valueClickListener: (textView: TextView) -> Unit):
             is RecordViewHolder -> {
                 val binaryOperation = (getItem(position) as Item.HistoryViewRecord).record.op as BinaryOperation
                 holder.binding.operation = binaryOperation
-                holder.binding.tvA.setOnClickListener { valueClickListener(holder.binding.tvA) }
-                holder.binding.tvB.setOnClickListener { valueClickListener(holder.binding.tvB) }
-                holder.binding.tvResult.setOnClickListener { valueClickListener(holder.binding.tvResult) }
+                holder.binding.tvA.setOnLongClickListener { valueClickListener(holder.binding.tvA) }
+                holder.binding.tvB.setOnLongClickListener { valueClickListener(holder.binding.tvB) }
+                holder.binding.tvResult.setOnLongClickListener { valueClickListener(holder.binding.tvResult) }
             }
             is HeaderViewHolder -> {
                 holder.binding.tvDate.text = df.format((getItem(position) as Item.HistoryViewHeader).date)
