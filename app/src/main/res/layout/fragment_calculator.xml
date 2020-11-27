@@ -23,18 +23,18 @@
             android:id="@+id/rcvHistory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/llDisplays"
+            android:layout_above="@+id/allDisplays"
             android:padding="2dp"/>
 
         <LinearLayout
-            android:id="@+id/llDisplays"
+            android:id="@+id/allDisplays"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/clKeyboard"
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_alu"
+                android:id="@+id/tvAlu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|end"
@@ -47,7 +47,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_buffer"
+                android:id="@+id/tvBuffer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -58,20 +58,37 @@
                 android:textColor="@color/pr"
                 android:textSize="46sp"
                 app:layout_constraintBottom_toTopOf="@+id/tv_memory" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_memory"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="start|center_vertical"
-                android:maxLines="1"
-                android:padding="4dp"
-                android:text="@{vm.memoryDisplay}"
-                android:textColor="@color/onBackgroundColor"
-                android:textSize="18sp"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvMemoryHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|center_vertical"
+                    android:maxLines="1"
+                    android:padding="4dp"
+                    android:text="M: "
+                    android:visibility="@{vm.memoryDisplay != null ? View.VISIBLE : View.GONE}"
+                    android:textColor="@color/onBackgroundColor"
+                    android:textSize="18sp"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvMemory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|center_vertical"
+                    android:maxLines="1"
+                    android:padding="4dp"
+                    android:text="@{vm.memoryDisplay}"
+                    android:textColor="@color/onBackgroundColor"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
 
         </LinearLayout>
 

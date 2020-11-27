@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="App.Theme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!--COLORS-->
-        <!--<item name="colorPrimary">@color/backgroundColor</item>-->
+        <item name="colorPrimary">@color/backgroundColor</item>
         <item name="colorSecondary">@color/sc</item>
         <!--BACKPLANE-->
         <item name="android:colorBackground">@color/backgroundColor</item>

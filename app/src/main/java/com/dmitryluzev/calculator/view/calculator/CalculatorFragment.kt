@@ -47,6 +47,9 @@ class CalculatorFragment : Fragment() {
         binding.tvBuffer.setOnLongClickListener {
             showCopyPastePopup(it as TextView)
         }
+        binding.tvMemory.setOnLongClickListener {
+            showCopySharePopup(it as TextView)
+        }
         return binding.root
     }
 
