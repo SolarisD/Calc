@@ -3,6 +3,7 @@ package com.dmitryluzev.calculator.view.calculator
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,8 +11,8 @@ import com.dmitryluzev.calculator.databinding.VhBinaryOperationBinding
 import com.dmitryluzev.calculator.model.Record
 import com.dmitryluzev.core.operations.BinaryOperation
 
-class HistoryPreviewAdapter():
-    ListAdapter<Record, HistoryPreviewAdapter.HistoryPreviewHolder>(DiffCallback())  {
+class CalculatorAdapter(val valueClickListener: (textView: TextView) -> Unit):
+    ListAdapter<Record, CalculatorAdapter.HistoryPreviewHolder>(DiffCallback())  {
 
     class HistoryPreviewHolder(val binding: VhBinaryOperationBinding): RecyclerView.ViewHolder(binding.root)
 
@@ -33,30 +34,8 @@ class HistoryPreviewAdapter():
 
     override fun onBindViewHolder(holder: HistoryPreviewHolder, position: Int) {
         holder.binding.operation = getItem(position).op as BinaryOperation
+        holder.binding.tvA.setOnClickListener { valueClickListener(holder.binding.tvA) }
+        holder.binding.tvB.setOnClickListener { valueClickListener(holder.binding.tvB) }
+        holder.binding.tvResult.setOnClickListener { valueClickListener(holder.binding.tvResult) }
     }
 }
-
-
-/*class HistoryPreviewAdapter(): RecyclerView.Adapter<HistoryPreviewAdapter.HistoryPreviewHolder>()  {
-
-    private var data = listOf<Record>()
-
-    fun setData(list: List<Record>?){
-        data = list ?: listOf()
-        notifyDataSetChanged()
-    }
-
-    class HistoryPreviewHolder(val binding: VhBinaryOperationBinding): RecyclerView.ViewHolder(binding.root)
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryPreviewHolder {
-        val binding = VhBinaryOperationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return HistoryPreviewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: HistoryPreviewHolder, position: Int) {
-        holder.binding.operation = data[position].op as BinaryOperation
-    }
-
-    override fun getItemCount(): Int = data.size
-}*/

@@ -44,7 +44,7 @@
             android:layout_margin="2dp"
             android:textSize="20sp"
             android:visibility="@{operation.b != null ? View.VISIBLE : View.GONE}"
-            android:text="@{operation.b.toString()}"
+            android:text="@{operation.b.toString() + (operation.percentage ? &quot;%&quot; : &quot;&quot;)}"
             android:textColor="@color/onBackgroundColor"
             android:maxLines="1" />
         <TextView
