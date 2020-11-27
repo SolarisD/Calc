@@ -1,14 +1,15 @@
 package com.dmitryluzev.calculator.view.history
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.dmitryluzev.calculator.R
+import com.dmitryluzev.calculator.databinding.VhBinaryOperationBinding
+import com.dmitryluzev.calculator.databinding.VhHeaderBinding
 import com.dmitryluzev.calculator.model.Record
+import com.dmitryluzev.core.operations.BinaryOperation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,13 +17,15 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HistoryViewAdapter:
+class HistoryViewAdapter(val valueClickListener: (textView: TextView) -> Unit):
     ListAdapter<HistoryViewAdapter.Item, RecyclerView.ViewHolder>(HistoryDiffCallback()){
+
     companion object{
         const val TYPE_ITEM = 0
         const val TYPE_HEADER = 1
         private val df = SimpleDateFormat.getDateInstance()
     }
+
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     sealed class Item{
@@ -57,13 +60,9 @@ class HistoryViewAdapter:
         }
     }
 
-    class RecordViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val record: TextView = view.findViewById(R.id.tv_record)
-    }
+    class RecordViewHolder(val binding: VhBinaryOperationBinding): RecyclerView.ViewHolder(binding.root)
 
-    class HeaderViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val date: TextView = view.findViewById(R.id.tv_date)
-    }
+    class HeaderViewHolder(val binding: VhHeaderBinding): RecyclerView.ViewHolder(binding.root)
 
     class HistoryDiffCallback: DiffUtil.ItemCallback<Item>(){
         override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
@@ -93,12 +92,12 @@ class HistoryViewAdapter:
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when(viewType){
             TYPE_ITEM ->{
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.vh_history_record, parent, false)
-                return RecordViewHolder(view)
+                val binding = VhBinaryOperationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                return RecordViewHolder(binding)
             }
             TYPE_HEADER -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.vh_history_header, parent, false)
-                return HeaderViewHolder(view)
+                val binding = VhHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                return HeaderViewHolder(binding)
             }
         }
         throw ClassCastException("Unknown viewType ${viewType}")
@@ -107,10 +106,14 @@ class HistoryViewAdapter:
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder){
             is RecordViewHolder -> {
-                holder.record.text = (getItem(position) as Item.HistoryViewRecord).record.op.toString()
+                val binaryOperation = (getItem(position) as Item.HistoryViewRecord).record.op as BinaryOperation
+                holder.binding.operation = binaryOperation
+                holder.binding.tvA.setOnClickListener { valueClickListener(holder.binding.tvA) }
+                holder.binding.tvB.setOnClickListener { valueClickListener(holder.binding.tvB) }
+                holder.binding.tvResult.setOnClickListener { valueClickListener(holder.binding.tvResult) }
             }
             is HeaderViewHolder -> {
-                holder.date.text = df.format((getItem(position) as Item.HistoryViewHeader).date)
+                holder.binding.tvDate.text = df.format((getItem(position) as Item.HistoryViewHeader).date)
             }
         }
     }

@@ -4,6 +4,9 @@ import com.dmitryluzev.core.values.Value
 
 
 class Add internal constructor(a: Value? = null, b: Value? = null, percentage: Boolean = false) : BinaryOperation(a, b, percentage){
+    override val id: String
+        get() = "+"
+
     override val result: Value?
         get() =
             if (a != null && b != null){

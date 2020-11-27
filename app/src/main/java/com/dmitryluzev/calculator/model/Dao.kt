@@ -9,10 +9,10 @@ import java.util.*
 
 @Dao
 interface Dao {
-    @Query("SELECT * FROM history_records ORDER BY ID DESC")
+    @Query("SELECT * FROM history_records ORDER BY date DESC") //BY ID DESC
     fun getAllRecords(): LiveData<List<Record>>
 
-    @Query("SELECT * FROM history_records WHERE date > :date ORDER BY ID DESC")
+    @Query("SELECT * FROM history_records WHERE date > :date ORDER BY date ASC")
     fun getRecordsFromDate(date: Date?): LiveData<List<Record>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

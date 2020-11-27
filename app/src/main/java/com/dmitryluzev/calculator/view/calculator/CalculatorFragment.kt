@@ -1,17 +1,16 @@
 package com.dmitryluzev.calculator.view.calculator
 
-import android.content.ClipData
-import android.content.ClipDescription
-import android.content.ClipboardManager
-import android.content.Context
+import android.content.*
 import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.view.*
+import android.widget.PopupMenu
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.app.PrefManager
 import com.dmitryluzev.calculator.app.Sound
@@ -38,28 +37,19 @@ class CalculatorFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.vm = vm
         registerForContextMenu(binding.tvBuffer)
-        val manager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, true)
-
+        val manager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
         binding.rcvHistory.layoutManager = manager
-        val adapter = HistoryPreviewAdapter{
-            //OnitemClickListener
-            /*findNavController().navigate(CalculatorFragmentDirections.actionCalculatorFragmentToHistoryFragment())*/
-        }
-        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                super.onItemRangeInserted(positionStart, itemCount)
-                binding.rcvHistory.scrollToPosition(0)
-            }
-        })
+        val adapter = CalculatorAdapter(::showPopup)
         binding.rcvHistory.adapter = adapter
         vm.historyDisplay.observe(viewLifecycleOwner){
             adapter.submitList(it)
+            if(!it.isNullOrEmpty()) binding.rcvHistory.smoothScrollToPosition(it.lastIndex)
         }
         return binding.root
     }
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
-        requireActivity().menuInflater.inflate(R.menu.copy_paste_menu, menu)
+        requireActivity().menuInflater.inflate(R.menu.buffer_menu, menu)
     }
     override fun onContextItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
@@ -75,9 +65,7 @@ class CalculatorFragment : Fragment() {
                 clip?.let {
                     if(it.description.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)){
                         it.getItemAt(0).text?.let {text->
-                            val result = vm.pasteFromClipboard(text.toString())
-                            /*if (result != null) Toast.makeText(this, resources.getString(R.string.value_pasted, text), Toast.LENGTH_SHORT).show()
-                            else Toast.makeText(this, resources.getString(R.string.value_not_pasted, text), Toast.LENGTH_SHORT).show()*/
+                            vm.pasteFromClipboard(text.toString())
                         }
                     }
                 }
@@ -88,6 +76,51 @@ class CalculatorFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         vm.saveState()
         super.onSaveInstanceState(outState)
+    }
+    private fun showPopup(textView: TextView) {
+        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.onSc))
+        textView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.sc))
+        val popup = PopupMenu(this.context, textView)
+        popup.inflate(R.menu.history_item_menu)
+        popup.setOnDismissListener {
+            textView.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.onBackgroundColor
+                )
+            )
+            textView.background = null
+        }
+        popup.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.copy_menu_item -> {
+                    val cbm =
+                        requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    cbm.setPrimaryClip(
+                        ClipData.newPlainText(
+                            getString(R.string.app_label),
+                            textView.text
+                        )
+                    )
+                    Toast.makeText(
+                        this.context,
+                        resources.getString(R.string.value_copied, textView.text),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                R.id.share_menu_item -> {
+                    val sendIntent: Intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, textView.text)
+                        type = "text/plain"
+                    }
+                    val shareIntent = Intent.createChooser(sendIntent, null)
+                    startActivity(shareIntent)
+                }
+            }
+            return@setOnMenuItemClickListener false
+        }
+        popup.show()
     }
 }
 

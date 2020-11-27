@@ -22,6 +22,7 @@ abstract class UnaryOperation(var a: Value?): Operation{
 }
 
 abstract class BinaryOperation(var a: Value?, var b: Value?, var percentage: Boolean = false): Operation{
+    abstract val id: String
     override fun hashCode(): Int {
         return a.hashCode() + b.hashCode() + percentage.hashCode()
     }

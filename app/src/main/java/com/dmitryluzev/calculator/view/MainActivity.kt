@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         binding.navigationView.setNavigationItemSelectedListener { menuItem->
             when(menuItem.itemId){
                 R.id.historyFragment -> {
-                    navController.navigate(R.id.action_global_historyFragment)
+                    navController.navigate(R.id.action_calculatorFragment_to_historyFragment)
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
                     return@setNavigationItemSelectedListener true
                 }/*
