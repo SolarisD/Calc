@@ -30,7 +30,7 @@ class HistoryFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.vm = vm
         binding.rcvHistory.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, true)
-        val adapter = HistoryViewAdapter(::showCopySharePopup)
+        val adapter = HistoryViewAdapter(::showCSPopup)
         binding.rcvHistory.adapter = adapter
         vm.historyRecords.observe(viewLifecycleOwner){
             adapter.submitRecordList(it)
@@ -53,12 +53,12 @@ class HistoryFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showCopySharePopup(textView: TextView): Boolean {
+    private fun showCSPopup(textView: TextView): Boolean {
         textView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
         textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.onSc))
         textView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.sc))
         val popup = PopupMenu(this.context, textView)
-        popup.inflate(R.menu.history_item_menu)
+        popup.inflate(R.menu.cs_menu)
         popup.setOnDismissListener {
             textView.setTextColor(
                 ContextCompat.getColor(

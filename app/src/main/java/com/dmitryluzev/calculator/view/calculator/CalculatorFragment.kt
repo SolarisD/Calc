@@ -38,17 +38,17 @@ class CalculatorFragment : Fragment() {
         binding.vm = vm
         val manager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
         binding.rcvHistory.layoutManager = manager
-        val adapter = CalculatorAdapter(::showCopySharePopup)
+        val adapter = CalculatorAdapter(::showCSPopup)
         binding.rcvHistory.adapter = adapter
         vm.historyDisplay.observe(viewLifecycleOwner){
             adapter.submitList(it)
             if(!it.isNullOrEmpty()) binding.rcvHistory.smoothScrollToPosition(it.lastIndex)
         }
         binding.tvBuffer.setOnLongClickListener {
-            showCopyPastePopup(it as TextView)
+            showPCSPopup(it as TextView)
         }
         binding.tvMemory.setOnLongClickListener {
-            showCopySharePopup(it as TextView)
+            showCSPopup(it as TextView)
         }
         return binding.root
     }
@@ -57,12 +57,12 @@ class CalculatorFragment : Fragment() {
         vm.saveState()
         super.onSaveInstanceState(outState)
     }
-    private fun showCopySharePopup(textView: TextView): Boolean {
+    private fun showCSPopup(textView: TextView): Boolean {
         textView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
         textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.onSc))
         textView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.sc))
         PopupMenu(this.context, textView).apply {
-            inflate(R.menu.history_item_menu)
+            inflate(R.menu.cs_menu)
             setOnDismissListener {
                 textView.setTextColor(
                     ContextCompat.getColor(
@@ -105,12 +105,12 @@ class CalculatorFragment : Fragment() {
         }
         return false
     }
-    private fun showCopyPastePopup(textView: TextView): Boolean {
+    private fun showPCSPopup(textView: TextView): Boolean {
         textView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
         textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.onSc))
         textView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.sc))
         PopupMenu(this.context, textView).apply {
-            inflate(R.menu.buffer_menu)
+            inflate(R.menu.pcs_menu)
             setOnDismissListener {
                 textView.setTextColor(
                     ContextCompat.getColor(
@@ -122,6 +122,16 @@ class CalculatorFragment : Fragment() {
             }
             setOnMenuItemClickListener {
                 when (it.itemId) {
+                    R.id.paste_menu_item -> {
+                        val clip = (requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager).primaryClip
+                        clip?.let {
+                            if(it.description.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)){
+                                it.getItemAt(0).text?.let {text->
+                                    vm.pasteFromClipboard(text.toString())
+                                }
+                            }
+                        }
+                    }
                     R.id.copy_menu_item -> {
                         val cbm =
                             requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
@@ -137,17 +147,7 @@ class CalculatorFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                    R.id.paste_menu_item -> {
-                        val clip = (requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager).primaryClip
-                        clip?.let {
-                            if(it.description.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)){
-                                it.getItemAt(0).text?.let {text->
-                                    vm.pasteFromClipboard(text.toString())
-                                }
-                            }
-                        }
-                    }
-                    /*R.id.share_menu_item -> {
+                    R.id.share_menu_item -> {
                         val sendIntent: Intent = Intent().apply {
                             action = Intent.ACTION_SEND
                             putExtra(Intent.EXTRA_TEXT, textView.text)
@@ -155,7 +155,7 @@ class CalculatorFragment : Fragment() {
                         }
                         val shareIntent = Intent.createChooser(sendIntent, null)
                         startActivity(shareIntent)
-                    }*/
+                    }
                 }
                 return@setOnMenuItemClickListener false
             }
