@@ -42,9 +42,18 @@ class Calculator private constructor(){
         onResultReadyListener = listener
     }
     fun clear() { buffer.clear(); alu.clear() }
-    fun symbol(symbol: Symbols) = buffer.symbol(symbol)
-    fun negative() = buffer.negative()
-    fun backspace() = buffer.backspace()
+    fun symbol(symbol: Symbols) {
+        alu.clearIfComplete()
+        buffer.symbol(symbol)
+    }
+    fun negative(){
+        alu.clearIfComplete()
+        buffer.negative()
+    }
+    fun backspace() {
+        alu.clearIfComplete()
+        buffer.backspace()
+    }
     fun result() {
         alu.operation?.let {
             if (it.result == null) alu.setValue(buffer.getValue())

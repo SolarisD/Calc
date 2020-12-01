@@ -21,6 +21,11 @@ class Alu constructor(){
         operation = null
         post()
     }
+    fun clearIfComplete(){
+        operation?.result?.let {
+            clear()
+        }
+    }
     fun setOperation(id: String, value: Value){
         OperationFactory.create(id, value)?.let {
             operation = it
