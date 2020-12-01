@@ -3,10 +3,10 @@
 Simple and beautiful calculator, just like Citizen.
 
 <p float="left">
-	<img src="homepage/en-US/screenshots/dark.png" alt="alt text" style="zoom:25%;"/>
-	<img src="homepage/en-US/screenshots/dark_history.png" alt="alt text" style="zoom:25%;"/>
-	<img src="homepage/en-US/screenshots/light.png" alt="alt text" style="zoom:25%;"/>
-	<img src="homepage/en-US/screenshots/light_history.png" alt="alt text" style="zoom:25%;"/>
+	<img src="homepage/en-US/screenshots/dark.png" alt="alt text" style="zoom:5%;"/>
+	<img src="homepage/en-US/screenshots/dark_history.png" alt="alt text" style="zoom:5%;"/>
+	<img src="homepage/en-US/screenshots/light.png" alt="alt text" style="zoom:5%;"/>
+	<img src="homepage/en-US/screenshots/light_history.png" alt="alt text" style="zoom:5%;"/>
 </p>
 
 
