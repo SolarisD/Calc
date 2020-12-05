@@ -10,14 +10,10 @@ class Add internal constructor(a: Value? = null, b: Value? = null, percentage: B
     override val result: Value?
         get() =
             if (a != null && b != null){
-                try {
-                    if (percentage){
-                        a!! * (Value(1.0) + b!! * Value(0.01))
-                    } else {
-                        a!! + b!!
-                    }
-                }catch (e: Exception){
-                    Value.NaN
+                if (percentage){
+                    a!! * (Value.getInstance("1.0")!! + b!! * Value.getInstance("0.01")!!)
+                } else {
+                    a!! + b!!
                 }
             } else {
                 null

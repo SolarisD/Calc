@@ -1,7 +1,6 @@
 package com.dmitryluzev.core.operations
 
 import com.dmitryluzev.core.values.Value
-import com.dmitryluzev.core.values.toValue
 
 object OperationFactory {
     const val ADD_ID = "ADD_OPERATION"
@@ -91,9 +90,9 @@ object OperationFactory {
         string?.let {
             val list = it.split(';')
             var a: Value? = null
-            if (list.size > 1 && list[1] != "null") a = list[1].toValue()
+            if (list.size > 1 && list[1] != "null") a = Value.getInstance(list[1])
             var b: Value? = null
-            if (list.size > 2 && list[2] != "null") b = list[2].toValue()
+            if (list.size > 2 && list[2] != "null") b = Value.getInstance(list[2])
             var percentage = false
             if (list.size > 3 && list[3] != "null") percentage = list[3].toBoolean()
             return create(list[0], a, b, percentage)

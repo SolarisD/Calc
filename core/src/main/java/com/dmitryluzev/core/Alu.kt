@@ -56,7 +56,7 @@ class Alu constructor(){
         if(operation is BinaryOperation){
             (operation as BinaryOperation).apply { b = value; percentage = true }
         } else {
-            operation = OperationFactory.create(OperationFactory.DIVIDE_ID, value, Value(100.0), false)
+            operation = OperationFactory.create(OperationFactory.DIVIDE_ID, value, Value.getInstance("100.0"), false)
         }
         operation?.let { onResultReadyListener?.invoke(it) }
         post()

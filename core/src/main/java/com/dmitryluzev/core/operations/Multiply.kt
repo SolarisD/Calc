@@ -8,14 +8,10 @@ class Multiply internal constructor(a: Value? = null, b: Value? = null, percenta
     override val result: Value?
         get() =
             if (a != null && b != null){
-                try {
-                    if (percentage){
-                        a!! * a!! * b!! * Value(0.01)
-                    } else {
-                        a!! * b!!
-                    }
-                }catch (e: Exception){
-                    Value.NaN
+                if (percentage){
+                    a!! * a!! * b!! * Value.getInstance("0.01")!!
+                } else {
+                    a!! * b!!
                 }
             } else {
                 null

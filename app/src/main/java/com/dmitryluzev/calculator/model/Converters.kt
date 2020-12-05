@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import com.dmitryluzev.core.operations.Operation
 import com.dmitryluzev.core.operations.OperationFactory
 import com.dmitryluzev.core.values.Value
-import com.dmitryluzev.core.values.toValue
 import java.util.*
 
 class Converters{
@@ -16,7 +15,7 @@ class Converters{
     @TypeConverter
     fun valueToString(value: Value?): String? = value.toString()
     @TypeConverter
-    fun stringToValue(string: String?): Value? = string.toValue()
+    fun stringToValue(string: String?): Value? = Value.getInstance(string)
     @TypeConverter
     fun dateToTimestamp(date: Date): Long = date.time
     @TypeConverter

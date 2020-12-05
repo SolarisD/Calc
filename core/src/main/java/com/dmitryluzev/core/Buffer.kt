@@ -5,7 +5,7 @@ import com.dmitryluzev.core.values.Value
 
 class Buffer constructor() {
     val out: MutableLiveData<Value> = MutableLiveData()
-    private val v: Value = Value()
+    private val v = Value.getInstance()
     var clearRequest = false
         private set
     init {
@@ -18,7 +18,7 @@ class Buffer constructor() {
     }
     fun getValue(): Value {
         clearRequest = true
-        return Value().apply { from(v) }
+        return Value.getInstance().apply { from(v) }
     }
     fun setValue(value: Value){
         v.from(value)

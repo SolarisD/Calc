@@ -9,7 +9,7 @@ import androidx.preference.PreferenceManager
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.core.Calculator
 import com.dmitryluzev.core.operations.OperationFactory
-import com.dmitryluzev.core.values.toValue
+import com.dmitryluzev.core.values.Value
 import java.util.*
 
 
@@ -83,8 +83,8 @@ class PrefManager private constructor(private val application: Application): Sha
         else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
     fun restoreState(): Calculator.State {
-        val buffer = sharedPref.getString(BUFFER_STATE_KEY, null)?.toValue()
-        val memory = sharedPref.getString(MEMORY_STATE_KEY, null)?.toValue()
+        val buffer = Value.getInstance(sharedPref.getString(BUFFER_STATE_KEY, null))
+        val memory = Value.getInstance(sharedPref.getString(MEMORY_STATE_KEY, null))
         val alu = OperationFactory.fromStoreString(sharedPref.getString(ALU_OP_STATE_KEY, null))
         return Calculator.State(buffer, memory, alu)
     }

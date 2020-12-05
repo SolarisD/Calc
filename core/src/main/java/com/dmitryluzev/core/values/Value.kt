@@ -4,27 +4,32 @@ import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
 import kotlin.math.pow
 
-class Value constructor (double: Double? = null) {
+class Value private constructor () {
+    companion object{
+        const val maxLength = 10
+        const val base = 10.0
+        private val ds = DecimalFormatSymbols.getInstance().decimalSeparator
+        private val df = NumberFormat.getInstance()
+
+        fun getInstance(): Value{
+            return Value()
+        }
+        fun getInstance(string: String?): Value?{
+            string?.let {
+                try {
+                    val dbl = df.parse(string.replace(" ", ""))?.toDouble() ?: 0.0
+                    return Value().apply { setDouble(dbl) }
+                }catch(e: Exception){
+                    return null
+                }
+            }
+            return null
+        }
+    }
     private var s: Boolean = false
     private var m: String = ""
     private var e: Int? = null
     private var nan: Double? = null
-
-    init {
-        double?.let {
-            setDouble(it)
-        }
-    }
-
-    companion object{
-        const val maxLength = 10
-        const val base = 10.0
-        val ds = DecimalFormatSymbols.getInstance().decimalSeparator
-        val df = NumberFormat.getInstance()
-        val NaN = Value(Double.NaN)
-        val POSITIVE_INFINITY = Value(Double.POSITIVE_INFINITY)
-        val NEGATIVE_INFINITY = Value(Double.NEGATIVE_INFINITY)
-    }
 
     override fun toString(): String {
         nan?.let{
@@ -144,15 +149,6 @@ class Value constructor (double: Double? = null) {
         nan = value.nan
     }
 
-    /*fun copy(): Value{
-        val ret = Value()
-        ret.e = e
-        ret.s = s
-        ret.m = m
-        ret.nan = nan
-        return ret
-    }*/
-
     private fun getDouble(): Double{
         nan?.let{
             return it
@@ -241,18 +237,26 @@ class Value constructor (double: Double? = null) {
     }
 
     operator fun plus(b: Value): Value{
-        return (getDouble() + b.getDouble()).toValue()
+        val ret = Value()
+        ret.setDouble(getDouble() + b.getDouble())
+        return ret
     }
 
     operator fun minus(b: Value): Value{
-        return (getDouble() - b.getDouble()).toValue()
+        val ret = Value()
+        ret.setDouble(getDouble() - b.getDouble())
+        return ret
     }
 
     operator fun times(b: Value): Value{
-        return (getDouble() * b.getDouble()).toValue()
+        val ret = Value()
+        ret.setDouble(getDouble() * b.getDouble())
+        return ret
     }
 
     operator fun div(b: Value): Value{
-        return (getDouble() / b.getDouble()).toValue()
+        val ret = Value()
+        ret.setDouble(getDouble() / b.getDouble())
+        return ret
     }
 }

@@ -31,7 +31,7 @@ class Memory constructor() {
     }
     fun getValue(): Value?{
         return value?.let {
-            Value().apply { from(it) }
+            Value.getInstance().apply { from(it) }
         }
     }
     private fun post(){

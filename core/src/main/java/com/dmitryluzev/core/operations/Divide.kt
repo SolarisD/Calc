@@ -8,14 +8,10 @@ class Divide internal constructor(a: Value? = null, b: Value? = null, percentage
     override val result: Value?
         get() =
             if (a != null && b != null){
-                try {
-                    if (percentage){
-                        Value(100.0) / b!!
-                    } else {
-                        a!! / b!!
-                    }
-                }catch (e: Exception){
-                    Value.NaN
+                if (percentage){
+                    Value.getInstance("100.0")!! / b!!
+                } else {
+                    a!! / b!!
                 }
             } else {
                 null

@@ -3,7 +3,6 @@ package com.dmitryluzev.core
 import androidx.lifecycle.LiveData
 import com.dmitryluzev.core.operations.Operation
 import com.dmitryluzev.core.values.Value
-import com.dmitryluzev.core.values.toValue
 
 class Calculator private constructor(){
     companion object{
@@ -82,7 +81,7 @@ class Calculator private constructor(){
     }
     fun pasteFromClipboard(value: String): String?{
         try {
-            value.toValue()?.let {
+            Value.getInstance(value)?.let {
                 buffer.setValue(it)
                 return it.toString()
             }
