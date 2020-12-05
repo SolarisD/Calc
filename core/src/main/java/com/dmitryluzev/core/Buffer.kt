@@ -18,10 +18,10 @@ class Buffer constructor() {
     }
     fun getValue(): Value {
         clearRequest = true
-        return v.copy()
+        return Value().apply { from(v) }
     }
     fun setValue(value: Value){
-        v.setValue(value)
+        v.from(value)
         post()
     }
     fun negative(){
@@ -47,8 +47,8 @@ class Buffer constructor() {
             Symbols.SEVEN -> v.addNumber('7')
             Symbols.EIGHT -> v.addNumber('8')
             Symbols.NINE -> v.addNumber('9')
-            Symbols.DOT -> v.addFractional()
-            Symbols.PI -> v.setDouble(Math.PI)
+            Symbols.DOT -> v.addDot()
+            Symbols.PI -> v.setPi()
         }
         post()
     }

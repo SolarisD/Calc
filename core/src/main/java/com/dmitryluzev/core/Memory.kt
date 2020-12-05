@@ -30,7 +30,9 @@ class Memory constructor() {
         post()
     }
     fun getValue(): Value?{
-        return value?.copy()
+        return value?.let {
+            Value().apply { from(it) }
+        }
     }
     private fun post(){
         out.value = value

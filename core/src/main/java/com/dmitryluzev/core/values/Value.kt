@@ -4,10 +4,18 @@ import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
 import kotlin.math.pow
 
-data class Value constructor (private var s: Boolean = false, private var m: String = "", private var e: Int? = null, private var nan: Double? = null) {
-    constructor(double: Double): this(){
-        setDouble(double)
+class Value constructor (double: Double? = null) {
+    private var s: Boolean = false
+    private var m: String = ""
+    private var e: Int? = null
+    private var nan: Double? = null
+
+    init {
+        double?.let {
+            setDouble(it)
+        }
     }
+
     companion object{
         const val maxLength = 10
         const val base = 10.0
@@ -67,7 +75,85 @@ data class Value constructor (private var s: Boolean = false, private var m: Str
         else sign() + "0"
     }
 
-    fun getDouble(): Double{
+    fun clear(){
+        s = false
+        m = ""
+        e = null
+        nan = null
+    }
+
+    fun negative(){
+        s = !s
+    }
+
+    fun backspace(){
+        nan?.let { clear() }
+        e?.let {
+            if (it == 0) {
+                e = null
+                return
+            }
+            if (it > 0) {
+                e = it - 1
+                e?.let {
+                    if (it > 0 && (m.length + it) <= maxLength){
+                        val s = m.toLong() * base.pow(it).toLong()
+                        m = s.toString()
+                        e = null
+                    }
+                }
+            }
+            if (it < 0) e = it + 1
+            if (it + m.length >= maxLength) {
+                return
+            }
+        }
+        if (m.isNotEmpty()) m = m.dropLast(1)
+    }
+
+    fun addDot(){
+        nan?.let { clear() }
+        if (m.length >= maxLength) return
+        if (e == null) e = 0
+    }
+
+    fun addNumber(num: Char){
+        nan?.let { clear() }
+        if (m.length >= maxLength) return
+        if (num == '0'){
+            if (e == null && m.isEmpty()) return
+            else if (m.isEmpty()) e = e!! - 1
+            else {
+                m += num
+                if (e != null) e = e!! - 1
+            }
+        }else{
+            m += num
+            if (e != null) e = e!! - 1
+        }
+    }
+
+    fun setPi(){
+        setDouble(Math.PI)
+    }
+
+    fun from(value: Value){
+        e = value.e
+        s = value.s
+        m = value.m
+        nan = value.nan
+    }
+
+    /*fun copy(): Value{
+        val ret = Value()
+        ret.e = e
+        ret.s = s
+        ret.m = m
+        ret.nan = nan
+        return ret
+    }*/
+
+    private fun getDouble(): Double{
         nan?.let{
             return it
         }
@@ -76,7 +162,7 @@ data class Value constructor (private var s: Boolean = false, private var m: Str
         return lm * base.pow(e ?: 0)
     }
 
-    fun setDouble(value: Double){
+    private fun setDouble(value: Double){
         if (value.isFinite()) {
             val fmt = "%.${maxLength - 1}E"
             var scf = String.format(fmt, value)
@@ -116,71 +202,6 @@ data class Value constructor (private var s: Boolean = false, private var m: Str
         nan = value
     }
 
-    fun setValue(value: Value){
-        s = value.s
-        m = value.m
-        e = value.e
-        nan = value.nan
-    }
-
-    fun clear(){
-        s = false
-        m = ""
-        e = null
-        nan = null
-    }
-
-    fun negative(){
-        s = !s
-    }
-
-    fun backspace(){
-        nan?.let { clear() }
-        e?.let {
-            if (it == 0) {
-                e = null
-                return
-            }
-            if (it > 0) {
-                e = it - 1
-                e?.let {
-                    if (it > 0 && (m.length + it) <= maxLength){
-                        val s = m.toLong() * base.pow(it).toLong()
-                        m = s.toString()
-                        e = null
-                    }
-                }
-            }
-            if (it < 0) e = it + 1
-            if (it + m.length >= maxLength) {
-                return
-            }
-        }
-        if (m.isNotEmpty()) m = m.dropLast(1)
-    }
-
-    fun addFractional(){
-        nan?.let { clear() }
-        if (m.length >= maxLength) return
-        if (e == null) e = 0
-    }
-
-    fun addNumber(num: Char){
-        nan?.let { clear() }
-        if (m.length >= maxLength) return
-        if (num == '0'){
-            if (e == null && m.isEmpty()) return
-            else if (m.isEmpty()) e = e!! - 1
-            else {
-                m += num
-                if (e != null) e = e!! - 1
-            }
-        }else{
-            m += num
-            if (e != null) e = e!! - 1
-        }
-    }
-
     private fun addDelimiters(value: String, gs: Char): String{
         val stb = StringBuilder()
         for (i in value.indices){
@@ -213,7 +234,10 @@ data class Value constructor (private var s: Boolean = false, private var m: Str
 
     //region VALUE OPERATORS
     operator fun unaryMinus(): Value{
-        return this.copy(s = !s)
+        val ret = Value()
+        ret.from(this)
+        ret.s = !this.s
+        return ret
     }
 
     operator fun plus(b: Value): Value{
@@ -231,28 +255,4 @@ data class Value constructor (private var s: Boolean = false, private var m: Str
     operator fun div(b: Value): Value{
         return (getDouble() / b.getDouble()).toValue()
     }
-
-    /*fun pow(b: Value): Value{
-        return getInstance(toDouble().pow(b.toDouble()))
-    }
-
-    fun pow(b: Double): Value{
-        return getInstance(toDouble().pow(b))
-    }
-
-    fun pow(b: Int): Value{
-        return getInstance(toDouble().pow(b))
-    }*/
-    /*fun sin(value: Value): Value{
-            return Value.getInstance(sin(value.toDouble()))
-        }
-
-        fun cos(value: Value): Value{
-            return Value.getInstance(cos(value.toDouble()))
-        }
-
-        fun tan(value: Value): Value{
-            return Value.getInstance(tan(value.toDouble()))
-        }*/
-    //endregion
 }
