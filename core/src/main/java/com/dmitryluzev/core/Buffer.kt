@@ -48,7 +48,7 @@ class Buffer constructor() {
             Symbols.EIGHT -> v.addNumber('8')
             Symbols.NINE -> v.addNumber('9')
             Symbols.DOT -> v.addDot()
-            Symbols.PI -> v.setPi()
+            //Symbols.PI -> v.setPi()
         }
         post()
     }
