@@ -15,8 +15,8 @@ class BufferDouble {
         private val df = NumberFormat.getInstance()
     }
 
-    private val _out = MutableLiveData<Double>()
-    val out: LiveData<Double>
+    private val _out = MutableLiveData<String>()
+    val out: LiveData<String>
         get() = _out
 
     private var s: Boolean = false
@@ -33,13 +33,13 @@ class BufferDouble {
             }
         }
         val lm = if (m.isNotEmpty()) m.toLong() else 0L
-        if (s) return -lm * Value.base.pow(e ?: 0)
-        return lm * Value.base.pow(e ?: 0)
+        if (s) return -lm * base.pow(e ?: 0)
+        return lm * base.pow(e ?: 0)
     }
 
     fun set(value: Double) {
         if (value.isFinite()) {
-            val fmt = "%.${Value.maxLength - 1}E"
+            val fmt = "%.${maxLength - 1}E"
             var scf = String.format(fmt, value)
             //sign
             s = scf[0] == '-'
@@ -64,8 +64,8 @@ class BufferDouble {
             else strExponent.drop(1).toInt()
             e = e!! - m.length + 1
             //move dot
-            if (e!! > 0 && (m.length + e!!) <= Value.maxLength){
-                m = (m.toLong() * Value.base.pow(e!!).toLong()).toString()
+            if (e!! > 0 && (m.length + e!!) <= maxLength){
+                m = (m.toLong() * base.pow(e!!).toLong()).toString()
                 e = 0
             }
             if(e == 0) e = null
@@ -78,7 +78,7 @@ class BufferDouble {
                 else->{u = 0}
             }
         }
-        _out.value = get()
+        _out.value = print()
     }
 
     fun clear() {
@@ -86,12 +86,12 @@ class BufferDouble {
         m = ""
         e = null
         u = null
-        _out.value = get()
+        _out.value = print()
     }
 
     fun negative(){
         s = !s
-        _out.value = get()
+        _out.value = print()
     }
 
     fun backspace(){
@@ -116,7 +116,7 @@ class BufferDouble {
             }
         }
         if (m.isNotEmpty()) m = m.dropLast(1)
-        _out.value = get()
+        _out.value = print()
     }
 
     fun symbol(symbol: Symbols){
@@ -133,7 +133,7 @@ class BufferDouble {
             Symbols.NINE -> addNumber('9')
             Symbols.DOT -> addDot()
         }
-        _out.value = get()
+        _out.value = print()
     }
 
     private fun addDot(){
@@ -154,5 +154,88 @@ class BufferDouble {
             m += num
             if (e != null) e = e!! - 1
         }
+    }
+
+    private fun print(): String{
+        u?.let{
+            return when(it){
+                -1 -> {Double.NEGATIVE_INFINITY.toString()}
+                1 -> {Double.POSITIVE_INFINITY.toString()}
+                else -> {Double.NaN.toString()}
+            }
+        }
+        e?.let {
+            if (it == 0){
+                return sign() + addDelimiters(m, ' ') + ds
+            } else if (it + m.length > maxLength || it < -maxLength){
+                return sign() + scfString()
+            } else if (m.isEmpty() && it < 0){
+                val stb = StringBuilder("0${ds}")
+                val end = -it
+                for (i in 1..end){
+                    stb.append('0')
+                }
+                return sign() + stb.toString()
+            } else {
+                val stb = StringBuilder(m)
+                if (it > 0) {
+                    val end = it
+                    for (i in 1..end) {
+                        stb.append('0')
+                    }
+                } else {
+                    if (stb.length > -it) {
+                        val integer = stb.substring(0, stb.length + it)
+                        val fract = stb.substring(stb.length + it, stb.length)
+                        stb.clear()
+                        stb.append(addDelimiters(integer, ' '))
+                        stb.append(ds)
+                        stb.append(fract)
+                    }
+                    else if (stb.length == -it) stb.insert(0, "0${ds}")
+                    else {
+                        val end = -it - stb.length
+                        for (i in 1..end){
+                            stb.insert(0,'0')
+                        }
+                        stb.insert(0, "0${ds}")
+                    }
+
+                }
+                return sign() + stb.toString()
+            }
+        }
+        return if(m.isNotEmpty()) sign() + addDelimiters(m, ' ')
+        else sign() + "0"
+    }
+
+    private fun sign(): String {
+        return if (s) "-"
+        else ""
+    }
+
+    private fun addDelimiters(value: String, gs: Char): String{
+        val stb = StringBuilder()
+        for (i in value.indices){
+            stb.append(value[value.length-1-i])
+            if (i != value.length-1 && (i+1) % 3 == 0) stb.append(gs)
+        }
+        stb.reverse()
+        return if(stb.isNotEmpty()) stb.toString()
+        else "0"
+    }
+
+    private fun scfString(): String{
+        val s = when(m.length){
+            0->{"0${ds}0"}
+            1->{"$m${ds}0"}
+            else->{StringBuilder(m).insert(1, ds).toString()}
+        }
+        val eAdd = m.length - 1
+        val e = if (e != null) e!! + eAdd
+        else eAdd
+        val ins2 = if (e > 0) "E+${e}"
+        else "E${e}"
+        return  s + ins2
     }
 }
