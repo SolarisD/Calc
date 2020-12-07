@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.mainToolbar
         setSupportActionBar(binding.mainToolbar)
         navController = findNavController(R.id.navHostFragment)
         drawerLayout = binding.drawerLayout

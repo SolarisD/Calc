@@ -17,12 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
-            android:elevation="4dp"/>
+            android:elevation="4dp"
+            app:historyList="@{vm.historyRecords}"/>
 
     </LinearLayout>
 </layout>
-
-
-    <!--android:layout_margin="8dp"
-    android:background = "@drawable/displays_border"
-    android:elevation="4dp"-->

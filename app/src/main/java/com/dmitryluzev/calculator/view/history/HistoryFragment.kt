@@ -30,11 +30,7 @@ class HistoryFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.vm = vm
         binding.rcvHistory.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, true)
-        val adapter = HistoryViewAdapter(::showCSPopup)
-        binding.rcvHistory.adapter = adapter
-        vm.historyRecords.observe(viewLifecycleOwner){
-            adapter.submitRecordList(it)
-        }
+        binding.rcvHistory.adapter = HistoryAdapter(::showCSPopup)
         setHasOptionsMenu(true)
         return binding.root
     }

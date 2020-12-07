@@ -17,8 +17,8 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HistoryViewAdapter(val valueClickListener: (textView: TextView) -> Boolean):
-    ListAdapter<HistoryViewAdapter.Item, RecyclerView.ViewHolder>(HistoryDiffCallback()){
+class HistoryAdapter(val valueClickListener: (textView: TextView) -> Boolean):
+    ListAdapter<HistoryAdapter.Item, RecyclerView.ViewHolder>(HistoryDiffCallback()){
 
     companion object{
         const val TYPE_ITEM = 0
