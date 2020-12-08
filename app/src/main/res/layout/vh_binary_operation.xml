@@ -3,10 +3,11 @@
 
     <data>
         <import type="android.view.View" />
-        <import type="com.dmitryluzev.core.operations.Operation"/>
+        <import type="com.dmitryluzev.core.Operation"/>
+        <import type="com.dmitryluzev.core.Converter"/>
         <variable
             name="operation"
-            type="com.dmitryluzev.core.operations.BinaryOperation" />
+            type="com.dmitryluzev.core.BinaryOperation" />
     </data>
 
     <LinearLayout
@@ -23,7 +24,7 @@
             android:layout_gravity="end|center_vertical"
             android:layout_margin="2dp"
             android:textSize="20sp"
-            android:text="@{operation.a.toString()}"
+            android:text="@{Converter.INSTANCE.doubleToString(operation.a)}"
             android:textColor="@color/onBackgroundColor"
             android:maxLines="1" />
         <TextView
@@ -32,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
             android:layout_margin="2dp"
-            android:text="@{operation.id}"
+            android:text="@{((Operation)operation).tag}"
             android:textSize="20sp"
             android:textColor="@color/onBackgroundColor"
             android:maxLines="1" />
@@ -44,7 +45,7 @@
             android:layout_margin="2dp"
             android:textSize="20sp"
             android:visibility="@{operation.b != null ? View.VISIBLE : View.GONE}"
-            android:text="@{operation.b.toString() + (operation.percentage ? &quot;%&quot; : &quot;&quot;)}"
+            android:text="@{Converter.INSTANCE.doubleToString(operation.b) + (operation.percentage ? &quot;%&quot; : &quot;&quot;)}"
             android:textColor="@color/onBackgroundColor"
             android:maxLines="1" />
         <TextView
@@ -66,7 +67,7 @@
             android:layout_margin="2dp"
             android:textSize="20sp"
             android:visibility="@{((Operation)operation).result != null ? View.VISIBLE : View.GONE}"
-            android:text="@{((Operation)operation).result.toString}"
+            android:text="@{Converter.INSTANCE.doubleToString(((Operation)operation).result)}"
             android:textColor="@color/onBackgroundColor"
             android:maxLines="1" />
     </LinearLayout>

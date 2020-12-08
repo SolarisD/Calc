@@ -7,9 +7,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import com.dmitryluzev.calculator.R
+import com.dmitryluzev.core.Buffer
 import com.dmitryluzev.core.Calculator
-import com.dmitryluzev.core.operations.OperationFactory
-import com.dmitryluzev.core.values.Value
+import com.dmitryluzev.core.Converter
+import com.dmitryluzev.core.OperationFactory
 import java.util.*
 
 
@@ -19,7 +20,7 @@ class PrefManager private constructor(private val application: Application): Sha
     companion object{
         const val BUFFER_STATE_KEY = "buffer_state"
         const val MEMORY_STATE_KEY = "memory_state"
-        const val ALU_OP_STATE_KEY = "alu_state"
+        const val PIPELINE_OP_STATE_KEY = "pipeline_state"
         const val DISPLAY_HISTORY_DATE_KEY = "display_history_date"
 
         private var instance: PrefManager? = null
@@ -83,10 +84,11 @@ class PrefManager private constructor(private val application: Application): Sha
         else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
     fun restoreState(): Calculator.State {
-        val buffer = Value.getInstance(sharedPref.getString(BUFFER_STATE_KEY, null))
-        val memory = Value.getInstance(sharedPref.getString(MEMORY_STATE_KEY, null))
-        val alu = OperationFactory.fromStoreString(sharedPref.getString(ALU_OP_STATE_KEY, null))
-        return Calculator.State(buffer, memory, alu)
+
+        val buffer = Converter.stringToDouble(sharedPref.getString(BUFFER_STATE_KEY, null))
+        val memory = Converter.stringToDouble(sharedPref.getString(MEMORY_STATE_KEY, null))
+        val pipeline = OperationFactory.fromStoreString(sharedPref.getString(PIPELINE_OP_STATE_KEY, null))
+        return Calculator.State(buffer, memory, pipeline)
     }
     fun saveState(state: Calculator.State){
         //Buffer
@@ -110,13 +112,13 @@ class PrefManager private constructor(private val application: Application): Sha
                 .apply()
         }
         //Current operation
-        if (state.alu != null){
+        if (state.pipeline != null){
             sharedPref.edit()
-                .putString(ALU_OP_STATE_KEY, OperationFactory.toStoreString(state.alu))
+                .putString(PIPELINE_OP_STATE_KEY, OperationFactory.toStoreString(state.pipeline))
                 .apply()
         } else {
             sharedPref.edit()
-                .remove(ALU_OP_STATE_KEY)
+                .remove(PIPELINE_OP_STATE_KEY)
                 .apply()
         }
     }

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.databinding.VhBinaryOperationBinding
 import com.dmitryluzev.calculator.databinding.VhHeaderBinding
 import com.dmitryluzev.calculator.model.Record
-import com.dmitryluzev.core.operations.BinaryOperation
+import com.dmitryluzev.core.BinaryOperation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
