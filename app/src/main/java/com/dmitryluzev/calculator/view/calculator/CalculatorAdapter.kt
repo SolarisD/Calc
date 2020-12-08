@@ -37,5 +37,6 @@ class CalculatorAdapter(val valueClickListener: (textView: TextView) -> Boolean)
         holder.binding.tvA.setOnLongClickListener { valueClickListener(holder.binding.tvA) }
         holder.binding.tvB.setOnLongClickListener { valueClickListener(holder.binding.tvB) }
         holder.binding.tvResult.setOnLongClickListener { valueClickListener(holder.binding.tvResult) }
+        holder.binding.executePendingBindings()
     }
 }

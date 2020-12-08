@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <import type="android.view.View" />
@@ -24,9 +25,9 @@
             android:layout_gravity="end|center_vertical"
             android:layout_margin="2dp"
             android:textSize="20sp"
-            android:text="@{Converter.INSTANCE.doubleToString(operation.a)}"
             android:textColor="@color/onBackgroundColor"
-            android:maxLines="1" />
+            android:maxLines="1"
+            app:fromDouble="@{operation.a}"/>
         <TextView
             android:id="@+id/tvOp"
             android:layout_width="wrap_content"
@@ -67,8 +68,8 @@
             android:layout_margin="2dp"
             android:textSize="20sp"
             android:visibility="@{((Operation)operation).result != null ? View.VISIBLE : View.GONE}"
-            android:text="@{Converter.INSTANCE.doubleToString(((Operation)operation).result)}"
             android:textColor="@color/onBackgroundColor"
-            android:maxLines="1" />
+            android:maxLines="1"
+            app:fromDouble="@{((Operation)operation).result}"/>
     </LinearLayout>
 </layout>
