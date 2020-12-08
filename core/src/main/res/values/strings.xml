@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_tag"> + </string>
+    <string name="subtract_tag"> - </string>
+    <string name="multiply_tag"> × </string>
+    <string name="divide_tag"> / </string>
+    <string name="percent_tag">% of </string>
+</resources>

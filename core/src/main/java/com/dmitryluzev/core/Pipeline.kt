@@ -53,9 +53,14 @@ class Pipeline{
     }
     fun setPercent(value: Double){
         if(operation is BinaryOperation){
-            (operation as BinaryOperation).apply { b = value; percentage = true }
+            val binary = (operation as BinaryOperation)
+            val percent = OperationFactory.create(OperationFactory.PERCENT_ID, value, binary.a)
+            percent?.let {
+                onResultReadyListener?.invoke(it)
+                binary.b = it.result()
+            }
         } else {
-            operation = OperationFactory.create(OperationFactory.DIVIDE_ID, value, 100.0, false)
+            operation = OperationFactory.create(OperationFactory.PERCENT_ID, value, 1.0)
         }
         operation?.let { onResultReadyListener?.invoke(it) }
         post()

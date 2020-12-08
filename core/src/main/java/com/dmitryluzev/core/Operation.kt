@@ -1,5 +1,9 @@
 package com.dmitryluzev.core
 
+import android.app.Application
+import android.content.ContentResolver
+import android.provider.Settings.Global.getString
+
 interface Operation {
     val tag: String
     override fun hashCode(): Int
@@ -22,14 +26,14 @@ abstract class UnaryOperation(var a: Double?): Operation{
     }
 }
 
-abstract class BinaryOperation(var a: Double?, var b: Double?, var percentage: Boolean = false): Operation{
+abstract class BinaryOperation(var a: Double?, var b: Double?): Operation{
     override fun hashCode(): Int {
-        return a.hashCode() + b.hashCode() + percentage.hashCode()
+        return a.hashCode() + b.hashCode()
     }
 
     override fun equals(other: Any?): Boolean = when(other) {
         is BinaryOperation -> {
-            other::class.java == this::class.java && other.a == this.a && other.b == this.b && other.percentage == this.percentage
+            other::class.java == this::class.java && other.a == this.a && other.b == this.b
         }
         else -> false
     }
@@ -43,112 +47,134 @@ abstract class BinaryOperation(var a: Double?, var b: Double?, var percentage: B
             ret.append(" ")
         }
         b?.let { ret.append(Converter.doubleToString(it)) }
-        if (percentage){ ret.append("%") }
         result()?.let { ret.append(" = "); ret.append(Converter.doubleToString(it)) }
         return ret.toString()
     }
 }
 
-class Add internal constructor(a: Double? = null, b: Double? = null, percentage: Boolean = false) : BinaryOperation(a, b, percentage){
+class Add internal constructor(a: Double? = null, b: Double? = null) : BinaryOperation(a, b){
     override val tag: String
-        get() = "+"
+        get() = " + "
 
     override fun result(): Double? {
         a?.let { _a ->
             b?.let { _b ->
-                return if (percentage) _a * (1 + _b * 0.01) else _a + _b
+                return _a + _b
             }
         }
         return null
     }
 
     override fun copy(): Operation {
-        return Add(a, b, percentage)
+        return Add(a, b)
     }
 
     override fun repeat(): Operation {
-        return Add(result(), b, percentage)
+        return Add(result(), b)
     }
 }
 
-class Subtract internal constructor(a: Double? = null, b: Double? = null, percentage: Boolean = false) : BinaryOperation(a, b, percentage){
+class Subtract internal constructor(a: Double? = null, b: Double? = null) : BinaryOperation(a, b){
     override val tag: String
         get() = "-"
 
     override fun result(): Double? {
         a?.let { _a ->
             b?.let { _b ->
-                return if (percentage) _a * (1 - _b * 0.01) else _a - _b
+                return _a - _b
             }
         }
         return null
     }
 
     override fun copy(): Operation {
-        return Subtract(a, b, percentage)
+        return Subtract(a, b)
     }
 
     override fun repeat(): Operation {
-        return Subtract(result(), b, percentage)
+        return Subtract(result(), b)
     }
 }
 
-class Multiply internal constructor(a: Double? = null, b: Double? = null, percentage: Boolean = false) : BinaryOperation(a, b, percentage){
+class Multiply internal constructor(a: Double? = null, b: Double? = null) : BinaryOperation(a, b){
     override val tag: String
         get() = "×"
 
     override fun result(): Double? {
         a?.let { _a ->
             b?.let { _b ->
-                return if (percentage) _a * _a * _b * 0.01 else _a * _b
+                return _a * _b
             }
         }
         return null
     }
 
     override fun copy(): Operation {
-        return Multiply(a, b, percentage)
+        return Multiply(a, b)
     }
 
     override fun repeat(): Operation {
-        return Multiply(result(), b, percentage)
+        return Multiply(result(), b)
     }
 }
 
-class Divide internal constructor(a: Double? = null, b: Double? = null, percentage: Boolean = false) : BinaryOperation(a, b, percentage){
+class Divide internal constructor(a: Double? = null, b: Double? = null) : BinaryOperation(a, b){
     override val tag: String
         get() = "÷"
 
     override fun result(): Double? {
         a?.let { _a ->
             b?.let { _b ->
-                return if (percentage) 100 / _b else _a / _b
+                return _a / _b
             }
         }
         return null
     }
 
     override fun copy(): Operation {
-        return Divide(a, b, percentage)
+        return Divide(a, b)
     }
 
     override fun repeat(): Operation {
-        return Divide(result(), b, percentage)
+        return Divide(result(), b)
     }
 }
 
+class Percent internal constructor(a: Double? = null, b: Double? = null) : BinaryOperation(a, b){
+    override val tag: String
+        get() = "% of"
+
+    override fun result(): Double? {
+        a?.let { _a ->
+            b?.let { _b ->
+                return _a * _b / 100.0
+            }
+        }
+        return null
+    }
+
+    override fun copy(): Operation {
+        return Percent(a, b)
+    }
+
+    override fun repeat(): Operation {
+        return Percent(result(), b)
+    }
+}
 
 object OperationFactory{
     const val ADD_ID = "ADD_OPERATION"
     const val SUBTRACT_ID = "SUBTRACT_OPERATION"
     const val MULTIPLY_ID = "MULTIPLY_OPERATION"
     const val DIVIDE_ID = "DIVIDE_OPERATION"
+    const val PERCENT_ID = "PERCENT_OPERATION"
 
-    fun create(id: String, a: Double? = null, b: Double? = null, percentage: Boolean = false): Operation? = when(id){
-        ADD_ID -> Add(a, b, percentage)
-        SUBTRACT_ID -> Subtract(a, b, percentage)
-        MULTIPLY_ID -> Multiply(a, b, percentage)
-        DIVIDE_ID -> Divide(a, b, percentage)
+    fun create(id: String, a: Double? = null, b: Double? = null): Operation? = when(id){
+        ADD_ID -> Add(a, b)
+        SUBTRACT_ID -> Subtract(a, b)
+        MULTIPLY_ID -> Multiply(a, b)
+        DIVIDE_ID -> Divide(a, b)
+        PERCENT_ID -> Percent(a, b)
         else -> null
     }
     fun getId(operation: Operation): String = when(operation){
@@ -156,6 +182,7 @@ object OperationFactory{
         is Subtract -> SUBTRACT_ID
         is Multiply -> MULTIPLY_ID
         is Divide -> DIVIDE_ID
+        is Percent -> PERCENT_ID
         else -> throw IllegalArgumentException("Unknown class")
     }
 
@@ -164,7 +191,7 @@ object OperationFactory{
             "${getId(operation)};${Converter.doubleToString(operation.a)}"
         }
         is BinaryOperation -> {
-            "${getId(operation)};${Converter.doubleToString(operation.a)};${Converter.doubleToString(operation.b)};${operation.percentage}"
+            "${getId(operation)};${Converter.doubleToString(operation.a)};${Converter.doubleToString(operation.b)}"
         }
         else -> null
     }
@@ -175,9 +202,7 @@ object OperationFactory{
             if (list.size > 1 && list[1] != "null") a = Converter.stringToDouble(list[1])
             var b: Double? = null
             if (list.size > 2 && list[2] != "null") b = Converter.stringToDouble(list[2])
-            var percentage = false
-            if (list.size > 3 && list[3] != "null") percentage = list[3].toBoolean()
-            return create(list[0], a, b, percentage)
+            return create(list[0], a, b)
         }
         return null
     }

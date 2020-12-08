@@ -5,7 +5,6 @@
     <data>
         <import type="android.view.View" />
         <import type="com.dmitryluzev.core.Operation"/>
-        <import type="com.dmitryluzev.core.Converter"/>
         <variable
             name="operation"
             type="com.dmitryluzev.core.BinaryOperation" />
@@ -46,9 +45,9 @@
             android:layout_margin="2dp"
             android:textSize="20sp"
             android:visibility="@{operation.b != null ? View.VISIBLE : View.GONE}"
-            android:text="@{Converter.INSTANCE.doubleToString(operation.b) + (operation.percentage ? &quot;%&quot; : &quot;&quot;)}"
             android:textColor="@color/onBackgroundColor"
-            android:maxLines="1" />
+            android:maxLines="1"
+            app:fromDouble="@{operation.b}"/>
         <TextView
             android:id="@+id/tvEqual"
             android:layout_width="wrap_content"
