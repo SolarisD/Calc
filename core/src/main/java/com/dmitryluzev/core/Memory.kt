@@ -1,11 +1,10 @@
 package com.dmitryluzev.core
 
 import androidx.lifecycle.MutableLiveData
-import com.dmitryluzev.core.values.Value
 
-class Memory constructor() {
-    val out: MutableLiveData<Value> = MutableLiveData()
-    private var value: Value? = null
+class Memory() {
+    val out: MutableLiveData<String> = MutableLiveData()
+    private var value: Double? = null
     init {
         post()
     }
@@ -13,7 +12,7 @@ class Memory constructor() {
         value = null
         post()
     }
-    fun add(value: Value){
+    fun add(value: Double){
         this.value = if(this.value == null){
             value
         } else{
@@ -21,7 +20,7 @@ class Memory constructor() {
         }
         post()
     }
-    fun sub(value: Value){
+    fun sub(value: Double){
         this.value = if(this.value == null){
             -value
         } else{
@@ -29,10 +28,10 @@ class Memory constructor() {
         }
         post()
     }
-    fun getValue(): Value?{
-        return value?.copy()
+    fun getValue(): Double?{
+        return value
     }
     private fun post(){
-        out.value = value
+        out.value = Converter.doubleToString(value)
     }
 }

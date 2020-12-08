@@ -24,7 +24,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/allDisplays"
-            android:padding="2dp"/>
+            android:padding="2dp"
+            tools:itemCount="8"
+            tools:listitem="@layout/vh_binary_operation"
+            app:calculatorList="@{vm.historyDisplay}"/>
 
         <LinearLayout
             android:id="@+id/allDisplays"

@@ -7,17 +7,17 @@ import com.dmitryluzev.calculator.app.PrefManager
 import com.dmitryluzev.calculator.app.Sound
 import com.dmitryluzev.calculator.model.Record
 import com.dmitryluzev.calculator.model.Repo
+import com.dmitryluzev.core.Buffer
 import com.dmitryluzev.core.Calculator
-import com.dmitryluzev.core.Symbols
-import com.dmitryluzev.core.operations.OperationFactory
+import com.dmitryluzev.core.OperationFactory
 import java.util.*
 
 class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, private val prefManager: PrefManager, private val sound: Sound) : ViewModel(){
     private val historyDate: MutableLiveData<Date> = MutableLiveData(prefManager.restoreDisplayHistoryDate())
     val historyDisplay: LiveData<List<Record>> = Transformations.switchMap(historyDate){ repo.getHistoryFromDate(it) }
-    val aluDisplay: LiveData<String> = Transformations.map(calc.aluOut){ it?.toString() }
-    val bufferDisplay: LiveData<String> = Transformations.map(calc.bufferOut){ it?.toString() }
-    val memoryDisplay: LiveData<String> = Transformations.map(calc.memoryDisplay){ it?.toString() }
+    val aluDisplay: LiveData<String> = Transformations.map(calc.pipelineOut){ it?.toString() }
+    val bufferDisplay: LiveData<String> = calc.bufferOut
+    val memoryDisplay: LiveData<String> = calc.memoryDisplay
     init {
         if (!calc.initialized){
             calc.setState(prefManager.restoreState())
@@ -48,18 +48,18 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
             Buttons.SUB -> calc.operation(OperationFactory.SUBTRACT_ID)
             Buttons.ADD -> calc.operation(OperationFactory.ADD_ID)
             Buttons.RESULT -> calc.result()
-            Buttons.DOT -> calc.symbol(Symbols.DOT)
+            Buttons.DOT -> calc.symbol(Buffer.Symbols.DOT)
             Buttons.NEGATIVE -> calc.negative()
-            Buttons.ZERO -> calc.symbol(Symbols.ZERO)
-            Buttons.ONE -> calc.symbol(Symbols.ONE)
-            Buttons.TWO -> calc.symbol(Symbols.TWO)
-            Buttons.THREE -> calc.symbol(Symbols.THREE)
-            Buttons.FOUR -> calc.symbol(Symbols.FOUR)
-            Buttons.FIVE -> calc.symbol(Symbols.FIVE)
-            Buttons.SIX -> calc.symbol(Symbols.SIX)
-            Buttons.SEVEN -> calc.symbol(Symbols.SEVEN)
-            Buttons.EIGHT -> calc.symbol(Symbols.EIGHT)
-            Buttons.NINE -> calc.symbol(Symbols.NINE)
+            Buttons.ZERO -> calc.symbol(Buffer.Symbols.ZERO)
+            Buttons.ONE -> calc.symbol(Buffer.Symbols.ONE)
+            Buttons.TWO -> calc.symbol(Buffer.Symbols.TWO)
+            Buttons.THREE -> calc.symbol(Buffer.Symbols.THREE)
+            Buttons.FOUR -> calc.symbol(Buffer.Symbols.FOUR)
+            Buttons.FIVE -> calc.symbol(Buffer.Symbols.FIVE)
+            Buttons.SIX -> calc.symbol(Buffer.Symbols.SIX)
+            Buttons.SEVEN -> calc.symbol(Buffer.Symbols.SEVEN)
+            Buttons.EIGHT -> calc.symbol(Buffer.Symbols.EIGHT)
+            Buttons.NINE -> calc.symbol(Buffer.Symbols.NINE)
         }
         return true
     }

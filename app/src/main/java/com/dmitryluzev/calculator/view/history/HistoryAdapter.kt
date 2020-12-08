@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.databinding.VhBinaryOperationBinding
 import com.dmitryluzev.calculator.databinding.VhHeaderBinding
 import com.dmitryluzev.calculator.model.Record
-import com.dmitryluzev.core.operations.BinaryOperation
+import com.dmitryluzev.core.BinaryOperation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,8 +17,8 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HistoryViewAdapter(val valueClickListener: (textView: TextView) -> Boolean):
-    ListAdapter<HistoryViewAdapter.Item, RecyclerView.ViewHolder>(HistoryDiffCallback()){
+class HistoryAdapter(val valueClickListener: (textView: TextView) -> Boolean):
+    ListAdapter<HistoryAdapter.Item, RecyclerView.ViewHolder>(HistoryDiffCallback()){
 
     companion object{
         const val TYPE_ITEM = 0
@@ -111,6 +111,7 @@ class HistoryViewAdapter(val valueClickListener: (textView: TextView) -> Boolean
                 holder.binding.tvA.setOnLongClickListener { valueClickListener(holder.binding.tvA) }
                 holder.binding.tvB.setOnLongClickListener { valueClickListener(holder.binding.tvB) }
                 holder.binding.tvResult.setOnLongClickListener { valueClickListener(holder.binding.tvResult) }
+                holder.binding.executePendingBindings()
             }
             is HeaderViewHolder -> {
                 holder.binding.tvDate.text = df.format((getItem(position) as Item.HistoryViewHeader).date)

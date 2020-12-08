@@ -32,18 +32,13 @@ class CalculatorFragment : Fragment() {
         val calculator = Calculator.getInstance()
         vm = ViewModelProvider(this, CalculatorViewModelFactory(calculator, repo, pref, sound)).get(CalculatorViewModel::class.java)
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCalculatorBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         binding.vm = vm
         val manager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
         binding.rcvHistory.layoutManager = manager
-        val adapter = CalculatorAdapter(::showCSPopup)
-        binding.rcvHistory.adapter = adapter
-        vm.historyDisplay.observe(viewLifecycleOwner){
-            adapter.submitList(it)
-            if(!it.isNullOrEmpty()) binding.rcvHistory.smoothScrollToPosition(it.lastIndex)
-        }
+        binding.rcvHistory.adapter = CalculatorAdapter(::showCSPopup)
         binding.tvBuffer.setOnLongClickListener {
             showPCSPopup(it as TextView)
         }
@@ -52,7 +47,6 @@ class CalculatorFragment : Fragment() {
         }
         return binding.root
     }
-
     override fun onSaveInstanceState(outState: Bundle) {
         vm.saveState()
         super.onSaveInstanceState(outState)
@@ -164,35 +158,6 @@ class CalculatorFragment : Fragment() {
         return false
     }
 }
-
-
-//registerForContextMenu(binding.tvBuffer)
-/*override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
-       super.onCreateContextMenu(menu, v, menuInfo)
-       requireActivity().menuInflater.inflate(R.menu.buffer_menu, menu)
-   }
-   override fun onContextItemSelected(item: MenuItem): Boolean {
-       when(item.itemId){
-           R.id.copy_menu_item->{
-               binding.tvBuffer.text?.let {
-                   val cbm = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                   cbm.setPrimaryClip(ClipData.newPlainText(getString(R.string.app_label), it))
-                   Toast.makeText(this.context, resources.getString(R.string.value_copied, it), Toast.LENGTH_SHORT).show()
-               }
-           }
-           R.id.paste_menu_item->{
-               val clip = (requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager).primaryClip
-               clip?.let {
-                   if(it.description.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)){
-                       it.getItemAt(0).text?.let {text->
-                           vm.pasteFromClipboard(text.toString())
-                       }
-                   }
-               }
-           }
-       }
-       return super.onContextItemSelected(item)
-   }*/
 
 
 

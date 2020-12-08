@@ -1,58 +1,111 @@
 package com.dmitryluzev.core
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.dmitryluzev.core.values.Value
+import kotlin.math.pow
 
-class Buffer constructor() {
-    val out: MutableLiveData<Value> = MutableLiveData()
-    private val v: Value = Value()
+class Buffer {
+    enum class Symbols {
+        ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, DOT
+    }
+
+    private val _out = MutableLiveData<String>()
+
+    val out: LiveData<String>
+        get() = _out
+
     var clearRequest = false
         private set
+
+    private val value = Value()
+
     init {
-        post()
+        _out.value = value.toString()
     }
-    fun clear() {
-        v.clear()
-        clearRequest = false
-        post()
-    }
-    fun getValue(): Value {
+
+    fun get(): Double {
         clearRequest = true
-        return v.copy()
+        return value.toDouble()
     }
-    fun setValue(value: Value){
-        v.setValue(value)
-        post()
+
+    fun set(double: Double){
+        value.set(double)
+        _out.value = value.toString()
     }
-    fun negative(){
+
+    fun clear() {
+        value.clear()
         clearRequest = false
-        v.negative()
-        post()
+        _out.value = value.toString()
     }
+
+    fun negative(){
+        value.s = !value.s
+        clearRequest = false
+        _out.value = value.toString()
+    }
+
     fun backspace(){
         clearRequest = false
-        v.backspace()
-        post()
+        value.e?.let {
+            if (it == 0) {
+                value.e = null
+                return
+            }
+            if (it > 0) {
+                value.e = it - 1
+                value.e?.let {
+                    if (it > 0 && (value.m.length + it) <= Converter.maxLength){
+                        val s = value.m.toLong() * Converter.base.pow(it).toLong()
+                        value.m = s.toString()
+                        value.e = null
+                    }
+                }
+            }
+            if (it < 0) value.e = it + 1
+            if (it + value.m.length >= Converter.maxLength) {
+                return
+            }
+        }
+        if (value.m.isNotEmpty()) value.m = value.m.dropLast(1)
+        _out.value = value.toString()
     }
+
     fun symbol(symbol: Symbols){
         if (clearRequest) clear()
         when(symbol){
-            Symbols.ZERO -> v.addNumber('0')
-            Symbols.ONE -> v.addNumber('1')
-            Symbols.TWO -> v.addNumber('2')
-            Symbols.THREE -> v.addNumber('3')
-            Symbols.FOUR -> v.addNumber('4')
-            Symbols.FIVE -> v.addNumber('5')
-            Symbols.SIX -> v.addNumber('6')
-            Symbols.SEVEN -> v.addNumber('7')
-            Symbols.EIGHT -> v.addNumber('8')
-            Symbols.NINE -> v.addNumber('9')
-            Symbols.DOT -> v.addFractional()
-            Symbols.PI -> v.setDouble(Math.PI)
+            Symbols.ZERO -> addNumber('0')
+            Symbols.ONE -> addNumber('1')
+            Symbols.TWO -> addNumber('2')
+            Symbols.THREE -> addNumber('3')
+            Symbols.FOUR -> addNumber('4')
+            Symbols.FIVE -> addNumber('5')
+            Symbols.SIX -> addNumber('6')
+            Symbols.SEVEN -> addNumber('7')
+            Symbols.EIGHT -> addNumber('8')
+            Symbols.NINE -> addNumber('9')
+            Symbols.DOT -> addDot()
         }
-        post()
+        _out.value = value.toString()
     }
-    private fun post(){
-        out.value = v
+
+    private fun addDot(){
+        if (value.m.length >= Converter.maxLength) return
+        if (value.e == null) value.e = 0
+    }
+
+    private fun addNumber(num: Char){
+        if (value.m.length >= Converter.maxLength) return
+        if (num == '0'){
+            if (value.e == null && value.m.isEmpty()) return
+            else if (value.m.isEmpty()) value.e = value.e!! - 1
+            else {
+                value.m += num
+                if (value.e != null) value.e = value.e!! - 1
+            }
+        }else{
+            value.m += num
+            if (value.e != null) value.e = value.e!! - 1
+        }
     }
 }

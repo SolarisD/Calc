@@ -1,9 +1,6 @@
 package com.dmitryluzev.core
 
 import androidx.lifecycle.LiveData
-import com.dmitryluzev.core.operations.Operation
-import com.dmitryluzev.core.values.Value
-import com.dmitryluzev.core.values.toValue
 
 class Calculator private constructor(){
     companion object{
@@ -17,74 +14,74 @@ class Calculator private constructor(){
             return instance
         }
     }
-    private val buffer: Buffer = Buffer()
-    private val memory: Memory = Memory()
-    private val alu: Alu = Alu()
+    private val buffer = Buffer()
+    private val memory = Memory()
+    private val pipeline = Pipeline()
 
-    val bufferOut: LiveData<Value> = buffer.out
-    val memoryDisplay: LiveData<Value> = memory.out
-    val aluOut: LiveData<Operation> = alu.out
+    val bufferOut: LiveData<String> = buffer.out
+    val memoryDisplay: LiveData<String> = memory.out
+    val pipelineOut: LiveData<Operation> = pipeline.out
 
     private var onResultReadyListener: ((Operation)->Unit)? = null
     var initialized = false
         private set
     init {
-        alu.setOnResultReadyListener { buffer.setValue(it.result!!); onResultReadyListener?.invoke(it) }
+        pipeline.setOnResultReadyListener { buffer.set(it.result()!!); onResultReadyListener?.invoke(it) }
     }
-    fun getState() = State(buffer.getValue(), memory.getValue(), alu.operation)
+    fun getState() = State(buffer.get(), memory.getValue(), pipeline.operation)
     fun setState(state: State){
-        state.buffer?.let { buffer.setValue(it) }
+        state.buffer?.let { buffer.set(it) }
         state.memory?.let { memory.add(it) }
-        alu.setState(state.alu)
+        state.pipeline?.let { pipeline.set(it) }
         initialized = true
     }
     fun setOnResultReadyListener(listener:(Operation) -> Unit){
         onResultReadyListener = listener
     }
-    fun clear() { buffer.clear(); alu.clear() }
-    fun symbol(symbol: Symbols) {
-        alu.clearIfComplete()
+    fun clear() { buffer.clear(); pipeline.clear() }
+    fun symbol(symbol: Buffer.Symbols) {
+        pipeline.clearIfComplete()
         buffer.symbol(symbol)
     }
     fun negative(){
-        alu.clearIfComplete()
+        pipeline.clearIfComplete()
         buffer.negative()
     }
     fun backspace() {
-        alu.clearIfComplete()
+        pipeline.clearIfComplete()
         buffer.backspace()
     }
     fun result() {
-        alu.operation?.let {
-            if (it.result == null) alu.setValue(buffer.getValue())
-            else alu.repeat()
+        pipeline.operation?.let {
+            if (it.result() == null) pipeline.setValue(buffer.get())
+            else pipeline.repeat()
         }
     }
     fun operation(id: String) {
-        alu.operation?.let {
-            if (it.result == null){
-                if (buffer.clearRequest) {alu.changeOperation(id); return}
-                else alu.setValue(buffer.getValue())
+        pipeline.operation?.let {
+            if (it.result() == null){
+                if (buffer.clearRequest) {pipeline.changeOperation(id); return}
+                else pipeline.setValue(buffer.get())
             }
         }
-        alu.setOperation(id, buffer.getValue())
+        pipeline.setOperation(id, buffer.get())
     }
     fun percent() {
-        alu.setPercent(buffer.getValue())
+        pipeline.setPercent(buffer.get())
     }
     fun memoryClear() = memory.clear()
-    fun memoryAdd() = memory.add(buffer.getValue())
-    fun memorySubtract() = memory.sub(buffer.getValue())
+    fun memoryAdd() = memory.add(buffer.get())
+    fun memorySubtract() = memory.sub(buffer.get())
     fun memoryRestore(){
         memory.getValue()?.let {
-            buffer.setValue(it)
+            buffer.set(it)
         }
     }
     fun pasteFromClipboard(value: String): String?{
         try {
-            value.toValue()?.let {
-                buffer.setValue(it)
-                return it.toString()
+            Converter.stringToDouble(value)?.let {
+                buffer.set(it)
+                return value
             }
             return null
         } catch (e: Exception){
@@ -96,8 +93,8 @@ class Calculator private constructor(){
     }
 
     data class State(
-        val buffer: Value? = null,
-        val memory: Value? = null,
-        val alu: Operation? = null
+        val buffer: Double? = null,
+        val memory: Double? = null,
+        val pipeline: Operation? = null
     )
 }
