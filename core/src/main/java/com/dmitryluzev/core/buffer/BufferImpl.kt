@@ -1,9 +1,7 @@
 package com.dmitryluzev.core.buffer
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.dmitryluzev.core.Converter
-import com.dmitryluzev.core.Value
+import kotlin.math.abs
 import kotlin.math.pow
 
 class BufferImpl: Buffer {
@@ -125,7 +123,9 @@ class BufferImpl: Buffer {
     }
 
     private fun addNumber(num: Char){
-        if (m.length >= Converter.maxLength) return
+        val full = m.length >= Converter.maxLength ||
+                (e ?: 0 <= -Converter.maxLength)
+        if (full) return
         if (num == '0'){
             if (e == null && m.isEmpty()) return
             else if (m.isEmpty()) e = e!! - 1
