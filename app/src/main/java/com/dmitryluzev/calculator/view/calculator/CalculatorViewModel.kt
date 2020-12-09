@@ -34,10 +34,10 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
     fun buttonEvents(view: View, button: Buttons): Boolean{
         haptics(view)
         when(button){
-            Buttons.MEM_CLEAR -> calc.memoryClear()
-            Buttons.MEM_ADD -> calc.memoryAdd()
-            Buttons.MEM_SUB -> calc.memorySubtract()
-            Buttons.MEM_RESTORE -> calc.memoryRestore()
+            Buttons.MEM_CLEAR -> calc.mClear()
+            Buttons.MEM_ADD -> calc.mAdd()
+            Buttons.MEM_SUB -> calc.mSubtract()
+            Buttons.MEM_RESTORE -> calc.mRestore()
             Buttons.CALC_CLEAR -> calc.clear()
             Buttons.ALL_CLEAR -> {calc.clear(); historyDate.value = Date(System.currentTimeMillis())}
             Buttons.BACKSPACE -> calc.backspace()

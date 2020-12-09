@@ -2,6 +2,8 @@ package com.dmitryluzev.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.dmitryluzev.core.memory.Memory
+import com.dmitryluzev.core.memory.MemoryImpl
 
 class Calculator private constructor(){
     companion object{
@@ -15,8 +17,9 @@ class Calculator private constructor(){
             return instance
         }
     }
+    val list = mutableListOf<String>()
     private val buffer = Buffer()
-    private val memory = Memory()
+    private val memory: Memory = MemoryImpl()
     private val pipeline = Pipeline()
 
     val bufferOut: LiveData<String> = buffer.out
@@ -29,7 +32,7 @@ class Calculator private constructor(){
     init {
         pipeline.setOnResultReadyListener { buffer.set(it.result()!!); onResultReadyListener?.invoke(it) }
     }
-    fun getState() = State(buffer.get(), memory.get, pipeline.operation)
+    fun getState() = State(buffer.get(), memory.get(), pipeline.operation)
     fun setState(state: State){
         state.buffer?.let { buffer.set(it) }
         state.memory?.let { memory.add(it) }
@@ -70,11 +73,11 @@ class Calculator private constructor(){
     fun percent() {
         pipeline.setPercent(buffer.get())
     }
-    fun memoryClear() = memory.clear()
-    fun memoryAdd() = memory.add(buffer.get())
-    fun memorySubtract() = memory.sub(buffer.get())
-    fun memoryRestore(){
-        memory.get?.let {
+    fun mClear() = memory.clear()
+    fun mAdd() = memory.add(buffer.get())
+    fun mSubtract() = memory.sub(buffer.get())
+    fun mRestore(){
+        memory.get()?.let {
             buffer.set(it)
         }
     }

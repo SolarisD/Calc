@@ -1,27 +1,27 @@
-package com.dmitryluzev.core
+package com.dmitryluzev.core.memory
 
-import androidx.lifecycle.MutableLiveData
-
-class Memory() {
-    val get: Double?
-        get() = value
+class MemoryImpl(): Memory {
     private var value: Double? = null
 
-    fun clear(){
+    override fun clear(){
         value = null
     }
-    fun add(value: Double){
+    override fun add(value: Double){
         this.value = if(this.value == null){
             value
         } else{
             this.value!! + value
         }
     }
-    fun sub(value: Double){
+    override fun sub(value: Double){
         this.value = if(this.value == null){
             -value
         } else{
             this.value!! - value
         }
+    }
+
+    override fun get(): Double? {
+        return value
     }
 }

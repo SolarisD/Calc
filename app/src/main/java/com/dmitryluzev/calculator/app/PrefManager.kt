@@ -101,7 +101,7 @@ class PrefManager private constructor(private val application: Application): Sha
                 .remove(BUFFER_STATE_KEY)
                 .apply()
         }
-        //Memory
+        //MemoryImpl
         if (state.memory != null){
             sharedPref.edit()
                 .putString(MEMORY_STATE_KEY, state.memory.toString())
