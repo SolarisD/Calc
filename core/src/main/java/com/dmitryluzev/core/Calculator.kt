@@ -1,6 +1,7 @@
 package com.dmitryluzev.core
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
 class Calculator private constructor(){
     companion object{
@@ -19,7 +20,7 @@ class Calculator private constructor(){
     private val pipeline = Pipeline()
 
     val bufferOut: LiveData<String> = buffer.out
-    val memoryDisplay: LiveData<String> = memory.out
+    val memoryDisplay: LiveData<String> = MutableLiveData()//memory.out
     val pipelineOut: LiveData<Operation> = pipeline.out
 
     private var onResultReadyListener: ((Operation)->Unit)? = null
@@ -28,7 +29,7 @@ class Calculator private constructor(){
     init {
         pipeline.setOnResultReadyListener { buffer.set(it.result()!!); onResultReadyListener?.invoke(it) }
     }
-    fun getState() = State(buffer.get(), memory.getValue(), pipeline.operation)
+    fun getState() = State(buffer.get(), memory.get, pipeline.operation)
     fun setState(state: State){
         state.buffer?.let { buffer.set(it) }
         state.memory?.let { memory.add(it) }
@@ -73,7 +74,7 @@ class Calculator private constructor(){
     fun memoryAdd() = memory.add(buffer.get())
     fun memorySubtract() = memory.sub(buffer.get())
     fun memoryRestore(){
-        memory.getValue()?.let {
+        memory.get?.let {
             buffer.set(it)
         }
     }
