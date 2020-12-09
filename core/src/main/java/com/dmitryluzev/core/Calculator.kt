@@ -101,7 +101,7 @@ class Calculator private constructor(){
             return null
         }
     }
-    fun clearBuffer(){
+    fun bClear(){
         buffer.clear()
     }
 

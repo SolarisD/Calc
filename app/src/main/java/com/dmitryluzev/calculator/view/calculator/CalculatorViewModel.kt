@@ -41,7 +41,7 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
             Buttons.CALC_CLEAR -> calc.clear()
             Buttons.ALL_CLEAR -> {calc.clear(); historyDate.value = Date(System.currentTimeMillis())}
             Buttons.BACKSPACE -> calc.backspace()
-            Buttons.BUFFER_CLEAR -> calc.clearBuffer()
+            Buttons.BUFFER_CLEAR -> calc.bClear()
             Buttons.PERCENT -> calc.percent()
             Buttons.DIV -> calc.operation(OperationFactory.DIVIDE_ID)
             Buttons.MUL -> calc.operation(OperationFactory.MULTIPLY_ID)

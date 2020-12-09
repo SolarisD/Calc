@@ -4,14 +4,20 @@ import com.dmitryluzev.core.buffer.BufferImpl
 import com.dmitryluzev.core.buffer.Converter
 import com.dmitryluzev.core.buffer.Symbols
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
 
 class BufferImplUnitTest {
+    private lateinit var buffer: BufferImpl
+
+    @Before //Doing before any test
+    fun setup(){
+        buffer = BufferImpl()
+    }
 
     //INIT TEST
     @Test
     fun whenInit() {
-        val buffer = BufferImpl()
         Assert.assertEquals(0.0, buffer.get(), 0.0000000001)
         Assert.assertEquals("0", buffer.toString())
     }
@@ -19,7 +25,7 @@ class BufferImplUnitTest {
     //INPUT TESTS
     @Test
     fun whenAdd10DigitsBeforeDot() {
-        val buffer = BufferImpl()
+
         buffer.symbol(Symbols.ZERO)
         buffer.symbol(Symbols.ONE)
         buffer.symbol(Symbols.ZERO)
@@ -39,7 +45,7 @@ class BufferImplUnitTest {
 
     @Test
     fun whenAdd10DigitsBeforeDotMinus() {
-        val buffer = BufferImpl()
+
         buffer.negative()
         buffer.symbol(Symbols.ZERO)
         buffer.symbol(Symbols.ONE)
@@ -61,7 +67,7 @@ class BufferImplUnitTest {
 
     @Test
     fun whenAdd10DigitsAfterDot() {
-        val buffer = BufferImpl()
+
         buffer.symbol(Symbols.ZERO)
         buffer.symbol(Symbols.DOT)
         buffer.symbol(Symbols.ZERO)
@@ -82,7 +88,7 @@ class BufferImplUnitTest {
 
     @Test
     fun whenAdd10DigitsAfterDotMinus() {
-        val buffer = BufferImpl()
+
         buffer.negative()
         buffer.symbol(Symbols.ZERO)
         buffer.symbol(Symbols.DOT)
@@ -104,7 +110,6 @@ class BufferImplUnitTest {
 
     @Test
     fun whenAdd10DigitsMiddleDot() {
-        val buffer = BufferImpl()
 
         buffer.symbol(Symbols.ONE)
         buffer.symbol(Symbols.ZERO)
@@ -125,7 +130,6 @@ class BufferImplUnitTest {
 
     @Test
     fun whenAdd10DigitsMiddleDotMinus() {
-        val buffer = BufferImpl()
 
         buffer.symbol(Symbols.ONE)
         buffer.symbol(Symbols.ZERO)
@@ -148,7 +152,6 @@ class BufferImplUnitTest {
     //SET/GET VALUE TESTS
     @Test
     fun whenSetGetValues() {
-        val buffer = BufferImpl()
 
         buffer.set(123456.7899)
         Assert.assertEquals(123456.7899, buffer.get(), 0.00001)
@@ -177,7 +180,7 @@ class BufferImplUnitTest {
 
     @Test
     fun whenBackspace() {
-        val buffer = BufferImpl()
+
         buffer.set(-123456.7899)
 
         buffer.backspace()
