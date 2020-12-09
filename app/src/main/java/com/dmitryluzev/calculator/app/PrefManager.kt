@@ -9,10 +9,8 @@ import androidx.preference.PreferenceManager
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.core.Calculator
 import com.dmitryluzev.core.buffer.Converter
-import com.dmitryluzev.core.OperationFactory
+import com.dmitryluzev.core.operations.OperationFactory
 import java.util.*
-
-
 
 
 class PrefManager private constructor(private val application: Application): SharedPreferences.OnSharedPreferenceChangeListener {

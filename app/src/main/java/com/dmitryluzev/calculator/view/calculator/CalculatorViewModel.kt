@@ -8,7 +8,7 @@ import com.dmitryluzev.calculator.app.Sound
 import com.dmitryluzev.calculator.model.Record
 import com.dmitryluzev.calculator.model.Repo
 import com.dmitryluzev.core.Calculator
-import com.dmitryluzev.core.OperationFactory
+import com.dmitryluzev.core.operations.OperationFactory
 import com.dmitryluzev.core.buffer.Symbols
 import java.util.*
 

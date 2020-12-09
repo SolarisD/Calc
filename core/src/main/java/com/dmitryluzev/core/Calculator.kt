@@ -8,6 +8,7 @@ import com.dmitryluzev.core.buffer.Converter
 import com.dmitryluzev.core.buffer.Symbols
 import com.dmitryluzev.core.memory.Memory
 import com.dmitryluzev.core.memory.MemoryImpl
+import com.dmitryluzev.core.operations.Operation
 import com.dmitryluzev.core.operations.Pipeline
 
 class Calculator private constructor(){
