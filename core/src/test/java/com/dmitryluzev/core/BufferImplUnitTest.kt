@@ -143,6 +143,84 @@ class BufferImplUnitTest {
         Assert.assertEquals(-10234.56789, buffer.get(), 0.0000001)
         Assert.assertEquals("-10 234${Converter.ds}56789", buffer.toString())
     }
-    //SET VALUE TESTS
 
+    //SET/GET VALUE TESTS
+    @Test
+    fun whenSetGetValues() {
+        val buffer = BufferImpl()
+
+        buffer.set(123456.7899)
+        Assert.assertEquals(123456.7899, buffer.get(), 0.00001)
+        Assert.assertEquals("123 456${Converter.ds}7899", buffer.toString())
+
+        buffer.set(-123456.7899)
+        Assert.assertEquals(-123456.7899, buffer.get(), 0.00001)
+        Assert.assertEquals("-123 456${Converter.ds}7899", buffer.toString())
+
+        buffer.set(12345678999009.0)
+        Assert.assertEquals(12345679000000.0, buffer.get(), 10.0)
+        Assert.assertEquals("1${Converter.ds}2345679E+13", buffer.toString())
+
+        buffer.set(12345678991009.0)
+        Assert.assertEquals(12345678990000.0, buffer.get(), 10.0)
+        Assert.assertEquals("1${Converter.ds}234567899E+13", buffer.toString())
+
+        buffer.set(0.00127087549823)
+        Assert.assertEquals(0.001270875498, buffer.get(), 0.000000000001)
+        Assert.assertEquals("1${Converter.ds}270875498E-3", buffer.toString())
+
+        buffer.set(0.00127087549893)
+        Assert.assertEquals(0.001270875499, buffer.get(), 0.000000000001)
+        Assert.assertEquals("1${Converter.ds}270875499E-3", buffer.toString())
+    }
+
+    @Test
+    fun whenBackspace() {
+        val buffer = BufferImpl()
+        buffer.set(-123456.7899)
+
+        buffer.backspace()
+        Assert.assertEquals(-123456.789, buffer.get(), 0.0001)
+        Assert.assertEquals("-123 456${Converter.ds}789", buffer.toString())
+
+        buffer.backspace()
+        Assert.assertEquals(-123456.78, buffer.get(), 0.001)
+        Assert.assertEquals("-123 456${Converter.ds}78", buffer.toString())
+
+        buffer.backspace()
+        Assert.assertEquals(-123456.7, buffer.get(), 0.01)
+        Assert.assertEquals("-123 456${Converter.ds}7", buffer.toString())
+
+        buffer.backspace()
+        Assert.assertEquals(-123456.0, buffer.get(), 0.1)
+        Assert.assertEquals("-123 456${Converter.ds}", buffer.toString())
+
+        buffer.backspace()
+        Assert.assertEquals(-123456.0, buffer.get(), 0.1)
+        Assert.assertEquals("-123 456", buffer.toString())
+
+        buffer.backspace()
+        Assert.assertEquals(-12345.0, buffer.get(), 0.1)
+        Assert.assertEquals("-12 345", buffer.toString())
+
+        buffer.backspace()
+        Assert.assertEquals(-1234.0, buffer.get(), 0.1)
+        Assert.assertEquals("-1 234", buffer.toString())
+
+        buffer.backspace()
+        Assert.assertEquals(-123.0, buffer.get(), 0.1)
+        Assert.assertEquals("-123", buffer.toString())
+
+        buffer.backspace()
+        Assert.assertEquals(-12.0, buffer.get(), 0.1)
+        Assert.assertEquals("-12", buffer.toString())
+
+        buffer.backspace()
+        Assert.assertEquals(-1.0, buffer.get(), 0.1)
+        Assert.assertEquals("-1", buffer.toString())
+
+        buffer.backspace()
+        Assert.assertEquals(0.0, buffer.get(), 0.1)
+        Assert.assertEquals("-0", buffer.toString())
+    }
 }

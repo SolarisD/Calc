@@ -31,6 +31,7 @@ class BufferImpl: Buffer {
             //sign
             s = scf[0] == '-'
             if (s) scf = scf.drop(1)
+
             //mantissa
             m = scf.substringBefore('E').replace(Converter.ds.toString(), "")
             var tmp = m.length
@@ -43,11 +44,13 @@ class BufferImpl: Buffer {
                 clear()
                 return
             }
+
             //exponent
             val strExponent = scf.substringAfter('E')
             val expSign = strExponent[0] == '-'
             e = if (expSign) -strExponent.drop(1).toInt()
             else strExponent.drop(1).toInt()
+
             e = e!! - m.length + 1
             //move dot
             if (e!! > 0 && (m.length + e!!) <= Converter.maxLength){
