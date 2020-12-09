@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import com.dmitryluzev.calculator.R
-import com.dmitryluzev.core.Buffer
 import com.dmitryluzev.core.Calculator
 import com.dmitryluzev.core.Converter
 import com.dmitryluzev.core.OperationFactory
@@ -91,7 +90,7 @@ class PrefManager private constructor(private val application: Application): Sha
         return Calculator.State(buffer, memory, pipeline)
     }
     fun saveState(state: Calculator.State){
-        //Buffer
+        //BufferImpl
         if (state.buffer != null){
             sharedPref.edit()
                 .putString(BUFFER_STATE_KEY, state.buffer.toString())

@@ -28,4 +28,8 @@ object Converter {
         }
         return null
     }
+
+    fun smeuToDouble(){
+
+    }
 }

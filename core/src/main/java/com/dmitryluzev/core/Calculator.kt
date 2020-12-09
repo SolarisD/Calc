@@ -2,6 +2,9 @@ package com.dmitryluzev.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.dmitryluzev.core.buffer.Buffer
+import com.dmitryluzev.core.buffer.BufferImpl
+import com.dmitryluzev.core.buffer.Symbols
 import com.dmitryluzev.core.memory.Memory
 import com.dmitryluzev.core.memory.MemoryImpl
 
@@ -17,18 +20,21 @@ class Calculator private constructor(){
             return instance
         }
     }
-    val list = mutableListOf<String>()
-    private val buffer = Buffer()
+
+    private val buffer: Buffer = BufferImpl()
     private val memory: Memory = MemoryImpl()
     private val pipeline = Pipeline()
 
-    val bufferOut: LiveData<String> = buffer.out
+    val bufferOut: LiveData<String> = MutableLiveData()
     val memoryDisplay: LiveData<String> = MutableLiveData()//memory.out
     val pipelineOut: LiveData<Operation> = pipeline.out
 
     private var onResultReadyListener: ((Operation)->Unit)? = null
+
     var initialized = false
         private set
+    private var bufferClearRequest = false
+
     init {
         pipeline.setOnResultReadyListener { buffer.set(it.result()!!); onResultReadyListener?.invoke(it) }
     }
@@ -43,7 +49,7 @@ class Calculator private constructor(){
         onResultReadyListener = listener
     }
     fun clear() { buffer.clear(); pipeline.clear() }
-    fun symbol(symbol: Buffer.Symbols) {
+    fun symbol(symbol: Symbols) {
         pipeline.clearIfComplete()
         buffer.symbol(symbol)
     }
@@ -64,7 +70,7 @@ class Calculator private constructor(){
     fun operation(id: String) {
         pipeline.operation?.let {
             if (it.result() == null){
-                if (buffer.clearRequest) {pipeline.changeOperation(id); return}
+                if (bufferClearRequest) {pipeline.changeOperation(id); return}
                 else pipeline.setValue(buffer.get())
             }
         }

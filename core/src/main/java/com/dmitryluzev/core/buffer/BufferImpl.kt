@@ -1,13 +1,19 @@
-package com.dmitryluzev.core
+package com.dmitryluzev.core.buffer
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.dmitryluzev.core.Converter
+import com.dmitryluzev.core.Value
 import kotlin.math.pow
 
-internal class Value(
-    var s: Boolean = false,
-    var m: String = "",
-    var e: Int? = null,
-    var u: Int? = null){
-    fun toDouble(): Double {
+class BufferImpl: Buffer {
+
+    private var s: Boolean = false
+    private var m: String = ""
+    private var e: Int? = null
+    private var u: Int? = null
+
+    override fun get(): Double {
         u?.let{
             return when(it){
                 -1 -> {Double.NEGATIVE_INFINITY}
@@ -19,13 +25,8 @@ internal class Value(
         if (s) return -lm * Converter.base.pow(e ?: 0)
         return lm * Converter.base.pow(e ?: 0)
     }
-    fun clear() {
-        s = false
-        m = ""
-        e = null
-        u = null
-    }
-    fun set(double: Double) {
+
+    override fun set(double: Double){
         if (double.isFinite()) {
             val fmt = "%.${Converter.maxLength - 1}E"
             var scf = String.format(fmt, double)
@@ -66,6 +67,78 @@ internal class Value(
             }
         }
     }
+
+    override fun clear() {
+        s = false
+        m = ""
+        e = null
+        u = null
+    }
+
+    override fun negative(){
+        s = !s
+    }
+
+    override fun backspace(){
+        e?.let {
+            if (it == 0) {
+                e = null
+                return
+            }
+            if (it > 0) {
+                e = it - 1
+                e?.let {
+                    if (it > 0 && (m.length + it) <= Converter.maxLength){
+                        val s = m.toLong() * Converter.base.pow(it).toLong()
+                        m = s.toString()
+                        e = null
+                    }
+                }
+            }
+            if (it < 0) e = it + 1
+            if (it + m.length >= Converter.maxLength) {
+                return
+            }
+        }
+        if (m.isNotEmpty()) m = m.dropLast(1)
+    }
+
+    override fun symbol(symbol: Symbols){
+        when(symbol){
+            Symbols.ZERO -> addNumber('0')
+            Symbols.ONE -> addNumber('1')
+            Symbols.TWO -> addNumber('2')
+            Symbols.THREE -> addNumber('3')
+            Symbols.FOUR -> addNumber('4')
+            Symbols.FIVE -> addNumber('5')
+            Symbols.SIX -> addNumber('6')
+            Symbols.SEVEN -> addNumber('7')
+            Symbols.EIGHT -> addNumber('8')
+            Symbols.NINE -> addNumber('9')
+            Symbols.DOT -> addDot()
+        }
+    }
+
+    private fun addDot(){
+        if (m.length >= Converter.maxLength) return
+        if (e == null) e = 0
+    }
+
+    private fun addNumber(num: Char){
+        if (m.length >= Converter.maxLength) return
+        if (num == '0'){
+            if (e == null && m.isEmpty()) return
+            else if (m.isEmpty()) e = e!! - 1
+            else {
+                m += num
+                if (e != null) e = e!! - 1
+            }
+        }else{
+            m += num
+            if (e != null) e = e!! - 1
+        }
+    }
+
     override fun toString(): String {
         u?.let{
             return when(it){
@@ -118,7 +191,9 @@ internal class Value(
         return if(m.isNotEmpty()) sign() + addDelimiters(m, ' ')
         else sign() + "0"
     }
+
     private fun sign() = if (s) "-" else ""
+
     private fun addDelimiters(string: String, gs: Char): String{
         val stb = StringBuilder()
         for (i in string.indices){
@@ -129,6 +204,7 @@ internal class Value(
         return if(stb.isNotEmpty()) stb.toString()
         else "0"
     }
+
     private fun scfString(): String{
         val s = when(m.length){
             0->{"0${Converter.ds}0"}

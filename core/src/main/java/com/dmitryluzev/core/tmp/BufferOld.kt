@@ -1,10 +1,13 @@
-package com.dmitryluzev.core
+/*
+package com.dmitryluzev.core.buffer
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.dmitryluzev.core.Converter
+import com.dmitryluzev.core.Value
 import kotlin.math.pow
 
-class Buffer {
+class BufferOld {
     enum class Symbols {
         ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, DOT
     }
@@ -108,4 +111,4 @@ class Buffer {
             if (value.e != null) value.e = value.e!! - 1
         }
     }
-}
+}*/
