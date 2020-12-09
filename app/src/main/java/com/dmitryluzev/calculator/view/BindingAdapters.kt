@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dmitryluzev.calculator.model.Record
 import com.dmitryluzev.calculator.view.calculator.CalculatorAdapter
 import com.dmitryluzev.calculator.view.history.HistoryAdapter
-import com.dmitryluzev.core.Converter
+import com.dmitryluzev.core.buffer.Converter
 
 @BindingAdapter("calculatorList")
 fun bindCalculatorRecyclerView(recyclerView: RecyclerView, data: List<Record>?) {

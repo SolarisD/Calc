@@ -3,7 +3,7 @@ package com.dmitryluzev.core.buffer
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.dmitryluzev.core.Converter
+import com.dmitryluzev.core.buffer.Converter
 import com.dmitryluzev.core.Value
 import kotlin.math.pow
 

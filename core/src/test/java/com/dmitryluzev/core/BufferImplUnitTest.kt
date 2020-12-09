@@ -1,6 +1,7 @@
 package com.dmitryluzev.core
 
 import com.dmitryluzev.core.buffer.BufferImpl
+import com.dmitryluzev.core.buffer.Converter
 import com.dmitryluzev.core.buffer.Symbols
 import org.junit.Assert
 import org.junit.Test

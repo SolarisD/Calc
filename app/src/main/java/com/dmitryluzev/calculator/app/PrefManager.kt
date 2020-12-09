@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import com.dmitryluzev.calculator.R
 import com.dmitryluzev.core.Calculator
-import com.dmitryluzev.core.Converter
+import com.dmitryluzev.core.buffer.Converter
 import com.dmitryluzev.core.OperationFactory
 import java.util.*
 

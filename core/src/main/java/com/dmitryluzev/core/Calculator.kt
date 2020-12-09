@@ -4,14 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dmitryluzev.core.buffer.Buffer
 import com.dmitryluzev.core.buffer.BufferImpl
+import com.dmitryluzev.core.buffer.Converter
 import com.dmitryluzev.core.buffer.Symbols
 import com.dmitryluzev.core.memory.Memory
 import com.dmitryluzev.core.memory.MemoryImpl
+import com.dmitryluzev.core.operations.Pipeline
 
 class Calculator private constructor(){
     companion object{
         private var INSTANCE: Calculator? = null
-        fun getInstance(): Calculator{
+        fun getInstance(): Calculator {
             var instance = INSTANCE
             if (instance == null){
                 instance = Calculator()
