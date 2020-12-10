@@ -7,10 +7,10 @@ import com.dmitryluzev.calculator.app.PrefManager
 import com.dmitryluzev.calculator.app.Sound
 import com.dmitryluzev.calculator.model.Record
 import com.dmitryluzev.calculator.model.Repo
-import com.dmitryluzev.core.calculator.Calculator
 import com.dmitryluzev.core.buffer.Converter
-import com.dmitryluzev.core.operations.OperationFactory
 import com.dmitryluzev.core.buffer.Symbols
+import com.dmitryluzev.core.calculator.Calculator
+import com.dmitryluzev.core.operations.OperationFactory
 import java.util.*
 
 class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, private val prefManager: PrefManager, private val sound: Sound) : ViewModel(){

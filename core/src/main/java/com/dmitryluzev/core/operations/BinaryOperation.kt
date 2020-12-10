@@ -1,7 +1,5 @@
 package com.dmitryluzev.core.operations
 
-import com.dmitryluzev.core.buffer.Converter
-
 abstract class BinaryOperation(var a: Double?, var b: Double?): Operation {
     override fun hashCode(): Int {
         return a.hashCode() + b.hashCode()

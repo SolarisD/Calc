@@ -3,7 +3,6 @@ package com.dmitryluzev.core
 import com.dmitryluzev.core.buffer.Symbols
 import com.dmitryluzev.core.calculator.Calculator
 import com.dmitryluzev.core.calculator.State
-import com.dmitryluzev.core.operations.Divide
 import com.dmitryluzev.core.operations.OperationFactory
 import com.dmitryluzev.core.operations.Subtract
 import org.junit.Assert
