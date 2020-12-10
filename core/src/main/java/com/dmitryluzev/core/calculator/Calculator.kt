@@ -1,10 +1,8 @@
-package com.dmitryluzev.core.Calculator
+package com.dmitryluzev.core.calculator
 
 import com.dmitryluzev.core.buffer.Buffer
 import com.dmitryluzev.core.buffer.BufferImpl
 import com.dmitryluzev.core.buffer.Symbols
-import com.dmitryluzev.core.memory.Memory
-import com.dmitryluzev.core.memory.MemoryImpl
 import com.dmitryluzev.core.operations.BinaryOperation
 import com.dmitryluzev.core.operations.Operation
 import com.dmitryluzev.core.operations.OperationFactory
@@ -13,7 +11,7 @@ import com.dmitryluzev.core.operations.UnaryOperation
 class Calculator(state: State? = null){
 
     private val buffer: Buffer = BufferImpl()
-    private val memory: Memory = MemoryImpl()
+    private var memory: Double? = null
     private var operation: Operation? = null
 
     private var bufferClearRequest = false
@@ -21,26 +19,26 @@ class Calculator(state: State? = null){
     init {
         state?.let {
             it.buffer?.let { buffer.set(it) }
-            it.memory?.let { memory.add(it) }
+            memory = it.memory
             operation = it.operation
         }
     }
     fun get(): State {
-        return State(buffer.get(), memory.get(), operation)
-    }
-    //BUFFER
-    fun bSet(double: Double){
-        buffer.set(double)
-        bufferClearRequest = false
-    }
-    fun bClear() {
-        buffer.clear()
-        bufferClearRequest = false
+        return State(buffer.get(), memory, operation)
     }
     fun clear() {
         buffer.clear()
         bufferClearRequest = false
         operation = null
+    }
+    //BUFFER
+    fun bSet(double: Double){
+        bufferClearRequest = false
+        buffer.set(double)
+    }
+    fun bClear() {
+        buffer.clear()
+        bufferClearRequest = false
     }
     fun symbol(symbol: Symbols) {
         clearOperationIfComplete()
@@ -60,12 +58,30 @@ class Calculator(state: State? = null){
         bufferClearRequest = false
         buffer.backspace()
     }
+    private fun setResultToBuffer(op: Operation){
+        buffer.set(op.result()!!)
+        bufferClearRequest = true
+    }
     //MEMORY
-    fun mClear() = memory.clear()
-    fun mAdd() = memory.add(buffer.get())
-    fun mSubtract() = memory.sub(buffer.get())
+    fun mClear() {
+        memory = null
+    }
+    fun mAdd(){
+        memory = if(memory == null){
+            buffer.get()
+        } else{
+            memory!! + buffer.get()
+        }
+    }
+    fun mSubtract(){
+        memory = if(memory == null){
+            -buffer.get()
+        } else{
+            memory!! - buffer.get()
+        }
+    }
     fun mRestore(){
-        memory.get()?.let {
+        memory?.let {
             buffer.set(it)
         }
     }
@@ -83,8 +99,10 @@ class Calculator(state: State? = null){
                 if(op.result() == null) {
                     op.b = buffer.get()
                     operation = op
+                    setResultToBuffer(operation!!)
                 } else {
-                    operation = operation?.repeat()
+                    operation = op.repeat()
+                    setResultToBuffer(operation!!)
                 }
             }
             else -> {}
@@ -92,6 +110,7 @@ class Calculator(state: State? = null){
     }
     fun operation(id: String) {
         val op = operation
+        //If current binary is incomplete
         if (op is BinaryOperation){
             if(op.result() == null){
                 if (bufferClearRequest) {
@@ -100,6 +119,7 @@ class Calculator(state: State? = null){
                     if (new is BinaryOperation) {
                         new.a = op.a
                         operation = new
+                        setResultToBuffer(operation!!)
                     }
                     return
                 }
@@ -107,9 +127,11 @@ class Calculator(state: State? = null){
                     //Complete current operation
                     op.b = buffer.get()
                     operation = op
+                    setResultToBuffer(operation!!)
                 }
             }
         }
+
         //SET NEW
         operation = OperationFactory.create(id, buffer.get())
     }
@@ -117,18 +139,12 @@ class Calculator(state: State? = null){
         if(operation is BinaryOperation){
             val binary = (operation as BinaryOperation)
             val percent = OperationFactory.create(OperationFactory.PERCENT_ID, buffer.get(), binary.a)
-            percent?.let {
-                binary.b = it.result()
-            }
+            setResultToBuffer(percent!!)
+            binary.b = percent.result()
+            setResultToBuffer(operation!!)
         } else {
             operation = OperationFactory.create(OperationFactory.PERCENT_ID, buffer.get(), 1.0)
+            setResultToBuffer(operation!!)
         }
     }
-
-    //STATE
-    data class State(
-        val buffer: Double? = null,
-        val memory: Double? = null,
-        val operation: Operation? = null
-    )
 }

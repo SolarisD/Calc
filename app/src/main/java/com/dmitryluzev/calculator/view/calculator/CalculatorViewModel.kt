@@ -7,7 +7,8 @@ import com.dmitryluzev.calculator.app.PrefManager
 import com.dmitryluzev.calculator.app.Sound
 import com.dmitryluzev.calculator.model.Record
 import com.dmitryluzev.calculator.model.Repo
-import com.dmitryluzev.core.Calculator
+import com.dmitryluzev.core.calculator.Calculator
+import com.dmitryluzev.core.buffer.Converter
 import com.dmitryluzev.core.operations.OperationFactory
 import com.dmitryluzev.core.buffer.Symbols
 import java.util.*
@@ -15,9 +16,9 @@ import java.util.*
 class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, private val prefManager: PrefManager, private val sound: Sound) : ViewModel(){
     private val historyDate: MutableLiveData<Date> = MutableLiveData(prefManager.restoreDisplayHistoryDate())
     val historyDisplay: LiveData<List<Record>> = Transformations.switchMap(historyDate){ repo.getHistoryFromDate(it) }
-    val aluDisplay: LiveData<String> = MutableLiveData()//Transformations.map(calc.pipelineOut){ it?.toString() }
-    val bufferDisplay: LiveData<String> = calc.bufferOut
-    val memoryDisplay: LiveData<String> = calc.memoryDisplay
+    val aluDisplay: LiveData<String> = MutableLiveData()
+    val bufferDisplay: LiveData<String> = MutableLiveData()
+    val memoryDisplay: LiveData<String> = MutableLiveData()
     init {
         if (!calc.initialized){
             calc.setState(prefManager.restoreState())
@@ -30,7 +31,11 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
         prefManager.saveState(calc.getState())
         historyDate.value?.let { prefManager.saveDisplayHistoryDate(it) }
     }
-    fun pasteFromClipboard(value: String): String? = calc.pasteFromClipboard(value)
+    fun pasteFromClipboard(string: String): String?{
+        val double = Converter.stringToDouble(string)
+        double?.let { calc.bSet(it) }
+        return Converter.doubleToString(double)
+    }
     fun buttonEvents(view: View, button: Buttons): Boolean{
         haptics(view)
         when(button){

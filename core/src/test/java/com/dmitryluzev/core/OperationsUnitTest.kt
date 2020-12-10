@@ -5,7 +5,7 @@ import org.junit.Assert
 import org.junit.Test
 
 class OperationsUnitTest {
-    var operation: Operation? = null
+    private var operation: Operation? = null
 
     @Test
     fun testFactoryCreate(){
@@ -145,5 +145,28 @@ class OperationsUnitTest {
         Assert.assertEquals(0.5, bin.result()!!, 0.01)
     }
 
+    @Test
+    fun whenComparesEquals(){
+        operation = OperationFactory.create(OperationFactory.ADD_ID, 4.9, 2.0)
 
+        var second = operation
+        Assert.assertTrue(operation == second)
+
+        second = OperationFactory.create(OperationFactory.ADD_ID, 4.9, 2.0)
+        Assert.assertTrue(operation == second)
+    }
+
+    @Test
+    fun whenComparesNotEquals(){
+        operation = OperationFactory.create(OperationFactory.ADD_ID, 4.9, 2.0)
+
+        var second = OperationFactory.create(OperationFactory.ADD_ID, 4.9, 3.0)
+        Assert.assertFalse(operation == second)
+
+        second = OperationFactory.create(OperationFactory.ADD_ID, 5.9, 2.0)
+        Assert.assertFalse(operation == second)
+
+        second = OperationFactory.create(OperationFactory.MULTIPLY_ID, 4.9, 2.0)
+        Assert.assertFalse(operation == second)
+    }
 }
