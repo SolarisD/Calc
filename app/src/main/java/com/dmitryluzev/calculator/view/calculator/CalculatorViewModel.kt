@@ -15,7 +15,7 @@ import java.util.*
 class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, private val prefManager: PrefManager, private val sound: Sound) : ViewModel(){
     private val historyDate: MutableLiveData<Date> = MutableLiveData(prefManager.restoreDisplayHistoryDate())
     val historyDisplay: LiveData<List<Record>> = Transformations.switchMap(historyDate){ repo.getHistoryFromDate(it) }
-    val aluDisplay: LiveData<String> = Transformations.map(calc.pipelineOut){ it?.toString() }
+    val aluDisplay: LiveData<String> = MutableLiveData()//Transformations.map(calc.pipelineOut){ it?.toString() }
     val bufferDisplay: LiveData<String> = calc.bufferOut
     val memoryDisplay: LiveData<String> = calc.memoryDisplay
     init {

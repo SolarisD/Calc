@@ -3,9 +3,6 @@ package com.dmitryluzev.core.operations
 import com.dmitryluzev.core.buffer.Converter
 
 class Add internal constructor(a: Double? = null, b: Double? = null) : BinaryOperation(a, b){
-    override val tag: String
-        get() = " + "
-
     override fun result(): Double? {
         a?.let { _a ->
             b?.let { _b ->
@@ -15,19 +12,12 @@ class Add internal constructor(a: Double? = null, b: Double? = null) : BinaryOpe
         return null
     }
 
-    override fun copy(): Operation {
-        return Add(a, b)
-    }
-
     override fun repeat(): Operation {
         return Add(result(), b)
     }
 }
 
 class Subtract internal constructor(a: Double? = null, b: Double? = null) : BinaryOperation(a, b){
-    override val tag: String
-        get() = "-"
-
     override fun result(): Double? {
         a?.let { _a ->
             b?.let { _b ->
@@ -37,19 +27,12 @@ class Subtract internal constructor(a: Double? = null, b: Double? = null) : Bina
         return null
     }
 
-    override fun copy(): Operation {
-        return Subtract(a, b)
-    }
-
     override fun repeat(): Operation {
         return Subtract(result(), b)
     }
 }
 
 class Multiply internal constructor(a: Double? = null, b: Double? = null) : BinaryOperation(a, b){
-    override val tag: String
-        get() = "×"
-
     override fun result(): Double? {
         a?.let { _a ->
             b?.let { _b ->
@@ -59,19 +42,12 @@ class Multiply internal constructor(a: Double? = null, b: Double? = null) : Bina
         return null
     }
 
-    override fun copy(): Operation {
-        return Multiply(a, b)
-    }
-
     override fun repeat(): Operation {
         return Multiply(result(), b)
     }
 }
 
 class Divide internal constructor(a: Double? = null, b: Double? = null) : BinaryOperation(a, b){
-    override val tag: String
-        get() = "÷"
-
     override fun result(): Double? {
         a?.let { _a ->
             b?.let { _b ->
@@ -81,19 +57,12 @@ class Divide internal constructor(a: Double? = null, b: Double? = null) : Binary
         return null
     }
 
-    override fun copy(): Operation {
-        return Divide(a, b)
-    }
-
     override fun repeat(): Operation {
         return Divide(result(), b)
     }
 }
 
 class Percent internal constructor(a: Double? = null, b: Double? = null) : BinaryOperation(a, b){
-    override val tag: String
-        get() = "% of"
-
     override fun result(): Double? {
         a?.let { _a ->
             b?.let { _b ->
@@ -101,10 +70,6 @@ class Percent internal constructor(a: Double? = null, b: Double? = null) : Binar
             }
         }
         return null
-    }
-
-    override fun copy(): Operation {
-        return Percent(a, b)
     }
 
     override fun repeat(): Operation {

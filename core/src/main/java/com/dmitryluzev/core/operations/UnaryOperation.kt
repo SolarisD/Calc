@@ -1,7 +1,6 @@
 package com.dmitryluzev.core.operations
 
 abstract class UnaryOperation(var a: Double?): Operation {
-
     override fun hashCode(): Int {
         return a.hashCode()
     }

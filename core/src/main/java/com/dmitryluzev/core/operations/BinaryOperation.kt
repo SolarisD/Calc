@@ -13,17 +13,20 @@ abstract class BinaryOperation(var a: Double?, var b: Double?): Operation {
         }
         else -> false
     }
-
-    override fun toString(): String {
-        val ret = StringBuilder()
-        a?.let {
-            ret.append(Converter.doubleToString(it))
-            ret.append(" ")
-            ret.append(tag)
-            ret.append(" ")
-        }
-        b?.let { ret.append(Converter.doubleToString(it)) }
-        result()?.let { ret.append(" = "); ret.append(Converter.doubleToString(it)) }
-        return ret.toString()
-    }
 }
+
+
+
+/*
+override fun toString(): String {
+    val ret = StringBuilder()
+    a?.let {
+        ret.append(Converter.doubleToString(it))
+        ret.append(" ")
+        ret.append(tag)
+        ret.append(" ")
+    }
+    b?.let { ret.append(Converter.doubleToString(it)) }
+    result()?.let { ret.append(" = "); ret.append(Converter.doubleToString(it)) }
+    return ret.toString()
+}*/
