@@ -227,4 +227,19 @@ class BufferImplUnitTest {
         Assert.assertEquals(0.0, buffer.get(), 0.1)
         Assert.assertEquals("-0", buffer.toString())
     }
+
+    @Test
+    fun whenSetInfinity(){
+        buffer.set(Double.POSITIVE_INFINITY)
+        Assert.assertEquals(Double.POSITIVE_INFINITY, buffer.get(), 0.01)
+        Assert.assertEquals(Converter.doubleToString(Double.POSITIVE_INFINITY), buffer.toString())
+
+        buffer.set(Double.NEGATIVE_INFINITY)
+        Assert.assertEquals(Double.NEGATIVE_INFINITY, buffer.get(), 0.01)
+        Assert.assertEquals(Converter.doubleToString(Double.NEGATIVE_INFINITY), buffer.toString())
+
+        buffer.set(Double.NaN)
+        Assert.assertEquals(Double.NaN, buffer.get(), 0.01)
+        Assert.assertEquals(Converter.doubleToString(Double.NaN), buffer.toString())
+    }
 }

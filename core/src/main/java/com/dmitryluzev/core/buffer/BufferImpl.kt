@@ -13,7 +13,7 @@ class BufferImpl: Buffer {
             value.s = it.s
             value.m = it.m
             value.e = it.e
-            value.e = it.e
+            value.u = it.u
 
         }
     }

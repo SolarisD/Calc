@@ -1,8 +1,6 @@
 package com.dmitryluzev.core.buffer
 
-import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.text.NumberFormat
 import kotlin.math.pow
 
 object Converter {
