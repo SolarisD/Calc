@@ -1,52 +1,35 @@
-package com.dmitryluzev.core
+package com.dmitryluzev.core.buffer
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import kotlin.math.pow
 
-class Buffer {
-    enum class Symbols {
-        ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, DOT
-    }
-
-    private val _out = MutableLiveData<String>()
-
-    val out: LiveData<String>
-        get() = _out
-
-    var clearRequest = false
-        private set
+class BufferImpl: Buffer {
 
     private val value = Value()
 
-    init {
-        _out.value = value.toString()
+    override fun get(): Double = Converter.bufferValueToDouble(value)
+
+    override fun set(double: Double){
+        Converter.doubleToBufferValue(double).let {
+            value.s = it.s
+            value.m = it.m
+            value.e = it.e
+            value.e = it.e
+
+        }
     }
 
-    fun get(): Double {
-        clearRequest = true
-        return value.toDouble()
+    override fun clear() {
+        value.s = false
+        value.m = ""
+        value.e = null
+        value.u = null
     }
 
-    fun set(double: Double){
-        value.set(double)
-        _out.value = value.toString()
-    }
-
-    fun clear() {
-        value.clear()
-        clearRequest = false
-        _out.value = value.toString()
-    }
-
-    fun negative(){
+    override fun negative(){
         value.s = !value.s
-        clearRequest = false
-        _out.value = value.toString()
     }
 
-    fun backspace(){
-        clearRequest = false
+    override fun backspace(){
         value.e?.let {
             if (it == 0) {
                 value.e = null
@@ -68,11 +51,9 @@ class Buffer {
             }
         }
         if (value.m.isNotEmpty()) value.m = value.m.dropLast(1)
-        _out.value = value.toString()
     }
 
-    fun symbol(symbol: Symbols){
-        if (clearRequest) clear()
+    override fun symbol(symbol: Symbols){
         when(symbol){
             Symbols.ZERO -> addNumber('0')
             Symbols.ONE -> addNumber('1')
@@ -86,7 +67,6 @@ class Buffer {
             Symbols.NINE -> addNumber('9')
             Symbols.DOT -> addDot()
         }
-        _out.value = value.toString()
     }
 
     private fun addDot(){
@@ -95,7 +75,9 @@ class Buffer {
     }
 
     private fun addNumber(num: Char){
-        if (value.m.length >= Converter.maxLength) return
+        val isFull = value.m.length >= Converter.maxLength ||
+                (value.e ?: 0 <= -Converter.maxLength)
+        if (isFull) return
         if (num == '0'){
             if (value.e == null && value.m.isEmpty()) return
             else if (value.m.isEmpty()) value.e = value.e!! - 1
@@ -108,4 +90,6 @@ class Buffer {
             if (value.e != null) value.e = value.e!! - 1
         }
     }
+
+    override fun toString(): String = Converter.bufferValueToString(value)
 }

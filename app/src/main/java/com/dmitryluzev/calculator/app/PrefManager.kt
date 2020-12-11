@@ -7,20 +7,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import com.dmitryluzev.calculator.R
-import com.dmitryluzev.core.Buffer
-import com.dmitryluzev.core.Calculator
-import com.dmitryluzev.core.Converter
-import com.dmitryluzev.core.OperationFactory
+import com.dmitryluzev.core.buffer.Converter
+import com.dmitryluzev.core.calculator.State
+import com.dmitryluzev.core.operations.OperationFactory
 import java.util.*
-
-
 
 
 class PrefManager private constructor(private val application: Application): SharedPreferences.OnSharedPreferenceChangeListener {
     companion object{
         const val BUFFER_STATE_KEY = "buffer_state"
         const val MEMORY_STATE_KEY = "memory_state"
-        const val PIPELINE_OP_STATE_KEY = "pipeline_state"
+        const val OPERATION_STATE_KEY = "operation_state"
         const val DISPLAY_HISTORY_DATE_KEY = "display_history_date"
 
         private var instance: PrefManager? = null
@@ -83,15 +80,14 @@ class PrefManager private constructor(private val application: Application): Sha
         if(mode) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
-    fun restoreState(): Calculator.State {
-
+    fun restoreState(): State {
         val buffer = Converter.stringToDouble(sharedPref.getString(BUFFER_STATE_KEY, null))
         val memory = Converter.stringToDouble(sharedPref.getString(MEMORY_STATE_KEY, null))
-        val pipeline = OperationFactory.fromStoreString(sharedPref.getString(PIPELINE_OP_STATE_KEY, null))
-        return Calculator.State(buffer, memory, pipeline)
+        val operation = OperationFactory.fromStoreString(sharedPref.getString(OPERATION_STATE_KEY, null))
+        return State(buffer, null, memory, operation)
     }
-    fun saveState(state: Calculator.State){
-        //Buffer
+    fun saveState(state: State){
+        //BufferImpl
         if (state.buffer != null){
             sharedPref.edit()
                 .putString(BUFFER_STATE_KEY, state.buffer.toString())
@@ -101,7 +97,7 @@ class PrefManager private constructor(private val application: Application): Sha
                 .remove(BUFFER_STATE_KEY)
                 .apply()
         }
-        //Memory
+        //MemoryImpl
         if (state.memory != null){
             sharedPref.edit()
                 .putString(MEMORY_STATE_KEY, state.memory.toString())
@@ -112,13 +108,13 @@ class PrefManager private constructor(private val application: Application): Sha
                 .apply()
         }
         //Current operation
-        if (state.pipeline != null){
+        if (state.operation != null){
             sharedPref.edit()
-                .putString(PIPELINE_OP_STATE_KEY, OperationFactory.toStoreString(state.pipeline))
+                .putString(OPERATION_STATE_KEY, OperationFactory.toStoreString(state.operation))
                 .apply()
         } else {
             sharedPref.edit()
-                .remove(PIPELINE_OP_STATE_KEY)
+                .remove(OPERATION_STATE_KEY)
                 .apply()
         }
     }

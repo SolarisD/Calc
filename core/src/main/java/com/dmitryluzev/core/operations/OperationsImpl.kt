@@ -1,61 +1,8 @@
-package com.dmitryluzev.core
+package com.dmitryluzev.core.operations
 
-import android.app.Application
-import android.content.ContentResolver
-import android.provider.Settings.Global.getString
-
-interface Operation {
-    val tag: String
-    override fun hashCode(): Int
-    override fun equals(other: Any?): Boolean
-    fun result(): Double?
-    fun copy(): Operation
-    fun repeat(): Operation
-}
-
-abstract class UnaryOperation(var a: Double?): Operation{
-    override fun hashCode(): Int {
-        return a.hashCode()
-    }
-
-    override fun equals(other: Any?): Boolean = when(other) {
-        is UnaryOperation -> {
-            other::class.java == this::class.java && other.a == this.a
-        }
-        else -> false
-    }
-}
-
-abstract class BinaryOperation(var a: Double?, var b: Double?): Operation{
-    override fun hashCode(): Int {
-        return a.hashCode() + b.hashCode()
-    }
-
-    override fun equals(other: Any?): Boolean = when(other) {
-        is BinaryOperation -> {
-            other::class.java == this::class.java && other.a == this.a && other.b == this.b
-        }
-        else -> false
-    }
-
-    override fun toString(): String {
-        val ret = StringBuilder()
-        a?.let {
-            ret.append(Converter.doubleToString(it))
-            ret.append(" ")
-            ret.append(tag)
-            ret.append(" ")
-        }
-        b?.let { ret.append(Converter.doubleToString(it)) }
-        result()?.let { ret.append(" = "); ret.append(Converter.doubleToString(it)) }
-        return ret.toString()
-    }
-}
+import com.dmitryluzev.core.buffer.Converter
 
 class Add internal constructor(a: Double? = null, b: Double? = null) : BinaryOperation(a, b){
-    override val tag: String
-        get() = " + "
-
     override fun result(): Double? {
         a?.let { _a ->
             b?.let { _b ->
@@ -65,19 +12,12 @@ class Add internal constructor(a: Double? = null, b: Double? = null) : BinaryOpe
         return null
     }
 
-    override fun copy(): Operation {
-        return Add(a, b)
-    }
-
     override fun repeat(): Operation {
         return Add(result(), b)
     }
 }
 
 class Subtract internal constructor(a: Double? = null, b: Double? = null) : BinaryOperation(a, b){
-    override val tag: String
-        get() = "-"
-
     override fun result(): Double? {
         a?.let { _a ->
             b?.let { _b ->
@@ -87,19 +27,12 @@ class Subtract internal constructor(a: Double? = null, b: Double? = null) : Bina
         return null
     }
 
-    override fun copy(): Operation {
-        return Subtract(a, b)
-    }
-
     override fun repeat(): Operation {
         return Subtract(result(), b)
     }
 }
 
 class Multiply internal constructor(a: Double? = null, b: Double? = null) : BinaryOperation(a, b){
-    override val tag: String
-        get() = "×"
-
     override fun result(): Double? {
         a?.let { _a ->
             b?.let { _b ->
@@ -109,19 +42,12 @@ class Multiply internal constructor(a: Double? = null, b: Double? = null) : Bina
         return null
     }
 
-    override fun copy(): Operation {
-        return Multiply(a, b)
-    }
-
     override fun repeat(): Operation {
         return Multiply(result(), b)
     }
 }
 
 class Divide internal constructor(a: Double? = null, b: Double? = null) : BinaryOperation(a, b){
-    override val tag: String
-        get() = "÷"
-
     override fun result(): Double? {
         a?.let { _a ->
             b?.let { _b ->
@@ -131,19 +57,12 @@ class Divide internal constructor(a: Double? = null, b: Double? = null) : Binary
         return null
     }
 
-    override fun copy(): Operation {
-        return Divide(a, b)
-    }
-
     override fun repeat(): Operation {
         return Divide(result(), b)
     }
 }
 
 class Percent internal constructor(a: Double? = null, b: Double? = null) : BinaryOperation(a, b){
-    override val tag: String
-        get() = "% of"
-
     override fun result(): Double? {
         a?.let { _a ->
             b?.let { _b ->
@@ -151,10 +70,6 @@ class Percent internal constructor(a: Double? = null, b: Double? = null) : Binar
             }
         }
         return null
-    }
-
-    override fun copy(): Operation {
-        return Percent(a, b)
     }
 
     override fun repeat(): Operation {
@@ -207,4 +122,3 @@ object OperationFactory{
         return null
     }
 }
-
