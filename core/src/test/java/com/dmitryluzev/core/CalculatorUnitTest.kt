@@ -31,7 +31,7 @@ class CalculatorUnitTest {
         Assert.assertNull(state.memory)
         Assert.assertNull(state.operation)
 
-        calculator = Calculator(State(3.0, 9.5, OperationFactory.create(OperationFactory.DIVIDE_ID, 45.0, 9.0)))
+        calculator = Calculator(State(3.0, null, 9.5, OperationFactory.create(OperationFactory.DIVIDE_ID, 45.0, 9.0)))
         state = calculator.get()
         Assert.assertNotNull(state.buffer)
         Assert.assertNotNull(state.memory)
@@ -93,6 +93,20 @@ class CalculatorUnitTest {
     }
 
     @Test
+    fun whenChangeBinaryAndEqual(){
+        calculator.bSet(14.5)
+        calculator.operation(OperationFactory.ADD_ID)
+        calculator.operation(OperationFactory.SUBTRACT_ID)
+        Assert.assertNotNull(calculator.get().operation)
+        calculator.bSet(7.13)
+        calculator.result()
+        Assert.assertNotNull(calculator.get().operation)
+        Assert.assertNotNull(calculator.get().operation!!.result())
+        Assert.assertEquals(14.5 - 7.13, calculator.get().operation!!.result()!!, 0.0001)
+        Assert.assertEquals(14.5 - 7.13, calculator.get().buffer!!, 0.0001)
+    }
+
+    @Test
     fun whenEqualBinaryRepeat(){
         calculator.bSet(14.5)
         calculator.operation(OperationFactory.ADD_ID)
@@ -105,7 +119,6 @@ class CalculatorUnitTest {
         Assert.assertEquals(14.5 + 7.13 + 7.13, calculator.get().buffer!!, 0.0001)
     }
 
-
     @Test
     fun whenEqualBinaryWithoutB(){
         calculator.bSet(14.5)
@@ -116,7 +129,6 @@ class CalculatorUnitTest {
         Assert.assertEquals(14.5 + 14.5, calculator.get().operation!!.result()!!, 0.0001)
         Assert.assertEquals(14.5 + 14.5, calculator.get().buffer!!, 0.0001)
     }
-
 
     @Test
     fun whenOperationAfterOperation(){
@@ -147,5 +159,25 @@ class CalculatorUnitTest {
         calculator.bSet(3.0)
         calculator.percent()
         Assert.assertEquals(3.0/100.0, calculator.get().buffer!!, 0.0001)
+    }
+
+    @Test
+    fun whenEqualsByButtons(){
+        //CLASSIC
+        calculator.symbol(Symbols.ONE)
+        calculator.symbol(Symbols.TWO)
+        calculator.operation(OperationFactory.ADD_ID)
+        calculator.symbol(Symbols.THREE)
+        calculator.symbol(Symbols.FOUR)
+        calculator.result()
+        Assert.assertEquals(12.0 + 34.0, calculator.get().buffer!!, 0.0001)
+        //AFTER RESULT
+        calculator.symbol(Symbols.FIVE)
+        calculator.symbol(Symbols.SIX)
+        calculator.operation(OperationFactory.SUBTRACT_ID)
+        calculator.symbol(Symbols.SEVEN)
+        calculator.result()
+        Assert.assertEquals(56.0 - 7.0, calculator.get().buffer!!, 0.0001)
+
     }
 }

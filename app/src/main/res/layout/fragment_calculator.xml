@@ -27,7 +27,7 @@
             android:padding="2dp"
             tools:itemCount="8"
             tools:listitem="@layout/vh_binary_operation"
-            app:calculatorList="@{vm.historyDisplay}"/>
+            app:calculatorList="@{vm.historyList}"/>
 
         <LinearLayout
             android:id="@+id/allDisplays"
@@ -37,17 +37,17 @@
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvAlu"
+                android:id="@+id/tvOperation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|end"
-                android:text="@{vm.aluDisplay}"
                 android:textColor="@color/pr"
                 android:textSize="20sp"
-                android:visibility="@{vm.aluDisplay != null ? View.VISIBLE : View.GONE}"
+                android:visibility="@{vm.operation != null ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toTopOf="@+id/tv_buffer"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+<!--android:text="@{vm.operation}"-->
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvBuffer"
@@ -57,7 +57,7 @@
                 android:gravity="center_vertical|end"
                 android:maxLines="1"
                 android:padding="4dp"
-                android:text="@{vm.bufferDisplay}"
+                android:text="@{vm.buffer}"
                 android:textColor="@color/pr"
                 android:textSize="46sp"
                 app:layout_constraintBottom_toTopOf="@+id/tv_memory" />
@@ -76,7 +76,7 @@
                     android:maxLines="1"
                     android:padding="4dp"
                     android:text="M: "
-                    android:visibility="@{vm.memoryDisplay != null ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{vm.memory != null ? View.VISIBLE : View.GONE}"
                     android:textColor="@color/onBackgroundColor"
                     android:textSize="18sp"/>
 
@@ -87,7 +87,7 @@
                     android:gravity="start|center_vertical"
                     android:maxLines="1"
                     android:padding="4dp"
-                    android:text="@{vm.memoryDisplay}"
+                    android:text="@{vm.memory}"
                     android:textColor="@color/onBackgroundColor"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -166,8 +166,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:onClick="@{(v) -> vm.bufferDisplay.equals(&quot;0&quot;) ? vm.buttonEvents(v, Buttons.ALL_CLEAR) : vm.buttonEvents(v, Buttons.CALC_CLEAR)}"
-                        android:text="@{vm.bufferDisplay.equals(&quot;0&quot;) ? &quot;AC&quot; : &quot;C&quot;}" />
+                        android:onClick="@{(v) -> vm.buffer.equals(&quot;0&quot;) ? vm.buttonEvents(v, Buttons.ALL_CLEAR) : vm.buttonEvents(v, Buttons.CALC_CLEAR)}"
+                        android:text="@{vm.buffer.equals(&quot;0&quot;) ? &quot;AC&quot; : &quot;C&quot;}" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_backspace"

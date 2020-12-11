@@ -85,7 +85,7 @@ class PrefManager private constructor(private val application: Application): Sha
         val buffer = Converter.stringToDouble(sharedPref.getString(BUFFER_STATE_KEY, null))
         val memory = Converter.stringToDouble(sharedPref.getString(MEMORY_STATE_KEY, null))
         val pipeline = OperationFactory.fromStoreString(sharedPref.getString(OPERATION_STATE_KEY, null))
-        return State(buffer, memory, pipeline)
+        return State(buffer, null, memory, pipeline)
     }
     fun saveState(state: State){
         //BufferImpl

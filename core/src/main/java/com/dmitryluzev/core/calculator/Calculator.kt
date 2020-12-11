@@ -15,6 +15,8 @@ class Calculator(state: State? = null){
     private var operation: Operation? = null
 
     private var bufferClearRequest = false
+    private var onOperationComplete: ((Operation) -> Unit)? = null
+
 
     init {
         state?.let {
@@ -23,8 +25,11 @@ class Calculator(state: State? = null){
             operation = it.operation
         }
     }
+    fun setOnOperationComplete(callback: ((Operation) -> Unit)?){
+        onOperationComplete = callback
+    }
     fun get(): State {
-        return State(buffer.get(), memory, operation)
+        return State(buffer.get(), buffer.toString(), memory, operation)
     }
     fun clear() {
         buffer.clear()
@@ -58,9 +63,10 @@ class Calculator(state: State? = null){
         bufferClearRequest = false
         buffer.backspace()
     }
-    private fun setResultToBuffer(op: Operation){
+    private fun operationComplete(op: Operation){
         buffer.set(op.result()!!)
         bufferClearRequest = true
+        onOperationComplete?.invoke(op)
     }
     //MEMORY
     fun mClear() {
@@ -99,10 +105,10 @@ class Calculator(state: State? = null){
                 if(op.result() == null) {
                     op.b = buffer.get()
                     operation = op
-                    setResultToBuffer(operation!!)
+                    operationComplete(operation!!)
                 } else {
                     operation = op.repeat()
-                    setResultToBuffer(operation!!)
+                    operationComplete(operation!!)
                 }
             }
             else -> {}
@@ -119,7 +125,6 @@ class Calculator(state: State? = null){
                     if (new is BinaryOperation) {
                         new.a = op.a
                         operation = new
-                        setResultToBuffer(operation!!)
                     }
                     return
                 }
@@ -127,24 +132,24 @@ class Calculator(state: State? = null){
                     //Complete current operation
                     op.b = buffer.get()
                     operation = op
-                    setResultToBuffer(operation!!)
+                    operationComplete(operation!!)
                 }
             }
         }
-
         //SET NEW
         operation = OperationFactory.create(id, buffer.get())
+        bufferClearRequest = true
     }
     fun percent() {
         if(operation is BinaryOperation){
             val binary = (operation as BinaryOperation)
             val percent = OperationFactory.create(OperationFactory.PERCENT_ID, buffer.get(), binary.a)
-            setResultToBuffer(percent!!)
+            operationComplete(percent!!)
             binary.b = percent.result()
-            setResultToBuffer(operation!!)
+            operationComplete(operation!!)
         } else {
             operation = OperationFactory.create(OperationFactory.PERCENT_ID, buffer.get(), 1.0)
-            setResultToBuffer(operation!!)
+            operationComplete(operation!!)
         }
     }
 }

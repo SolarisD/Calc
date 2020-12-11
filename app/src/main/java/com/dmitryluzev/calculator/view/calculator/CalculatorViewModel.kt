@@ -10,30 +10,39 @@ import com.dmitryluzev.calculator.model.Repo
 import com.dmitryluzev.core.buffer.Converter
 import com.dmitryluzev.core.buffer.Symbols
 import com.dmitryluzev.core.calculator.Calculator
+import com.dmitryluzev.core.operations.Operation
 import com.dmitryluzev.core.operations.OperationFactory
 import java.util.*
 
 class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, private val prefManager: PrefManager, private val sound: Sound) : ViewModel(){
+
     private val historyDate: MutableLiveData<Date> = MutableLiveData(prefManager.restoreDisplayHistoryDate())
-    val historyDisplay: LiveData<List<Record>> = Transformations.switchMap(historyDate){ repo.getHistoryFromDate(it) }
-    val aluDisplay: LiveData<String> = MutableLiveData()
-    val bufferDisplay: LiveData<String> = MutableLiveData()
-    val memoryDisplay: LiveData<String> = MutableLiveData()
+    val historyList: LiveData<List<Record>> = Transformations.switchMap(historyDate){ repo.getHistoryFromDate(it) }
+
+    private val _buffer = MutableLiveData<String>()
+    val buffer: LiveData<String>
+        get() = _buffer
+    private val _memory = MutableLiveData<String>()
+    val memory: LiveData<String>
+        get() = _memory
+    private val _operation = MutableLiveData<Operation>()
+    val operation: LiveData<Operation>
+        get() = _operation
+
     init {
-        if (!calc.initialized){
-            calc.setState(prefManager.restoreState())
-        }
-        calc.setOnResultReadyListener {
+        calc.setOnOperationComplete{
             repo.saveToHistory(it)
         }
+        updateDisplays()
     }
     fun saveState(){
-        prefManager.saveState(calc.getState())
+        prefManager.saveState(calc.get())
         historyDate.value?.let { prefManager.saveDisplayHistoryDate(it) }
     }
     fun pasteFromClipboard(string: String): String?{
         val double = Converter.stringToDouble(string)
         double?.let { calc.bSet(it) }
+        updateDisplays()
         return Converter.doubleToString(double)
     }
     fun buttonEvents(view: View, button: Buttons): Boolean{
@@ -66,9 +75,16 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
             Buttons.EIGHT -> calc.symbol(Symbols.EIGHT)
             Buttons.NINE -> calc.symbol(Symbols.NINE)
         }
+        updateDisplays()
         return true
     }
+    private fun updateDisplays(){
+        val state = calc.get()
+        _buffer.value = state.bufferString
+        _memory.value = Converter.doubleToString(state.memory)
+        _operation.value = state.operation
 
+    }
     private fun haptics(view: View? = null){
         prefManager.livePref.value?.let {
             if (it.haptic) view?.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
