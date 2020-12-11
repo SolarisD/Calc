@@ -43,11 +43,11 @@
                 android:gravity="center_vertical|end"
                 android:textColor="@color/pr"
                 android:textSize="20sp"
-                android:visibility="@{vm.operation != null ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toTopOf="@+id/tv_buffer"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-<!--android:text="@{vm.operation}"-->
+                app:layout_constraintStart_toStartOf="parent"
+                app:bindOperation="@{vm.operation}"/>
+
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvBuffer"
