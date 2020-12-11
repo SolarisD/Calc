@@ -1,5 +1,6 @@
 package com.dmitryluzev.core.buffer
 
+import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
 import kotlin.math.pow
@@ -8,15 +9,11 @@ object Converter {
     const val maxLength = 10
     const val base = 10.0
     val ds = DecimalFormatSymbols.getInstance().decimalSeparator
-    val df = NumberFormat.getInstance()
 
     fun stringToDouble(string: String?): Double?{
         string?.let {
-            try {
-                return df.parse(string.replace(" ", ""))?.toDouble() ?: 0.0
-            }catch(e: Exception){
-                return null
-            }
+            val str = string.replace(" ", "")
+            return str.toDoubleOrNull()
         }
         return null
     }

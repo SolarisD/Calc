@@ -29,7 +29,7 @@ class CalculatorFragment : Fragment() {
         val repo = Repo(dao)
         val pref = PrefManager.getInstance(application)
         val sound = Sound.getInstance(application)
-        val calculator = Calculator()
+        val calculator = Calculator(pref.restoreState())
         vm = ViewModelProvider(this, CalculatorViewModelFactory(calculator, repo, pref, sound)).get(CalculatorViewModel::class.java)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

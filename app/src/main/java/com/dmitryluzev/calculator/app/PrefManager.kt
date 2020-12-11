@@ -81,11 +81,10 @@ class PrefManager private constructor(private val application: Application): Sha
         else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
     fun restoreState(): State {
-
         val buffer = Converter.stringToDouble(sharedPref.getString(BUFFER_STATE_KEY, null))
         val memory = Converter.stringToDouble(sharedPref.getString(MEMORY_STATE_KEY, null))
-        val pipeline = OperationFactory.fromStoreString(sharedPref.getString(OPERATION_STATE_KEY, null))
-        return State(buffer, null, memory, pipeline)
+        val operation = OperationFactory.fromStoreString(sharedPref.getString(OPERATION_STATE_KEY, null))
+        return State(buffer, null, memory, operation)
     }
     fun saveState(state: State){
         //BufferImpl
