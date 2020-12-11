@@ -229,7 +229,7 @@ class BufferImplUnitTest {
     }
 
     @Test
-    fun whenSetInfinity(){
+    fun whenSetGetInfinity(){
         buffer.set(Double.POSITIVE_INFINITY)
         Assert.assertEquals(Double.POSITIVE_INFINITY, buffer.get(), 0.01)
         Assert.assertEquals(Converter.doubleToString(Double.POSITIVE_INFINITY), buffer.toString())
@@ -241,5 +241,28 @@ class BufferImplUnitTest {
         buffer.set(Double.NaN)
         Assert.assertEquals(Double.NaN, buffer.get(), 0.01)
         Assert.assertEquals(Converter.doubleToString(Double.NaN), buffer.toString())
+    }
+
+    @Test
+    fun whenEditInfinity(){
+        buffer.set(Double.POSITIVE_INFINITY)
+        buffer.symbol(Symbols.SEVEN)
+        Assert.assertEquals(7.0, buffer.get(), 0.01)
+        Assert.assertEquals(Converter.doubleToString(7.0), buffer.toString())
+
+        buffer.set(Double.POSITIVE_INFINITY)
+        buffer.backspace()
+        Assert.assertEquals(0.0, buffer.get(), 0.01)
+        Assert.assertEquals(Converter.doubleToString(0.0), buffer.toString())
+
+        buffer.set(Double.POSITIVE_INFINITY)
+        buffer.negative()
+        Assert.assertEquals(Double.NEGATIVE_INFINITY, buffer.get(), 0.01)
+        Assert.assertEquals(Converter.doubleToString(Double.NEGATIVE_INFINITY), buffer.toString())
+
+        buffer.set(Double.NaN)
+        buffer.negative()
+        Assert.assertEquals(0.0, buffer.get(), 0.01)
+        Assert.assertEquals("-0", buffer.toString())
     }
 }

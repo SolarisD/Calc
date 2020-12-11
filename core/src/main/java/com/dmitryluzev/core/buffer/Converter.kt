@@ -25,10 +25,11 @@ object Converter {
 
     fun bufferValueToDouble(value: Value): Double{
         value.u?.let{
-            return when(it){
-                -1 -> {Double.NEGATIVE_INFINITY}
-                1 -> {Double.POSITIVE_INFINITY}
-                else ->{Double.NaN}
+            return if(it) {
+                if (value.s) Double.NEGATIVE_INFINITY
+                else Double.POSITIVE_INFINITY
+            } else {
+                Double.NaN
             }
         }
         val lm = if (value.m.isNotEmpty()) value.m.toLong() else 0L
@@ -38,10 +39,11 @@ object Converter {
 
     fun bufferValueToString(value: Value): String{
         value.u?.let{
-            return when(it){
-                -1 -> {Double.NEGATIVE_INFINITY.toString()}
-                1 -> {Double.POSITIVE_INFINITY.toString()}
-                else -> {Double.NaN.toString()}
+            return if(it) {
+                if (value.s) Double.NEGATIVE_INFINITY.toString()
+                else Double.POSITIVE_INFINITY.toString()
+            } else {
+                Double.NaN.toString()
             }
         }
         value.e?.let {
@@ -124,9 +126,16 @@ object Converter {
             if(value.e == 0) value.e = null
         } else {
             when(double){
-                Double.NEGATIVE_INFINITY->{value.u = -1}
-                Double.POSITIVE_INFINITY->{value.u = 1}
-                else->{value.u = 0}
+                Double.POSITIVE_INFINITY->{
+                    value.u = true
+                }
+                Double.NEGATIVE_INFINITY->{
+                    value.u = true
+                    value.s = true
+                }
+                else->{
+                    value.u = false
+                }
             }
         }
         return value

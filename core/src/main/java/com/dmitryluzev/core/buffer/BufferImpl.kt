@@ -26,10 +26,12 @@ class BufferImpl: Buffer {
     }
 
     override fun negative(){
+        if (value.u == false) clear()
         value.s = !value.s
     }
 
     override fun backspace(){
+        if (value.u != null) {clear(); return}
         value.e?.let {
             if (it == 0) {
                 value.e = null
@@ -54,6 +56,7 @@ class BufferImpl: Buffer {
     }
 
     override fun symbol(symbol: Symbols){
+        if (value.u != null) clear()
         when(symbol){
             Symbols.ZERO -> addNumber('0')
             Symbols.ONE -> addNumber('1')
