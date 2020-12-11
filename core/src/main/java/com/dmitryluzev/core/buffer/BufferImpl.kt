@@ -13,7 +13,7 @@ class BufferImpl: Buffer {
             value.s = it.s
             value.m = it.m
             value.e = it.e
-            value.u = it.u
+            value.i = it.i
 
         }
     }
@@ -22,16 +22,16 @@ class BufferImpl: Buffer {
         value.s = false
         value.m = ""
         value.e = null
-        value.u = null
+        value.i = null
     }
 
     override fun negative(){
-        if (value.u == false) clear()
+        if (value.i == false) clear()
         value.s = !value.s
     }
 
     override fun backspace(){
-        if (value.u != null) {clear(); return}
+        if (value.i != null) {clear(); return}
         value.e?.let {
             if (it == 0) {
                 value.e = null
@@ -56,7 +56,7 @@ class BufferImpl: Buffer {
     }
 
     override fun symbol(symbol: Symbols){
-        if (value.u != null) clear()
+        if (value.i != null) clear()
         when(symbol){
             Symbols.ZERO -> addNumber('0')
             Symbols.ONE -> addNumber('1')

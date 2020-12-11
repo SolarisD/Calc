@@ -1,6 +1,6 @@
 package com.dmitryluzev.core.buffer
 
-data class Value(var s: Boolean = false,
-                 var m: String = "",
-                 var e: Int? = null,
-                 var u: Boolean? = null)
+data class Value(internal var i: Boolean? = null,
+                 internal var s: Boolean = false,
+                 internal var m: String = "",
+                 internal var e: Int? = null)

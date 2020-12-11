@@ -24,7 +24,7 @@ object Converter {
     }
 
     fun bufferValueToDouble(value: Value): Double{
-        value.u?.let{
+        value.i?.let{
             return if(it) {
                 if (value.s) Double.NEGATIVE_INFINITY
                 else Double.POSITIVE_INFINITY
@@ -38,7 +38,7 @@ object Converter {
     }
 
     fun bufferValueToString(value: Value): String{
-        value.u?.let{
+        value.i?.let{
             return if(it) {
                 if (value.s) Double.NEGATIVE_INFINITY.toString()
                 else Double.POSITIVE_INFINITY.toString()
@@ -127,14 +127,14 @@ object Converter {
         } else {
             when(double){
                 Double.POSITIVE_INFINITY->{
-                    value.u = true
+                    value.i = true
                 }
                 Double.NEGATIVE_INFINITY->{
-                    value.u = true
+                    value.i = true
                     value.s = true
                 }
                 else->{
-                    value.u = false
+                    value.i = false
                 }
             }
         }
