@@ -17,7 +17,9 @@ import java.util.*
 class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, private val prefManager: PrefManager, private val sound: Sound) : ViewModel(){
 
     private val historyDate: MutableLiveData<Date> = MutableLiveData(prefManager.restoreDisplayHistoryDate())
-    val historyList: LiveData<List<Record>> = Transformations.switchMap(historyDate){ repo.getHistoryFromDate(it) }
+    private val filteredHistory: LiveData<List<Record>> = Transformations.switchMap(historyDate){ repo.getHistoryFromDate(it) }
+    private val activeOperation = MutableLiveData<Operation>()
+    val historyList: MediatorLiveData<List<Record>> = MediatorLiveData()
 
     private val _buffer = MutableLiveData<String>()
     val buffer: LiveData<String>
@@ -25,16 +27,31 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
     private val _memory = MutableLiveData<String>()
     val memory: LiveData<String>
         get() = _memory
-    private val _operation = MutableLiveData<Operation>()
-    val operation: LiveData<Operation>
-        get() = _operation
 
     init {
+        historyList.addSource(filteredHistory){
+            historyList.value = joinHistory(filteredHistory.value, activeOperation.value)
+        }
+        historyList.addSource(activeOperation){
+            historyList.value = joinHistory(filteredHistory.value, activeOperation.value)
+        }
         calc.setOnOperationComplete{
             repo.saveToHistory(it)
         }
         updateDisplays()
     }
+    private fun joinHistory(list: List<Record>?, operation: Operation?): List<Record>{
+        val out: MutableList<Record> = list?.toMutableList() ?: mutableListOf()
+        operation?.let {
+            if(out.size > 0){
+                if (out.last().op == it) {out.removeLast()}
+            }
+            out.add(Record(date = Date(System.currentTimeMillis()), op = it))
+
+        }
+        return out
+    }
+
     fun saveState(){
         prefManager.saveState(calc.get())
         historyDate.value?.let { prefManager.saveDisplayHistoryDate(it) }
@@ -82,7 +99,7 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
         val state = calc.get()
         _buffer.value = state.bufferString
         _memory.value = Converter.doubleToString(state.memory)
-        _operation.value = state.operation
+        activeOperation.value = state.operation
 
     }
     private fun haptics(view: View? = null){

@@ -39,6 +39,7 @@ class CalculatorFragment : Fragment() {
         val manager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
         binding.rcvHistory.layoutManager = manager
         binding.rcvHistory.adapter = CalculatorAdapter(::showCSPopup)
+
         binding.tvBuffer.setOnLongClickListener {
             showPCSPopup(it as TextView)
         }
