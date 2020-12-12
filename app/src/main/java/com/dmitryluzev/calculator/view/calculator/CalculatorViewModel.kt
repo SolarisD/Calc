@@ -19,7 +19,7 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
     private val historyDate: MutableLiveData<Date> = MutableLiveData(prefManager.restoreDisplayHistoryDate())
     private val filteredHistory: LiveData<List<Record>> = Transformations.switchMap(historyDate){ repo.getHistoryFromDate(it) }
     private val activeOperation = MutableLiveData<Operation>()
-    val historyList: MediatorLiveData<List<Record>> = MediatorLiveData()
+    val adapterList: MediatorLiveData<List<Record>> = MediatorLiveData()
 
     private val _buffer = MutableLiveData<String>()
     val buffer: LiveData<String>
@@ -29,24 +29,25 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
         get() = _memory
 
     init {
-        historyList.addSource(filteredHistory){
-            historyList.value = joinHistory(filteredHistory.value, activeOperation.value)
+        adapterList.addSource(filteredHistory){
+            adapterList.value = joinOperations(filteredHistory.value, activeOperation.value)
         }
-        historyList.addSource(activeOperation){
-            historyList.value = joinHistory(filteredHistory.value, activeOperation.value)
+        adapterList.addSource(activeOperation){
+            adapterList.value = joinOperations(filteredHistory.value, activeOperation.value)
         }
         calc.setOnOperationComplete{
             repo.saveToHistory(it)
         }
         updateDisplays()
     }
-    private fun joinHistory(list: List<Record>?, operation: Operation?): List<Record>{
+    
+    private fun joinOperations(list: List<Record>?, operation: Operation?): List<Record>{
         val out: MutableList<Record> = list?.toMutableList() ?: mutableListOf()
         operation?.let {
             if(out.size > 0){
                 if (out.last().op == it) {out.removeLast()}
             }
-            out.add(Record(date = Date(System.currentTimeMillis()), op = it))
+            out.add(Record(date = Date(System.currentTimeMillis()), op = it, id = Int.MIN_VALUE))
 
         }
         return out

@@ -27,7 +27,7 @@
             android:padding="2dp"
             tools:itemCount="8"
             tools:listitem="@layout/vh_binary_operation"
-            app:calculatorList="@{vm.historyList}"/>
+            app:calculatorList="@{vm.adapterList}"/>
 
         <LinearLayout
             android:id="@+id/allDisplays"

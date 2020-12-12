@@ -1,12 +1,14 @@
 
 package com.dmitryluzev.calculator.view.calculator
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.databinding.VhBinaryOperationBinding
 import com.dmitryluzev.calculator.model.Record
 import com.dmitryluzev.core.operations.BinaryOperation
@@ -33,6 +35,9 @@ class CalculatorAdapter(val valueClickListener: (textView: TextView) -> Boolean)
     }
 
     override fun onBindViewHolder(holder: HistoryPreviewHolder, position: Int) {
+        val textColor = if(getItem(position).id == Int.MIN_VALUE) R.color.onSc
+        else R.color.onBackgroundColor
+        holder.binding.textColor = textColor
         holder.binding.operation = getItem(position).op as BinaryOperation
         holder.binding.tvA.setOnLongClickListener { valueClickListener(holder.binding.tvA) }
         holder.binding.tvB.setOnLongClickListener { valueClickListener(holder.binding.tvB) }

@@ -6,6 +6,9 @@
         <import type="android.view.View" />
         <import type="com.dmitryluzev.core.operations.Operation"/>
         <variable
+            name="textColor"
+            type="Integer"/>
+        <variable
             name="operation"
             type="com.dmitryluzev.core.operations.BinaryOperation" />
     </data>
@@ -17,15 +20,13 @@
         android:orientation="horizontal"
         android:gravity="end">
 
-        <!--android:layout_margin="2dp"-->
-
         <TextView
             android:id="@+id/tvA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
             android:textSize="20sp"
-            android:textColor="@color/onBackgroundColor"
+            android:textColor="@{textColor != null ? context.getColor(textColor) : @color/onBackgroundColor}"
             android:maxLines="1"
             app:fromDouble="@{operation.a}"/>
 
@@ -35,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
             android:textSize="20sp"
-            android:textColor="@color/onBackgroundColor"
+            android:textColor="@{textColor != null ? context.getColor(textColor) : @color/onBackgroundColor}"
             android:maxLines="1"
             app:bindOperationTag="@{operation}"/>
 
@@ -46,7 +47,7 @@
             android:layout_gravity="end|center_vertical"
             android:textSize="20sp"
             android:visibility="@{operation.b != null ? View.VISIBLE : View.GONE}"
-            android:textColor="@color/onBackgroundColor"
+            android:textColor="@{textColor != null ? context.getColor(textColor) : @color/onBackgroundColor}"
             android:maxLines="1"
             app:fromDouble="@{operation.b}"/>
 
@@ -58,7 +59,7 @@
             android:visibility="@{((Operation)operation).result != null ? View.VISIBLE : View.GONE}"
             android:text=" = "
             android:textSize="20sp"
-            android:textColor="@color/onBackgroundColor"
+            android:textColor="@{textColor != null ? context.getColor(textColor) : @color/onBackgroundColor}"
             android:maxLines="1" />
         <TextView
             android:id="@+id/tvResult"
@@ -67,7 +68,7 @@
             android:layout_gravity="end|center_vertical"
             android:textSize="20sp"
             android:visibility="@{((Operation)operation).result != null ? View.VISIBLE : View.GONE}"
-            android:textColor="@color/onBackgroundColor"
+            android:textColor="@{textColor != null ? context.getColor(textColor) : @color/onBackgroundColor}"
             android:maxLines="1"
             app:fromDouble="@{((Operation)operation).result}"/>
     </LinearLayout>
