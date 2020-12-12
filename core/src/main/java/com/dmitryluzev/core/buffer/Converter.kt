@@ -10,8 +10,8 @@ object Converter {
 
     fun stringToDouble(string: String?): Double?{
         string?.let {
-            val str = string.replace(" ", "")
-            return str.toDoubleOrNull()
+            val str = it.replace(" ", "")
+            return str.replace(',', '.').toDoubleOrNull()
         }
         return null
     }

@@ -15,6 +15,9 @@ interface Dao {
     @Query("SELECT * FROM history_records WHERE date > :date ORDER BY date ASC")
     fun getRecordsFromDate(date: Date?): LiveData<List<Record>>
 
+    @Query("SELECT * FROM history_records ORDER BY date DESC LIMIT 1")
+    fun getLastRecord(): Record?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHistoryRecord(history: Record)
 
