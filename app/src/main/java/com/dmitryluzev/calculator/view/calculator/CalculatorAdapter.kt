@@ -35,7 +35,7 @@ class CalculatorAdapter(val valueClickListener: (textView: TextView) -> Boolean)
     }
 
     override fun onBindViewHolder(holder: HistoryPreviewHolder, position: Int) {
-        val textColor = if(getItem(position).id == Int.MIN_VALUE) R.color.onSc
+        val textColor = if(getItem(position).id == Int.MIN_VALUE) R.color.pr
         else R.color.onBackgroundColor
         holder.binding.textColor = textColor
         holder.binding.operation = getItem(position).op as BinaryOperation

@@ -13,7 +13,7 @@
         tools:context=".view.history.HistoryFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_history"
+            android:id="@+id/rcvHistory"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
