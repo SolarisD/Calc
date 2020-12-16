@@ -23,4 +23,10 @@
     <string name="buttons_settings_group">Кнопки</string>
     <string name="copy_item">Копировать</string>
     <string name="share_item">Отправить</string>
+
+    <string name="add_tag">\u0020+\u0020</string>
+    <string name="subtract_tag">\u0020-\u0020</string>
+    <string name="multiply_tag">\u0020×\u0020</string>
+    <string name="divide_tag">\u0020/\u0020</string>
+    <string name="percent_tag">% от\u0020</string>
 </resources>

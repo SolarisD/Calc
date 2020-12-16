@@ -9,7 +9,7 @@ import com.dmitryluzev.calculator.model.Record
 import com.dmitryluzev.calculator.model.Repo
 import com.dmitryluzev.core.buffer.Converter
 import com.dmitryluzev.core.buffer.Symbols
-import com.dmitryluzev.core.calculator.Calculator
+import com.dmitryluzev.core.Calculator
 import com.dmitryluzev.core.operations.Operation
 import com.dmitryluzev.core.operations.OperationFactory
 import java.util.*

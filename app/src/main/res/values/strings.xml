@@ -29,4 +29,11 @@
     <string name="copy_item">Copy</string>
     <string name="share_item">Share</string>
 
+    <!--Operation tags-->
+    <string name="add_tag">\u0020+\u0020 </string>
+    <string name="subtract_tag">\u0020-\u0020</string>
+    <string name="multiply_tag">\u0020×\u0020</string>
+    <string name="divide_tag">\u0020/\u0020</string>
+    <string name="percent_tag">% of\u0020</string>
+
 </resources>

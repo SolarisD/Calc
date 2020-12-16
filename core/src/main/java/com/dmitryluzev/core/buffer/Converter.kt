@@ -3,6 +3,7 @@ package com.dmitryluzev.core.buffer
 import java.text.DecimalFormatSymbols
 import kotlin.math.pow
 
+
 object Converter {
     const val maxLength = 10
     const val base = 10.0

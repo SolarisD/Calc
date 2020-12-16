@@ -17,7 +17,7 @@ import com.dmitryluzev.calculator.app.Sound
 import com.dmitryluzev.calculator.databinding.FragmentCalculatorBinding
 import com.dmitryluzev.calculator.model.DB
 import com.dmitryluzev.calculator.model.Repo
-import com.dmitryluzev.core.calculator.Calculator
+import com.dmitryluzev.core.Calculator
 
 class CalculatorFragment : Fragment() {
     private lateinit var vm: CalculatorViewModel

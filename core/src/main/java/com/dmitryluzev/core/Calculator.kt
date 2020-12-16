@@ -1,4 +1,4 @@
-package com.dmitryluzev.core.calculator
+package com.dmitryluzev.core
 
 import com.dmitryluzev.core.buffer.Buffer
 import com.dmitryluzev.core.buffer.BufferImpl

@@ -1,7 +1,6 @@
 
 package com.dmitryluzev.calculator.view.calculator
 
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView

@@ -4,10 +4,10 @@ import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.dmitryluzev.calculator.R
 import com.dmitryluzev.calculator.model.Record
 import com.dmitryluzev.calculator.view.calculator.CalculatorAdapter
 import com.dmitryluzev.calculator.view.history.HistoryAdapter
-import com.dmitryluzev.core.R
 import com.dmitryluzev.core.buffer.Converter
 import com.dmitryluzev.core.operations.*
 

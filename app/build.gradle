@@ -81,11 +81,13 @@ dependencies {
 
     //TEST
     testImplementation 'junit:junit:4.13.1'
+    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     androidTestImplementation "androidx.room:room-testing:$roomVersion"
 
     //LIBS
-    implementation project(":core")
+    implementation project(':core')
 
 }
