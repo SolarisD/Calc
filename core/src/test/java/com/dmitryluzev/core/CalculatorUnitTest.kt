@@ -1,6 +1,6 @@
 package com.dmitryluzev.core.com.dmitryluzev.core
 
-import com.dmitryluzev.core.Calculator
+import com.dmitryluzev.core.CalculatorImpl
 import com.dmitryluzev.core.State
 import com.dmitryluzev.core.buffer.Symbols
 import com.dmitryluzev.core.operations.OperationFactory
@@ -10,12 +10,12 @@ import org.junit.Before
 import org.junit.Test
 
 class CalculatorUnitTest {
-    private lateinit var calculator: Calculator
+    private lateinit var calculator: CalculatorImpl
     private lateinit var state: State
 
     @Before
     fun setup(){
-        calculator = Calculator()
+        calculator = CalculatorImpl()
     }
 
     @Test
@@ -25,13 +25,13 @@ class CalculatorUnitTest {
         Assert.assertNull(state.memory)
         Assert.assertNull(state.operation)
 
-        calculator = Calculator(State())
+        calculator = CalculatorImpl(State())
         state = calculator.get()
         Assert.assertNotNull(state.buffer)
         Assert.assertNull(state.memory)
         Assert.assertNull(state.operation)
 
-        calculator = Calculator(State(3.0, null, 9.5, OperationFactory.create(OperationFactory.DIVIDE_ID, 45.0, 9.0)))
+        calculator = CalculatorImpl(State(3.0, null, 9.5, OperationFactory.create(OperationFactory.DIVIDE_ID, 45.0, 9.0)))
         state = calculator.get()
         Assert.assertNotNull(state.buffer)
         Assert.assertNotNull(state.memory)
@@ -47,19 +47,19 @@ class CalculatorUnitTest {
 
     @Test
     fun setBufferAndMemory(){
-        calculator.bSet(69.0)
+        calculator.setBuffer(69.0)
         Assert.assertEquals(69.0, calculator.get().buffer)
-        calculator.mAdd()
+        calculator.addMem()
         Assert.assertEquals(69.0, calculator.get().memory)
-        calculator.mSubtract()
+        calculator.subMem()
         Assert.assertEquals(0.0, calculator.get().memory)
-        calculator.mSubtract()
+        calculator.subMem()
         Assert.assertEquals(-69.0, calculator.get().memory)
-        calculator.bClear()
+        calculator.clearBuffer()
         Assert.assertEquals(0.0, calculator.get().buffer)
-        calculator.mRestore()
+        calculator.restoreMem()
         Assert.assertEquals(-69.0, calculator.get().buffer)
-        calculator.mClear()
+        calculator.clearMem()
         Assert.assertNull(calculator.get().memory)
     }
 
@@ -81,10 +81,10 @@ class CalculatorUnitTest {
 
     @Test
     fun whenEqualBinaryClassic(){
-        calculator.bSet(14.5)
+        calculator.setBuffer(14.5)
         calculator.operation(OperationFactory.ADD_ID)
         Assert.assertNotNull(calculator.get().operation)
-        calculator.bSet(7.13)
+        calculator.setBuffer(7.13)
         calculator.result()
         Assert.assertNotNull(calculator.get().operation)
         Assert.assertNotNull(calculator.get().operation!!.result())
@@ -94,11 +94,11 @@ class CalculatorUnitTest {
 
     @Test
     fun whenChangeBinaryAndEqual(){
-        calculator.bSet(14.5)
+        calculator.setBuffer(14.5)
         calculator.operation(OperationFactory.ADD_ID)
         calculator.operation(OperationFactory.SUBTRACT_ID)
         Assert.assertNotNull(calculator.get().operation)
-        calculator.bSet(7.13)
+        calculator.setBuffer(7.13)
         calculator.result()
         Assert.assertNotNull(calculator.get().operation)
         Assert.assertNotNull(calculator.get().operation!!.result())
@@ -108,9 +108,9 @@ class CalculatorUnitTest {
 
     @Test
     fun whenEqualBinaryRepeat(){
-        calculator.bSet(14.5)
+        calculator.setBuffer(14.5)
         calculator.operation(OperationFactory.ADD_ID)
-        calculator.bSet(7.13)
+        calculator.setBuffer(7.13)
         calculator.result()
         calculator.result()
         Assert.assertNotNull(calculator.get().operation)
@@ -121,7 +121,7 @@ class CalculatorUnitTest {
 
     @Test
     fun whenEqualBinaryWithoutB(){
-        calculator.bSet(14.5)
+        calculator.setBuffer(14.5)
         calculator.operation(OperationFactory.ADD_ID)
         calculator.result()
         Assert.assertNotNull(calculator.get().operation)
@@ -132,14 +132,14 @@ class CalculatorUnitTest {
 
     @Test
     fun whenOperationAfterOperation(){
-        calculator.bSet(14.5)
+        calculator.setBuffer(14.5)
         calculator.operation(OperationFactory.ADD_ID)
-        calculator.bSet(7.13)
+        calculator.setBuffer(7.13)
         calculator.operation(OperationFactory.SUBTRACT_ID)
         Assert.assertEquals(14.5 + 7.13, calculator.get().buffer!!, 0.0001)
         Assert.assertTrue(calculator.get().operation is Subtract)
         Assert.assertNull(calculator.get().operation!!.result())
-        calculator.bSet(2.2)
+        calculator.setBuffer(2.2)
         calculator.result()
         Assert.assertNotNull(calculator.get().operation)
         Assert.assertNotNull(calculator.get().operation!!.result())
@@ -149,14 +149,14 @@ class CalculatorUnitTest {
 
     @Test
     fun whenPercent(){
-        calculator.bSet(50.0)
+        calculator.setBuffer(50.0)
         calculator.operation(OperationFactory.SUBTRACT_ID)
-        calculator.bSet(10.0)
+        calculator.setBuffer(10.0)
         calculator.percent()
         Assert.assertEquals(50.0 - 5.0, calculator.get().buffer!!, 0.0001)
 
         calculator.clear()
-        calculator.bSet(3.0)
+        calculator.setBuffer(3.0)
         calculator.percent()
         Assert.assertEquals(3.0/100.0, calculator.get().buffer!!, 0.0001)
     }

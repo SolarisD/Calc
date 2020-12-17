@@ -9,12 +9,12 @@ import com.dmitryluzev.calculator.model.Record
 import com.dmitryluzev.calculator.model.Repo
 import com.dmitryluzev.core.buffer.Converter
 import com.dmitryluzev.core.buffer.Symbols
-import com.dmitryluzev.core.Calculator
+import com.dmitryluzev.core.CalculatorImpl
 import com.dmitryluzev.core.operations.Operation
 import com.dmitryluzev.core.operations.OperationFactory
 import java.util.*
 
-class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, private val prefManager: PrefManager, private val sound: Sound) : ViewModel(){
+class CalculatorViewModel(private val calc: CalculatorImpl, private val repo: Repo, private val prefManager: PrefManager, private val sound: Sound) : ViewModel(){
 
     private val historyDate: MutableLiveData<Date> = MutableLiveData(prefManager.restoreDisplayHistoryDate())
     private val filteredHistory: LiveData<List<Record>> = Transformations.switchMap(historyDate){ repo.getHistoryFromDate(it) }
@@ -59,21 +59,21 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
     }
     fun pasteFromClipboard(string: String): String?{
         val double = Converter.stringToDouble(string)
-        double?.let { calc.bSet(it) }
+        double?.let { calc.setBuffer(it) }
         updateDisplays()
         return Converter.doubleToString(double)
     }
     fun buttonEvents(view: View, button: Buttons): Boolean{
         haptics(view)
         when(button){
-            Buttons.MEM_CLEAR -> calc.mClear()
-            Buttons.MEM_ADD -> calc.mAdd()
-            Buttons.MEM_SUB -> calc.mSubtract()
-            Buttons.MEM_RESTORE -> calc.mRestore()
+            Buttons.MEM_CLEAR -> calc.clearMem()
+            Buttons.MEM_ADD -> calc.addMem()
+            Buttons.MEM_SUB -> calc.subMem()
+            Buttons.MEM_RESTORE -> calc.restoreMem()
             Buttons.CALC_CLEAR -> calc.clear()
             Buttons.ALL_CLEAR -> {calc.clear(); historyDate.value = Date(System.currentTimeMillis())}
             Buttons.BACKSPACE -> calc.backspace()
-            Buttons.BUFFER_CLEAR -> calc.bClear()
+            Buttons.BUFFER_CLEAR -> calc.clearBuffer()
             Buttons.PERCENT -> calc.percent()
             Buttons.DIV -> calc.operation(OperationFactory.DIVIDE_ID)
             Buttons.MUL -> calc.operation(OperationFactory.MULTIPLY_ID)
@@ -111,7 +111,7 @@ class CalculatorViewModel(private val calc: Calculator, private val repo: Repo, 
     }
 }
 
-class CalculatorViewModelFactory(private val calc: Calculator, private val repo: Repo, private val prefManager: PrefManager, private val sound: Sound): ViewModelProvider.Factory{
+class CalculatorViewModelFactory(private val calc: CalculatorImpl, private val repo: Repo, private val prefManager: PrefManager, private val sound: Sound): ViewModelProvider.Factory{
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CalculatorViewModel::class.java)){
