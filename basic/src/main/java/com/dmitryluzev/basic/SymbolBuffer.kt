@@ -17,35 +17,39 @@ class SymbolBuffer(value: String = "", private val displaySize: Int = 12){
         const val NEGATIVE = '±'
     }
 
-    private var sign: Boolean
-    private var mod: String
+    private var sign: Boolean = false
+
+    private var mod: String = ""
 
     init {
         if (displaySize < 1) throw IllegalArgumentException("Wrong display size")
-        if (value.isEmpty()){
-            sign = false
-            mod = ""
-        }
-        else if(checkSymbols(value)){
-                if (value[0] == '-'){
-                    sign = true
-                    mod = value.drop(1)
-                } else {
-                    sign = false
-                    mod = value
-                }
-            }
-        else throw IllegalArgumentException("Wrong init value")
-
-
+        if(!set(value)) throw IllegalArgumentException("Wrong init value")
     }
 
-    private fun checkSymbols(string: String): Boolean{
-        return digitsCount(string) <= displaySize
+    private fun checkSymbols(value: String): Boolean{
+        return digitsCount(value) <= displaySize
         //TODO add more symbol checks
     }
 
     fun get() = "${if(sign) "-" else ""}$mod"
+
+    fun set(value: String): Boolean{
+        if (value.isEmpty()){
+            clear()
+            return true
+        }
+        else if (checkSymbols(value)){
+            if (value[0] == '-'){
+                sign = true
+                mod = value.drop(1)
+            } else {
+                sign = false
+                mod = value
+            }
+            return true
+        }
+        else return false
+    }
 
     fun clear() {
         sign = false

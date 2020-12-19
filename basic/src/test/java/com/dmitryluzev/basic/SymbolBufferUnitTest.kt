@@ -36,6 +36,15 @@ class SymbolBufferUnitTest {
     }
 
     @Test
+    fun whenSet(){
+        Assert.assertTrue(buffer.set("34.7"))
+        Assert.assertEquals("34.7", buffer.get())
+        Assert.assertTrue(buffer.set(""))
+        Assert.assertEquals("", buffer.get())
+        //TODO add wrong strings to test when complete check string
+    }
+
+    @Test
     fun whenBackspace(){
         buffer = SymbolBuffer("-112.3", 6)
         buffer.backspace()

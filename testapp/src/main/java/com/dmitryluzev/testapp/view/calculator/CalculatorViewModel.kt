@@ -61,11 +61,12 @@ class CalculatorViewModel(private val calc: CalculatorImpl, private val repo: Re
         prefManager.saveState(calc.get())
         historyDate.value?.let { prefManager.saveDisplayHistoryDate(it) }
     }
-    fun pasteFromClipboard(string: String): String?{
-        val double = Converter.stringToDouble(string)
-        double?.let { calc.setBuffer(it) }
-        updateDisplays()
-        return Converter.doubleToString(double)
+    fun pasteFromClipboard(value: String): String?{
+        if (symbolBuffer.set(value)){
+            updateDisplays()
+            return symbolBuffer.get()
+        }
+        return null
     }
     fun buttonEvents(view: View, button: Buttons): Boolean{
         haptics(view)
@@ -87,8 +88,6 @@ class CalculatorViewModel(private val calc: CalculatorImpl, private val repo: Re
             Buttons.SEVEN -> symbolBuffer.symbol(SymbolBuffer.SEVEN)
             Buttons.EIGHT -> symbolBuffer.symbol(SymbolBuffer.EIGHT)
             Buttons.NINE -> symbolBuffer.symbol(SymbolBuffer.NINE)
-
-
 
             Buttons.MEM_CLEAR -> calc.clearMem()
             Buttons.MEM_ADD -> calc.addMem()
