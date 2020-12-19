@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.dmitryluzev.testapp">
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:name="com.dmitryluzev.testapp.app.App"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_calculator"
+        android:label="@string/app_label"
+        android:roundIcon="@drawable/ic_calculator_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Calculator">
+        <activity
+            android:name="com.dmitryluzev.testapp.view.MainActivity"
+            android:label="@string/main_activity_label"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

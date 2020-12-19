@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/calculatorFragment">
+
+    <fragment
+        android:id="@+id/calculatorFragment"
+        android:name="com.dmitryluzev.testapp.view.calculator.CalculatorFragment"
+        android:label="@string/main_activity_label"
+        tools:layout="@layout/fragment_calculator" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.dmitryluzev.testapp.view.history.HistoryFragment"
+        android:label="@string/history_activity_label"
+        tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.dmitryluzev.testapp.view.InfoFragment"
+        android:label="@string/info_activity_label"
+        tools:layout="@layout/fragment_info" />
+
+    <action
+        android:id="@+id/action_global_historyFragment"
+        app:destination="@id/historyFragment"
+        app:enterAnim="@anim/history_in"
+        app:exitAnim="@anim/calc_out"
+        app:popEnterAnim="@anim/calc_in"
+        app:popExitAnim="@anim/history_out" />
+
+    <action android:id="@+id/action_global_infoFragment"
+        app:destination="@id/infoFragment"
+        app:enterAnim="@anim/history_in"
+        app:exitAnim="@anim/calc_out"
+        app:popEnterAnim="@anim/calc_in"
+        app:popExitAnim="@anim/history_out"/>
+</navigation>

@@ -1,0 +1,38 @@
+<resources>
+    <!--PREFERENCE KEYS-->
+    <string name="pref_dark_theme_key" translatable="false">dark_theme</string>
+    <string name="pref_haptic_buttons_key" translatable="false">haptic_buttons</string>
+    <string name="pref_sound_buttons_key" translatable="false">sound_buttons</string>
+
+    <!--LABELS-->
+    <string name="app_label">TestApp</string>
+    <string name="main_activity_label">Calculator</string>
+    <string name="settings_activity_label">Settings</string>
+    <string name="info_activity_label">Info</string>
+    <string name="history_activity_label">History</string>
+    <string name="decimal_separator">.</string>
+
+    <string name="pref_night_theme_title">Dark theme</string>
+    <string name="pref_night_theme_summary">On/off</string>
+
+    <string name="pref_haptic_buttons_title">Vibration</string>
+    <string name="pref_haptic_buttons_summary">On/off</string>
+
+    <string name="pref_sound_buttons_title">Sound</string>
+    <string name="pref_sound_buttons_summary">On/off</string>
+
+    <!--MESSAGES-->
+    <string name="value_copied">"Value %s is copied"</string>
+    <string name="build_type">Build type:</string>
+    <string name="app_version">Version:</string>
+    <string name="buttons_settings_group">Buttons</string>
+    <string name="copy_item">Copy</string>
+    <string name="share_item">Share</string>
+
+    <!--Operation tags-->
+    <string name="add_tag">\u0020+\u0020 </string>
+    <string name="subtract_tag">\u0020-\u0020</string>
+    <string name="multiply_tag">\u0020×\u0020</string>
+    <string name="divide_tag">\u0020/\u0020</string>
+    <string name="percent_tag">% of\u0020</string>
+</resources>

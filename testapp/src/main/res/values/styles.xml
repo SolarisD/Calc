@@ -1,0 +1,43 @@
+<resources >
+    <style name="TextAppearance.PopupMenu.Calculator" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/onBackgroundColor</item>
+    </style>
+
+    <!--BUTTONS-->
+    <style name="Button" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:insetTop">@dimen/buttons_inset</item>
+        <item name="android:insetBottom">@dimen/buttons_inset</item>
+        <item name="android:insetLeft">@dimen/buttons_inset</item>
+        <item name="android:insetRight">@dimen/buttons_inset</item>
+    </style>
+    <style name="Button.Memory" parent="Button">
+        <item name="android:textSize">20sp</item>
+        <!--<item name="backgroundTint">@color/memoryColor</item>-->
+        <item name="rippleColor">@color/onBackgroundColor</item>
+        <item name="android:textColor">@color/onBackgroundColor</item>
+    </style>
+    <style name="Button.Operation">
+        <item name="android:textSize">30sp</item>
+        <item name="rippleColor">@color/sc</item>
+        <item name="iconTint">@color/sc</item>
+        <item name="android:textColor">@color/sc</item>
+    </style>
+    <style name="Button.Operation.Inv">
+        <item name="backgroundTint">@color/sc</item>
+        <item name="rippleColor">@color/onSc</item>
+        <item name="iconTint">@color/onSc</item>
+        <item name="android:textColor">@color/onSc</item>
+    </style>
+    <style name="Button.Symbol">
+        <item name="android:textSize">30sp</item>
+        <item name="rippleColor">@color/pr</item>
+        <item name="android:textColor">@color/pr</item>
+    </style>
+
+    <style name="Toolbar.Theme" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <item name="colorControlNormal">@color/onBackgroundColor</item>
+        <item name="android:textColorPrimary">@color/onBackgroundColor</item>
+    </style>
+
+</resources>
